@@ -7,12 +7,15 @@ public class DummyPresenter implements MessagePresenter{
     }
 
     @Override
+    public void welcomeMessage() {
+
+    }
+
+    @Override
     public void unknownCommand(String input) {
         hasBeenCalled = true;
     }
 
     @Override
-    public void printCommand() {
-
-    }
+    public void printCommand() { }
 }
