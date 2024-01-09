@@ -7,6 +7,7 @@ public class ConsolePresenter implements MessagePresenter {
         System.out.println("**      Mars Rover      **");
         System.out.println("**************************");
         System.out.println("Determine the maxCoordinate of the simulation by setting the maximum coordinate [0-100]");
+        System.out.println("[Enter max coordinate] : ");
     }
 
     @Override

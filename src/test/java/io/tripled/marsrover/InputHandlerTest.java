@@ -11,7 +11,7 @@ public class InputHandlerTest {
     void handleWrongInput() {
         var presenter = new DummyPresenter();
 
-        inputHandler.handleInput("Hallo", presenter);
+        inputHandler.handleCommandInput("Hallo", presenter);
 
         Assertions.assertTrue(presenter.hasUnknownCommandBeenInvoked());
     }
@@ -20,7 +20,7 @@ public class InputHandlerTest {
     void handlePrintCommand() {
         var presenter = new DummyPresenter();
 
-        inputHandler.handleInput("p", presenter);
+        inputHandler.handleCommandInput("p", presenter);
 
         Assertions.assertFalse(presenter.hasUnknownCommandBeenInvoked());
     }

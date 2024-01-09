@@ -1,14 +1,14 @@
-package io.tripled.marsrover;
+package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.commands.*;
-import io.tripled.marsrover.input.InputParser;
+import io.tripled.marsrover.commands.CommandParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class InputParserTest {
+class CommandParserTest {
     @Test
     void parseAnything() {
-        Command brol = InputParser.parseInput("brol");
+        Command brol = CommandParser.parseInput("brol");
 
         UnknownCommand expectedCommand = new UnknownCommand("brol");
 
@@ -16,31 +16,31 @@ class InputParserTest {
     }
     @Test
     void parsePrint() {
-        Command print = InputParser.parseInput("p");
+        Command print = CommandParser.parseInput("p");
 
         Assertions.assertEquals(print, PrintCommand.INSTANCE);
     }
     @Test
     void parseEmptyCommand() {
-        Command emptyString = InputParser.parseInput("");
+        Command emptyString = CommandParser.parseInput("");
 
         Assertions.assertEquals(emptyString, PrintCommand.INSTANCE);
     }
     @Test
     void parseSpaceCommand() {
-        Command spaceString = InputParser.parseInput(" ");
+        Command spaceString = CommandParser.parseInput(" ");
 
         Assertions.assertEquals(spaceString, PrintCommand.INSTANCE);
     }
     @Test
     void parseQuitCommand() {
-        Command quit = InputParser.parseInput("q");
+        Command quit = CommandParser.parseInput("q");
 
         Assertions.assertEquals(quit, QuitCommand.INSTANCE);
     }
     @Test
     void parseCoordinate() {
-        Command coordinate = InputParser.parseInput("52");
+        Command coordinate = CommandParser.parseInput("52");
 
         SimSetupCommand expectedCommand = new SimSetupCommand("52");
 
@@ -48,7 +48,7 @@ class InputParserTest {
     }
     @Test
     void parseInvalidCoordinate() {
-        Command coordinate = InputParser.parseInput("202");
+        Command coordinate = CommandParser.parseInput("202");
 
         SimSetupCommand expectedCommand = new SimSetupCommand("202");
 

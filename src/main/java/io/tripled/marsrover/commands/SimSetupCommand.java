@@ -15,12 +15,12 @@ public class SimSetupCommand implements Command {
     public void execute(MessagePresenter messagePresenter) {
         int maxCoordinate = Integer.parseInt(coordinateInput);
         int simCoordinates = (int) Math.pow(maxCoordinate+1,2);
+
         if (maxCoordinate >= 0 && maxCoordinate <= 100) {
             messagePresenter.simSetupCommand(maxCoordinate, simCoordinates);
         } else {
             messagePresenter.invalidSimSetupCommand(maxCoordinate);
         }
-
     }
 
     @Override
