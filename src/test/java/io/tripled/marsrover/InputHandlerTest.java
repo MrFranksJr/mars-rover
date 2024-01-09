@@ -1,5 +1,6 @@
 package io.tripled.marsrover;
 
+import io.tripled.marsrover.input.InputHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

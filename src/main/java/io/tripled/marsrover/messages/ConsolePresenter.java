@@ -1,4 +1,6 @@
-package io.tripled.marsrover;
+package io.tripled.marsrover.messages;
+
+import io.tripled.marsrover.MessagePresenter;
 
 public class ConsolePresenter implements MessagePresenter {
     @Override
@@ -32,7 +34,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void simSetupCommand(String maxCoordinate) {
-
+        System.out.println("Simulation with max coordinate [" + maxCoordinate + "] created successfully. Simulation contains [36] coordinates");
     }
 }
 

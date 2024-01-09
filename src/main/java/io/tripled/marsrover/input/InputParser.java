@@ -1,8 +1,8 @@
-package io.tripled.marsrover;
+package io.tripled.marsrover.input;
 
-import java.util.Objects;
+import io.tripled.marsrover.commands.*;
 
-public class Parser {
+public class InputParser {
     public static Command parseInput(String input) {
         if (input.isBlank() || input.equalsIgnoreCase("p")) {
             return PrintCommand.INSTANCE;

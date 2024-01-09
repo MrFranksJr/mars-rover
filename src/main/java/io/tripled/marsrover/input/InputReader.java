@@ -1,4 +1,6 @@
-package io.tripled.marsrover;
+package io.tripled.marsrover.input;
+
+import io.tripled.marsrover.messages.ConsolePresenter;
 
 import java.util.Scanner;
 

@@ -1,12 +1,14 @@
 package io.tripled.marsrover;
 
+import io.tripled.marsrover.commands.*;
+import io.tripled.marsrover.input.InputParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ParserTest {
+class InputParserTest {
     @Test
     void parseAnything() {
-        Command brol = Parser.parseInput("brol");
+        Command brol = InputParser.parseInput("brol");
 
         UnknownCommand expectedCommand = new UnknownCommand("brol");
 
@@ -14,31 +16,31 @@ class ParserTest {
     }
     @Test
     void parsePrint() {
-        Command print = Parser.parseInput("p");
+        Command print = InputParser.parseInput("p");
 
         Assertions.assertEquals(print, PrintCommand.INSTANCE);
     }
     @Test
     void parseEmptyCommand() {
-        Command emptyString = Parser.parseInput("");
+        Command emptyString = InputParser.parseInput("");
 
         Assertions.assertEquals(emptyString, PrintCommand.INSTANCE);
     }
     @Test
     void parseSpaceCommand() {
-        Command spaceString = Parser.parseInput(" ");
+        Command spaceString = InputParser.parseInput(" ");
 
         Assertions.assertEquals(spaceString, PrintCommand.INSTANCE);
     }
     @Test
     void parseQuitCommand() {
-        Command quit = Parser.parseInput("q");
+        Command quit = InputParser.parseInput("q");
 
         Assertions.assertEquals(quit, QuitCommand.INSTANCE);
     }
     @Test
     void parseCoordinate() {
-        Command coordinate = Parser.parseInput("52");
+        Command coordinate = InputParser.parseInput("52");
 
         SimSetupCommand expectedCommand = new SimSetupCommand("52");
 

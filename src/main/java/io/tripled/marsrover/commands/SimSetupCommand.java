@@ -1,4 +1,6 @@
-package io.tripled.marsrover;
+package io.tripled.marsrover.commands;
+
+import io.tripled.marsrover.MessagePresenter;
 
 import java.util.Objects;
 

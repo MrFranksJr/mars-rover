@@ -1,6 +1,6 @@
 package io.tripled.marsrover;
 
-import java.util.Scanner;
+import io.tripled.marsrover.input.InputReader;
 
 public class MarsRoverApplication {
 
