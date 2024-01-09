@@ -20,4 +20,16 @@ class ParserTest {
 
         Assertions.assertEquals(print, PrintCommand.INSTANCE);
     }
+    @Test
+    void parseEmptyCommand() {
+        Command print = Parser.parseInput("");
+
+        Assertions.assertEquals(print, PrintCommand.INSTANCE);
+    }
+    @Test
+    void parseSpaceCommand() {
+        Command print = Parser.parseInput(" ");
+
+        Assertions.assertEquals(print, PrintCommand.INSTANCE);
+    }
 }

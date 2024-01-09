@@ -25,5 +25,10 @@ public class ConsolePresenter implements MessagePresenter {
         System.out.println("*   Print API overview            | {P}                                                                                                           *");
         System.out.println("***************************************************************************************************************************************************");
     }
+
+    @Override
+    public void quitCommand() {
+
+    }
 }
 

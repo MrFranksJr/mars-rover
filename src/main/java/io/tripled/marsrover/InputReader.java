@@ -17,7 +17,7 @@ public class InputReader {
             }
             while (!isQuit(input));
         }
-        System.out.println("*********END*****************");
+        System.out.println("***********END***************");
     }
 
     private boolean isQuit(String input) {

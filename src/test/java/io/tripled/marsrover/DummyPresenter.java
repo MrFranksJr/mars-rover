@@ -18,4 +18,9 @@ public class DummyPresenter implements MessagePresenter{
 
     @Override
     public void printCommand() { }
+
+    @Override
+    public void quitCommand() {
+
+    }
 }
