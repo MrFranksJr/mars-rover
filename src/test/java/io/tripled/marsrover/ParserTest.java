@@ -22,14 +22,20 @@ class ParserTest {
     }
     @Test
     void parseEmptyCommand() {
-        Command print = Parser.parseInput("");
+        Command emptyString = Parser.parseInput("");
 
-        Assertions.assertEquals(print, PrintCommand.INSTANCE);
+        Assertions.assertEquals(emptyString, PrintCommand.INSTANCE);
     }
     @Test
     void parseSpaceCommand() {
-        Command print = Parser.parseInput(" ");
+        Command spaceString = Parser.parseInput(" ");
 
-        Assertions.assertEquals(print, PrintCommand.INSTANCE);
+        Assertions.assertEquals(spaceString, PrintCommand.INSTANCE);
+    }
+    @Test
+    void parseQuitCommand() {
+        Command quit = Parser.parseInput("q");
+
+        Assertions.assertEquals(quit, QuitCommand.INSTANCE);
     }
 }

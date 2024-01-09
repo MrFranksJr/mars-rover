@@ -20,7 +20,7 @@ public class DummyPresenter implements MessagePresenter{
     public void printCommand() { }
 
     @Override
-    public void quitCommand() {
+    public void quitMessage() {
 
     }
 }
