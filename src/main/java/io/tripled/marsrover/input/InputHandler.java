@@ -1,6 +1,6 @@
 package io.tripled.marsrover.input;
 
-import io.tripled.marsrover.MessagePresenter;
+import io.tripled.marsrover.messages.MessagePresenter;
 import io.tripled.marsrover.commands.Command;
 
 public class InputHandler {

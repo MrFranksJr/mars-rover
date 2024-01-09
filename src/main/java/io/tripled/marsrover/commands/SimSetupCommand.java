@@ -1,19 +1,26 @@
 package io.tripled.marsrover.commands;
 
-import io.tripled.marsrover.MessagePresenter;
+import io.tripled.marsrover.messages.MessagePresenter;
 
 import java.util.Objects;
 
 public class SimSetupCommand implements Command {
 
-    private final String maxCoordinate;
+    private final String coordinateInput;
 
-    public SimSetupCommand(String maxCoordinate) {
-        this.maxCoordinate = maxCoordinate;
+    public SimSetupCommand(String coordinateInput) {
+        this.coordinateInput = coordinateInput;
     }
 
     public void execute(MessagePresenter messagePresenter) {
-        messagePresenter.simSetupCommand(maxCoordinate);
+        int maxCoordinate = Integer.parseInt(coordinateInput);
+        int simCoordinates = (int) Math.pow(maxCoordinate+1,2);
+        if (maxCoordinate >= 0 && maxCoordinate <= 100) {
+            messagePresenter.simSetupCommand(maxCoordinate, simCoordinates);
+        } else {
+            messagePresenter.invalidSimSetupCommand(maxCoordinate);
+        }
+
     }
 
     @Override
@@ -21,11 +28,11 @@ public class SimSetupCommand implements Command {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SimSetupCommand that = (SimSetupCommand) o;
-        return Objects.equals(maxCoordinate, that.maxCoordinate);
+        return Objects.equals(coordinateInput, that.coordinateInput);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(maxCoordinate);
+        return Objects.hash(coordinateInput);
     }
 }

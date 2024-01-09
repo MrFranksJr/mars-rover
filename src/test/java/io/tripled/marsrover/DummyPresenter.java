@@ -1,6 +1,8 @@
 package io.tripled.marsrover;
 
-public class DummyPresenter implements MessagePresenter{
+import io.tripled.marsrover.messages.MessagePresenter;
+
+public class DummyPresenter implements MessagePresenter {
     private  boolean hasBeenCalled = false;
     public boolean hasUnknownCommandBeenInvoked() {
         return hasBeenCalled;
@@ -25,7 +27,12 @@ public class DummyPresenter implements MessagePresenter{
     }
 
     @Override
-    public void simSetupCommand(String maxCoordinate) {
+    public void simSetupCommand(int maxCoordinate, int simCoordinates) {
+
+    }
+
+    @Override
+    public void invalidSimSetupCommand(int maxCoordinate) {
 
     }
 }

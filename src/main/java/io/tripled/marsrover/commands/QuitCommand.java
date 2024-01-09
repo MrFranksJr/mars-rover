@@ -1,6 +1,6 @@
 package io.tripled.marsrover.commands;
 
-import io.tripled.marsrover.MessagePresenter;
+import io.tripled.marsrover.messages.MessagePresenter;
 
 public enum QuitCommand implements Command{
     INSTANCE;

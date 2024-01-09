@@ -1,7 +1,5 @@
 package io.tripled.marsrover.messages;
 
-import io.tripled.marsrover.MessagePresenter;
-
 public class ConsolePresenter implements MessagePresenter {
     @Override
     public void welcomeMessage() {
@@ -29,12 +27,17 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void quitMessage() {
-        System.out.println("Quiting application");
+        System.out.println("Quiting application...");
     }
 
     @Override
-    public void simSetupCommand(String maxCoordinate) {
-        System.out.println("Simulation with max coordinate [" + maxCoordinate + "] created successfully. Simulation contains [36] coordinates");
+    public void simSetupCommand(int maxCoordinate, int simCoordinates) {
+        System.out.println("Simulation with max coordinate [" + maxCoordinate + "] created successfully. Simulation contains [" + simCoordinates + "] coordinates");
+    }
+
+    @Override
+    public void invalidSimSetupCommand(int maxCoordinate) {
+
     }
 }
 
