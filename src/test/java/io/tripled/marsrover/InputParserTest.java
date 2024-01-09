@@ -46,5 +46,13 @@ class InputParserTest {
 
         Assertions.assertEquals(coordinate, expectedCommand);
     }
+    @Test
+    void parseInvalidCoordinate() {
+        Command coordinate = InputParser.parseInput("202");
+
+        SimSetupCommand expectedCommand = new SimSetupCommand("202");
+
+        Assertions.assertEquals(coordinate, expectedCommand);
+    }
 
 }
