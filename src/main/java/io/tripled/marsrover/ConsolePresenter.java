@@ -29,5 +29,10 @@ public class ConsolePresenter implements MessagePresenter {
     public void quitMessage() {
         System.out.println("Quiting application");
     }
+
+    @Override
+    public void simSetupCommand(String maxCoordinate) {
+
+    }
 }
 

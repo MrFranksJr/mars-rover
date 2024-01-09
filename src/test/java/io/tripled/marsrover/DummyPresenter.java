@@ -23,4 +23,9 @@ public class DummyPresenter implements MessagePresenter{
     public void quitMessage() {
 
     }
+
+    @Override
+    public void simSetupCommand(String maxCoordinate) {
+
+    }
 }

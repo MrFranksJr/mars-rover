@@ -13,7 +13,6 @@ public class InputReader {
                 input = scanner.nextLine();
                 inputHandler.handleInput(input, presenter);
                 //Print resultaat uit
-
             }
             while (!isQuit(input));
         }

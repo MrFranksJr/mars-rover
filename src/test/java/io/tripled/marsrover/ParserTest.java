@@ -3,8 +3,6 @@ package io.tripled.marsrover;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ParserTest {
     @Test
     void parseAnything() {
@@ -38,4 +36,13 @@ class ParserTest {
 
         Assertions.assertEquals(quit, QuitCommand.INSTANCE);
     }
+    @Test
+    void parseCoordinate() {
+        Command coordinate = Parser.parseInput("52");
+
+        SimSetupCommand expectedCommand = new SimSetupCommand("52");
+
+        Assertions.assertEquals(coordinate, expectedCommand);
+    }
+
 }

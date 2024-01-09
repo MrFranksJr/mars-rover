@@ -5,4 +5,5 @@ public interface MessagePresenter {
     void unknownCommand(String input);
     void printCommand();
     void quitMessage();
+    void simSetupCommand(String maxCoordinate);
 }

@@ -8,6 +8,8 @@ public class Parser {
             return PrintCommand.INSTANCE;
         } else if (input.equalsIgnoreCase("q")) {
             return QuitCommand.INSTANCE;
+        } else if (input.matches("\\d+")) {
+            return new SimSetupCommand(input);
         }
         return new UnknownCommand(input);
     }
