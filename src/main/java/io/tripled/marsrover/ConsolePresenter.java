@@ -6,7 +6,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void unknownCommand(String input) {
-        System.out.println("Unknown Command: " + input);
+        System.out.println("Invalid command: [" + input + "]");
     }
 
     @Override
