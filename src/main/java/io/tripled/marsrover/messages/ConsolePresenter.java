@@ -37,7 +37,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void invalidSimSetupCommand(int maxCoordinate) {
-
+        System.out.println("[" + maxCoordinate + "] is an invalid Simulation maxCoordinate");
     }
 }
 
