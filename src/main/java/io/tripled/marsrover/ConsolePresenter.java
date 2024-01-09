@@ -13,6 +13,7 @@ public class ConsolePresenter implements MessagePresenter {
     @Override
     public void unknownCommand(String input) {
         System.out.println("Invalid command: [" + input + "]");
+        printCommand();
     }
 
     @Override
