@@ -8,15 +8,20 @@ import java.util.Objects;
 public class SimSetupCommand implements Command {
 
     private final String coordinateInput;
+    private Simulation simWorld;
 
     public SimSetupCommand(String coordinateInput) {
         this.coordinateInput = coordinateInput;
     }
 
+    public Simulation getSimulationInstance() {
+        return simWorld;
+    }
+
     public void execute(MessagePresenter messagePresenter) {
         int maxCoordinate = Integer.parseInt(coordinateInput);
-        Simulation simWorld = new Simulation(maxCoordinate);
-        messagePresenter.simSetupMessage(simWorld.maxCoordinate, simWorld.simSize);
+        this.simWorld = new Simulation(maxCoordinate);
+        messagePresenter.simSetupMessage(simWorld.getMaxCoordinate(), simWorld.getSimSize());
     }
 
     @Override

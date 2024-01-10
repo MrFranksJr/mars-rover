@@ -13,7 +13,7 @@ The simulation needs a notion of time.
 
 ```bash
 **************************
-**    MarsRover       **
+**    Rover       **
 **************************
 [Please enter a command] : land 1 1
 [T0] Rover R1 was launched successfully to [1,1]
@@ -97,7 +97,7 @@ We introduce two new commands. A register command to program the rovers and an e
 
 ```bash
 **************************
-**    MarsRover       **
+**    Rover       **
 **************************
 [Please enter a command] : p
 ***************************************************************************************************************************************************

@@ -16,6 +16,7 @@ public class InputReader {
         }
     }
 
+
     private void listenForCommands(Scanner scanner, ConsolePresenter presenter) {
         String input;
         do {

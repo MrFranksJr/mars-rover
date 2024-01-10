@@ -38,7 +38,7 @@ We should be able to land multiple Rovers in the Simulation. Below is an example
 
 ```bash
 **************************
-**    MarsRover       **
+**    Rover       **
 **************************
 Determine the grid size of the simulation [0-100]
 [Enter grid size] : 10
@@ -235,7 +235,7 @@ bump into one another.
 
 ```bash
 **************************
-**    MarsRover       **
+**    Rover       **
 **************************
 Determine the grid size of the simulation [0-100]
 [Enter grid size] : 10
@@ -313,7 +313,7 @@ Here we land a rover in each corner, then let them switch places with a single l
 
 ```bash
 **************************
-**    MarsRover       **
+**    Rover       **
 **************************
 Determine the grid size of the simulation [0-100]
 [Enter grid size] : 10

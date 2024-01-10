@@ -15,4 +15,8 @@ public class CommandParser {
     public static Command createSimWorld(String maxCoordinate) {
         return new SimSetupCommand(maxCoordinate);
     }
+
+    public static Command landRover(String landCoordinate) {
+        return LandCommand.INSTANCE;
+    }
 }
