@@ -27,12 +27,12 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void simSetupCommand(int maxCoordinate, int simCoordinates) {
+    public void simSetupMessage(int maxCoordinate, int simSize) {
 
     }
 
     @Override
-    public void invalidSimSetupCommand(int maxCoordinate) {
+    public void invalidSimSetupMessage(String maxCoordinate) {
 
     }
 }

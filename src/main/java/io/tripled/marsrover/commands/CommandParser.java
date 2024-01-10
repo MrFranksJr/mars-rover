@@ -11,4 +11,8 @@ public class CommandParser {
         }
         return new UnknownCommand(input);
     }
+
+    public static Command createSimWorld(String maxCoordinate) {
+        return new SimSetupCommand(maxCoordinate);
+    }
 }

@@ -1,6 +1,7 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
+import io.tripled.marsrover.simulation.Simulation;
 
 import java.util.Objects;
 
@@ -14,13 +15,8 @@ public class SimSetupCommand implements Command {
 
     public void execute(MessagePresenter messagePresenter) {
         int maxCoordinate = Integer.parseInt(coordinateInput);
-        int simCoordinates = (int) Math.pow(maxCoordinate+1,2);
-
-        if (maxCoordinate >= 0 && maxCoordinate <= 100) {
-            messagePresenter.simSetupCommand(maxCoordinate, simCoordinates);
-        } else {
-            messagePresenter.invalidSimSetupCommand(maxCoordinate);
-        }
+        Simulation simWorld = new Simulation(maxCoordinate);
+        messagePresenter.simSetupMessage(simWorld.maxCoordinate, simWorld.simSize);
     }
 
     @Override

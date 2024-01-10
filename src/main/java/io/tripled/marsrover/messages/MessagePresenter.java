@@ -5,6 +5,6 @@ public interface MessagePresenter {
     void unknownCommand(String input);
     void printCommand();
     void quitMessage();
-    void simSetupCommand(int maxCoordinate, int simCoordinates);
-    void invalidSimSetupCommand(int maxCoordinate);
+    void simSetupMessage(int maxCoordinate, int simSize);
+    void invalidSimSetupMessage(String maxCoordinate);
 }

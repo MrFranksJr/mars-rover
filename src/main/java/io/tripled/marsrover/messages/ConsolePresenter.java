@@ -32,12 +32,12 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void simSetupCommand(int maxCoordinate, int simCoordinates) {
-        System.out.println("Simulation with max coordinate [" + maxCoordinate + "] created successfully. Simulation contains [" + simCoordinates + "] coordinates");
+    public void simSetupMessage(int maxCoordinate, int simSize) {
+        System.out.println("Simulation with max coordinate [" + maxCoordinate + "] created successfully. Simulation contains [" + simSize + "] coordinates");
     }
 
     @Override
-    public void invalidSimSetupCommand(int maxCoordinate) {
+    public void invalidSimSetupMessage(String maxCoordinate) {
         System.out.println("[" + maxCoordinate + "] is an invalid Simulation maxCoordinate");
     }
 }

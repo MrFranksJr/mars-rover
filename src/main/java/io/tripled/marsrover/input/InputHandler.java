@@ -3,7 +3,6 @@ package io.tripled.marsrover.input;
 import io.tripled.marsrover.commands.CommandParser;
 import io.tripled.marsrover.messages.MessagePresenter;
 import io.tripled.marsrover.commands.Command;
-import io.tripled.marsrover.simulation.Simulation;
 import io.tripled.marsrover.validators.SimSizeValidator;
 
 public class InputHandler {
@@ -14,11 +13,12 @@ public class InputHandler {
     }
 
     public void handleSimulationCreation(String maxCoordinate, MessagePresenter presenter) {
+        final Command createSimWorld = CommandParser.createSimWorld(maxCoordinate);
         if(SimSizeValidator.validateMaxCoordinate(maxCoordinate)) {
-            Simulation simWorld = new Simulation(Integer.parseInt(maxCoordinate));
-            presenter.simSetupCommand(Integer.parseInt(maxCoordinate), simWorld.simSize);
+            createSimWorld.execute(presenter);
+            receivedValidSimSize = true;
         } else {
-            presenter.invalidSimSetupCommand(Integer.parseInt(maxCoordinate));
+            presenter.invalidSimSetupMessage(maxCoordinate);
         }
     }
 

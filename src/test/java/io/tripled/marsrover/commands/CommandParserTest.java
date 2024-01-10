@@ -1,7 +1,5 @@
 package io.tripled.marsrover.commands;
 
-import io.tripled.marsrover.commands.*;
-import io.tripled.marsrover.commands.CommandParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
