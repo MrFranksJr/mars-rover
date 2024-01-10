@@ -1,8 +1,10 @@
 package io.tripled.marsrover;
 
 import io.tripled.marsrover.input.InputHandler;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InputHandlerTest {
     private InputHandler inputHandler = new InputHandler();
@@ -13,7 +15,7 @@ public class InputHandlerTest {
 
         inputHandler.handleCommandInput("Hallo", presenter);
 
-        Assertions.assertTrue(presenter.hasUnknownCommandBeenInvoked());
+        assertTrue(presenter.hasUnknownCommandBeenInvoked());
     }
 
     @Test
@@ -22,6 +24,6 @@ public class InputHandlerTest {
 
         inputHandler.handleCommandInput("p", presenter);
 
-        Assertions.assertFalse(presenter.hasUnknownCommandBeenInvoked());
+        assertFalse(presenter.hasUnknownCommandBeenInvoked());
     }
 }
