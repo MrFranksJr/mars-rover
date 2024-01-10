@@ -3,6 +3,8 @@ package io.tripled.marsrover.simulation;
 public class Simulation {
     private int simSize;
     private int maxCoordinate;
+
+
     public Simulation(int maxCoordinate) {
         this.maxCoordinate = maxCoordinate;
         this.simSize = calcSimSize(maxCoordinate);

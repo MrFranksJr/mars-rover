@@ -5,7 +5,11 @@ import io.tripled.marsrover.messages.ConsolePresenter;
 import java.util.Scanner;
 
 public class InputReader {
-    private final InputHandler inputHandler = new InputHandler();
+    private final InputHandler inputHandler ;
+
+    public InputReader(InputHandler inputHandler) {
+        this.inputHandler = inputHandler;
+    }
 
     public void readInput() {
         ConsolePresenter presenter = new ConsolePresenter();

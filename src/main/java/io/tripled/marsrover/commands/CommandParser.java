@@ -1,9 +1,18 @@
 package io.tripled.marsrover.commands;
 
-import io.tripled.marsrover.commands.*;
+import io.tripled.marsrover.simulation.SimulationRepository;
+import io.tripled.marsrover.validators.SimSizeValidator;
+
+import java.util.Optional;
 
 public class CommandParser {
-    public static Command parseInput(String input) {
+    private final  SimulationRepository repo;
+
+    public CommandParser(SimulationRepository repo) {
+        this.repo = repo;
+    }
+
+    public Command parseInput(String input) {
         if (input.isBlank() || input.equalsIgnoreCase("p")) {
             return PrintCommand.INSTANCE;
         } else if (input.equalsIgnoreCase("q")) {
@@ -12,11 +21,15 @@ public class CommandParser {
         return new UnknownCommand(input);
     }
 
-    public static Command createSimWorld(String maxCoordinate) {
-        return new SimSetupCommand(maxCoordinate);
+    public  Optional<Command> createSimWorld(String maxCoordinate) {
+        if (SimSizeValidator.validateMaxCoordinate(maxCoordinate)) {
+            return Optional.of(new SimSetupCommand(maxCoordinate,repo));
+        } else {
+            return Optional.empty();
+        }
     }
 
-    public static Command landRover(String landCoordinate) {
+    public Command landRover(String landCoordinate) {
         return LandCommand.INSTANCE;
     }
 }
