@@ -1,12 +1,12 @@
 package io.tripled.marsrover.simulation;
 
-public enum Simulation {
-    SIM_WORLD;
+public class Simulation {
 
-    public int simSize = 0;
-
-    public void setSimSize(int validatedMaxCoordinate) {
-        this.simSize = calcSimSize(validatedMaxCoordinate);
+    public int simSize;
+    public int maxCoordinate;
+    public Simulation(int maxCoordinate) {
+        this.maxCoordinate = maxCoordinate;
+        this.simSize = calcSimSize(maxCoordinate);
     }
 
     private int calcSimSize(int validatedMaxCoordinate) {
