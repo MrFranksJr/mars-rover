@@ -1,6 +1,8 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.simulation.InMemSimulationRepo;
+import io.tripled.marsrover.simulation.Simulation;
+import io.tripled.marsrover.simulation.SimulationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,14 +58,13 @@ class CommandParserTest {
     void parseCoordinate() {
         Command simulationSize = commandParser.createSimWorld("52").orElseThrow();
 
-        SimSetupCommand expectedCommand = new SimSetupCommand("52",null);
+        SimSetupCommand expectedCommand = new SimSetupCommand("52", null);
 
         assertEquals(expectedCommand, simulationSize);
     }
 
     @Test
     void parseInvalidCoordinate() {
-
         assertTrue(commandParser.createSimWorld("202").isEmpty());
     }
 
