@@ -1,5 +1,7 @@
 package io.tripled.marsrover.messages;
 
+import io.tripled.marsrover.rover.Rover;
+
 public interface MessagePresenter {
     void welcomeMessage();
     void unknownCommand(String input);
@@ -7,5 +9,5 @@ public interface MessagePresenter {
     void quitMessage();
     void simSetupMessage(int maxCoordinate, int simSize);
     void invalidSimSetupMessage(String maxCoordinate);
-    void landRoverMessage();
+    void landRoverMessage(int landingPosX, int landingPosY, String roverName);
 }

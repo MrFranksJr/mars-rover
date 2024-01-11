@@ -1,6 +1,7 @@
 package io.tripled.marsrover;
 
 import io.tripled.marsrover.messages.MessagePresenter;
+import io.tripled.marsrover.rover.Rover;
 
 public class DummyPresenter implements MessagePresenter {
     private  boolean hasBeenCalled = false;
@@ -37,7 +38,7 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void landRoverMessage() {
+    public void landRoverMessage(int landingPosX, int landingPosY, String roverName) {
 
     }
 }

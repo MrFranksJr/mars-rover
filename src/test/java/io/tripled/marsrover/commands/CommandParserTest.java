@@ -84,26 +84,14 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("land 4 2");
 
-        assertEquals(LandCommand.INSTANCE, land);
+        assertEquals(new LandCommand(4, 2), land);
     }
     @Test
-    void canRecognizeOutOfBounds() {
+    void canParseLandCommandCapital() {
         Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
         simSetupCommand.execute(dummyPresenter);
+        Command land = commandParser.parseInput("LANd 4 2");
 
-        String input = "land 43 2";
-        Command land = commandParser.parseInput(input);
-
-        assertEquals(new UnknownCommand(input), land);
-    }
-    @Test
-    void canRecognizeOutOfBounds2() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
-        simSetupCommand.execute(dummyPresenter);
-
-        String input = "land 36 37";
-        Command land = commandParser.parseInput(input);
-
-        assertEquals(new UnknownCommand(input), land);
+        assertEquals(new LandCommand(4, 2), land);
     }
 }

@@ -1,5 +1,7 @@
 package io.tripled.marsrover.simulation;
 
+import io.tripled.marsrover.rover.Rover;
+
 public class Simulation {
     private final int simulationSize;
 
@@ -14,5 +16,9 @@ public class Simulation {
 
     public int getSimulationSize() {
         return simulationSize;
+    }
+
+    public void addRover(Rover r1) {
+
     }
 }

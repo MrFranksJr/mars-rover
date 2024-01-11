@@ -1,5 +1,7 @@
 package io.tripled.marsrover.messages;
 
+import io.tripled.marsrover.rover.Rover;
+
 public class ConsolePresenter implements MessagePresenter {
     @Override
     public void welcomeMessage() {
@@ -42,7 +44,7 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void landRoverMessage() {
+    public void landRoverMessage(int landingPosX, int landingPosY, String roverName) {
         System.out.println("[LANDING]");
     }
 }
