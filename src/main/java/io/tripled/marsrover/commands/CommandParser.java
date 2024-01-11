@@ -1,5 +1,6 @@
 package io.tripled.marsrover.commands;
 
+import io.tripled.marsrover.messages.ConsolePresenter;
 import io.tripled.marsrover.simulation.SimulationRepository;
 
 import java.util.Optional;
@@ -11,6 +12,18 @@ public class CommandParser {
 
     public CommandParser(SimulationRepository repo) {
         this.repo = repo;
+    }
+
+    private static int getXCoordinateFromString(String landString) {
+        String[] splitString = landString.split("\\s+");
+        String xCoordinate = splitString.length > 1 ? splitString[1] : "";
+        return Integer.parseInt(xCoordinate);
+    }
+
+    private static int getYCoordinateFromString(String landString) {
+        String[] splitString = landString.split("\\s+");
+        String yCoordinate = splitString.length > 2 ? splitString[2] : "";
+        return Integer.parseInt(yCoordinate);
     }
 
     public Command parseInput(String input) {
@@ -32,20 +45,28 @@ public class CommandParser {
         return matcher.matches();
     }
 
-    private static boolean isQuitCommand(String input) {
+    private boolean isQuitCommand(String input) {
         return input.equalsIgnoreCase("q");
     }
 
-    private static boolean containsOnlyNumbers(String coordinate) {
-        return coordinate.matches("\\d+");
+    private Optional<Boolean> containsOnlyNumbers(String coordinate) {
+        if ("q".equalsIgnoreCase(coordinate)) {
+            //WHAT TO DO?
+            Command quitCommand = this.parseInput(coordinate);
+            quitCommand.execute(new ConsolePresenter());
+
+        } else if (coordinate.matches("\\d+")) {
+            return Optional.of(true);
+        }
+        return Optional.of(false);
     }
 
-    private static boolean isWithinLimit(int coordinate) {
+    private boolean isWithinLimit(int coordinate) {
         return coordinate >= 0 && coordinate <= 100;
     }
 
     public Optional<Command> createSimWorld(String simSizeInput) {
-        if (containsOnlyNumbers(simSizeInput)) {
+        if (containsOnlyNumbers(simSizeInput).orElse(false)) {
             int simSize = Integer.parseInt(simSizeInput);
             if (isWithinLimit(simSize)) {
                 return Optional.of(new SimSetupCommand(simSize, repo));
@@ -60,17 +81,5 @@ public class CommandParser {
 
     private boolean isPrintCommand(String input) {
         return input.isBlank() || input.equalsIgnoreCase("p");
-    }
-
-    private static int getXCoordinateFromString(String landString) {
-        String[] splitString = landString.split("\\s+");
-        String xCoordinate = splitString.length > 1 ? splitString[1] : "";
-        return Integer.parseInt(xCoordinate);
-    }
-
-    private static int getYCoordinateFromString(String landString) {
-        String[] splitString = landString.split("\\s+");
-        String yCoordinate = splitString.length > 2 ? splitString[2] : "";
-        return Integer.parseInt(yCoordinate);
     }
 }
