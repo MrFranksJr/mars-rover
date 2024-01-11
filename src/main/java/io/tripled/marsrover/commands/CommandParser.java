@@ -34,6 +34,9 @@ public class CommandParser {
         } else if (isLandCommand(input)) {
             if (isValidLandCommandInput(input))
                 return new LandCommand(getXCoordinateFromString(input), getYCoordinateFromString(input), repo);
+            else {
+                return new LandingFailureCommand(input);
+            }
         }
         return new UnknownCommand(input);
     }

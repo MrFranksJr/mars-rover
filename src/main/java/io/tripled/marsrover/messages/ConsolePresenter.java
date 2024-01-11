@@ -1,5 +1,6 @@
 package io.tripled.marsrover.messages;
 
+import io.tripled.marsrover.commands.LandingErrorTypes;
 import io.tripled.marsrover.rover.Rover;
 
 public class ConsolePresenter implements MessagePresenter {
@@ -45,7 +46,16 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void landRoverMessage(int landingPosX, int landingPosY, Rover rover) {
-        System.out.println("Rover " + rover.getRoverName() + " landed at (" + landingPosX + "," + landingPosY + ") and is facing North");
+        System.out.println("Rover " + rover.getRoverName() + " landed at [" + landingPosX + "," + landingPosY + "] and is facing North");
+    }
+
+    @Override
+    public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
+        switch (landingError) {
+            case NEGATIVE_INTS -> System.out.println("Invalid coordinates for landing. They must be greater than zero but were [" + coordinateString + "]");
+            case RECEIVED_LETTERS -> System.out.println("Unable to parse coordinates for landing. Expected two positive numbers [x y] but was [" + coordinateString + "]");
+            case UNABLE_TO_PARSE -> System.out.println("Unable to parse coordinates for landing. Expected [x y] but was [" + coordinateString + "]");
+        }
     }
 }
 

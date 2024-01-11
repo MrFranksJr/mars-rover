@@ -28,6 +28,8 @@ public class LandCommand implements Command {
         messagePresenter.landRoverMessage(xCoordinate, yCoordinate, r1);
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

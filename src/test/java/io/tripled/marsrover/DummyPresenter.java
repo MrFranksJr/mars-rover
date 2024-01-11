@@ -1,5 +1,6 @@
 package io.tripled.marsrover;
 
+import io.tripled.marsrover.commands.LandingErrorTypes;
 import io.tripled.marsrover.messages.MessagePresenter;
 import io.tripled.marsrover.rover.Rover;
 
@@ -41,6 +42,11 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void landRoverMessage(int landingPosX, int landingPosY, Rover roverName) {
+
+    }
+
+    @Override
+    public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
 
     }
 }
