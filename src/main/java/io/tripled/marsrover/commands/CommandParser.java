@@ -20,7 +20,7 @@ public class CommandParser {
             return QuitCommand.INSTANCE;
         } else if (isLandCommand(input)) {
             if (isValidLandCommandInput(input))
-                return new LandCommand(getXCoordinateFromString(input), getYCoordinateFromString(input));
+                return new LandCommand(getXCoordinateFromString(input), getYCoordinateFromString(input), repo);
         }
         return new UnknownCommand(input);
     }

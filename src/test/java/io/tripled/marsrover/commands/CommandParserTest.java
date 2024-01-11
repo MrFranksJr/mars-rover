@@ -84,7 +84,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("land 4 2");
 
-        assertEquals(new LandCommand(4, 2), land);
+        assertEquals(new LandCommand(4, 2, inMemSimulationRepo), land);
     }
     @Test
     void canParseLandCommandCapital() {
@@ -92,6 +92,6 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(4, 2), land);
+        assertEquals(new LandCommand(4, 2, inMemSimulationRepo), land);
     }
 }

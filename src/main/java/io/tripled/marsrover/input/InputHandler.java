@@ -19,8 +19,8 @@ public class InputHandler {
     }
 
     public void handleCommandInput(String commandInput, MessagePresenter presenter) {
-        final Command c = commandParser.parseInput(commandInput);
-        c.execute(presenter);
+        final Command command = commandParser.parseInput(commandInput);
+        command.execute(presenter);
     }
 
     public void handleSimulationCreation(String maxCoordinate, MessagePresenter presenter) {

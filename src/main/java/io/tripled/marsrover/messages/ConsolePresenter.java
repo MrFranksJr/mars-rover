@@ -44,8 +44,8 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void landRoverMessage(int landingPosX, int landingPosY, String roverName) {
-        System.out.println("[LANDING]");
+    public void landRoverMessage(int landingPosX, int landingPosY, Rover rover) {
+        System.out.println("Rover " + rover.getRoverName() + " landed at (" + landingPosX + "," + landingPosY + ") and is facing North");
     }
 }
 

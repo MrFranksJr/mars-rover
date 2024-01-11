@@ -9,5 +9,5 @@ public interface MessagePresenter {
     void quitMessage();
     void simSetupMessage(int maxCoordinate, int simSize);
     void invalidSimSetupMessage(String maxCoordinate);
-    void landRoverMessage(int landingPosX, int landingPosY, String roverName);
+    void landRoverMessage(int landingPosX, int landingPosY, Rover rover);
 }

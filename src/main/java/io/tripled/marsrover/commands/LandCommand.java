@@ -5,22 +5,22 @@ import io.tripled.marsrover.rover.Rover;
 import io.tripled.marsrover.simulation.Simulation;
 import io.tripled.marsrover.simulation.SimulationRepository;
 
-import java.util.Objects;
-
 public class LandCommand implements Command {
-    private int landingPosX = 0;
-    private int landingPosY = 0;
-    private SimulationRepository simRepo = null;
+    private final int xCoordinate;
+    private final int yCoordinate;
+    private final SimulationRepository simRepo;
 
-    public LandCommand(int xCoordinate, int yCoordinate) {
-
+    public LandCommand(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.simRepo = simRepo;
     }
 
     @Override
     public Simulation execute(MessagePresenter messagePresenter) {
         Rover r1 = new Rover("R1");
         simRepo.getSimulation().addRover(r1);
-        messagePresenter.landRoverMessage(landingPosX, landingPosY, r1.getRoverName());
+        messagePresenter.landRoverMessage(xCoordinate, yCoordinate, r1);
         return null;
     }
 
@@ -31,16 +31,14 @@ public class LandCommand implements Command {
 
         LandCommand that = (LandCommand) o;
 
-        if (landingPosX != that.landingPosX) return false;
-        if (landingPosY != that.landingPosY) return false;
-        return Objects.equals(simRepo, that.simRepo);
+        if (xCoordinate != that.xCoordinate) return false;
+        return yCoordinate == that.yCoordinate;
     }
 
     @Override
     public int hashCode() {
-        int result = landingPosX;
-        result = 31 * result + landingPosY;
-        result = 31 * result + (simRepo != null ? simRepo.hashCode() : 0);
+        int result = xCoordinate;
+        result = 31 * result + yCoordinate;
         return result;
     }
 }
