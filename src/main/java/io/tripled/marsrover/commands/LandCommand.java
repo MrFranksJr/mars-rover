@@ -2,12 +2,15 @@ package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
 import io.tripled.marsrover.rover.Rover;
+import io.tripled.marsrover.simulation.Simulation;
 
 public enum LandCommand implements Command {
     INSTANCE;
+
     @Override
-    public void execute(MessagePresenter messagePresenter) {
+    public Simulation execute(MessagePresenter messagePresenter) {
         Rover r1 = new Rover();
-        System.out.println("COMMAND TO LAND!");
+        messagePresenter.landRoverMessage();
+        return null;
     }
 }

@@ -35,4 +35,9 @@ public class DummyPresenter implements MessagePresenter {
     public void invalidSimSetupMessage(String maxCoordinate) {
 
     }
+
+    @Override
+    public void landRoverMessage() {
+
+    }
 }

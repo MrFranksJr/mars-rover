@@ -10,23 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SimSetupCommandTest {
     private SimulationRepository repo;
+    private DummyPresenter presenter;
 
     @BeforeEach
     void setUp() {
         repo = new InMemSimulationRepo();
+        presenter = new DummyPresenter();
     }
 
     @Test
     void verifySimIsCreated() {
-        var presenter = new DummyPresenter();
-
-        createSimulation("52", presenter);
+        createSimulation(52, presenter);
 
         assertNotNull(repo.getSimulation());
 
     }
 
-    private void createSimulation(String number, DummyPresenter presenter) {
+    private void createSimulation(int number, DummyPresenter presenter) {
         SimSetupCommand simCreationCommand = new SimSetupCommand(number, repo);
         simCreationCommand.execute(presenter);
     }

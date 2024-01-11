@@ -40,5 +40,10 @@ public class ConsolePresenter implements MessagePresenter {
     public void invalidSimSetupMessage(String maxCoordinate) {
         System.out.println("[" + maxCoordinate + "] is an invalid Simulation maxCoordinate");
     }
+
+    @Override
+    public void landRoverMessage() {
+        System.out.println("[LANDING]");
+    }
 }
 

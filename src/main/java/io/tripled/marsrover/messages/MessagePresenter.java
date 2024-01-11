@@ -7,4 +7,5 @@ public interface MessagePresenter {
     void quitMessage();
     void simSetupMessage(int maxCoordinate, int simSize);
     void invalidSimSetupMessage(String maxCoordinate);
+    void landRoverMessage();
 }

@@ -1,24 +1,18 @@
 package io.tripled.marsrover.simulation;
 
 public class Simulation {
-    private int simSize;
-    private int maxCoordinate;
+    private final int simulationSize;
 
-
-    public Simulation(int maxCoordinate) {
-        this.maxCoordinate = maxCoordinate;
-        this.simSize = calcSimSize(maxCoordinate);
+    public Simulation(int simulationSize) {
+        if(simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
+        this.simulationSize = simulationSize;
     }
 
-    private int calcSimSize(int validatedMaxCoordinate) {
-        return (int) Math.pow(validatedMaxCoordinate+1,2);
+    public int getNrOfCoordinates() {
+        return (int) Math.pow(simulationSize + 1, 2);
     }
 
-    public int getSimSize() {
-        return simSize;
-    }
-
-    public int getMaxCoordinate() {
-        return maxCoordinate;
+    public int getSimulationSize() {
+        return simulationSize;
     }
 }

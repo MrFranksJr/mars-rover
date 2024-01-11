@@ -1,30 +1,23 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
-import io.tripled.marsrover.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.simulation.Simulation;
 import io.tripled.marsrover.simulation.SimulationRepository;
 
-import java.util.Objects;
-
 public class SimSetupCommand implements Command {
-    private final String coordinateInput;
+    private final int coordinateInput;
     private final SimulationRepository simRepo;
 
-    public SimSetupCommand(String coordinateInput, SimulationRepository simRepo) {
+    public SimSetupCommand(int coordinateInput, SimulationRepository simRepo) {
         this.coordinateInput = coordinateInput;
         this.simRepo = simRepo;
     }
 
-    public void execute(MessagePresenter messagePresenter) {
-       //this should already been done
-        int maxCoordinate = Integer.parseInt(coordinateInput);
-        //create a simulation
-        Simulation simWorld = new Simulation(maxCoordinate);
-        //save the simulation
+    public Simulation execute(MessagePresenter messagePresenter) {
+        Simulation simWorld = new Simulation(coordinateInput);
         simRepo.add(simWorld);
-        //report result of command
-        messagePresenter.simSetupMessage(simWorld.getMaxCoordinate(), simWorld.getSimSize());
+        messagePresenter.simSetupMessage(simWorld.getSimulationSize(), simWorld.getNrOfCoordinates());
+        return simWorld;
     }
 
     @Override
@@ -34,11 +27,11 @@ public class SimSetupCommand implements Command {
 
         SimSetupCommand that = (SimSetupCommand) o;
 
-        return Objects.equals(coordinateInput, that.coordinateInput);
+        return coordinateInput == that.coordinateInput;
     }
 
     @Override
     public int hashCode() {
-        return coordinateInput != null ? coordinateInput.hashCode() : 0;
+        return coordinateInput;
     }
 }
