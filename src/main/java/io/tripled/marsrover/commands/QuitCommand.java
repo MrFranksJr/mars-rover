@@ -6,8 +6,7 @@ import io.tripled.marsrover.simulation.Simulation;
 enum QuitCommand implements Command {
     INSTANCE;
     @Override
-    public Simulation execute(MessagePresenter messagePresenter) {
+    public void execute(MessagePresenter messagePresenter) {
         messagePresenter.quitMessage();
-        return null;
     }
 }

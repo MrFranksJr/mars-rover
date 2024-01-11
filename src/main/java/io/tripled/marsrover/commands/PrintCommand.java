@@ -5,8 +5,7 @@ import io.tripled.marsrover.simulation.Simulation;
 
 enum PrintCommand implements Command {
     INSTANCE;
-    public Simulation execute(MessagePresenter messagePresenter) {
+    public void execute(MessagePresenter messagePresenter) {
             messagePresenter.printCommand();
-        return null;
     }
 }

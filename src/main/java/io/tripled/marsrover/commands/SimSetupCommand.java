@@ -13,11 +13,10 @@ public class SimSetupCommand implements Command {
         this.simRepo = simRepo;
     }
 
-    public Simulation execute(MessagePresenter messagePresenter) {
+    public void execute(MessagePresenter messagePresenter) {
         Simulation simWorld = new Simulation(coordinateInput);
         simRepo.add(simWorld);
         messagePresenter.simSetupMessage(simWorld.getSimulationSize(), simWorld.getNrOfCoordinates());
-        return simWorld;
     }
 
     @Override

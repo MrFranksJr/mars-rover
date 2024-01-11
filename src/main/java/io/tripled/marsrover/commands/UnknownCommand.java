@@ -1,7 +1,6 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
-import io.tripled.marsrover.simulation.Simulation;
 
 import java.util.Objects;
 
@@ -12,9 +11,8 @@ public class UnknownCommand implements Command {
         this.input = input;
     }
 
-    public Simulation execute(MessagePresenter messagePresenter) {
-            messagePresenter.unknownCommand(input);
-        return null;
+    public void execute(MessagePresenter messagePresenter) {
+        messagePresenter.unknownCommand(input);
     }
 
     @Override

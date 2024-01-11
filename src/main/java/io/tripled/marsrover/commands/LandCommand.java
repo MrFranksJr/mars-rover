@@ -17,11 +17,15 @@ public class LandCommand implements Command {
     }
 
     @Override
-    public Simulation execute(MessagePresenter messagePresenter) {
+    public void execute(MessagePresenter messagePresenter) {
         Rover r1 = new Rover("R1");
+        /*if(simRepo.getSimulation().getSimulationSize() < xCoordinate)
+        {
+            messagePresenter.roverMissesSiulation)_
+        }
+        else {*/
         simRepo.getSimulation().addRover(r1);
         messagePresenter.landRoverMessage(xCoordinate, yCoordinate, r1);
-        return null;
     }
 
     @Override
