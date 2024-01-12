@@ -25,7 +25,7 @@ public class LandingFailureCommand implements Command {
         return input.substring(4).trim();
     }
 
-    private LandingErrorTypes getErrorData() {
+    LandingErrorTypes getErrorData() {
         String patternString = "(?i)^Land\\s+(\\S+)\\s+(\\S+)$";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(input);
