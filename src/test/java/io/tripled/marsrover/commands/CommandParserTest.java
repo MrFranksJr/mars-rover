@@ -35,6 +35,12 @@ class CommandParserTest {
 
         assertEquals(print, PrintCommand.INSTANCE);
     }
+    @Test
+    void introducingStateCommand() {
+        Command state = commandParser.parseInput("state");
+
+        assertEquals(state, StateCommand.INSTANCE);
+    }
 
     @Test
     void parseEmptyCommand() {

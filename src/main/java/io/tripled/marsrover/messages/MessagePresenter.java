@@ -12,4 +12,6 @@ public interface MessagePresenter {
     void invalidSimSetupMessage(String maxCoordinate);
     void landRoverMessage(int landingPosX, int landingPosY, Rover rover);
     void landingFailureCommand(String coordinateString, LandingErrorTypes landingError);
+
+    void stateCommand();
 }

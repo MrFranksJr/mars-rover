@@ -57,5 +57,10 @@ public class ConsolePresenter implements MessagePresenter {
             case UNABLE_TO_PARSE -> System.out.println("Unable to parse coordinates for landing. Expected [x y] but was [" + coordinateString + "]");
         }
     }
+
+    @Override
+    public void stateCommand() {
+        System.out.println("THIS IS A STATECOMMAND");
+    }
 }
 

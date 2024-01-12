@@ -49,4 +49,9 @@ public class DummyPresenter implements MessagePresenter {
     public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
 
     }
+
+    @Override
+    public void stateCommand() {
+
+    }
 }

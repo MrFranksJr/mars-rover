@@ -37,8 +37,14 @@ public class CommandParser {
             else {
                 return new LandingFailureCommand(input);
             }
+        } else if (isStateCommand(input)) {
+            return StateCommand.INSTANCE;
         }
         return new UnknownCommand(input);
+    }
+
+    private boolean isStateCommand(String input) {
+        return input.trim().equalsIgnoreCase("state");
     }
 
     private boolean isValidLandCommandInput(String input) {
