@@ -18,15 +18,4 @@ class SimulationTest {
 
         assertEquals(36, simWorld.getNrOfCoordinates());
     }
-
-    /*
-    @Test
-    void failsIfNegativeInteger() {
-        int simSize = -156;
-        Simulation simWorld = new Simulation(simSize);
-
-        assertThrows(RuntimeException.class, simWorld::getSimulationSize, "The value " + simSize + " should be positive");
-    }*/
-
-
 }

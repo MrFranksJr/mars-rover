@@ -19,6 +19,7 @@ public class LandCommand implements Command {
     @Override
     public void execute(MessagePresenter messagePresenter) {
         Rover r1 = new Rover("R1");
+        r1.setPosition(xCoordinate, yCoordinate);
         /*if(simRepo.getSimulation().getSimulationSize() < xCoordinate)
         {
             messagePresenter.roverMissesSiulation)_
