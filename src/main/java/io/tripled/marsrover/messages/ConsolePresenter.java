@@ -61,7 +61,11 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void stateCommand(SimulationRepository simRepo) {
+        System.out.println("Simulation has maxCoordinate " + simRepo.getSimulation().getSimulationSize() + " with a total of " + simRepo.getSimulation().getNrOfCoordinates() + " coordinates.");
+       /* if (simRepo.getSimulation().getRover != null) {
+            System.out.println("Rover at Coordinates[x=1, y=1] is facing NORTH");
 
+        }*/
     }
 }
 
