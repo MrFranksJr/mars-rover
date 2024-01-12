@@ -14,4 +14,5 @@ public interface MessagePresenter {
     void landRoverMessage(int landingPosX, int landingPosY, Rover rover);
     void landingFailureCommand(String coordinateString, LandingErrorTypes landingError);
     void stateCommand(SimulationRepository simRepo);
+    void roverMissesSiulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo);
 }

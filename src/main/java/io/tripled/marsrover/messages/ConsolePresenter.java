@@ -76,5 +76,10 @@ public class ConsolePresenter implements MessagePresenter {
             }
         }
     }
+
+    @Override
+    public void roverMissesSiulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
+        System.out.println("The coordinate [" + xCoordinate + "," + yCoordinate + "] is not a valid coordinate for the planet with max coordinate " + simRepo.getSimulation().getSimulationSize());
+    }
 }
 

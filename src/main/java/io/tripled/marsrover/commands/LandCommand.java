@@ -18,17 +18,19 @@ public class LandCommand implements Command {
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        Rover r1 = new Rover("R1");
-        r1.setPosition(xCoordinate, yCoordinate);
-        /*if(simRepo.getSimulation().getSimulationSize() < xCoordinate)
-        {
-            messagePresenter.roverMissesSiulation)_
+        if(roverMissesSimulation()) {
+            messagePresenter.roverMissesSiulation(xCoordinate, yCoordinate, simRepo);
+        } else {
+            Rover r1 = new Rover("R1");
+            r1.setPosition(xCoordinate, yCoordinate);
+            simRepo.getSimulation().addRover(r1);
+            messagePresenter.landRoverMessage(xCoordinate, yCoordinate, r1);
         }
-        else {*/
-        simRepo.getSimulation().addRover(r1);
-        messagePresenter.landRoverMessage(xCoordinate, yCoordinate, r1);
     }
 
+    private boolean roverMissesSimulation() {
+        return simRepo.getSimulation().getSimulationSize() < xCoordinate;
+    }
 
 
     @Override
