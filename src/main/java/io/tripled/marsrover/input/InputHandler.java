@@ -7,9 +7,6 @@ import io.tripled.marsrover.messages.MessagePresenter;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-/**
- * Handelt de input van de CLI af
- */
 public class InputHandler {
     private final CommandParser commandParser;
     public boolean receivedValidSimSize = false;
