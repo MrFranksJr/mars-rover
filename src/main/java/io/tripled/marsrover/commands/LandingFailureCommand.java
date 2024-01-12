@@ -17,7 +17,6 @@ public class LandingFailureCommand implements Command {
     @Override
     public void execute(MessagePresenter messagePresenter) {
         LandingErrorTypes landingError = getErrorData();
-
         messagePresenter.landingFailureCommand(coordinateString, landingError);
     }
 

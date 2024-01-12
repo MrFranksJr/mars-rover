@@ -38,8 +38,10 @@ class CommandParserTest {
     @Test
     void introducingStateCommand() {
         Command state = commandParser.parseInput("state");
+        state.execute(dummyPresenter);
+        StateCommand expectedCommand = new StateCommand(inMemSimulationRepo);
 
-        assertEquals(state, StateCommand.INSTANCE);
+        assertEquals(expectedCommand, state);
     }
 
     @Test

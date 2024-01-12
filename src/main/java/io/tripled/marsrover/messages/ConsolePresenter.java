@@ -60,7 +60,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void stateCommand() {
-        System.out.println("THIS IS A STATECOMMAND");
+        System.out.println("Simulation has maxCoordinate 42 with a total of 1849 coordinates.");
     }
 }
 

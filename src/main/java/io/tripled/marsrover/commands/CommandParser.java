@@ -38,7 +38,7 @@ public class CommandParser {
                 return new LandingFailureCommand(input);
             }
         } else if (isStateCommand(input)) {
-            return StateCommand.INSTANCE;
+            return new StateCommand(repo);
         }
         return new UnknownCommand(input);
     }
