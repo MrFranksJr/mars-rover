@@ -69,7 +69,7 @@ public class ConsolePresenter implements MessagePresenter {
         System.out.println("Simulation has maxCoordinate " + simRepo.getSimulation().getSimulationSize() + " with a total of " + simRepo.getSimulation().getNrOfCoordinates() + " coordinates.");
         List<Rover> localRoverList = simRepo.getSimulation().getRoverList();
         if (localRoverList.isEmpty()) {
-            System.out.println("No rovers landed yet. Use the Land command to place a Rover in the simulation!");
+            System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {
             for (Rover rover : localRoverList) {
                 System.out.println("Rover " + rover.getRoverName() + " at Coordinates[x=" + rover.getRoverXPosition() +", y=" + rover.getRoverYPosition() + "] is facing NORTH");
