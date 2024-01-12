@@ -9,9 +9,7 @@ import java.util.List;
 public class ConsolePresenter implements MessagePresenter {
     @Override
     public void welcomeMessage() {
-        System.out.println("**************************");
-        System.out.println("**      Mars Rover      **");
-        System.out.println("**************************");
+        System.out.println(intro);
         System.out.println("Determine the maxCoordinate of the simulation by setting the maximum coordinate [0-100]");
         System.out.println("[Enter max coordinate] : ");
     }
@@ -81,5 +79,29 @@ public class ConsolePresenter implements MessagePresenter {
     public void roverMissesSiulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
         System.out.println("The coordinate [" + xCoordinate + "," + yCoordinate + "] is not a valid coordinate for the planet with max coordinate " + simRepo.getSimulation().getSimulationSize());
     }
+
+    private String intro = """
+            *********************************************************************************************************************************
+            88b           d88                                                 88888888ba                                                   \s
+            888b         d888                                                 88      "8b                                                  \s
+            88`8b       d8'88                                                 88      ,8P                                                  \s
+            88 `8b     d8' 88  ,adPPYYba,  8b,dPPYba,  ,adPPYba,              88aaaaaa8P'  ,adPPYba,   8b       d8   ,adPPYba,  8b,dPPYba, \s
+            88  `8b   d8'  88  ""     `Y8  88P'   "Y8  I8[    ""              88""\""88'   a8"     "8a  `8b     d8'  a8P_____88  88P'   "Y8 \s
+            88   `8b d8'   88  ,adPPPPP88  88           `"Y8ba,               88    `8b   8b       d8   `8b   d8'   8PP""\"""\""  88         \s
+            88    `888'    88  88,    ,88  88          aa    ]8I              88     `8b  "8a,   ,a8"    `8b,d8'    "8b,   ,aa  88         \s
+            88     `8'     88  `"8bbdP"Y8  88          `"YbbdP"'              88      `8b  `"YbbdP"'       "8"       `"Ybbd8"'  88         \s
+                                                                                                                                           \s
+                                                                                                                                           \s
+                                                                                                                                           \s
+             ad88888ba   88  88b           d88  88        88  88                  db    888888888888  88    ,ad8888ba,    888b      88     \s
+            d8"     "8b  88  888b         d888  88        88  88                 d88b        88       88   d8"'    `"8b   8888b     88     \s
+            Y8,          88  88`8b       d8'88  88        88  88                d8'`8b       88       88  d8'        `8b  88 `8b    88     \s
+            `Y8aaaaa,    88  88 `8b     d8' 88  88        88  88               d8'  `8b      88       88  88          88  88  `8b   88     \s
+              `""\"""8b,  88  88  `8b   d8'  88  88        88  88              d8YaaaaY8b     88       88  88          88  88   `8b  88     \s
+                    `8b  88  88   `8b d8'   88  88        88  88             d8""\"""\"""8b    88       88  Y8,        ,8P  88    `8b 88     \s
+            Y8a     a8P  88  88    `888'    88  Y8a.    .a8P  88            d8'        `8b   88       88   Y8a.    .a8P   88     `8888     \s
+             "Y88888P"   88  88     `8'     88   `"Y8888Y"'   88888888888  d8'          `8b  88       88    `"Y8888Y"'    88      `888     \s
+            *********************************************************************************************************************************
+            """;
 }
 
