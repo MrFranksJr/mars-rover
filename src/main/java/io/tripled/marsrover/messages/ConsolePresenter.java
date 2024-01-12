@@ -2,6 +2,7 @@ package io.tripled.marsrover.messages;
 
 import io.tripled.marsrover.commands.LandingErrorTypes;
 import io.tripled.marsrover.rover.Rover;
+import io.tripled.marsrover.simulation.SimulationRepository;
 
 public class ConsolePresenter implements MessagePresenter {
     @Override
@@ -59,8 +60,8 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void stateCommand() {
-        System.out.println("Simulation has maxCoordinate 42 with a total of 1849 coordinates.");
+    public void stateCommand(SimulationRepository simRepo) {
+
     }
 }
 

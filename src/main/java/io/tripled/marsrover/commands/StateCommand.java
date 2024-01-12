@@ -15,7 +15,7 @@ public class StateCommand implements Command {
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        messagePresenter.stateCommand();
+        messagePresenter.stateCommand(simRepo);
     }
 
     @Override
