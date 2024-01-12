@@ -48,4 +48,19 @@ public class LandingFailureCommand implements Command {
         }
         return LandingErrorTypes.UNABLE_TO_PARSE;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LandingFailureCommand that = (LandingFailureCommand) o;
+
+        return input.equals(that.input);
+    }
+
+    @Override
+    public int hashCode() {
+        return input.hashCode();
+    }
 }

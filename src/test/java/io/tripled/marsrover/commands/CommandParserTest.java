@@ -102,4 +102,58 @@ class CommandParserTest {
 
         assertEquals(new LandCommand(4, 2, inMemSimulationRepo), land);
     }
+    @Test
+    void recognizesMissingDigit() {
+        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        simSetupCommand.execute(dummyPresenter);
+        String input = "LANd 4";
+        Command land = commandParser.parseInput(input);
+
+        assertEquals(new LandingFailureCommand(input), land);
+    }
+    @Test
+    void recognizesSingleCharacter() {
+        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        simSetupCommand.execute(dummyPresenter);
+        String input = "land a";
+        Command land = commandParser.parseInput(input);
+
+        assertEquals(new LandingFailureCommand(input), land);
+    }
+    @Test
+    void recognizesTwoCharacters() {
+        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        simSetupCommand.execute(dummyPresenter);
+        String input = "land a b";
+        Command land = commandParser.parseInput(input);
+
+        assertEquals(new LandingFailureCommand(input), land);
+    }
+    @Test
+    void recognizesDigitAndCharacter() {
+        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        simSetupCommand.execute(dummyPresenter);
+        String input = "land 1 b";
+        Command land = commandParser.parseInput(input);
+
+        assertEquals(new LandingFailureCommand(input), land);
+    }
+    @Test
+    void recognizesCharacterAndDigit() {
+        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        simSetupCommand.execute(dummyPresenter);
+        String input = "land a 1";
+        Command land = commandParser.parseInput(input);
+
+        assertEquals(new LandingFailureCommand(input), land);
+    }
+    @Test
+    void recognizesNegativeDigitAndPositiveDigit() {
+        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        simSetupCommand.execute(dummyPresenter);
+        String input = "land -1 2";
+        Command land = commandParser.parseInput(input);
+
+        assertEquals(new LandingFailureCommand(input), land);
+    }
 }
