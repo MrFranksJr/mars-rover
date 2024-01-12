@@ -20,10 +20,6 @@ public class LandingFailureCommand implements Command {
         messagePresenter.landingFailureCommand(coordinateString, landingError);
     }
 
-    private String getCoordinateString() {
-        return input.substring(4).trim();
-    }
-
     LandingErrorTypes getErrorData() {
         String patternString = "(?i)^Land\\s+(\\S+)\\s+(\\S+)$";
         Pattern pattern = Pattern.compile(patternString);

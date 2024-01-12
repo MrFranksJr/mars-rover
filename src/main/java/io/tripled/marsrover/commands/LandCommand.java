@@ -2,7 +2,6 @@ package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
 import io.tripled.marsrover.rover.Rover;
-import io.tripled.marsrover.simulation.Simulation;
 import io.tripled.marsrover.simulation.SimulationRepository;
 
 public class LandCommand implements Command {
@@ -19,7 +18,7 @@ public class LandCommand implements Command {
     @Override
     public void execute(MessagePresenter messagePresenter) {
         if(roverMissesSimulation()) {
-            messagePresenter.roverMissesSiulation(xCoordinate, yCoordinate, simRepo);
+            messagePresenter.roverMissesSimulation(xCoordinate, yCoordinate, simRepo);
         } else {
             Rover r1 = new Rover("R1");
             r1.setPosition(xCoordinate, yCoordinate);
@@ -29,7 +28,7 @@ public class LandCommand implements Command {
     }
 
     private boolean roverMissesSimulation() {
-        return simRepo.getSimulation().getSimulationSize() < xCoordinate;
+        return simRepo.getSimulation().getSimulationSize() < xCoordinate || simRepo.getSimulation().getSimulationSize() < yCoordinate;
     }
 
 

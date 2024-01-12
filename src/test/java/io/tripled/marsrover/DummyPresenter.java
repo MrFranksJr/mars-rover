@@ -56,7 +56,7 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverMissesSiulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
+    public void roverMissesSimulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
 
     }
 }
