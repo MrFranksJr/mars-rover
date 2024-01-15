@@ -77,4 +77,3 @@ public class DummyPresenter implements MessagePresenter {
         hasRoverMissedSimulation = true;
     }
 }
-// test
