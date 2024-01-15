@@ -36,4 +36,9 @@
         </plugins>
     </build>
 
+    <modules>
+        <module>ui</module>
+        <module>business</module>
+    </modules>
+
 </project>
