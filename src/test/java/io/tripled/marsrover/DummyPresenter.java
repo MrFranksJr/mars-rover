@@ -7,9 +7,23 @@ import io.tripled.marsrover.simulation.SimulationRepository;
 
 public class DummyPresenter implements MessagePresenter {
     private boolean hasBeenCalled = false;
+    private boolean hasRoverLanded = false;
+    public int roverLandinsPosX;
+    public int roverLandinsPosY;
+    public Rover rover;
+    public boolean hasRoverMissedSimulation = false;
+    private boolean hasLandingFailed = false;
+
+    public boolean hasLandingCommandBeenInvoked() { return hasRoverLanded; };
 
     public boolean hasUnknownCommandBeenInvoked() {
         return hasBeenCalled;
+    }
+    public boolean hasRoverMissedSimulationBeenInvoked() {
+        return hasRoverMissedSimulation;
+    }
+    public boolean hasLandingFailedCommandBeenInvoked() {
+        return hasLandingFailed;
     }
 
     @Override
@@ -42,14 +56,17 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void landRoverMessage(int landingPosX, int landingPosY, Rover roverName) {
-
+    public void landRoverMessage(int landingPosX, int landingPosY, Rover rover) {
+        hasRoverLanded = true;
+        this.rover = rover;
+        this.roverLandinsPosX = landingPosX;
+        this.roverLandinsPosY = landingPosY;
     }
-
     @Override
     public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
-
+        hasLandingFailed = true;
     }
+
     @Override
     public void stateCommand(SimulationRepository simRepo) {
 
@@ -57,6 +74,6 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void roverMissesSimulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
-
+        hasRoverMissedSimulation = true;
     }
 }
