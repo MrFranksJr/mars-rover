@@ -2,8 +2,8 @@ package io.tripled.marsrover;
 
 import io.tripled.marsrover.commands.LandingErrorTypes;
 import io.tripled.marsrover.messages.MessagePresenter;
-import io.tripled.marsrover.rover.Rover;
-import io.tripled.marsrover.simulation.SimulationRepository;
+import io.tripled.marsroverbusiness.simulation.SimulationRepository;
+import io.tripled.marsroverbusiness.rover.Rover;
 
 public class DummyPresenter implements MessagePresenter {
     private boolean hasBeenCalled = false;

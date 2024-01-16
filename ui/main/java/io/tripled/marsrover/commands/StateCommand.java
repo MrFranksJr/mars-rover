@@ -1,7 +1,7 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
-import io.tripled.marsrover.simulation.SimulationRepository;
+import io.tripled.marsroverbusiness.simulation.SimulationRepository;
 
 import java.util.Objects;
 

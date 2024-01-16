@@ -1,7 +1,7 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.simulation.InMemSimulationRepo;
+import io.tripled.marsroverbusiness.simulation.InMemSimulationRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

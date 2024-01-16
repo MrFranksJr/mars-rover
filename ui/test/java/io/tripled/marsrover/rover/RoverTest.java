@@ -1,8 +1,7 @@
 package io.tripled.marsrover.rover;
 
+import io.tripled.marsrover.Rover;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RoverTest {
     @Test

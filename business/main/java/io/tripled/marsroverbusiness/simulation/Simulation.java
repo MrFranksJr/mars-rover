@@ -1,6 +1,7 @@
-package io.tripled.marsrover.simulation;
+package io.tripled.marsroverbusiness.simulation;
 
-import io.tripled.marsrover.rover.Rover;
+import io.tripled.marsrover.Rover;
+import io.tripled.marsroverbusiness.rover.Rover;
 
 import java.util.ArrayList;
 import java.util.List;

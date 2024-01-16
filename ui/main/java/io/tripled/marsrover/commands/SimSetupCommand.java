@@ -1,8 +1,8 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
-import io.tripled.marsrover.simulation.Simulation;
-import io.tripled.marsrover.simulation.SimulationRepository;
+import io.tripled.marsroverbusiness.simulation.Simulation;
+import io.tripled.marsroverbusiness.simulation.SimulationRepository;
 
 public class SimSetupCommand implements Command {
     private final int coordinateInput;

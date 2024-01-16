@@ -1,8 +1,8 @@
 package io.tripled.marsrover.commands;
 
 import io.tripled.marsrover.messages.MessagePresenter;
-import io.tripled.marsrover.rover.Rover;
-import io.tripled.marsrover.simulation.SimulationRepository;
+import io.tripled.marsroverbusiness.rover.Rover;
+import io.tripled.marsroverbusiness.simulation.SimulationRepository;
 
 public class LandCommand implements Command {
     private final int xCoordinate;

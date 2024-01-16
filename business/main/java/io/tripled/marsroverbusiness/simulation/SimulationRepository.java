@@ -1,4 +1,4 @@
-package io.tripled.marsrover.simulation;
+package io.tripled.marsroverbusiness.simulation;
 
 public interface SimulationRepository {
     void add(Simulation simulation);

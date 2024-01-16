@@ -1,4 +1,4 @@
-package io.tripled.marsrover.simulation;
+package io.tripled.marsroverbusiness.simulation;
 
 public class InMemSimulationRepo implements SimulationRepository {
 

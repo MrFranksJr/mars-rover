@@ -3,7 +3,7 @@ package io.tripled.marsrover;
 import io.tripled.marsrover.commands.CommandParser;
 import io.tripled.marsrover.input.InputHandler;
 import io.tripled.marsrover.input.InputReader;
-import io.tripled.marsrover.simulation.InMemSimulationRepo;
+import io.tripled.marsroverbusiness.simulation.InMemSimulationRepo;
 
 public class MarsRoverApplication {
 

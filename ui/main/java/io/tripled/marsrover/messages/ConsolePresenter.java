@@ -1,8 +1,8 @@
 package io.tripled.marsrover.messages;
 
 import io.tripled.marsrover.commands.LandingErrorTypes;
-import io.tripled.marsrover.rover.Rover;
-import io.tripled.marsrover.simulation.SimulationRepository;
+import io.tripled.marsroverbusiness.rover.Rover;
+import io.tripled.marsroverbusiness.simulation.SimulationRepository;
 
 import java.util.List;
 

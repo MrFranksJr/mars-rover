@@ -1,4 +1,4 @@
-package io.tripled.marsrover.rover;
+package io.tripled.marsroverbusiness.rover;
 
 public enum RoverHeading {
     NORTH,
