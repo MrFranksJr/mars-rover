@@ -67,6 +67,7 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
+        System.out.println("landingFailureCommand!!");
         hasLandingFailed = true;
     }
 

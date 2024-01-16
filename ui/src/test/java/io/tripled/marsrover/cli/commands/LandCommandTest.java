@@ -41,8 +41,9 @@ class LandCommandTest {
 
     @Test
     void roverMissingSimulation() {
+        MarsRoverController marsRoverController = new MarsRoverController(repo);
         //given
-        Command landCommand = new LandCommand(3, 7, repo, null);
+        Command landCommand = new LandCommand(3, 7, repo, marsRoverController);
         //when
         landCommand.execute(dummyPresenter);
         //then
@@ -53,8 +54,9 @@ class LandCommandTest {
     @Disabled
     @Test
     void landingCannotComplete() {
+        MarsRoverController marsRoverController = new MarsRoverController(repo);
         //given
-        Command landCommand = new LandCommand(-3, 4, repo, null);
+        Command landCommand = new LandCommand(-3, 4, repo, marsRoverController);
         //when
         landCommand.execute(dummyPresenter);
         //then
