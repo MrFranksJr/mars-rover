@@ -28,7 +28,7 @@ public class Simulation {
     }
 
     public void landRover(int xCoordinate, int yCoordinate) {
-        if (roverList.isEmpty() && landingWithinSimulationLimits(xCoordinate, yCoordinate)) {
+        if (landingWithinSimulationLimits(xCoordinate, yCoordinate)) {
             Rover r1 = new Rover("R1", xCoordinate, yCoordinate);
             roverList.add(r1);
         }

@@ -20,18 +20,13 @@ public class LandCommand implements Command {
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        if (roverMissesSimulation()) {
+        final RoverState r1 = marsRoverApi.landRover(xCoordinate, yCoordinate);
+        if (r1 == null) {
             messagePresenter.roverMissesSimulation(xCoordinate, yCoordinate, simRepo);
         } else {
-            final RoverState r1 = marsRoverApi.landRover(xCoordinate, yCoordinate);
             messagePresenter.landRoverMessage(r1);
         }
     }
-
-    private boolean roverMissesSimulation() {
-        return simRepo.getSimulation().getSimulationSize() < xCoordinate || simRepo.getSimulation().getSimulationSize() < yCoordinate;
-    }
-
 
     @Override
     public boolean equals(Object o) {
