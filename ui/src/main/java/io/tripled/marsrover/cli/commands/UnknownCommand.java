@@ -4,7 +4,7 @@ import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 import java.util.Objects;
 
-public class UnknownCommand implements Command {
+class UnknownCommand implements Command {
     private final String input;
 
     public UnknownCommand(String input) {

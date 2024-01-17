@@ -5,7 +5,7 @@ import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 
 import java.util.Objects;
 
-public class StateCommand implements Command {
+class StateCommand implements Command {
 
     private final SimulationRepository simRepo;
 

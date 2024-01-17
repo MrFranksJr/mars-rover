@@ -10,7 +10,7 @@ import java.util.List;
 public class ConsolePresenter implements MessagePresenter {
     @Override
     public void welcomeMessage() {
-        System.out.println(intro);
+        System.out.println(introGraphics);
         System.out.println("Determine the maxCoordinate of the simulation by setting the maximum coordinate [0-100]");
         System.out.println("[Enter max coordinate] : ");
     }
@@ -77,14 +77,22 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverMissesSimulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
+    public void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize) {
         System.out.println("Oh no! The rover misses the simulation completely!");
-        System.out.println("The coordinate [" + xCoordinate + "," + yCoordinate + "] is not a valid coordinate for the planet with max coordinate " + simRepo.getSimulation().getSimulationSize());
+        System.out.println("The coordinate [" + xCoordinate + "," + yCoordinate + "] is not a valid coordinate for the planet with max coordinate " + simulationSize);
+    }
+
+    @Override
+    public void simulationAlreadyPopulated(RoverState roverState) {
+        System.out.println("There is already a rover " + roverState.roverName() + " present on this planet at coordinates [" + roverState.xPosition() + "," + roverState.yPosition() + "].");
+        System.out.println("Cannot land additional Rovers on this Simulation");
     }
 
 
 
-    private String intro = """
+
+
+    private final String introGraphics = """
             *********************************************************************************************************************************
             88b           d88                                                 88888888ba                                                   \s
             888b         d888                                                 88      "8b                                                  \s

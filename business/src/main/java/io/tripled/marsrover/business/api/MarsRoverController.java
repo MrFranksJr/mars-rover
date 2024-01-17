@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.api;
 
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 
 public class MarsRoverController implements MarsRoverApi {
@@ -11,12 +12,25 @@ public class MarsRoverController implements MarsRoverApi {
     }
 
     @Override
-    public RoverState landRover(int xCoordinate, int yCoordinate) {
-        simulationRepository.getSimulation().landRover(xCoordinate, yCoordinate);
-        return returnRoverState();
+    public void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter) {
+        final var simulation = simulationRepository.getSimulation();
+
+        simulation.landRover(xCoordinate, yCoordinate, event -> present(landingPresenter, event));
+
     }
 
-    private RoverState returnRoverState() {
-        return simulationRepository.getSimulation().getRoverList().getFirst().getState();
+    @Override
+    public void initializeSimulation(int simulationSize) {
+
+    }
+
+    private static void present(LandingPresenter p, Simulation.SimulationEvent e) {
+        switch (e) {
+            case Simulation.LandingSuccessfulEvent l -> p.landingSuccessful(l.roverState());
+            case Simulation.RoverMissesSimulation r -> p.roverMissesSimulation(r.simulationSize());
+            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.xCoordinate(), i.yCoordinate());
+            case Simulation.SimulationAlreadyPopulated s -> {p.simulationAlreadyPopulated(s.roverState());
+            }
+        }
     }
 }

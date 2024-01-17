@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.api;
 
 public interface MarsRoverApi {
-    RoverState landRover(int xCoordinate, int yCoordinate);
+    void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter);
+    void initializeSimulation(int simulationSize);
 }

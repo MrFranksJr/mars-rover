@@ -23,5 +23,7 @@ public interface MessagePresenter {
 
     void stateCommand(SimulationRepository simRepo);
 
-    void roverMissesSimulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo);
+    void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize);
+
+    void simulationAlreadyPopulated(RoverState roverState);
 }

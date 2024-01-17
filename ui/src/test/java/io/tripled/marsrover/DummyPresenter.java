@@ -11,12 +11,12 @@ public class DummyPresenter implements MessagePresenter {
     private boolean hasBeenCalled = false;
     private boolean hasRoverLanded = false;
     private boolean hasLandingFailed = false;
+    private boolean alreadyRoverPresent = false;
 
-    public boolean hasLandingCommandBeenInvoked() {
+    public boolean hasRoverLanded() {
         return hasRoverLanded;
     }
 
-    ;
 
     public boolean hasUnknownCommandBeenInvoked() {
         return hasBeenCalled;
@@ -26,7 +26,7 @@ public class DummyPresenter implements MessagePresenter {
         return hasRoverMissedSimulation;
     }
 
-    public boolean hasLandingFailedCommandBeenInvoked() {
+    public boolean invalidLandingInstruction() {
         return hasLandingFailed;
     }
 
@@ -67,7 +67,6 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
-        System.out.println("landingFailureCommand!!");
         hasLandingFailed = true;
     }
 
@@ -77,7 +76,16 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverMissesSimulation(int xCoordinate, int yCoordinate, SimulationRepository simRepo) {
+    public void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize) {
         hasRoverMissedSimulation = true;
+    }
+
+    @Override
+    public void simulationAlreadyPopulated(RoverState roverState) {
+        this.alreadyRoverPresent=true;
+    }
+
+    public boolean wasAlreadyRoverPresentInvoked() {
+        return alreadyRoverPresent;
     }
 }

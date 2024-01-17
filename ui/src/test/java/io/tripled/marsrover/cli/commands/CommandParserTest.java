@@ -92,7 +92,7 @@ class CommandParserTest {
         Command land = commandParser.parseInput("land 4 2");
 
         assertInstanceOf(LandCommand.class,land);
-        assertEquals(new LandCommand(4, 2, inMemSimulationRepo,null), land);
+        assertEquals(new LandCommand(4, 2, null), land);
     }
     @Test
     void canParseLandCommandCapital() {
@@ -100,7 +100,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(4, 2, inMemSimulationRepo,null), land);
+        assertEquals(new LandCommand(4, 2, null), land);
     }
     @Test
     void canRecognizeHalfLandCommand() {
@@ -108,7 +108,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(4, 2, inMemSimulationRepo,null), land);
+        assertEquals(new LandCommand(4, 2, null), land);
     }
     @Test
     void recognizesMissingDigit() {
