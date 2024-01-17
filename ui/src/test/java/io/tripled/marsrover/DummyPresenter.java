@@ -12,6 +12,7 @@ public class DummyPresenter implements MessagePresenter {
     private boolean hasRoverLanded = false;
     private boolean hasLandingFailed = false;
     private boolean alreadyRoverPresent = false;
+    private boolean hadStateCommandInvoked = false;
 
     public boolean hasRoverLanded() {
         return hasRoverLanded;
@@ -72,7 +73,10 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void stateCommand(SimulationRepository simRepo) {
-
+        hadStateCommandInvoked = true;
+    }
+    public boolean hasStateCommandBeenInvoked() {
+        return hadStateCommandInvoked;
     }
 
     @Override
@@ -88,4 +92,5 @@ public class DummyPresenter implements MessagePresenter {
     public boolean wasAlreadyRoverPresentInvoked() {
         return alreadyRoverPresent;
     }
+
 }

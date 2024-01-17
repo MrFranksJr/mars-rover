@@ -24,6 +24,11 @@ public class MarsRoverController implements MarsRoverApi {
 
     }
 
+    @Override
+    public void lookUpSimulationState() {
+
+    }
+
     private static void present(LandingPresenter p, Simulation.SimulationEvent e) {
         switch (e) {
             case Simulation.LandingSuccessfulEvent l -> p.landingSuccessful(l.roverState());
