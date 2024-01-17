@@ -1,7 +1,9 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
+import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,13 +11,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CommandParserTest {
     private CommandParser commandParser;
-    private InMemSimulationRepo inMemSimulationRepo;
+    private InMemSimulationRepo repo;
     private DummyPresenter dummyPresenter;
+    private MarsRoverController marsRoverController;
 
     @BeforeEach
     void setUp() {
-        inMemSimulationRepo = new InMemSimulationRepo();
-        commandParser = new CommandParser(inMemSimulationRepo,null);
+        repo = new InMemSimulationRepo();
+        marsRoverController = new MarsRoverController(repo);
+        commandParser = new CommandParser(repo, marsRoverController);
         dummyPresenter = new DummyPresenter();
     }
 
@@ -34,11 +38,15 @@ class CommandParserTest {
 
         assertEquals(print, PrintCommand.INSTANCE);
     }
+
     @Test
     void introducingStateCommand() {
+        Simulation simWorld = new Simulation(10);
+        repo.add(simWorld);
         Command state = commandParser.parseInput("state");
+
         state.execute(dummyPresenter);
-        StateCommand expectedCommand = new StateCommand(inMemSimulationRepo);
+        StateCommand expectedCommand = new StateCommand(marsRoverController);
 
         assertEquals(expectedCommand, state);
     }
@@ -87,77 +95,85 @@ class CommandParserTest {
 
     @Test
     void canParseLandCommand() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("land 4 2");
 
-        assertInstanceOf(LandCommand.class,land);
+        assertInstanceOf(LandCommand.class, land);
         assertEquals(new LandCommand(4, 2, null), land);
     }
+
     @Test
     void canParseLandCommandCapital() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
         assertEquals(new LandCommand(4, 2, null), land);
     }
+
     @Test
     void canRecognizeHalfLandCommand() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
         assertEquals(new LandCommand(4, 2, null), land);
     }
+
     @Test
     void recognizesMissingDigit() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         String input = "LANd 4";
         Command land = commandParser.parseInput(input);
 
         assertEquals(new LandingFailureCommand(input), land);
     }
+
     @Test
     void recognizesSingleCharacter() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         String input = "land a";
         Command land = commandParser.parseInput(input);
 
         assertEquals(new LandingFailureCommand(input), land);
     }
+
     @Test
     void recognizesTwoCharacters() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         String input = "land a b";
         Command land = commandParser.parseInput(input);
 
         assertEquals(new LandingFailureCommand(input), land);
     }
+
     @Test
     void recognizesDigitAndCharacter() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         String input = "land 1 b";
         Command land = commandParser.parseInput(input);
 
         assertEquals(new LandingFailureCommand(input), land);
     }
+
     @Test
     void recognizesCharacterAndDigit() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         String input = "land a 1";
         Command land = commandParser.parseInput(input);
 
         assertEquals(new LandingFailureCommand(input), land);
     }
+
     @Test
     void recognizesNegativeDigitAndPositiveDigit() {
-        Command simSetupCommand = new SimSetupCommand(5, inMemSimulationRepo);
+        Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);
         String input = "land -1 2";
         Command land = commandParser.parseInput(input);

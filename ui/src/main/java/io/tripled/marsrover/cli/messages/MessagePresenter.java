@@ -1,6 +1,7 @@
 package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 
@@ -21,7 +22,7 @@ public interface MessagePresenter {
 
     void landingFailureCommand(String coordinateString, LandingErrorTypes landingError);
 
-    void stateCommand(SimulationRepository simRepo);
+    void stateCommand(SimulationState simulationState);
 
     void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize);
 

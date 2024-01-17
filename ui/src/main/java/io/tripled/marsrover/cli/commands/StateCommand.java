@@ -1,21 +1,23 @@
 package io.tripled.marsrover.cli.commands;
 
+import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationStatePresenter;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 import java.util.Objects;
 
 class StateCommand implements Command {
+    private final MarsRoverApi marsRoverApi;
 
-    private final SimulationRepository simRepo;
-
-    public StateCommand(SimulationRepository simRepo) {
-        this.simRepo = simRepo;
+    public StateCommand(MarsRoverApi marsRoverApi) {
+        this.marsRoverApi = marsRoverApi;
     }
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        messagePresenter.stateCommand(simRepo);
+        marsRoverApi.lookUpSimulationState(messagePresenter::stateCommand);
     }
 
     @Override
@@ -25,11 +27,11 @@ class StateCommand implements Command {
 
         StateCommand that = (StateCommand) o;
 
-        return Objects.equals(simRepo, that.simRepo);
+        return Objects.equals(marsRoverApi, that.marsRoverApi);
     }
 
     @Override
     public int hashCode() {
-        return simRepo != null ? simRepo.hashCode() : 0;
+        return marsRoverApi != null ? marsRoverApi.hashCode() : 0;
     }
 }

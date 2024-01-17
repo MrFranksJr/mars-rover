@@ -3,7 +3,6 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 public class LandCommand implements Command {

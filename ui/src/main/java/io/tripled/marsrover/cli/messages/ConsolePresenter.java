@@ -1,9 +1,10 @@
 package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.business.domain.rover.Rover;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 
 import java.util.List;
 
@@ -64,9 +65,9 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void stateCommand(SimulationRepository simRepo) {
-        System.out.println("Simulation has maxCoordinate " + simRepo.getSimulation().getSimulationSize() + " with a total of " + simRepo.getSimulation().getNrOfCoordinates() + " coordinates.");
-        List<Rover> localRoverList = simRepo.getSimulation().getRoverList();
+    public void stateCommand(SimulationState simulationState) {
+        System.out.println("Simulation has maxCoordinate " + simulationState.simulationSize() + " with a total of " + simulationState.totalCoordinates() + " coordinates.");
+        List<Rover> localRoverList = simulationState.roverList();
         if (localRoverList.isEmpty()) {
             System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {

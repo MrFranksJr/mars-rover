@@ -1,6 +1,7 @@
 package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
@@ -72,7 +73,7 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void stateCommand(SimulationRepository simRepo) {
+    public void stateCommand(SimulationState simulationState) {
         hadStateCommandInvoked = true;
     }
     public boolean hasStateCommandBeenInvoked() {

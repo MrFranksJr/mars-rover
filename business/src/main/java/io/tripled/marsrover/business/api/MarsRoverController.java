@@ -11,12 +11,21 @@ public class MarsRoverController implements MarsRoverApi {
         this.simulationRepository = simulationRepository;
     }
 
+
     @Override
     public void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter) {
         final var simulation = simulationRepository.getSimulation();
 
-        simulation.landRover(xCoordinate, yCoordinate, event -> present(landingPresenter, event));
+        simulation.landRover(xCoordinate, yCoordinate, event -> presentLanding(landingPresenter, event));
+    }
 
+    private static void presentLanding(LandingPresenter p, Simulation.SimulationEvent e) {
+        switch (e) {
+            case Simulation.LandingSuccessfulEvent l -> p.landingSuccessful(l.roverState());
+            case Simulation.RoverMissesSimulation r -> p.roverMissesSimulation(r.simulationSize());
+            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.xCoordinate(), i.yCoordinate());
+            case Simulation.SimulationAlreadyPopulated s -> p.simulationAlreadyPopulated(s.roverState());
+        }
     }
 
     @Override
@@ -25,17 +34,9 @@ public class MarsRoverController implements MarsRoverApi {
     }
 
     @Override
-    public void lookUpSimulationState() {
+    public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
+        final var simulation = simulationRepository.getSimulation();
 
-    }
-
-    private static void present(LandingPresenter p, Simulation.SimulationEvent e) {
-        switch (e) {
-            case Simulation.LandingSuccessfulEvent l -> p.landingSuccessful(l.roverState());
-            case Simulation.RoverMissesSimulation r -> p.roverMissesSimulation(r.simulationSize());
-            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.xCoordinate(), i.yCoordinate());
-            case Simulation.SimulationAlreadyPopulated s -> {p.simulationAlreadyPopulated(s.roverState());
-            }
-        }
+        simulationStatePresenter.simulationState(simulation.simulationState());
     }
 }
