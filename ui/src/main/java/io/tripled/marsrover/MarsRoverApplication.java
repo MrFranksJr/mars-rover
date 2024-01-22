@@ -11,6 +11,4 @@ public class MarsRoverApplication {
         final InputReader bean = applicationContext.getBean(InputReader.class);
         bean.readInput();
     }
-
-
 }
