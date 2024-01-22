@@ -3,10 +3,12 @@ package io.tripled.marsrover.cli.input;
 import io.tripled.marsrover.cli.commands.CommandParser;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.cli.commands.Command;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 //TOD DEG can be package protected
+@Component
 public class InputHandler {
     private final CommandParser commandParser;
     public boolean receivedValidSimSize = false;

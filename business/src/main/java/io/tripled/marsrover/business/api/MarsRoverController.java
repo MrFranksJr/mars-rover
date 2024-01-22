@@ -2,7 +2,9 @@ package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MarsRoverController implements MarsRoverApi {
 
     private final SimulationRepository simulationRepository;

@@ -1,7 +1,9 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.business.api.MarsRoverController;
+import io.tripled.marsrover.business.api.LandingPresenter;
+import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.business.api.SimulationStatePresenter;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,12 +15,27 @@ class CommandParserTest {
     private CommandParser commandParser;
     private InMemSimulationRepo repo;
     private DummyPresenter dummyPresenter;
-    private MarsRoverController marsRoverController;
+    private MarsRoverApi marsRoverController;
 
     @BeforeEach
     void setUp() {
         repo = new InMemSimulationRepo();
-        marsRoverController = new MarsRoverController(repo);
+        marsRoverController = new MarsRoverApi() {
+            @Override
+            public void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter) {
+
+            }
+
+            @Override
+            public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
+
+            }
+
+            @Override
+            public void initializeSimulation(int simulationSize) {
+
+            }
+        };
         commandParser = new CommandParser(repo, marsRoverController);
         dummyPresenter = new DummyPresenter();
     }
