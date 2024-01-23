@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.api;
 
+import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.springframework.stereotype.Component;
@@ -15,17 +16,17 @@ public class MarsRoverController implements MarsRoverApi {
 
 
     @Override
-    public void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter) {
+    public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
         final var simulation = simulationRepository.getSimulation();
 
-        simulation.landRover(xCoordinate, yCoordinate, event -> presentLanding(landingPresenter, event));
+        simulation.landRover(coordinate, event -> presentLanding(landingPresenter, event));
     }
 
     private static void presentLanding(LandingPresenter p, Simulation.SimulationEvent e) {
         switch (e) {
             case Simulation.LandingSuccessfulEvent l -> p.landingSuccessful(l.roverState());
             case Simulation.RoverMissesSimulation r -> p.roverMissesSimulation(r.simulationSize());
-            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.xCoordinate(), i.yCoordinate());
+            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
             case Simulation.SimulationAlreadyPopulated s -> p.simulationAlreadyPopulated(s.roverState());
         }
     }

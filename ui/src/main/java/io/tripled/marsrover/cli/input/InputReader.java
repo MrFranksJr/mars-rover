@@ -20,7 +20,13 @@ public class InputReader {
             listenForCommands(scanner, presenter);
         }
     }
-
+    private void createSimWorld(Scanner scanner, ConsolePresenter presenter) {
+        do {
+            String input;
+            input = scanner.nextLine();
+            inputHandler.handleSimulationCreation(input, presenter);
+        } while (!inputHandler.receivedValidSimSize);
+    }
 
     private void listenForCommands(Scanner scanner, ConsolePresenter presenter) {
         String input;
@@ -31,13 +37,6 @@ public class InputReader {
         while (!isQuit(input));
     }
 
-    private void createSimWorld(Scanner scanner, ConsolePresenter presenter) {
-        do {
-            String input;
-            input = scanner.nextLine();
-            inputHandler.handleSimulationCreation(input, presenter);
-        } while (!inputHandler.receivedValidSimSize);
-    }
 
     private boolean isQuit(String input) {
         return "q".equalsIgnoreCase(input);

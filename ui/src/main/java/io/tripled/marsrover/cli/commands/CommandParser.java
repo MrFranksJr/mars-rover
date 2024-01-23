@@ -1,6 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.cli.messages.ConsolePresenter;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.springframework.stereotype.Component;
@@ -33,18 +34,33 @@ public class CommandParser {
     public Command parseInput(String input) {
         if (isPrintCommand(input)) {
             return PrintCommand.INSTANCE;
-        } else if (isQuitCommand(input)) {
+        }
+        else if (isQuitCommand(input)) {
             return QuitCommand.INSTANCE;
-        } else if (isLandCommand(input)) {
-            if (isValidLandCommandInput(input))
-                return new LandCommand(getXCoordinateFromString(input), getYCoordinateFromString(input), api);
-            else {
-                return new LandingFailureCommand(input);
-            }
-        } else if (isStateCommand(input)) {
+        }
+        else if (isLandCommand(input)) {
+            return handleLandCommand(input);
+        }
+        else if (isStateCommand(input)) {
             return new StateCommand(api);
         }
+        else if (isMoveRoverCommand(input)) {
+            return new RoverMoveCommand(input);
+        }
         return new UnknownCommand(input);
+    }
+
+
+    private boolean isMoveRoverCommand(String input) {
+        return input.startsWith("R1");
+    }
+
+    private Command handleLandCommand(String input) {
+        if (isValidLandCommandInput(input))
+            return new LandCommand(new Coordinate(getXCoordinateFromString(input), getYCoordinateFromString(input)), api);
+        else {
+            return new LandingFailureCommand(input);
+        }
     }
 
     private boolean isStateCommand(String input) {

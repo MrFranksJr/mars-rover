@@ -3,22 +3,23 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
-public class LandCommand implements Command {
-    private final int xCoordinate;
-    private final int yCoordinate;
-    private final MarsRoverApi marsRoverApi;
+import java.util.Objects;
 
-    public LandCommand(int xCoordinate, int yCoordinate, MarsRoverApi marsRoverApi) {
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+public class LandCommand implements Command {
+    private final MarsRoverApi marsRoverApi;
+    private Coordinate coordinate;
+
+    public LandCommand(Coordinate coordinate, MarsRoverApi marsRoverApi) {
+        this.coordinate = coordinate;
         this.marsRoverApi = marsRoverApi;
     }
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        marsRoverApi.landRover(xCoordinate, yCoordinate, new LandingPresenter() {
+        marsRoverApi.landRover(coordinate, new LandingPresenter() {
             @Override
             public void landingSuccessful(RoverState state) {
                 messagePresenter.landRoverMessage(state);
@@ -26,12 +27,12 @@ public class LandCommand implements Command {
 
             @Override
             public void roverMissesSimulation(int simulationSize) {
-                messagePresenter.roverMissesSimulation(xCoordinate, yCoordinate, simulationSize);
+                messagePresenter.roverMissesSimulation(coordinate.xCoordinate(), coordinate.yCoordinate(), simulationSize);
             }
 
             @Override
-            public void negativeCoordinatesReceived(int x, int y) {
-                String coordinateString = xCoordinate + " " + yCoordinate;
+            public void negativeCoordinatesReceived(Coordinate coordinate) {
+                String coordinateString = coordinate.xCoordinate() + " " + coordinate.yCoordinate();
                 messagePresenter.landingFailureCommand(coordinateString, LandingErrorTypes.NEGATIVE_INTS);
             }
 
@@ -46,17 +47,12 @@ public class LandCommand implements Command {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         LandCommand that = (LandCommand) o;
-
-        if (xCoordinate != that.xCoordinate) return false;
-        return yCoordinate == that.yCoordinate;
+        return Objects.equals(coordinate, that.coordinate);
     }
 
     @Override
     public int hashCode() {
-        int result = xCoordinate;
-        result = 31 * result + yCoordinate;
-        return result;
+        return Objects.hash(coordinate);
     }
 }

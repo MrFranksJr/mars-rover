@@ -4,6 +4,7 @@ import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
+import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ class StateCommandTest {
         dummyPresenter = new DummyPresenter();
         marsRoverController = new MarsRoverApi() {
             @Override
-            public void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter) {
+            public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
 
             }
 

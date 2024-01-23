@@ -18,8 +18,8 @@ public class Rover {
     public String getRoverName() {
         return roverName;
     }
-    public String getRoverHeading() {
-        return roverHeading.toString();
+    public RoverHeading getRoverHeading() {
+        return roverHeading;
     }
     public int getRoverXPosition() {
         return xPosition;
@@ -29,5 +29,45 @@ public class Rover {
     }
     public RoverState getState() {
         return new RoverState(roverName, roverHeading, xPosition, yPosition);
+    }
+
+    public void moveForward() {
+        switch (getRoverHeading()){
+            case NORTH -> {
+                yPosition++;
+            }
+            case EAST -> {
+                xPosition++;
+            }
+            case SOUTH -> {
+            }
+            case WEST -> {
+                xPosition--;
+            }
+        }
+    }
+
+    public void moveBackward() {
+        switch (getRoverHeading()){
+            case NORTH -> {
+                yPosition--;
+            }
+            case EAST -> {
+                xPosition--;
+            }
+            case SOUTH -> {
+            }
+            case WEST -> {
+                xPosition++;
+            }
+        }
+    }
+
+    public void turnLeft() {
+        roverHeading = roverHeading.nextCounterClockWise();;
+    }
+
+    public void turnRight() {
+        roverHeading = roverHeading.nextClockWise();
     }
 }

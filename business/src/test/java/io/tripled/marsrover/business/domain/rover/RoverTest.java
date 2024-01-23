@@ -7,6 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RoverTest {
     @Test
     void roverFacesNorthWhenLanded() {
-        assertEquals("NORTH", new Rover("R1", 2, 3).getRoverHeading());
+        assertEquals(RoverHeading.NORTH, new Rover("R1", 2, 3).getRoverHeading());
     }
 }

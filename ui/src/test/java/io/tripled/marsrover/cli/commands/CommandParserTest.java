@@ -4,6 +4,7 @@ import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
+import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,7 @@ class CommandParserTest {
         repo = new InMemSimulationRepo();
         marsRoverController = new MarsRoverApi() {
             @Override
-            public void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter) {
+            public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
 
             }
 
@@ -117,7 +118,7 @@ class CommandParserTest {
         Command land = commandParser.parseInput("land 4 2");
 
         assertInstanceOf(LandCommand.class, land);
-        assertEquals(new LandCommand(4, 2, null), land);
+        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
     }
 
     @Test
@@ -126,7 +127,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(4, 2, null), land);
+        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
     }
 
     @Test
@@ -135,7 +136,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(4, 2, null), land);
+        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
     }
 
     @Test
@@ -196,5 +197,21 @@ class CommandParserTest {
         Command land = commandParser.parseInput(input);
 
         assertEquals(new LandingFailureCommand(input), land);
+    }
+
+    @Test
+    void parseRoverMoveCommand() {
+        Command roverMoveCommand = commandParser.parseInput("R1");
+
+        assertInstanceOf(RoverMoveCommand.class, roverMoveCommand);
+    }
+
+    @Test
+    void parseRoverMoveCommandWithValidForward(){
+        Command roverMoveCommand = commandParser.parseInput("R1 f1");
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand("R1 f1");
+
+        assertEquals(expectedCommand, roverMoveCommand);
     }
 }

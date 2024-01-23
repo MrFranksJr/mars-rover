@@ -2,6 +2,8 @@ package io.tripled.marsrover.business.domain.simulation;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.Rover;
 
 import java.util.ArrayList;
@@ -28,14 +30,17 @@ public class Simulation {
     public List<Rover> getRoverList() {
         return roverList;
     }
+//    public void landRover(int x, int y, SimulationEventPublisher eventPublisher) {
+//        landRover(new Coordinate(x,y),eventPublisher);
+//    }
 
-    public void landRover(int xCoordinate, int yCoordinate, SimulationEventPublisher eventPublisher) {
+    public void landRover(Coordinate coordinate, SimulationEventPublisher eventPublisher) {
         if (isRoverPresent()) {
             eventPublisher.publish(new SimulationAlreadyPopulated(getRoverList().getFirst().getState()));
-        } else if (invalidCoordinatesReceived(xCoordinate, yCoordinate)) {
-            eventPublisher.publish(new InvalidCoordinatesReceived(xCoordinate, yCoordinate));
-        } else if (landingWithinSimulationLimits(xCoordinate, yCoordinate)) {
-            eventPublisher.publish(new LandingSuccessfulEvent(landRover(xCoordinate, yCoordinate)));
+        } else if (invalidCoordinatesReceived(coordinate)) {
+            eventPublisher.publish(new InvalidCoordinatesReceived(coordinate));
+        } else if (landingWithinSimulationLimits(coordinate)) {
+            eventPublisher.publish(new LandingSuccessfulEvent(landRover(coordinate)));
         } else {
             eventPublisher.publish(new RoverMissesSimulation(simulationSize));
         }
@@ -49,23 +54,44 @@ public class Simulation {
         return !roverList.isEmpty();
     }
 
-    private RoverState landRover(int xCoordinate, int yCoordinate) {
-        Rover r1 = new Rover("R1", xCoordinate, yCoordinate);
+//    private RoverState landRover(int xCoordinate, int yCoordinate) {
+//        Rover r1 = new Rover("R1", xCoordinate, yCoordinate);
+//        roverList.add(r1);
+//        return r1.getState();
+//    }
+
+    private RoverState landRover(Coordinate coordinate) {
+        Rover r1 = new Rover("R1", coordinate.xCoordinate(), coordinate.yCoordinate());
         roverList.add(r1);
         return r1.getState();
     }
 
 
-    private boolean invalidCoordinatesReceived(int xCoordinate, int yCoordinate) {
-        return xCoordinate < 0 || yCoordinate < 0;
+    private boolean invalidCoordinatesReceived(Coordinate coordinate) {
+        return coordinate.xCoordinate() < 0 || coordinate.yCoordinate() < 0;
     }
 
-    private boolean landingWithinSimulationLimits(int xCoordinate, int yCoordinate) {
-        return xCoordinate <= simulationSize && yCoordinate <= simulationSize;
+    private boolean landingWithinSimulationLimits(Coordinate coordinate) {
+        return coordinate.xCoordinate() <= simulationSize && coordinate.yCoordinate() <= simulationSize;
     }
 
+    public void moveRover(Direction direction) {
+        if (direction == Direction.FORWARD) {
+            roverList.getFirst().moveForward();
+        } else if (direction == Direction.BACKWARD) {
+            roverList.getFirst().moveBackward();
+        }
+    }
 
-    public sealed interface SimulationEvent { }
+    public void turnRover(Direction direction) {
+        if (direction == Direction.LEFT)
+            roverList.getFirst().turnLeft();
+        else
+            roverList.getFirst().turnRight();
+    }
+
+    public sealed interface SimulationEvent {
+    }
 
     public interface SimulationEventPublisher {
         void publish(SimulationEvent event);
@@ -80,6 +106,6 @@ public class Simulation {
     public record RoverMissesSimulation(int simulationSize) implements SimulationEvent {
     }
 
-    public record InvalidCoordinatesReceived(int xCoordinate, int yCoordinate) implements SimulationEvent {
+    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationEvent {
     }
 }

@@ -1,9 +1,12 @@
 package io.tripled.marsrover.business.api;
 
+import io.tripled.marsrover.business.domain.rover.Coordinate;
+
 public interface MarsRoverApi {
-    void landRover(int xCoordinate, int yCoordinate, LandingPresenter landingPresenter);
 
     void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter);
+
+    void landRover(Coordinate coordinate, LandingPresenter landingPresenter);
 
     void initializeSimulation(int simulationSize);
 }
