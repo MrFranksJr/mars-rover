@@ -52,8 +52,8 @@ class LandCommandTest {
         assertTrue(dummyPresenter.hasRoverLanded());
         assertFalse(dummyPresenter.hasRoverMissedSimulationBeenInvoked());
         assertFalse(dummyPresenter.invalidLandingInstruction());
-        assertEquals(landLocation.xCoordinate(), dummyPresenter.roverState.xPosition());
-        assertEquals(landLocation.yCoordinate(), dummyPresenter.roverState.yPosition());
+        assertEquals(landLocation.xCoordinate(), dummyPresenter.roverState.coordinate().xCoordinate());
+        assertEquals(landLocation.yCoordinate(), dummyPresenter.roverState.coordinate().yCoordinate());
         assertEquals("R1", dummyPresenter.roverState.roverName());
     }
 

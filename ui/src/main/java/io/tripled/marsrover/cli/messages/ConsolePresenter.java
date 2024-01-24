@@ -50,7 +50,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void landRoverMessage(RoverState roverState) {
-        System.out.println("Rover " + roverState.roverName() + " landed at [" + roverState.xPosition() + "," + roverState.yPosition() + "] and is facing NORTH");
+        System.out.println("Rover " + roverState.roverName() + " landed at [" + roverState.coordinate().xCoordinate() + "," + roverState.coordinate().yCoordinate() + "] and is facing NORTH");
     }
 
     @Override
@@ -86,13 +86,13 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void simulationAlreadyPopulated(RoverState roverState) {
-        System.out.println("There is already a rover " + roverState.roverName() + " present on this planet at coordinates [" + roverState.xPosition() + "," + roverState.yPosition() + "].");
+        System.out.println("There is already a rover " + roverState.roverName() + " present on this planet at coordinates [" + roverState.coordinate().xCoordinate() + "," + roverState.coordinate().yCoordinate() + "].");
         System.out.println("Cannot land additional Rovers on this Simulation");
     }
 
     @Override
     public void roverMovedMessage(RoverState roverState) {
-        System.out.println("new RoverState: " + roverState.xPosition() + " - " + roverState.yPosition());
+        System.out.println("new RoverState: " + roverState.coordinate().xCoordinate() + " - " + roverState.coordinate().yCoordinate());
     }
 
 

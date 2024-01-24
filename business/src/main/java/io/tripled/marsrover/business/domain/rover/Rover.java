@@ -28,7 +28,7 @@ public class Rover {
         return yPosition;
     }
     public RoverState getState() {
-        return new RoverState(roverName, roverHeading, xPosition, yPosition);
+        return new RoverState(roverName, roverHeading, new Coordinate(xPosition, yPosition));
     }
 
     public void moveForward() {

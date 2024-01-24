@@ -31,8 +31,8 @@ class SimulationTest {
         simWorld.landRover(new Coordinate(3,4), event -> {
             switch (event) {
                 case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
-                    assertEquals(3, landingSuccessfulEvent.roverState().xPosition());
-                    assertEquals(4, landingSuccessfulEvent.roverState().yPosition());
+                    assertEquals(3, landingSuccessfulEvent.roverState().coordinate().xCoordinate());
+                    assertEquals(4, landingSuccessfulEvent.roverState().coordinate().yCoordinate());
                 }
                 case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();

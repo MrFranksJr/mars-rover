@@ -43,8 +43,8 @@ class RoverMoveCommandTest {
 
         roverMoveCommand.execute(dummyPresenter);
         assertEquals("R1", dummyPresenter.roverState.roverName());
-        assertEquals(5, dummyPresenter.roverState.xPosition());
-        assertEquals(6, dummyPresenter.roverState.yPosition());
+        assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
+        assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
 
 
 
