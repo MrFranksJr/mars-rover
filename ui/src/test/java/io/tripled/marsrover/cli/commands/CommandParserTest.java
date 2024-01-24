@@ -208,13 +208,6 @@ class CommandParserTest {
         assertEquals(new LandingFailureCommand(input), land);
     }
 
-//    @Test
-//    void parseRoverMoveCommand() {
-//        Command roverMoveCommand = commandParser.parseInput("R1");
-//
-//        assertInstanceOf(RoverMoveCommand.class, roverMoveCommand);
-//    }
-
     @Test
     void parseRoverMoveCommandWithValidForward(){
         Command roverMoveCommand = commandParser.parseInput("R1 f1");
@@ -288,6 +281,18 @@ class CommandParserTest {
     }
 
     @Test
+    void parseRoverMoveCommandMoveForwardSouth(){
+        Command roverMoveCommand = commandParser.parseInput("R1 l2 f1");
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(
+                new RoverMove("R1", "l", 2),
+                new RoverMove("R1", "f", 1)), null);
+
+        assertEquals(expectedCommand, roverMoveCommand);
+    }
+
+
+    @Test
     void
     parseRoverMoveCommandWithMultipleDirections(){
         Command roverMoveCommand = commandParser.parseInput("R1 f2 b4 r5 l f1");
@@ -300,6 +305,6 @@ class CommandParserTest {
                 new RoverMove("R1", "f", 1)), null);
 
         assertEquals(expectedCommand, roverMoveCommand);
-    }
 
+    }
 }

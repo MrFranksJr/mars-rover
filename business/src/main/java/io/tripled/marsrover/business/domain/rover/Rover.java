@@ -33,33 +33,19 @@ public class Rover {
 
     public void moveForward() {
         switch (getRoverHeading()){
-            case NORTH -> {
-                yPosition++;
-            }
-            case EAST -> {
-                xPosition++;
-            }
-            case SOUTH -> {
-            }
-            case WEST -> {
-                xPosition--;
-            }
+            case NORTH -> yPosition++;
+            case EAST -> xPosition++;
+            case SOUTH -> yPosition--;
+            case WEST -> xPosition--;
         }
     }
 
     public void moveBackward() {
         switch (getRoverHeading()){
-            case NORTH -> {
-                yPosition--;
-            }
-            case EAST -> {
-                xPosition--;
-            }
-            case SOUTH -> {
-            }
-            case WEST -> {
-                xPosition++;
-            }
+            case NORTH -> yPosition--;
+            case EAST -> xPosition--;
+            case SOUTH -> yPosition++;
+            case WEST -> xPosition++;
         }
     }
 

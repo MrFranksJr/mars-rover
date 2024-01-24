@@ -188,6 +188,28 @@ class SimulationTest {
 
         assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
     }
+    @Test
+    void turnRoverToSouthCounterClockwiseAndMoveForward() {
+        Simulation simWorld = createSimulation(10, new Coordinate(5,5));
+        Rover rover = getRover(simWorld);
+        simWorld.turnRover(Direction.LEFT);
+        simWorld.turnRover(Direction.LEFT);
+        simWorld.moveRover(Direction.FORWARD);
+
+        assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
+        assertEquals(4, rover.getRoverYPosition());
+    }
+    @Test
+    void turnRoverToSouthCounterClockwiseAndMoveBackward() {
+        Simulation simWorld = createSimulation(10, new Coordinate(5,5));
+        Rover rover = getRover(simWorld);
+        simWorld.turnRover(Direction.LEFT);
+        simWorld.turnRover(Direction.LEFT);
+        simWorld.moveRover(Direction.BACKWARD);
+
+        assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
+        assertEquals(6, rover.getRoverYPosition());
+    }
 
     private static Rover getRover(Simulation simWorld) {
         return simWorld.getRoverList().getFirst();

@@ -17,7 +17,6 @@ public class MarsRoverController implements MarsRoverApi {
         this.simulationRepository = simulationRepository;
     }
 
-
     @Override
     public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
         final var simulation = simulationRepository.getSimulation();
@@ -33,7 +32,6 @@ public class MarsRoverController implements MarsRoverApi {
             case Simulation.SimulationLandAlreadyPopulated s -> p.simulationAlreadyPopulated(s.roverState());
         }
     }
-
 
     @Override
     public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
