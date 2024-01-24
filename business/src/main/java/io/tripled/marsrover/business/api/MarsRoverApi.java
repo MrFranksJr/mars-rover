@@ -1,6 +1,9 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.rover.RoverMove;
+
+import java.util.List;
 
 public interface MarsRoverApi {
 
@@ -9,4 +12,6 @@ public interface MarsRoverApi {
     void landRover(Coordinate coordinate, LandingPresenter landingPresenter);
 
     void initializeSimulation(int simulationSize);
+
+    void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter);
 }

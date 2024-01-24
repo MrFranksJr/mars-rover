@@ -1,11 +1,14 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.cli.messages.ConsolePresenter;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,14 +48,9 @@ public class CommandParser {
             return new StateCommand(api);
         }
         else if (isMoveRoverCommand(input)) {
-            return new RoverMoveCommand(input);
+            return handleMoveCommand(input);
         }
         return new UnknownCommand(input);
-    }
-
-
-    private boolean isMoveRoverCommand(String input) {
-        return input.startsWith("R1");
     }
 
     private Command handleLandCommand(String input) {
@@ -61,6 +59,31 @@ public class CommandParser {
         else {
             return new LandingFailureCommand(input);
         }
+    }
+    private Command handleMoveCommand(String input) {
+            return new RoverMoveCommand(getRoverMovesFromString(input), api);
+    }
+
+    private List<RoverMove> getRoverMovesFromString(String input) {
+        String roverId = extractRoverIdFromInput(input);
+        return extractRoverMovesFromInput(input, roverId);
+    }
+
+    private static List<RoverMove> extractRoverMovesFromInput(String input, String roverId) {
+        List<RoverMove> roverMoves = new ArrayList<>();
+        Pattern regex = Pattern.compile("( [frbl]\\d*)");
+        Matcher matcher = regex.matcher(input);
+        while(matcher.find()){
+            String preppedInput = matcher.group(1).trim();
+            String direction = preppedInput.substring(0,1);
+            int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
+            roverMoves.add(new RoverMove(roverId, direction, steps));
+        }
+        return roverMoves;
+    }
+
+    private static String extractRoverIdFromInput(String input) {
+        return input.substring(0, input.indexOf(" "));
     }
 
     private boolean isStateCommand(String input) {
@@ -110,5 +133,8 @@ public class CommandParser {
 
     private boolean isPrintCommand(String input) {
         return input.isBlank() || input.equalsIgnoreCase("p");
+    }
+    private boolean isMoveRoverCommand(String input) {
+        return input.startsWith("R1");
     }
 }

@@ -5,6 +5,7 @@ import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.Rover;
+import io.tripled.marsrover.business.domain.rover.RoverMove;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +31,26 @@ public class Simulation {
     public List<Rover> getRoverList() {
         return roverList;
     }
-//    public void landRover(int x, int y, SimulationEventPublisher eventPublisher) {
+//    public void landRover(int x, int y, SimulationLandingEventPublisher eventPublisher) {
 //        landRover(new Coordinate(x,y),eventPublisher);
 //    }
 
-    public void landRover(Coordinate coordinate, SimulationEventPublisher eventPublisher) {
+    public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
         if (isRoverPresent()) {
-            eventPublisher.publish(new SimulationAlreadyPopulated(getRoverList().getFirst().getState()));
+            eventPublisher.publish(new SimulationLandAlreadyPopulated(getRoverList().getFirst().getState()));
         } else if (invalidCoordinatesReceived(coordinate)) {
             eventPublisher.publish(new InvalidCoordinatesReceived(coordinate));
         } else if (landingWithinSimulationLimits(coordinate)) {
-            eventPublisher.publish(new LandingSuccessfulEvent(landRover(coordinate)));
+            eventPublisher.publish(new LandingSuccessfulLandEvent(landRover(coordinate)));
         } else {
-            eventPublisher.publish(new RoverMissesSimulation(simulationSize));
+            eventPublisher.publish(new RoverMissesSimulationLand(simulationSize));
         }
     }
+
+    public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher){
+        eventPublisher.publish(new RoverMovedSuccessfulEvent(moveRover(roverMoves)));
+    }
+
 
     public SimulationState simulationState() {
         return new SimulationState(simulationSize, getSimulationSize(), getRoverList());
@@ -74,38 +80,61 @@ public class Simulation {
     private boolean landingWithinSimulationLimits(Coordinate coordinate) {
         return coordinate.xCoordinate() <= simulationSize && coordinate.yCoordinate() <= simulationSize;
     }
+    private RoverState moveRover(List<RoverMove> roverMoves) {
+        for(RoverMove roverMove : roverMoves){
+            for(int i = 0; i < roverMove.steps(); i++){
+
+                moveRover(Direction.convertTextToDirection(roverMove.direction()));
+            }
+        }
+        return roverList.getFirst().getState();
+    }
 
     public void moveRover(Direction direction) {
         if (direction == Direction.FORWARD) {
             roverList.getFirst().moveForward();
         } else if (direction == Direction.BACKWARD) {
             roverList.getFirst().moveBackward();
-        }
-    }
-
-    public void turnRover(Direction direction) {
-        if (direction == Direction.LEFT)
+        } else if (direction == Direction.LEFT)
             roverList.getFirst().turnLeft();
         else
             roverList.getFirst().turnRight();
     }
 
-    public sealed interface SimulationEvent {
+    public void turnRover(Direction direction) {
+        moveRover(direction);
     }
 
-    public interface SimulationEventPublisher {
-        void publish(SimulationEvent event);
+    public sealed interface SimulationLandEvent {
     }
 
-    public record LandingSuccessfulEvent(RoverState roverState) implements SimulationEvent {
+    public interface SimulationLandingEventPublisher {
+        void publish(SimulationLandEvent event);
+
     }
 
-    public record SimulationAlreadyPopulated(RoverState roverState) implements SimulationEvent {
+    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
     }
 
-    public record RoverMissesSimulation(int simulationSize) implements SimulationEvent {
+    public record SimulationLandAlreadyPopulated(RoverState roverState) implements SimulationLandEvent {
     }
 
-    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationEvent {
+    public record RoverMissesSimulationLand(int simulationSize) implements SimulationLandEvent {
     }
+
+    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
+    }
+
+
+    public sealed interface SimulationMoveRoverEvent { }
+
+    public interface SimulationRoverMovedEventPublisher {
+        void publish(SimulationMoveRoverEvent event);
+
+    }
+
+    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {
+
+    }
+
 }

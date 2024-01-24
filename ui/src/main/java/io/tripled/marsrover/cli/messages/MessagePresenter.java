@@ -27,4 +27,6 @@ public interface MessagePresenter {
     void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize);
 
     void simulationAlreadyPopulated(RoverState roverState);
+
+    void roverMovedMessage(RoverState roverState);
 }

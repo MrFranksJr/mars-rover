@@ -14,6 +14,7 @@ public class DummyPresenter implements MessagePresenter {
     private boolean hasLandingFailed = false;
     private boolean alreadyRoverPresent = false;
     private boolean hadStateCommandInvoked = false;
+    private Boolean hasRoverMoved;
 
     public boolean hasRoverLanded() {
         return hasRoverLanded;
@@ -88,6 +89,12 @@ public class DummyPresenter implements MessagePresenter {
     @Override
     public void simulationAlreadyPopulated(RoverState roverState) {
         this.alreadyRoverPresent=true;
+    }
+
+    @Override
+    public void roverMovedMessage(RoverState roverState) {
+        this.roverState = roverState;
+        hasRoverMoved = true;
     }
 
     public boolean wasAlreadyRoverPresentInvoked() {

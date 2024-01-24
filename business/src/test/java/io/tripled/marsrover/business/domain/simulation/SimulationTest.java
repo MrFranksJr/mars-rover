@@ -30,13 +30,13 @@ class SimulationTest {
 
         simWorld.landRover(new Coordinate(3,4), event -> {
             switch (event) {
-                case Simulation.LandingSuccessfulEvent landingSuccessfulEvent -> {
+                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
                     assertEquals(3, landingSuccessfulEvent.roverState().xPosition());
                     assertEquals(4, landingSuccessfulEvent.roverState().yPosition());
                 }
-                case Simulation.RoverMissesSimulation roverMissesSimulation -> fail();
+                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
-                case Simulation.SimulationAlreadyPopulated simulationAlreadyPopulated -> fail();
+                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> fail();
             }
         });
     }
@@ -47,9 +47,9 @@ class SimulationTest {
 
         simWorld.landRover(new Coordinate(-3, 4), event -> {
             switch (event) {
-                case Simulation.LandingSuccessfulEvent landingSuccessfulEvent -> fail();
-                case Simulation.RoverMissesSimulation roverMissesSimulation -> fail();
-                case Simulation.SimulationAlreadyPopulated simulationAlreadyPopulated -> fail();
+                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> fail();
+                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
+                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> Assertions.assertTrue(true);
             }
         });
@@ -67,19 +67,19 @@ class SimulationTest {
         return createSimulation(5, new Coordinate(3,4));
     }
 
-    private static Simulation.SimulationEventPublisher validateRoverLandingDisallowed() {
+    private static Simulation.SimulationLandingEventPublisher validateRoverLandingDisallowed() {
         return event -> {
             switch (event) {
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> {
                     fail();
                 }
-                case Simulation.LandingSuccessfulEvent landingSuccessfulEvent -> {
+                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
                     fail();
                 }
-                case Simulation.RoverMissesSimulation roverMissesSimulation -> {
+                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> {
                     fail();
                 }
-                case Simulation.SimulationAlreadyPopulated simulationAlreadyPopulated -> {
+                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> {
                     assertTrue(true);
                 }
             }

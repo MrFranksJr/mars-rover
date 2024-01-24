@@ -27,6 +27,7 @@ public class ConsolePresenter implements MessagePresenter {
         System.out.println("***************************************************************************************************************************************************");
         System.out.println("*   Print state of simulation     | {state}                                                   | ex: state                                         *");
         System.out.println("*   Land a new rover              | {land {x} {y}}                                            | ex: land 1 5                                      *");
+        System.out.println("*   Drive                         | {Rx fx|bx|lx|rx}                                          | ex: R1 f5 l b2                                    *");
         System.out.println("*   Quit the application          | {Q}                                                                                                           *");
         System.out.println("*   Print API overview            | {P}                                                                                                           *");
         System.out.println("***************************************************************************************************************************************************");
@@ -89,8 +90,10 @@ public class ConsolePresenter implements MessagePresenter {
         System.out.println("Cannot land additional Rovers on this Simulation");
     }
 
-
-
+    @Override
+    public void roverMovedMessage(RoverState roverState) {
+        System.out.println("new RoverState: " + roverState.xPosition() + " - " + roverState.yPosition());
+    }
 
 
     private final String introGraphics = """
