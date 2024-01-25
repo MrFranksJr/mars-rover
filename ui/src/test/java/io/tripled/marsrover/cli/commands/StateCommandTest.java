@@ -62,4 +62,15 @@ class StateCommandTest {
         //then
         assertTrue(dummyPresenter.hasStateCommandBeenInvoked());
     }
+
+
+    @Test
+    void checkHeadingOfStateCommand() {
+        simulation.landRover(new Coordinate(5, 5), new Simulation.SimulationLandingEventPublisher() {
+            @Override
+            public void publish(Simulation.SimulationLandEvent event) {
+
+            }
+        });
+    }
 }

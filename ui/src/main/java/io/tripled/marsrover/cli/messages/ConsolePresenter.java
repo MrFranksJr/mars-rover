@@ -73,7 +73,7 @@ public class ConsolePresenter implements MessagePresenter {
             System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {
             for (Rover rover : localRoverList) {
-                System.out.println("Rover " + rover.getRoverName() + " at Coordinates[x=" + rover.getRoverXPosition() +", y=" + rover.getRoverYPosition() + "] is facing NORTH");
+                System.out.println("Rover " + rover.getRoverName() + " at Coordinates[x=" + rover.getRoverXPosition() +", y=" + rover.getRoverYPosition() + "] is facing " + rover.getRoverHeading());
             }
         }
     }

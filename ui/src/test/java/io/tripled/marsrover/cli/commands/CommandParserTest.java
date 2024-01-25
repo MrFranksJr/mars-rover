@@ -307,4 +307,15 @@ class CommandParserTest {
         assertEquals(expectedCommand, roverMoveCommand);
 
     }
+
+    @Test
+    void parseRoverMoveCommandWithLowerCase(){
+        Command roverMoveCommand = commandParser.parseInput("r1 b");
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);
+
+        assertEquals(expectedCommand, roverMoveCommand);
+    }
+
+
 }

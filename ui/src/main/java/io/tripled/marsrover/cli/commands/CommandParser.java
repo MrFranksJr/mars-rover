@@ -83,7 +83,7 @@ public class CommandParser {
     }
 
     private static String extractRoverIdFromInput(String input) {
-        return input.substring(0, input.indexOf(" "));
+        return input.substring(0, input.indexOf(" ")).toUpperCase();
     }
 
     private boolean isStateCommand(String input) {
@@ -135,6 +135,6 @@ public class CommandParser {
         return input.isBlank() || input.equalsIgnoreCase("p");
     }
     private boolean isMoveRoverCommand(String input) {
-        return input.startsWith("R1");
+        return input.toLowerCase().startsWith("r1");
     }
 }
