@@ -9,7 +9,7 @@ import io.tripled.marsrover.cli.messages.MessagePresenter;
 import java.util.List;
 import java.util.Objects;
 
-class RoverMoveCommand implements Command {
+public class RoverMoveCommand implements Command {
     private List<RoverMove> roverMovesFromString;
     private MarsRoverApi marsRoverApi;
 
