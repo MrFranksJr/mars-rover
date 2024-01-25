@@ -5,14 +5,12 @@ import io.tripled.marsrover.business.api.RoverState;
 public class Rover {
     private final String roverName;
     private RoverHeading roverHeading;
-    private int xPosition;
-    private int yPosition;
+    private Location location;
 
-    public Rover(String roverName, int xCoordinate, int yCoordinate) {
+    public Rover(String roverName, int xCoordinate, int yCoordinate, int simulationSize) {
         this.roverHeading = RoverHeading.NORTH;
         this.roverName = roverName;
-        this.xPosition = xCoordinate;
-        this.yPosition = yCoordinate;
+        location = new Location(new Coordinate(xCoordinate, yCoordinate), simulationSize);
     }
 
     public String getRoverName() {
@@ -22,30 +20,30 @@ public class Rover {
         return roverHeading;
     }
     public int getRoverXPosition() {
-        return xPosition;
+        return location.coordinate().xCoordinate();
     }
     public int getRoverYPosition() {
-        return yPosition;
+        return location.coordinate().yCoordinate();
     }
     public RoverState getState() {
-        return new RoverState(roverName, roverHeading, new Coordinate(xPosition, yPosition));
+        return new RoverState(roverName, roverHeading, location.coordinate());
     }
 
     public void moveForward() {
         switch (getRoverHeading()){
-            case NORTH -> yPosition++;
-            case EAST -> xPosition++;
-            case SOUTH -> yPosition--;
-            case WEST -> xPosition--;
+            case NORTH -> location = location.incrementY();
+            case EAST -> location = location.incrementX();
+            case SOUTH -> location = location.decrementY();
+            case WEST -> location = location.decrementX();
         }
     }
 
     public void moveBackward() {
         switch (getRoverHeading()){
-            case NORTH -> yPosition--;
-            case EAST -> xPosition--;
-            case SOUTH -> yPosition++;
-            case WEST -> xPosition++;
+            case NORTH -> location = location.decrementY();
+            case EAST -> location = location.decrementX();
+            case SOUTH -> location = location.incrementY();
+            case WEST -> location = location.incrementX();
         }
     }
 

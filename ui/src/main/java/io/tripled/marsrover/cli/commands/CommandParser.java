@@ -54,10 +54,11 @@ public class CommandParser {
     }
 
     private Command handleLandCommand(String input) {
-        if (isValidLandCommandInput(input))
-            return new LandCommand(new Coordinate(getXCoordinateFromString(input), getYCoordinateFromString(input)), api);
+        String trimmedLandCommandString = input.trim();
+        if (isValidLandCommandInput(trimmedLandCommandString))
+            return new LandCommand(new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
         else {
-            return new LandingFailureCommand(input);
+            return new LandingFailureCommand(trimmedLandCommandString);
         }
     }
     private Command handleMoveCommand(String input) {

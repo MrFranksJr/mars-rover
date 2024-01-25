@@ -131,6 +131,16 @@ class CommandParserTest {
     }
 
     @Test
+    void canParseLandCommandWithTrailingSpace() {
+        Command simSetupCommand = new SimSetupCommand(5, repo);
+        simSetupCommand.execute(dummyPresenter);
+        Command land = commandParser.parseInput("land 4 2 ");
+
+        assertInstanceOf(LandCommand.class, land);
+        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
+    }
+
+    @Test
     void canParseLandCommandCapital() {
         Command simSetupCommand = new SimSetupCommand(5, repo);
         simSetupCommand.execute(dummyPresenter);

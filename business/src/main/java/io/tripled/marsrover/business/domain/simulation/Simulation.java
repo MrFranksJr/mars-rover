@@ -31,9 +31,6 @@ public class Simulation {
     public List<Rover> getRoverList() {
         return roverList;
     }
-//    public void landRover(int x, int y, SimulationLandingEventPublisher eventPublisher) {
-//        landRover(new Coordinate(x,y),eventPublisher);
-//    }
 
     public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
         if (isRoverPresent()) {
@@ -47,7 +44,7 @@ public class Simulation {
         }
     }
 
-    public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher){
+    public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher) {
         eventPublisher.publish(new RoverMovedSuccessfulEvent(moveRover(roverMoves)));
     }
 
@@ -60,14 +57,8 @@ public class Simulation {
         return !roverList.isEmpty();
     }
 
-//    private RoverState landRover(int xCoordinate, int yCoordinate) {
-//        Rover r1 = new Rover("R1", xCoordinate, yCoordinate);
-//        roverList.add(r1);
-//        return r1.getState();
-//    }
-
     private RoverState landRover(Coordinate coordinate) {
-        Rover r1 = new Rover("R1", coordinate.xCoordinate(), coordinate.yCoordinate());
+        Rover r1 = new Rover("R1", coordinate.xCoordinate(), coordinate.yCoordinate(), simulationSize);
         roverList.add(r1);
         return r1.getState();
     }
@@ -80,9 +71,10 @@ public class Simulation {
     private boolean landingWithinSimulationLimits(Coordinate coordinate) {
         return coordinate.xCoordinate() <= simulationSize && coordinate.yCoordinate() <= simulationSize;
     }
+
     private RoverState moveRover(List<RoverMove> roverMoves) {
-        for(RoverMove roverMove : roverMoves){
-            for(int i = 0; i < roverMove.steps(); i++){
+        for (RoverMove roverMove : roverMoves) {
+            for (int i = 0; i < roverMove.steps(); i++) {
 
                 moveRover(Direction.convertTextToDirection(roverMove.direction()));
             }
@@ -113,6 +105,14 @@ public class Simulation {
 
     }
 
+    public sealed interface SimulationMoveRoverEvent {
+    }
+
+    public interface SimulationRoverMovedEventPublisher {
+        void publish(SimulationMoveRoverEvent event);
+
+    }
+
     public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
     }
 
@@ -123,14 +123,6 @@ public class Simulation {
     }
 
     public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
-    }
-
-
-    public sealed interface SimulationMoveRoverEvent { }
-
-    public interface SimulationRoverMovedEventPublisher {
-        void publish(SimulationMoveRoverEvent event);
-
     }
 
     public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {

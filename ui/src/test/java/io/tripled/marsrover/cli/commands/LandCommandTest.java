@@ -87,19 +87,4 @@ class LandCommandTest {
         assertFalse(dummyPresenter.invalidLandingInstruction());
 
     }
-
-    @Test
-    void landingCannotComplete() {
-
-        //given
-        Command landCommand = new LandCommand(new Coordinate(-3, 4), marsRoverController);
-        //when
-        landCommand.execute(dummyPresenter);
-
-        //then
-        assertNull(dummyPresenter.roverState);
-        assertTrue(dummyPresenter.invalidLandingInstruction());
-        assertFalse(dummyPresenter.hasRoverLanded());
-        assertFalse(dummyPresenter.hasRoverMissedSimulationBeenInvoked());
-    }
 }

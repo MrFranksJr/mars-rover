@@ -5,6 +5,7 @@ import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
+import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StateCommandTest {
@@ -72,5 +74,12 @@ class StateCommandTest {
 
             }
         });
+        simulation.turnRover(Direction.RIGHT);
+
+        Command stateCommand = new StateCommand(marsRoverController);
+        stateCommand.execute(dummyPresenter);
+
+        assertEquals("EAST", simulation.getRoverList().getFirst().getRoverHeading().toString());
+        assertEquals("EAST", dummyPresenter.roverState.roverHeading().toString());
     }
 }

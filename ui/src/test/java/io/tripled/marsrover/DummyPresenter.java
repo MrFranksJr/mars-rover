@@ -2,9 +2,11 @@ package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+
+import java.util.List;
 
 public class DummyPresenter implements MessagePresenter {
     public RoverState roverState;
@@ -75,8 +77,18 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void stateCommand(SimulationState simulationState) {
-        hadStateCommandInvoked = true;
+        setRoverState(simulationState);
+        this.hadStateCommandInvoked = true;
     }
+
+    private void setRoverState(SimulationState simulationState) {
+        final List<Rover> rovers = simulationState.roverList();
+        if (rovers.isEmpty())
+            this.roverState = null;
+        else
+            this.roverState = rovers.getFirst().getState();
+    }
+
     public boolean hasStateCommandBeenInvoked() {
         return hadStateCommandInvoked;
     }
@@ -88,7 +100,7 @@ public class DummyPresenter implements MessagePresenter {
 
     @Override
     public void simulationAlreadyPopulated(RoverState roverState) {
-        this.alreadyRoverPresent=true;
+        this.alreadyRoverPresent = true;
     }
 
     @Override
