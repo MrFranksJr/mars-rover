@@ -2,7 +2,7 @@ package io.tripled.marsrover.business.domain.rover;
 
 import io.tripled.marsrover.business.api.RoverState;
 
-public class Rover {
+public class Rover implements Vehicle {
     private final String roverName;
     private RoverHeading roverHeading;
     private Location location;
@@ -10,7 +10,11 @@ public class Rover {
     public Rover(String roverName, int xCoordinate, int yCoordinate, int simulationSize) {
         this.roverHeading = RoverHeading.NORTH;
         this.roverName = roverName;
-        location = new Location(new Coordinate(xCoordinate, yCoordinate), simulationSize);
+        this.location = Location.newBuilder()
+                .setSimulationSize(simulationSize)
+                .withXCo(xCoordinate)
+                .withYco(yCoordinate)
+                .build();
     }
 
     public String getRoverName() {
@@ -25,10 +29,16 @@ public class Rover {
     public int getRoverYPosition() {
         return location.coordinate().yCoordinate();
     }
+
     public RoverState getState() {
-        return new RoverState(roverName, roverHeading, location.coordinate());
+        return RoverState.newBuilder()
+                .withRoverHeading(roverHeading)
+                .withRoverName(roverName)
+                .withCoordinate(location.coordinate())
+                .build();
     }
 
+    @Override
     public void moveForward() {
         switch (getRoverHeading()){
             case NORTH -> location = location.incrementY();
@@ -38,6 +48,7 @@ public class Rover {
         }
     }
 
+    @Override
     public void moveBackward() {
         switch (getRoverHeading()){
             case NORTH -> location = location.decrementY();
@@ -47,10 +58,12 @@ public class Rover {
         }
     }
 
+    @Override
     public void turnLeft() {
         roverHeading = roverHeading.nextCounterClockWise();;
     }
 
+    @Override
     public void turnRight() {
         roverHeading = roverHeading.nextClockWise();
     }

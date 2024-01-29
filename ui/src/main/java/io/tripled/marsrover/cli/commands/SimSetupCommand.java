@@ -1,8 +1,8 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 public class SimSetupCommand implements Command {
     private final int coordinateInput;
@@ -14,9 +14,14 @@ public class SimSetupCommand implements Command {
     }
 
     public void execute(MessagePresenter messagePresenter) {
-        Simulation simWorld = new Simulation(coordinateInput);
-        simRepo.add(simWorld);
-        messagePresenter.simSetupMessage(simWorld.getSimulationSize(), simWorld.getNrOfCoordinates());
+        final var simulation = Simulation.create(coordinateInput);
+        if (simulation.isEmpty())
+            messagePresenter.invalidSimSetupMessage(coordinateInput + "");
+        else {
+            final var simWorld = simulation.get();
+            simRepo.add(simWorld);
+            messagePresenter.simSetupMessage(simWorld.getSimulationSize(), simWorld.getNrOfCoordinates());
+        }
     }
 
     @Override

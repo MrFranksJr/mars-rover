@@ -3,11 +3,11 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.RoverMovePresenter;
+import io.tripled.marsrover.business.api.RoverMovePresenterChange;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
+import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ class StateCommandTest {
     @BeforeEach
     void setUp() {
         simulationRepository = new InMemSimulationRepo();
-        simulation = new Simulation(13);
+        simulation = Simulation.create(13).orElseThrow();
         simulationRepository.add(simulation);
         dummyPresenter = new DummyPresenter();
         marsRoverController = new MarsRoverApi() {
@@ -47,7 +47,7 @@ class StateCommandTest {
             }
 
             @Override
-            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
+            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter) {
 
             }
         };

@@ -13,5 +13,5 @@ public interface MarsRoverApi {
 
     void initializeSimulation(int simulationSize);
 
-    void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter);
+    void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter);
 }

@@ -10,6 +10,10 @@ public record Location(Coordinate coordinate, int simulationSize) {
         }
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public Location incrementY() {
         int y = calculateIncrementY();
         Coordinate c = coordinate.newY(y);
@@ -69,4 +73,30 @@ public record Location(Coordinate coordinate, int simulationSize) {
     private int calculateDecrementX() {
         return decrement(coordinate().xCoordinate());
     }
+
+    public static class Builder {
+        private int xCoordinate;
+        private int yCoordinate;
+        private int simulationSize;
+
+        public Builder setSimulationSize(int simulationSize) {
+            this.simulationSize = simulationSize;
+            return this;
+        }
+
+        public Builder withXCo(int xCoordinate) {
+            this.xCoordinate = xCoordinate;
+            return this;
+        }
+
+        public Builder withYco(int yCoordinate) {
+            this.yCoordinate = yCoordinate;
+            return this;
+        }
+
+        public Location build() {
+            return new Location(new Coordinate(xCoordinate, yCoordinate), simulationSize);
+        }
+    }
+
 }

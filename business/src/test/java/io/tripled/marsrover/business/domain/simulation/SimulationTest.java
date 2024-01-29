@@ -4,63 +4,28 @@ import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationTest {
-    private Simulation createSimulationWithARoverPresent() {
-        return createSimulation(5, new Coordinate(3, 4));
-    }
-
-    private Simulation.SimulationLandingEventPublisher validateRoverLandingDisallowed() {
-        return event -> {
-            switch (event) {
-                case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> {
-                    fail();
-                }
-                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
-                    fail();
-                }
-                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> {
-                    fail();
-                }
-                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> {
-                    assertTrue(true);
-                }
-            }
-        };
-    }
-
-    private Rover getRover(Simulation simWorld) {
-        return simWorld.getRoverList().getFirst();
-    }
-
-    private Simulation createSimulation(int simulationSize, Coordinate landingCoordinate) {
-        Simulation simWorld = new Simulation(simulationSize);
-        simWorld.landRover(landingCoordinate, event -> {
-        });
-        return simWorld;
-    }
-
     @Test
     void returnsCorrectSimSize() {
-        Simulation simWorld = new Simulation(52);
+        Simulation simWorld = Simulation.create(52).orElseThrow();
 
         assertEquals(52, simWorld.getSimulationSize());
     }
 
     @Test
     void returnsNrOfCoordinates() {
-        Simulation simWorld = new Simulation(5);
+        Simulation simWorld = Simulation.create(5).orElseThrow();
 
         assertEquals(36, simWorld.getNrOfCoordinates());
     }
 
     @Test
     void happyLanding() {
-        Simulation simWorld = new Simulation(5);
+        Simulation simWorld = Simulation.create(5).orElseThrow();
 
         simWorld.landRover(new Coordinate(3, 4), event -> {
             switch (event) {
@@ -232,6 +197,7 @@ class SimulationTest {
 
         assertEquals(10, getRover(simWorld).getRoverXPosition());
     }
+
     @Test
     void roverMovesEastOverBoundary() {
         Simulation simWorld = createSimulation(10, new Coordinate(10, 8));
@@ -268,6 +234,7 @@ class SimulationTest {
 
         assertEquals(0, getRover(simWorld).getRoverXPosition());
     }
+
     @Test
     void roverMovesWestOverBoundaryBackward() {
         Simulation simWorld = createSimulation(10, new Coordinate(0, 8));
@@ -287,7 +254,39 @@ class SimulationTest {
         assertEquals(0, getRover(simWorld).getRoverYPosition());
     }
 
+    private Simulation createSimulationWithARoverPresent() {
+        return createSimulation(5, new Coordinate(3, 4));
+    }
 
+    private Simulation.SimulationLandingEventPublisher validateRoverLandingDisallowed() {
+        return event -> {
+            switch (event) {
+                case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> {
+                    fail();
+                }
+                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
+                    fail();
+                }
+                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> {
+                    fail();
+                }
+                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> {
+                    assertTrue(true);
+                }
+            }
+        };
+    }
+
+    private Rover getRover(Simulation simWorld) {
+        return simWorld.getRoverList().getFirst();
+    }
+
+    private Simulation createSimulation(int simulationSize, Coordinate landingCoordinate) {
+        final Simulation simWorld = Simulation.create(simulationSize).orElseThrow();
+        simWorld.landRover(landingCoordinate, event -> {
+        });
+        return simWorld;
+    }
 
 
 }

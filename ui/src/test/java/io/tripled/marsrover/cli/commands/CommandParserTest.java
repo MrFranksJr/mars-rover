@@ -3,7 +3,7 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.RoverMovePresenter;
+import io.tripled.marsrover.business.api.RoverMovePresenterChange;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
@@ -42,7 +42,7 @@ class CommandParserTest {
             }
 
             @Override
-            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
+            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter) {
 
             }
         };
@@ -68,7 +68,7 @@ class CommandParserTest {
 
     @Test
     void introducingStateCommand() {
-        Simulation simWorld = new Simulation(10);
+        Simulation simWorld = Simulation.create(10).orElseThrow();
         repo.add(simWorld);
         Command state = commandParser.parseInput("state");
 

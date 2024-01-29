@@ -32,7 +32,7 @@ class LandCommandTest {
     @BeforeEach
     void setUp() {
         //repo = new InMemSimulationRepo();
-        simWorld = new Simulation(10);
+        simWorld = Simulation.create(10).orElseThrow();
         repo.add(simWorld);
         dummyPresenter = new DummyPresenter();
     }

@@ -1,7 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.RoverMovePresenter;
+import io.tripled.marsrover.business.api.RoverMovePresenterChange;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
@@ -20,7 +20,7 @@ public class RoverMoveCommand implements Command {
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        marsRoverApi.moveRover(roverMovesFromString, new RoverMovePresenter() {
+        marsRoverApi.moveRover(roverMovesFromString, new RoverMovePresenterChange() {
             @Override
             public void moveRoverSuccessful(RoverState roverState) {
                 messagePresenter.roverMovedMessage(roverState);

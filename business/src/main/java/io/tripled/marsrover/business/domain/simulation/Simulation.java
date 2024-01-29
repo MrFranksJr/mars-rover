@@ -9,6 +9,7 @@ import io.tripled.marsrover.business.domain.rover.RoverMove;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Simulation {
     private final int simulationSize;
@@ -18,6 +19,10 @@ public class Simulation {
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
         this.simulationSize = simulationSize;
         this.roverList = new ArrayList<>();
+    }
+
+    public static Optional<Simulation> create(int size) {
+        return size < 0 ? Optional.empty() : Optional.of(new Simulation(size));
     }
 
     public int getNrOfCoordinates() {
@@ -53,6 +58,37 @@ public class Simulation {
         return new SimulationState(simulationSize, getSimulationSize(), getRoverList());
     }
 
+    public void moveRover(Direction direction) {
+        if (direction == Direction.FORWARD) {
+            roverList.getFirst().moveForward();
+        } else if (direction == Direction.BACKWARD) {
+            roverList.getFirst().moveBackward();
+        } else if (direction == Direction.LEFT)
+            roverList.getFirst().turnLeft();
+        else
+            roverList.getFirst().turnRight();
+    }
+
+    public void turnRover(Direction direction) {
+        moveRover(direction);
+    }
+
+    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
+    }
+
+    public record SimulationLandAlreadyPopulated(RoverState roverState) implements SimulationLandEvent {
+    }
+
+    public record RoverMissesSimulationLand(int simulationSize) implements SimulationLandEvent {
+    }
+
+    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
+    }
+
+    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {
+
+    }
+
     private boolean isRoverPresent() {
         return !roverList.isEmpty();
     }
@@ -62,7 +98,6 @@ public class Simulation {
         roverList.add(r1);
         return r1.getState();
     }
-
 
     private boolean invalidCoordinatesReceived(Coordinate coordinate) {
         return coordinate.xCoordinate() < 0 || coordinate.yCoordinate() < 0;
@@ -82,21 +117,6 @@ public class Simulation {
         return roverList.getFirst().getState();
     }
 
-    public void moveRover(Direction direction) {
-        if (direction == Direction.FORWARD) {
-            roverList.getFirst().moveForward();
-        } else if (direction == Direction.BACKWARD) {
-            roverList.getFirst().moveBackward();
-        } else if (direction == Direction.LEFT)
-            roverList.getFirst().turnLeft();
-        else
-            roverList.getFirst().turnRight();
-    }
-
-    public void turnRover(Direction direction) {
-        moveRover(direction);
-    }
-
     public sealed interface SimulationLandEvent {
     }
 
@@ -110,22 +130,6 @@ public class Simulation {
 
     public interface SimulationRoverMovedEventPublisher {
         void publish(SimulationMoveRoverEvent event);
-
-    }
-
-    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
-    }
-
-    public record SimulationLandAlreadyPopulated(RoverState roverState) implements SimulationLandEvent {
-    }
-
-    public record RoverMissesSimulationLand(int simulationSize) implements SimulationLandEvent {
-    }
-
-    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
-    }
-
-    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {
 
     }
 

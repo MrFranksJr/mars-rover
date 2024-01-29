@@ -30,7 +30,7 @@ class RoverMoveCommandTest {
 
     @Test
     void parseMoveCommandStringR1f2(){
-        simWorld = new Simulation(10);
+        simWorld = Simulation.create(10).orElseThrow();
         repo.add(simWorld);
         dummyPresenter = new DummyPresenter();
 

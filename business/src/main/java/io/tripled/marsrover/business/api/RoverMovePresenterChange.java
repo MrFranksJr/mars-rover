@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.api;
 
-public interface RoverMovePresenter {
+public interface RoverMovePresenterChange {
 
     void moveRoverSuccessful(RoverState roverState);
 }
