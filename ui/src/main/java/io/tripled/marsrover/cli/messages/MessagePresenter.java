@@ -2,7 +2,6 @@ package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 
 public interface MessagePresenter {
