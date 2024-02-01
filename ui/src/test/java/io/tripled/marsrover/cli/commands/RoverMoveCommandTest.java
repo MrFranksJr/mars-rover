@@ -6,6 +6,7 @@ import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,35 @@ class RoverMoveCommandTest {
     private MarsRoverApi marsRoverController;
 
     @Test
+    void simpleRoverMoveInvocation(){
+        final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
+
+        roverMoveCommand.execute(dummyPresenter);
+
+        assertTrue(dummyPresenter.hasRoverMoved());
+    }
+
+
+    @Test
     void parseMoveCommandStringR1f2(){
+        final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
+
+        roverMoveCommand.execute(dummyPresenter);
+        assertEquals("R1", dummyPresenter.roverState.roverName());
+        assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
+        assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
+        assertTrue(dummyPresenter.hasRoverMoved());
+    }
+
+    @Disabled
+    @Test
+    void doNotGenerateMoveCommandIfNoRoverThere(){
         simWorld = Simulation.create(10).orElseThrow();
         repo.add(simWorld);
         dummyPresenter = new DummyPresenter();
 
-        Command landCommand = new LandCommand(new Coordinate(5,5), marsRoverController);
-
-        //then
-        landCommand.execute(dummyPresenter);
+        //Do not land Rover
+        //Command landCommand = new LandCommand(new Coordinate(5,5), marsRoverController);
 
         Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
 
@@ -45,9 +66,20 @@ class RoverMoveCommandTest {
         assertEquals("R1", dummyPresenter.roverState.roverName());
         assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
         assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
+    }
 
 
 
+
+
+    private Command setUpSimWorldAndSimpleMoveCommand() {
+        simWorld = Simulation.create(10).orElseThrow();
+        repo.add(simWorld);
+        dummyPresenter = new DummyPresenter();
+        Command landCommand = new LandCommand(new Coordinate(5,5), marsRoverController);
+        landCommand.execute(dummyPresenter);
+        Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
+        return roverMoveCommand;
     }
 
 }

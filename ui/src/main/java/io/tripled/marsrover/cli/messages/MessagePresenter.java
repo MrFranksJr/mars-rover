@@ -6,26 +6,16 @@ import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 
 public interface MessagePresenter {
     void welcomeMessage();
-
     void unknownCommand(String input);
-
     void printCommand();
-
     void quitMessage();
-
-    void simSetupMessage(int maxCoordinate, int simSize);
-
-    void invalidSimSetupMessage(String maxCoordinate);
-
+    void simulationCreationSuccessful(SimulationState simulationState);
+    void simulationCreationUnsuccessful(String simulationSize);
     void landRoverMessage(RoverState roverState);
-
     void landingFailureCommand(String coordinateString, LandingErrorTypes landingError);
-
-    void stateCommand(SimulationState simulationState);
-
+    void roverStateCommand(SimulationState simulationState);
     void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize);
-
     void simulationAlreadyPopulated(RoverState roverState);
-
     void roverMovedMessage(RoverState roverState);
+    void roverDoesNotExist();
 }

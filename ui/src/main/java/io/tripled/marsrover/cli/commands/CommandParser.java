@@ -124,7 +124,7 @@ public class CommandParser {
         if (containsOnlyNumbers(simSizeInput).orElse(false)) {
             int simSize = Integer.parseInt(simSizeInput);
             if (isWithinLimit(simSize)) {
-                return Optional.of(new SimSetupCommand(simSize, repo));
+                return Optional.of(new SimSetupCommand(simSize, api));
             }
         }
         return Optional.empty();

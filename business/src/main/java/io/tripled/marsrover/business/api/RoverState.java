@@ -17,7 +17,6 @@ public record RoverState(String roverName, RoverHeading roverHeading, Coordinate
         private String roverName;
         private RoverHeading roverHeading;
         private Coordinate coordinate;
-
         private Builder() {
         }
 

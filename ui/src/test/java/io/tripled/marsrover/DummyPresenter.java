@@ -10,30 +10,32 @@ import java.util.List;
 
 public class DummyPresenter implements MessagePresenter {
     public RoverState roverState;
+    public SimulationState simulationState;
     public boolean hasRoverMissedSimulation = false;
     private boolean hasBeenCalled = false;
     private boolean hasRoverLanded = false;
     private boolean hasLandingFailed = false;
     private boolean alreadyRoverPresent = false;
     private boolean hadStateCommandInvoked = false;
-    private Boolean hasRoverMoved;
+    private boolean hasRoverMoved;
+    private boolean hasSimulationCreated = false;
+    private boolean hasSimulationCreationFailed = false;
 
     public boolean hasRoverLanded() {
         return hasRoverLanded;
     }
-
-
     public boolean hasUnknownCommandBeenInvoked() {
         return hasBeenCalled;
     }
-
     public boolean hasRoverMissedSimulationBeenInvoked() {
         return hasRoverMissedSimulation;
     }
-
     public boolean invalidLandingInstruction() {
         return hasLandingFailed;
     }
+    public boolean hasRoverMoved() { return hasRoverMoved;}
+    public boolean hasSimulationBeenCreated() { return hasSimulationCreated; }
+    public boolean hasSimulationCreationFailed() { return hasSimulationCreationFailed; }
 
     @Override
     public void welcomeMessage() {
@@ -55,13 +57,14 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void simSetupMessage(int maxCoordinate, int simSize) {
-
+    public void simulationCreationSuccessful(SimulationState simulationState) {
+        hasSimulationCreated = true;
+        this.simulationState = simulationState;
     }
 
     @Override
-    public void invalidSimSetupMessage(String maxCoordinate) {
-
+    public void simulationCreationUnsuccessful(String simulationSize) {
+        hasSimulationCreationFailed = true;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void stateCommand(SimulationState simulationState) {
+    public void roverStateCommand(SimulationState simulationState) {
         setRoverState(simulationState);
         this.hadStateCommandInvoked = true;
     }
@@ -107,6 +110,11 @@ public class DummyPresenter implements MessagePresenter {
     public void roverMovedMessage(RoverState roverState) {
         this.roverState = roverState;
         hasRoverMoved = true;
+    }
+
+    @Override
+    public void roverDoesNotExist() {
+
     }
 
     public boolean wasAlreadyRoverPresentInvoked() {

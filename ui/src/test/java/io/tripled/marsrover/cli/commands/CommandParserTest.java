@@ -1,10 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.business.api.LandingPresenter;
-import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.RoverMovePresenterChange;
-import io.tripled.marsrover.business.api.SimulationStatePresenter;
+import io.tripled.marsrover.business.api.*;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
@@ -32,17 +29,17 @@ class CommandParserTest {
             }
 
             @Override
+            public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
+
+            }
+
+            @Override
             public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
 
             }
 
             @Override
-            public void initializeSimulation(int simulationSize) {
-
-            }
-
-            @Override
-            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter) {
+            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
 
             }
         };
@@ -103,7 +100,7 @@ class CommandParserTest {
     void parseCoordinate() {
         Command simulationSize = commandParser.createSimWorld("52").orElseThrow();
 
-        SimSetupCommand expectedCommand = new SimSetupCommand(52, null);
+        SimSetupCommand expectedCommand = new SimSetupCommand(52, marsRoverController);
 
         assertEquals(expectedCommand, simulationSize);
     }
@@ -122,7 +119,7 @@ class CommandParserTest {
 
     @Test
     void canParseLandCommand() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("land 4 2");
 
@@ -132,7 +129,7 @@ class CommandParserTest {
 
     @Test
     void canParseLandCommandWithTrailingSpace() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("land 4 2 ");
 
@@ -142,7 +139,7 @@ class CommandParserTest {
 
     @Test
     void canParseLandCommandCapital() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
@@ -151,7 +148,7 @@ class CommandParserTest {
 
     @Test
     void canRecognizeHalfLandCommand() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
@@ -160,7 +157,7 @@ class CommandParserTest {
 
     @Test
     void recognizesMissingDigit() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         String input = "LANd 4";
         Command land = commandParser.parseInput(input);
@@ -170,7 +167,7 @@ class CommandParserTest {
 
     @Test
     void recognizesSingleCharacter() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         String input = "land a";
         Command land = commandParser.parseInput(input);
@@ -180,7 +177,7 @@ class CommandParserTest {
 
     @Test
     void recognizesTwoCharacters() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         String input = "land a b";
         Command land = commandParser.parseInput(input);
@@ -190,7 +187,7 @@ class CommandParserTest {
 
     @Test
     void recognizesDigitAndCharacter() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         String input = "land 1 b";
         Command land = commandParser.parseInput(input);
@@ -200,7 +197,7 @@ class CommandParserTest {
 
     @Test
     void recognizesCharacterAndDigit() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         String input = "land a 1";
         Command land = commandParser.parseInput(input);
@@ -210,7 +207,7 @@ class CommandParserTest {
 
     @Test
     void recognizesNegativeDigitAndPositiveDigit() {
-        Command simSetupCommand = new SimSetupCommand(5, repo);
+        Command simSetupCommand = new SimSetupCommand(5, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
         String input = "land -1 2";
         Command land = commandParser.parseInput(input);

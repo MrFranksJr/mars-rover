@@ -1,10 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.business.api.LandingPresenter;
-import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.RoverMovePresenterChange;
-import io.tripled.marsrover.business.api.SimulationStatePresenter;
+import io.tripled.marsrover.business.api.*;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
@@ -37,17 +34,17 @@ class StateCommandTest {
             }
 
             @Override
+            public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
+
+            }
+
+            @Override
             public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
-                dummyPresenter.stateCommand(simulation.simulationState());
+                dummyPresenter.roverStateCommand(simulation.simulationState());
             }
 
             @Override
-            public void initializeSimulation(int simulationSize) {
-
-            }
-
-            @Override
-            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter) {
+            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
 
             }
         };

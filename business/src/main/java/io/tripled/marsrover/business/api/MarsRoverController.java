@@ -7,6 +7,7 @@ import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MarsRoverController implements MarsRoverApi {
@@ -34,21 +35,28 @@ public class MarsRoverController implements MarsRoverApi {
     }
 
     @Override
-    public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter) {
+    public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
         final var simulation = simulationRepository.getSimulation();
 
         simulation.moveRover(roverMovesFromString, event -> presentRoverMoved(roverMovePresenter, event));
     }
 
-    private static void presentRoverMoved(RoverMovePresenterChange p, Simulation.SimulationMoveRoverEvent e) {
+    private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
         switch (e) {
             case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
         }
     }
 
     @Override
-    public void initializeSimulation(int simulationSize) {
-
+    public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
+        final Optional<Simulation> simulation = Simulation.create(simulationSize);
+        if (simulation.isEmpty())
+            simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
+        else {
+            final var simWorld = simulation.get();
+            simulationRepository.add(simWorld);
+            simulationCreationPresenter.simulationCreationSuccessful(simulation.get().simulationState());
+        }
     }
 
     @Override

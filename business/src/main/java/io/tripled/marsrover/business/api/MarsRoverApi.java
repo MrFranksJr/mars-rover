@@ -11,7 +11,7 @@ public interface MarsRoverApi {
 
     void landRover(Coordinate coordinate, LandingPresenter landingPresenter);
 
-    void initializeSimulation(int simulationSize);
+    void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter);
 
-    void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenterChange roverMovePresenter);
+    void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter);
 }

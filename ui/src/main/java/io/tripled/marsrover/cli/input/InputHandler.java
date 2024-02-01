@@ -29,7 +29,7 @@ public class InputHandler {
             receivedValidSimSize = true;
         };
 
-        Runnable runnable = () -> presenter.invalidSimSetupMessage(maxCoordinate);
+        Runnable runnable = () -> presenter.simulationCreationUnsuccessful(maxCoordinate);
 
         createSimWorld.ifPresentOrElse(consumer, runnable);
     }

@@ -32,9 +32,16 @@ public class Simulation {
     public int getSimulationSize() {
         return simulationSize;
     }
-
     public List<Rover> getRoverList() {
         return roverList;
+    }
+
+    public SimulationState getState() {
+        return SimulationState.newBuilder()
+                .withSimSize(simulationSize)
+                .withTotalCoordinates(getNrOfCoordinates())
+                .withRoverList(roverList)
+                .build();
     }
 
     public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
@@ -55,7 +62,7 @@ public class Simulation {
 
 
     public SimulationState simulationState() {
-        return new SimulationState(simulationSize, getSimulationSize(), getRoverList());
+        return new SimulationState(simulationSize, getNrOfCoordinates(), getRoverList());
     }
 
     public void moveRover(Direction direction) {
@@ -110,7 +117,6 @@ public class Simulation {
     private RoverState moveRover(List<RoverMove> roverMoves) {
         for (RoverMove roverMove : roverMoves) {
             for (int i = 0; i < roverMove.steps(); i++) {
-
                 moveRover(Direction.convertTextToDirection(roverMove.direction()));
             }
         }
@@ -122,7 +128,6 @@ public class Simulation {
 
     public interface SimulationLandingEventPublisher {
         void publish(SimulationLandEvent event);
-
     }
 
     public sealed interface SimulationMoveRoverEvent {
@@ -130,7 +135,5 @@ public class Simulation {
 
     public interface SimulationRoverMovedEventPublisher {
         void publish(SimulationMoveRoverEvent event);
-
     }
-
 }

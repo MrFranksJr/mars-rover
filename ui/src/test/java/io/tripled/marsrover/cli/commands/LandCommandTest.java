@@ -3,7 +3,6 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +30,6 @@ class LandCommandTest {
 
     @BeforeEach
     void setUp() {
-        //repo = new InMemSimulationRepo();
         simWorld = Simulation.create(10).orElseThrow();
         repo.add(simWorld);
         dummyPresenter = new DummyPresenter();
@@ -75,7 +73,7 @@ class LandCommandTest {
     @Test
     void roverMissingSimulation() {
         //given
-        Command landCommand = new LandCommand(new Coordinate(300,700), marsRoverController);
+        Command landCommand = new LandCommand(new Coordinate(300, 700), marsRoverController);
 
         //when
         landCommand.execute(dummyPresenter);
