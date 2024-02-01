@@ -1,5 +1,6 @@
 package io.tripled.marsrover;
 
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,8 +15,11 @@ import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.commands.Command;
 import io.tripled.marsrover.cli.commands.LandCommand;
 import io.tripled.marsrover.cli.commands.RoverMoveCommand;
+import org.junit.jupiter.api.BeforeEach;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,8 +27,7 @@ public class StepDefinitions {
     private final MarsRoverApi marsRoverApi;
     private final SimulationRepository simulationRepository;
     private final DummyPresenter dummyPresenter;
-
-    public StepDefinitions() {
+public StepDefinitions() {
         dummyPresenter = new DummyPresenter();
         simulationRepository = new InMemSimulationRepo();
         marsRoverApi = new MarsRoverController(simulationRepository);
@@ -48,6 +51,26 @@ public class StepDefinitions {
 
         roverMoveCommand.execute(dummyPresenter);
     }
+
+    @When("We give the Rover {string} the Instructions")
+    public void weGiveTheRoverTheInstructions(String roverName, io.cucumber.datatable.DataTable dataTable) {
+
+        List<Map<String, String>> instructions = dataTable.asMaps(String.class, String.class);
+
+        List<RoverMove> roverMovesList = new ArrayList<>();
+
+        for (Map<String, String> row : instructions) {
+            String command = row.get("instruction").substring(0, 1);
+            int amount = Integer.parseInt(row.get("amount"));
+
+            roverMovesList.add(new RoverMove(roverName, command, amount));
+        }
+
+        Command roverMoveCommand = new RoverMoveCommand(roverMovesList, marsRoverApi);
+
+        roverMoveCommand.execute(dummyPresenter);
+    }
+
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
     public void theRoverIsAtNewXNewYWithOrientation(String roverName, int newX, int newY, String heading) {
