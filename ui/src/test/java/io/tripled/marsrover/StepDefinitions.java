@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class StepDefinitions {
     private final MarsRoverApi marsRoverApi;
@@ -78,5 +79,10 @@ public StepDefinitions() {
         assertEquals(newX, simulationRepository.getSimulation().getRoverList().getFirst().getRoverXPosition());
         assertEquals(newY, simulationRepository.getSimulation().getRoverList().getFirst().getRoverYPosition());
         assertEquals(heading, simulationRepository.getSimulation().getRoverList().getFirst().getRoverHeading().toString().toLowerCase());
+    }
+
+    @Then("No rover should be present in the simulation")
+    public void no_rover_should_be_present_in_the_simulation() {
+        assertEquals(0, simulationRepository.getSimulation().getRoverList().size());
     }
 }
