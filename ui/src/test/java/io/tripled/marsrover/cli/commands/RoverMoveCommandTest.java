@@ -2,35 +2,24 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ContextConfiguration(classes = {MarsTestConfiguration.class})
-@ExtendWith(SpringExtension.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class RoverMoveCommandTest {
-    @Autowired
-    private SimulationRepository repo;
-    private Simulation simWorld;
     private DummyPresenter dummyPresenter;
-    @Autowired
-    private MarsRoverApi marsRoverController;
+    private MarsRoverApi marsRoverController = new MarsRoverController(new InMemSimulationRepo());
 
     @Test
-    void simpleRoverMoveInvocation(){
+    void simpleRoverMoveInvocation() {
         final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
 
         roverMoveCommand.execute(dummyPresenter);
@@ -40,7 +29,7 @@ class RoverMoveCommandTest {
 
 
     @Test
-    void parseMoveCommandStringR1f2(){
+    void parseMoveCommandStringR1f2() {
         final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
 
         roverMoveCommand.execute(dummyPresenter);
@@ -52,13 +41,9 @@ class RoverMoveCommandTest {
 
     @Disabled
     @Test
-    void doNotGenerateMoveCommandIfNoRoverThere(){
-        simWorld = Simulation.create(10).orElseThrow();
-        repo.add(simWorld);
-        dummyPresenter = new DummyPresenter();
-
-        //Do not land Rover
-        //Command landCommand = new LandCommand(new Coordinate(5,5), marsRoverController);
+    void doNotGenerateMoveCommandIfNoRoverThere() {
+        final Command simSetupCommand = createSimulationOfSize10();
+        simSetupCommand.execute(dummyPresenter);
 
         Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
 
@@ -68,15 +53,18 @@ class RoverMoveCommandTest {
         assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
     }
 
-
-
+    private Command createSimulationOfSize10() {
+        dummyPresenter = new DummyPresenter();
+        Command simSetupCommand = new SimSetupCommand(10, marsRoverController);
+        return simSetupCommand;
+    }
 
 
     private Command setUpSimWorldAndSimpleMoveCommand() {
-        simWorld = Simulation.create(10).orElseThrow();
-        repo.add(simWorld);
-        dummyPresenter = new DummyPresenter();
-        Command landCommand = new LandCommand(new Coordinate(5,5), marsRoverController);
+        final Command simSetupCommand = createSimulationOfSize10();
+        simSetupCommand.execute(dummyPresenter);
+
+        Command landCommand = new LandCommand(new Coordinate(5, 5), marsRoverController);
         landCommand.execute(dummyPresenter);
         Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
         return roverMoveCommand;

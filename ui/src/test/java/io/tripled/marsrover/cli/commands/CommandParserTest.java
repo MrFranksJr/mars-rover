@@ -2,10 +2,8 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.*;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.business.domain.rover.RoverMove;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CommandParserTest {
     private CommandParser commandParser;
-    private InMemSimulationRepo repo;
     private DummyPresenter dummyPresenter;
     private MarsRoverApi marsRoverController;
 
     @BeforeEach
     void setUp() {
-        repo = new InMemSimulationRepo();
         marsRoverController = new MarsRoverApi() {
             @Override
             public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
@@ -43,7 +39,7 @@ class CommandParserTest {
 
             }
         };
-        commandParser = new CommandParser(repo, marsRoverController);
+        commandParser = new CommandParser(marsRoverController);
         dummyPresenter = new DummyPresenter();
     }
 
@@ -65,8 +61,7 @@ class CommandParserTest {
 
     @Test
     void introducingStateCommand() {
-        Simulation simWorld = Simulation.create(10).orElseThrow();
-        repo.add(simWorld);
+        marsRoverController.initializeSimulation(10, null);
         Command state = commandParser.parseInput("state");
 
         state.execute(dummyPresenter);
@@ -124,7 +119,7 @@ class CommandParserTest {
         Command land = commandParser.parseInput("land 4 2");
 
         assertInstanceOf(LandCommand.class, land);
-        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
+        assertEquals(new LandCommand(new Coordinate(4, 2), null), land);
     }
 
     @Test
@@ -134,7 +129,7 @@ class CommandParserTest {
         Command land = commandParser.parseInput("land 4 2 ");
 
         assertInstanceOf(LandCommand.class, land);
-        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
+        assertEquals(new LandCommand(new Coordinate(4, 2), null), land);
     }
 
     @Test
@@ -143,7 +138,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
+        assertEquals(new LandCommand(new Coordinate(4, 2), null), land);
     }
 
     @Test
@@ -152,7 +147,7 @@ class CommandParserTest {
         simSetupCommand.execute(dummyPresenter);
         Command land = commandParser.parseInput("LANd 4 2");
 
-        assertEquals(new LandCommand(new Coordinate(4,2), null), land);
+        assertEquals(new LandCommand(new Coordinate(4, 2), null), land);
     }
 
     @Test
@@ -216,7 +211,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidForward(){
+    void parseRoverMoveCommandWithValidForward() {
         Command roverMoveCommand = commandParser.parseInput("R1 f1");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), null);
@@ -225,7 +220,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidBackward(){
+    void parseRoverMoveCommandWithValidBackward() {
         Command roverMoveCommand = commandParser.parseInput("R1 b1");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);
@@ -234,7 +229,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidLeft(){
+    void parseRoverMoveCommandWithValidLeft() {
         Command roverMoveCommand = commandParser.parseInput("R1 l1");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "l", 1)), null);
@@ -243,7 +238,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidRight(){
+    void parseRoverMoveCommandWithValidRight() {
         Command roverMoveCommand = commandParser.parseInput("R1 r1");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "r", 1)), null);
@@ -252,7 +247,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidForwardNoStepIndication(){
+    void parseRoverMoveCommandWithValidForwardNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 f");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), null);
@@ -261,7 +256,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidBackwardNoStepIndication(){
+    void parseRoverMoveCommandWithValidBackwardNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 b");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);
@@ -270,7 +265,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidLeftNoStepIndication(){
+    void parseRoverMoveCommandWithValidLeftNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 l");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "l", 1)), null);
@@ -279,7 +274,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithValidRightNoStepIndication(){
+    void parseRoverMoveCommandWithValidRightNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 r");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "r", 1)), null);
@@ -288,7 +283,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandMoveForwardSouth(){
+    void parseRoverMoveCommandMoveForwardSouth() {
         Command roverMoveCommand = commandParser.parseInput("R1 l2 f1");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(
@@ -301,7 +296,7 @@ class CommandParserTest {
 
     @Test
     void
-    parseRoverMoveCommandWithMultipleDirections(){
+    parseRoverMoveCommandWithMultipleDirections() {
         Command roverMoveCommand = commandParser.parseInput("R1 f2 b4 r5 l f1");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(
@@ -316,7 +311,7 @@ class CommandParserTest {
     }
 
     @Test
-    void parseRoverMoveCommandWithLowerCase(){
+    void parseRoverMoveCommandWithLowerCase() {
         Command roverMoveCommand = commandParser.parseInput("r1 b");
 
         RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);

@@ -4,7 +4,6 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.cli.messages.ConsolePresenter;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,11 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Component
 public class CommandParser {
-    private final SimulationRepository repo;
     private final MarsRoverApi api;
 
-    public CommandParser(SimulationRepository repo, MarsRoverApi api) {
-        this.repo = repo;
+    public CommandParser(MarsRoverApi api) {
         this.api = api;
     }
 

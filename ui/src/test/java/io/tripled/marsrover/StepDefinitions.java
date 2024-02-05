@@ -1,6 +1,5 @@
 package io.tripled.marsrover;
 
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,19 +9,17 @@ import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.commands.Command;
 import io.tripled.marsrover.cli.commands.LandCommand;
 import io.tripled.marsrover.cli.commands.RoverMoveCommand;
-import org.junit.jupiter.api.BeforeEach;
+import io.tripled.marsrover.cli.commands.SimSetupCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class StepDefinitions {
     private final MarsRoverApi marsRoverApi;
@@ -36,7 +33,8 @@ public StepDefinitions() {
 
     @Given("A simulation of size {int}")
     public void aSimulationOfSizeSimSize(int simulationSize) {
-        simulationRepository.add(new Simulation(simulationSize));
+        SimSetupCommand simSetupCommand = new SimSetupCommand(simulationSize,marsRoverApi);
+        simSetupCommand.execute(dummyPresenter);
     }
 
     @And("We land a rover on coordinates {int} {int}")
