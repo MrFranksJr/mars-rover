@@ -40,4 +40,13 @@ public record SimulationState(int simulationSize, int totalCoordinates, List<Rov
             return new SimulationState(this);
         }
     }
+
+//    @Override
+//    public String toString() {
+//        return "SimulationState{" +
+//                "simulationSize=" + simulationSize +
+//                ", totalCoordinates=" + totalCoordinates +
+//                ", roverList=" + roverList +
+//                '}';
+//    }
 }

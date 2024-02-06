@@ -7,21 +7,21 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>io.tripled</groupId>
   <artifactId>webapp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>io.tripled</groupId>
+      <artifactId>business</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

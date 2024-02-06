@@ -1,8 +1,7 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.business.api.*;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.springframework.stereotype.Component;
