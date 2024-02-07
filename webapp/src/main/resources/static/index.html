@@ -3,26 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="/images/icons/favicon.ico">
+    <link rel="stylesheet" href="/styles/style.css">
     <title>Mars Rover Simulation</title>
 </head>
 <body>
     <img src="images/tripled-logo.svg">
     <h1>Welcome to the Simulation</h1>
     <form>
-        <button onclick="landRover()">Land New Rover</button>
+        <button onclick="landRover()" id="landRoverBtn">Land New Rover</button>
         <input id="roverXCoordinate" placeholder="Enter X Coordinate">
         <input id="roverYCoordinate" placeholder="Enter Y Coordinate">
     </form>
     <form>
-        <button onclick="moveRover()">Rover Instructions</button>
+        <button onclick="moveRover()" id="moveRoverBtn">Rover Instructions</button>
         <input id="roverId" placeholder="Enter Rover ID">
         <input id="roverInstructions" placeholder="Enter move instructions">
     </form>
 
     <div id="simulationState">
-        Nothing to see here
+        <img src="images/Iphone-spinner-2.gif" alt="">
+    </div>
+
+    <div id="simulationMap">
+        XXX
+    </div>
+
+    <div id="feedbackModal" class="feedbackModal">
+        EXAMPLE
     </div>
 
 </body>
-<script type="text/javascript" src="index.js"></script>
+<script type="module" src="index.js"></script>
 </html>
