@@ -1,3 +1,4 @@
+    let readableSimulationState = await simulationState.json()
 async function onLoadCreateSimulation(){
     let simulationState = await fetch('/api/simulationstate')
     let readableSimulationState = await simulationState.json()
