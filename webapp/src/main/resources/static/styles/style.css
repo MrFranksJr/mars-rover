@@ -25,3 +25,7 @@ body {
     transition: transform 0.4s ease;
     transform: translateY(0px);
 }
+
+.simulationMap {
+    font-family:'Courier New', Courier, monospace;
+}

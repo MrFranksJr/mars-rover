@@ -88,7 +88,7 @@ async function moveRover(){
 
 
 function disableLandControls() {
-    document.getElementById('landRoverBtn').disabled = true;
+    landRoverBtn.disabled = true;
     document.getElementById('roverXCoordinate').disabled = true;
     document.getElementById('roverYCoordinate').disabled = true;
 }
@@ -115,5 +115,13 @@ function moveModal() {
 
 
 function drawMap(readableSimulationState) {
-    document.getElementById('simulationMap').innerHTML = "<p>" + generateMap(readableSimulationState) + "</p>"
+    document.getElementById('simulationMap').innerHTML =  generateMap(readableSimulationState)
 }
+
+///////BUTTONS
+const landRoverBtn = document.getElementById('landRoverBtn');
+const moveRoverBtn = document.getElementById('moveRoverBtn');
+
+///////EVENT LISTENERS
+landRoverBtn.addEventListener('click', landRover)
+moveRoverBtn.addEventListener('click', moveRover)
