@@ -1,15 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    }
+
+html {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
     align-items: center;
+    font-family: "Montserrat", sans-serif;
+    color: #f18b82;
+    min-width: 400px;
+}
+
+.tripled-logo {
+    width: 80px;
+    margin: 0px 10px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
     background: no-repeat center center fixed;
     background-size: cover;
     background-image: url("../images/mars-bg.png");
-    color: #98c7fc;
+    width: 100%;
 }
-body::before {
-    background-color: #98c7fc;
-    background-size: cover;
+
+header {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 80px;
 }
 
 .simStatus {
@@ -18,18 +51,48 @@ body::before {
     align-items: center;
     justify-content: space-around;
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
 }
 
 .simulationMap {
     font-family:'Courier New', Courier, monospace;
+    flex: 70%;
+    text-align: center;
 }
 
 .simulationState {
     display: flex;
+    height: 100%;
     flex-direction: column;
     align-items: left;
-    border: solid 5px ;
+    padding: 10px;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    flex: 30%;
+}
+
+.simulationState p {
+    margin: 5px 5px;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    font-size: 0.8rem;
+}
+
+.copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media all and (max-width: 800px) {
+    .simStatus {
+        flex-direction: column;
+    }
 }
 
 .feedbackModal {
@@ -52,6 +115,3 @@ body::before {
 .activeModal {
     transform: translateY(100px);
 }
-
-
-

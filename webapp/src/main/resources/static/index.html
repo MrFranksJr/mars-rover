@@ -2,37 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/icons/favicon.ico">
     <link rel="stylesheet" href="/styles/style.css">
     <title>Mars Rover Simulation</title>
 </head>
 <body>
-    <img src="images/tripled-logo.svg">
-    <h1>Welcome to the Simulation</h1>
-    <form>
-        <button id="landRoverBtn">Land New Rover</button>
-        <input id="roverXCoordinate" placeholder="Enter X Coordinate">
-        <input id="roverYCoordinate" placeholder="Enter Y Coordinate">
-    </form>
-    <form>
-        <button id="moveRoverBtn">Rover Instructions</button>
-        <input id="roverId" placeholder="Enter Rover ID">
-        <input id="roverInstructions" placeholder="Enter move instructions">
-    </form>
+    <div class="main">
+        <header>
+            <h1>Welcome to the Simulation</h1>
+        </header>
+    
+        <form>
+            <button id="landRoverBtn">Land New Rover</button>
+            <input id="roverXCoordinate" placeholder="Enter X Coordinate">
+            <input id="roverYCoordinate" placeholder="Enter Y Coordinate">
+        </form>
+        <form>
+            <button id="moveRoverBtn">Rover Instructions</button>
+            <input id="roverId" placeholder="Enter Rover ID">
+            <input id="roverInstructions" placeholder="Enter move instructions">
+        </form>
 
-    <div id="simStatus" class="simStatus">
-        <div id="simulationMap" class="simulationMap">
-            <img src="images/Iphone-spinner-2.gif" alt="animated loading icon">
-        </div>
+        <div id="simStatus" class="simStatus">
+            <div id="simulationMap" class="simulationMap">
+                <img src="images/Iphone-spinner-2.gif" alt="animated loading icon">
+            </div>
 
-        <div id="simulationState" class="simulationState">
-            <img src="images/Iphone-spinner-2.gif" alt="animated loading icon">
+            <div id="simulationState" class="simulationState">
+                <img src="images/Iphone-spinner-2.gif" alt="animated loading icon">
+            </div>
         </div>
     </div>
+    <footer>
+        <p id="copyright" class="copyright"></p>
+    </footer>
+
+
+
 
     <div id="feedbackModal" class="feedbackModal">
     </div>
-
 </body>
 <script type="module" src="index.js"></script>
 </html>
