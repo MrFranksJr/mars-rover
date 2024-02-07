@@ -52,27 +52,32 @@ header {
     justify-content: space-around;
     width: 100%;
     flex-grow: 1;
+    max-width: 1000px;
 }
 
 .simulationMap {
     font-family:'Courier New', Courier, monospace;
-    flex: 70%;
     text-align: center;
 }
 
 .simulationState {
+    text-align: center;
+    color: #98c7fc;
     display: flex;
     height: 100%;
     flex-direction: column;
+    max-width: 250px;
     align-items: left;
     padding: 10px;
+    margin: 0px 3% 0px 0px;
     border: 1px solid #FFF;
     border-radius: 8px;
-    flex: 30%;
+    font-size: 12px;
+    background-color: #79757561;
 }
 
 .simulationState p {
-    margin: 5px 5px;
+    margin: 10px 5px;
 }
 
 footer {
@@ -89,9 +94,14 @@ footer {
     justify-content: center;
 }
 
-@media all and (max-width: 800px) {
+@media all and (max-width: 680px) {
     .simStatus {
         flex-direction: column;
+        padding: 30px 0px;
+    }
+    .simulationState {
+        height: fit-content;
+        margin: 0;
     }
 }
 
