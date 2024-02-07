@@ -2,7 +2,6 @@ package io.tripled.marsrover.rest;
 
 import io.tripled.marsrover.business.api.SimulationCreationPresenter;
 import io.tripled.marsrover.business.api.SimulationState;
-import org.springframework.http.ResponseEntity;
 
 public class SimulationCreationPresenterImpl implements SimulationCreationPresenter {
 
@@ -15,6 +14,11 @@ public class SimulationCreationPresenterImpl implements SimulationCreationPresen
     @Override
     public void simulationCreationUnsuccessful(int simulationSize) {
 
+    }
+
+    @Override
+    public void simulationAlreadyExists(SimulationState simulationState) {
+        this.simulationState = simulationState;
     }
 
     SimulationState reportSimulationState(){

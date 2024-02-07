@@ -2,6 +2,8 @@ package io.tripled.marsrover.business.domain.simulation;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class InMemSimulationRepo implements SimulationRepository {
 
@@ -16,7 +18,9 @@ public class InMemSimulationRepo implements SimulationRepository {
     }
 
     @Override
-    public Simulation getSimulation() {
-        return simWorld;
+    public Optional<Simulation> getSimulation() {
+        if(simWorld == null)
+            return Optional.empty();
+        return Optional.of(simWorld);
     }
 }

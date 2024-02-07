@@ -4,4 +4,6 @@ public interface SimulationCreationPresenter {
     void simulationCreationSuccessful(SimulationState simulationState);
 
     void simulationCreationUnsuccessful(int simulationSize);
+
+    void simulationAlreadyExists(SimulationState simulationState);
 }

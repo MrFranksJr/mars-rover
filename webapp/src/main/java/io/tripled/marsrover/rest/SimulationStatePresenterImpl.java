@@ -4,8 +4,6 @@ import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
 
 public class SimulationStatePresenterImpl implements SimulationStatePresenter {
-
-
     private SimulationState simulationState;
 
     @Override
@@ -14,6 +12,7 @@ public class SimulationStatePresenterImpl implements SimulationStatePresenter {
     }
 
     public SimulationState getSimulationState(){
+
         return simulationState;
     }
 }

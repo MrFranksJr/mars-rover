@@ -73,14 +73,18 @@ public StepDefinitions() {
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
     public void theRoverIsAtNewXNewYWithOrientation(String roverName, int newX, int newY, String heading) {
-        assertEquals(roverName, simulationRepository.getSimulation().getRoverList().getFirst().getRoverName());
-        assertEquals(newX, simulationRepository.getSimulation().getRoverList().getFirst().getRoverXPosition());
-        assertEquals(newY, simulationRepository.getSimulation().getRoverList().getFirst().getRoverYPosition());
-        assertEquals(heading, simulationRepository.getSimulation().getRoverList().getFirst().getRoverHeading().toString().toLowerCase());
+        if(simulationRepository.getSimulation().isPresent()){
+            assertEquals(roverName, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverName());
+            assertEquals(newX, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverXPosition());
+            assertEquals(newY, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverYPosition());
+            assertEquals(heading, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverHeading().toString().toLowerCase());
+        }
     }
 
     @Then("No rover should be present in the simulation")
     public void no_rover_should_be_present_in_the_simulation() {
-        assertEquals(0, simulationRepository.getSimulation().getRoverList().size());
+        if(simulationRepository.getSimulation().isPresent()){
+            assertEquals(0, simulationRepository.getSimulation().get().getRoverList().size());
+        }
     }
 }

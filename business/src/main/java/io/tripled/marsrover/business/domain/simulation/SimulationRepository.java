@@ -1,9 +1,9 @@
 package io.tripled.marsrover.business.domain.simulation;
 
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 public interface SimulationRepository {
     void add(Simulation simulation);
 
-    Simulation getSimulation();
+    Optional<Simulation> getSimulation();
 }

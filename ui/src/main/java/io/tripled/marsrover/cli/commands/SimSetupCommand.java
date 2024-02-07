@@ -25,6 +25,11 @@ public class SimSetupCommand implements Command {
             public void simulationCreationUnsuccessful(int simulationSize) {
                 messagePresenter.simulationCreationUnsuccessful(String.valueOf(simulationSize));
             }
+
+            @Override
+            public void simulationAlreadyExists(SimulationState simulationState) {
+                messagePresenter.duplicateSimulationDetected(simulationState);
+            }
         });
     }
 

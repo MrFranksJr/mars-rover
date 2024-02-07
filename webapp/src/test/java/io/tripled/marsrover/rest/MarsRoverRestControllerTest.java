@@ -42,6 +42,19 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.simulationSize").value("10"));
     }
 
+    @Test
+    void createMultipleSimulationsCheck() throws Exception {
+
+        createSimulationOf10();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/20"));
+
+        var result = getSimulationState();
+
+        result.andExpect(content().string(containsString("10")));
+        result.andExpect(jsonPath("$.simulationSize").value("10"));
+    }
+
 
     @Test
     void landRover() throws Exception {
@@ -84,6 +97,51 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("6"));
+    }
+    @Test
+    void roverCanTurnRight() throws Exception {
+        createSimulationOf10();
+
+        landRoverOn55();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1/r"));
+
+        var result = getSimulationState();
+
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverHeading").value("EAST"));
+    }
+    @Test
+    void turnRoverIsCaseInsensitive() throws Exception {
+        createSimulationOf10();
+
+        landRoverOn55();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1/R"));
+
+        var result = getSimulationState();
+
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverHeading").value("EAST"));
+    }
+    @Test
+    void turnLeftIsCaseInsensitive() throws Exception {
+        createSimulationOf10();
+
+        landRoverOn55();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1/L"));
+
+        var result = getSimulationState();
+
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverHeading").value("WEST"));
     }
 
     @Test

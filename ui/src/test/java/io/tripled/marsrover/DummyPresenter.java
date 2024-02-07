@@ -117,6 +117,12 @@ public class DummyPresenter implements MessagePresenter {
 
     }
 
+    @Override
+    public void duplicateSimulationDetected(SimulationState simulationState) {
+        hasSimulationCreated = false;
+        this.simulationState = simulationState;
+    }
+
     public boolean wasAlreadyRoverPresentInvoked() {
         return alreadyRoverPresent;
     }

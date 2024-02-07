@@ -16,6 +16,7 @@ public class Simulation {
     private final List<Rover> roverList;
 
     public Simulation(int simulationSize) {
+        System.out.println("simulation created with size " + simulationSize);
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
         this.simulationSize = simulationSize;
         this.roverList = new ArrayList<>();

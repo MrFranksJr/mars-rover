@@ -18,4 +18,6 @@ public interface MessagePresenter {
     void simulationAlreadyPopulated(RoverState roverState);
     void roverMovedMessage(RoverState roverState);
     void roverDoesNotExist();
+
+    void duplicateSimulationDetected(SimulationState simulationState);
 }

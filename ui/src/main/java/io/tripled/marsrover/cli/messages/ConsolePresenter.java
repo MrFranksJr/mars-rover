@@ -100,6 +100,11 @@ public class ConsolePresenter implements MessagePresenter {
 
     }
 
+    @Override
+    public void duplicateSimulationDetected(SimulationState simulationState) {
+        System.out.println("There is already a simulation with size " + simulationState.simulationSize());
+    }
+
 
     private final String introGraphics = """
             +----------------------------------------------------------------+

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,15 +25,14 @@ public class MarsRoverRestController {
 
     @PostMapping("/api/createsimulation/{simulationSize}")
     void createSimulation(@PathVariable int simulationSize){
-        System.out.println("create sim");
         SimulationCreationPresenterImpl simulationCreationPresenter = new SimulationCreationPresenterImpl();
         marsRoverApi.initializeSimulation(simulationSize, simulationCreationPresenter);
     }
 
     @GetMapping("/api/simulationstate")
     SimulationState getSimulationState(){
-
         SimulationStatePresenterImpl simulationStatePresenter = new SimulationStatePresenterImpl();
+
         marsRoverApi.lookUpSimulationState(simulationStatePresenter);
 
         return simulationStatePresenter.getSimulationState();
@@ -42,8 +42,6 @@ public class MarsRoverRestController {
     @ResponseBody
     void landRover(@PathVariable int xCoordinate,@PathVariable int yCoordinate){
         Coordinate coordinate = new Coordinate(xCoordinate, yCoordinate);
-        System.out.println("Hello World from landRover on Coordinate");
-        System.out.println(coordinate.xCoordinate() + "," + coordinate.yCoordinate());
 
         LandingPresenterImpl landingPresenter = new LandingPresenterImpl();
         marsRoverApi.landRover(coordinate, landingPresenter);
@@ -64,7 +62,8 @@ public class MarsRoverRestController {
             String preppedInput = matcher.group(1).trim();
             String direction = preppedInput.substring(0,1);
             int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-            roverMoves.add(new RoverMove(roverId, direction, steps));
+            final RoverMove roverMove = new RoverMove(roverId, direction, steps);
+            roverMoves.add(roverMove);
         }
 
         return roverMoves;

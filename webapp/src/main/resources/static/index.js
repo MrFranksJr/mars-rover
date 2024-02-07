@@ -1,30 +1,35 @@
-let createSimulationPromise = new Promise(function(resolve, reject) {
-    fetch(`/api/createsimulation/10`, {
+async function onLoadCreateSimulation(){
+    let simulationState = await fetch('/api/simulationstate')
+    let readableSimulationState = await simulationState.json()
+    
+    if( readableSimulationState.simulationSize == -1 ){
+        console.log('There is no simulation yet!!')
+        await createSimulation();
+        await getSimulationState();
+    } else {
+        await getSimulationState();
+    }
+}
+
+async function createSimulation() {
+    console.log("creating simulation of 10")
+    await fetch(`/api/createsimulation/10`, {
         method: "POST",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
     });
-  
-    // after 1 second signal that the job is done with the result "done"
-    setTimeout(() => resolve("done"), 1000);
-  });
+}
 
+onLoadCreateSimulation();
 
-  createSimulationPromise.then(
-    function() {
-        getSimulationState()
-    },
-    function() {
-        console.log("Something went wrong")
-    }
-)
 
 async function getSimulationState() {
     let simulationState = await fetch('/api/simulationstate')
     let readableSimulationState = await simulationState.json()  
     let roversInSimulation;
-    if(readableSimulationState.roverList.length == 0){
+    if(readableSimulationState.roverList == null){
+        console.log(readableSimulationState)
         roversInSimulation = 'There are currently no rovers in the simulation'
     } else {
         roversInSimulation = `Rover ${readableSimulationState.roverList[0].roverName} is at position (${readableSimulationState.roverList[0].roverXPosition}, ${readableSimulationState.roverList[0].roverYPosition}) with heading ${readableSimulationState.roverList[0].roverHeading}`
@@ -35,6 +40,7 @@ async function getSimulationState() {
     <p>${roversInSimulation}</p>
 
     `
+    return simulationState;
 }
 
 async function landRover(){
@@ -81,7 +87,6 @@ async function moveRover(){
         });
         
         moveRoverPromise.then(
-
             function() {
                 getSimulationState();
             },
