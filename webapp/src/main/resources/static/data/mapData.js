@@ -15,17 +15,18 @@ function generateMap(simulationState) {
                 mapString += "\xa0.\xa0";
             }
         }
-        mapString += "<br />";
+        mapString += "<br/>";
     }
 
-    mapString += "\xa0\xa0\xa0| " + "-".repeat((simulationState.simulationSize + 1)  * 3) + "<br />";
+    mapString += "\xa0\xa0\xa0| " + "-".repeat((simulationState.simulationSize + 1)  * 3) + "<br/>";
     mapString += "\xa0\xa0\xa0| ";
 
     for(let i = 0; i <= simulationState.simulationSize; i++){
         if (i<10) {
-            mapString += "\xa0";
+            mapString += "\xa0" + i + "\xa0";
+        } else {
+            mapString += "\xa0" + i;
         }
-        mapString +=  i + "\xa0";
     }
 
     return mapString;
