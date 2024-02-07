@@ -40,9 +40,13 @@ body {
 
 header {
     display: flex;
+    width: 100%;
     justify-content: center;
     flex-direction: column;
     height: 80px;
+    text-align: center;
+    color: #FFF;
+    margin-bottom: 30px;
 }
 
 .simStatus {
@@ -114,14 +118,46 @@ footer {
     right:0;
     margin-left:auto;
     margin-right:auto;
-    background-color: #008f1f;
+    color: #7ecc2d;
+    background-color: #79757561;
     border-radius: 8px;
-    border: 1px solid #00ff37;
-    transition: transform 0.5s ease;
+    border: 1px solid #7ecc2d;
+    transition: transform 0.4s ease;
     transform: translateY(-200px);
     padding: 10px 5px;
 }
 
 .activeModal {
-    transform: translateY(100px);
+    transform: translateY(150px);
 }
+
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    border-radius: 50%;
+    background:
+      linear-gradient(0deg ,rgb(0 0 0/50%) 30%,#0000 0 70%,rgb(0 0 0/100%) 0) 50%/8% 100%,
+      linear-gradient(90deg,rgb(0 0 0/25%) 30%,#0000 0 70%,rgb(0 0 0/75% ) 0) 50%/100% 8%;
+    background-repeat: no-repeat;
+    animation: l23 1s infinite steps(12);
+  }
+  .loader::before,
+  .loader::after {
+     content: "";
+     grid-area: 1/1;
+     border-radius: 50%;
+     background: inherit;
+     opacity: 0.915;
+     transform: rotate(30deg);
+  }
+  .loader::after {
+     opacity: 0.83;
+     transform: rotate(60deg);
+  }
+  @keyframes l23 {
+    100% {transform: rotate(1turn)}
+  }

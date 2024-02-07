@@ -111,7 +111,7 @@ function moveModal() {
     modalDiv.classList.add('activeModal');
     setTimeout(() => {
         modalDiv.classList.remove('activeModal');
-      }, "2000");
+      }, "2500");
 }
 
 
