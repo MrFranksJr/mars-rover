@@ -2,6 +2,34 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: no-repeat center center fixed;
+    background-size: cover;
+    background-image: url("../images/mars-bg.png");
+    color: #98c7fc;
+}
+body::before {
+    background-color: #98c7fc;
+    background-size: cover;
+}
+
+.simStatus {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.simulationMap {
+    font-family:'Courier New', Courier, monospace;
+}
+
+.simulationState {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    border: solid 5px ;
 }
 
 .feedbackModal {
@@ -25,6 +53,5 @@ body {
     transform: translateY(100px);
 }
 
-.simulationMap {
-    font-family:'Courier New', Courier, monospace;
-}
+
+

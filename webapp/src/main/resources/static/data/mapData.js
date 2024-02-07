@@ -36,15 +36,15 @@ function returnRoverSymbol(simulationState) {
     const roverHeading = simulationState.roverList[0].roverHeading
     const roverName = simulationState.roverList[0].roverName
     if (roverHeading == "NORTH") {
-        return "^" + roverName
+        return "\u2227" + roverName
     }
     else if (roverHeading == "EAST") {
-        return roverName + ">"
+        return roverName + "\u203A"
     }
     else if (roverHeading == "SOUTH") {
-        return "v" + roverName
+        return roverName + "\u2228"
     }
     else if (roverHeading == "WEST") {
-        return "<" + roverName
+        return "\u2039" + roverName
     }
 }
