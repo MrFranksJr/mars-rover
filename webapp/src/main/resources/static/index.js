@@ -91,21 +91,3 @@ async function moveRover(){
         )
     }
 }
-
-
-
-/* 
-  async function fetchWeather(pos) {
-    weatherDataJson = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&units=${JSON.parse(localStorage.getItem('units'))}&appid=${openWeatherAPI}`)
-    weatherData = await weatherDataJson.json()
-    weatherCityId = `https://openweathermap.org/city/${weatherData.id}`
-  
-    document.getElementById('weather-div').innerHTML = `
-            <p class='weather-location'>${weatherData.name}, ${weatherData.sys.country}</p>
-            <div class='image-temps'>
-              <img class='weather-img' src='https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png' alt='${weatherData.weather[0].description}'>
-              <p class='temp-text'>${Math.round(weatherData.main.temp)}°</p>
-            </div>
-            <p class='weather-description'>${weatherData.weather[0].description.charAt(0).toUpperCase() + weatherData.weather[0].description.slice(1)}</p>
-            `
-  } */
