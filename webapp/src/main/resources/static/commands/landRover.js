@@ -1,11 +1,11 @@
 import { getSimulationState } from "/commands/getSimulationState.js";
-import { moveModal, modalDiv } from "/index.js";
+import { moveModal, modalDiv, xCoordinateField, yCoordinateField, modalError } from "/index.js";
 
 export { landRover }
 
 async function landRover(){
-    const xCoordinate = document.getElementById("roverXCoordinate").value;
-    const yCoordinate = document.getElementById("roverYCoordinate").value;
+    const xCoordinate = xCoordinateField.value;
+    const yCoordinate = yCoordinateField.value;
     let result = await fetch(`/api/landrover/${xCoordinate}/${yCoordinate}` , {
             method: "POST",
             headers: {
@@ -15,24 +15,19 @@ async function landRover(){
     
     let data = await result.json();
 
-
-    
-    
     await awaitFeedback(data);
-
-    
-    
 }
 
 async function awaitFeedback(data){
-    console.log(JSON.stringify(data));
-    if(JSON.stringify(data) == "{\"result\":\"Landing successful\"}"){
+    console.log(data.result)
+    if(data.result == "Landing successful"){
         await getSimulationState();
         modalDiv.innerHTML = "Your rover has successfully landed."
         moveModal();
-    } else {
-        modalDiv.innerHTML = "Your rover has not landed."
-        moveModal();
+    } 
+    else if(data.result == "Landing unsuccessful") {
+        modalDiv.innerHTML = `The Rover missed the Simulation!<br/>Try again!`
+        modalError()
     }
 }
 

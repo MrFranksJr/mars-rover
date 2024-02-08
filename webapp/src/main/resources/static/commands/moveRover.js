@@ -1,5 +1,5 @@
 import { getSimulationState } from "/commands/getSimulationState.js";
-import { moveModal, modalDiv, modalError } from "/index.js";
+import { moveModal, modalDiv, modalError, roverInstructionsField } from "/index.js";
 
 export { moveRover }
 
@@ -21,24 +21,13 @@ async function moveRover(){
             await getSimulationState();
     
             modalDiv.innerHTML = "Rover instructions successfully executed"
-            document.getElementById('roverInstructions').value = "";
+            roverInstructionsField.value = "";
             moveModal();
         } 
         else {
         modalDiv.innerHTML = "Cannot execute these instructions..."
-        document.getElementById('roverInstructions').value = "";
+        roverInstructionsField.value = "";
         modalError();
         }
     }
 }
-
-
-/*
-(1) r f5 
-(2) r f1 f1 f1 f1 f1 
-
-1) split original string (1) in new string (2)
-2) for loop based on spaces
-3) for each element execute (+ timeout to see map change)
-4)
- */

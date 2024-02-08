@@ -4,7 +4,7 @@ import { moveRover } from "/commands/moveRover.js";
 import { createSimulation } from "/commands/createSimulation.js";
 import { getSimulationState } from "/commands/getSimulationState.js";
 
-export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError}
+export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, moveRoverBtn, roverInstructionsField, xCoordinateField, yCoordinateField}
 
 
 async function onLoadCreateSimulation(){
@@ -26,7 +26,7 @@ setTimeout(() => {
   }, "500");
 
 function updateUIWithSimulationState(readableSimulationState, roversInSimulation){
-    document.getElementById('simulationState').innerHTML = `
+    simulationStateField.innerHTML = `
         <p>The simuation Size is ${readableSimulationState.simulationSize}</p>
         <p>The simulation has ${readableSimulationState.totalCoordinates} total Coordinates</p>
         <p>${roversInSimulation}</p>
@@ -53,9 +53,14 @@ function drawMap(readableSimulationState) {
 }
 
 ///////ELEMENTS
-const landRoverBtn = document.getElementById('landRoverBtn');
-const moveRoverBtn = document.getElementById('moveRoverBtn');
-const modalDiv = document.getElementById('feedbackModal');
+const landRoverBtn = document.getElementById('landRoverBtn')
+const moveRoverBtn = document.getElementById('moveRoverBtn')
+const modalDiv = document.getElementById('feedbackModal')
+const roverIdField = document.getElementById('roverId')
+const roverInstructionsField = document.getElementById('roverInstructions')
+const simulationStateField = document.getElementById('simulationState')
+const xCoordinateField = document.getElementById('roverXCoordinate')
+const yCoordinateField = document.getElementById('roverYCoordinate')
 
 ///////EVENT LISTENERS
 landRoverBtn.addEventListener('click', landRover)
@@ -67,4 +72,4 @@ document.querySelectorAll('form').forEach(node => {
 })
 
 ///////write footer
-document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association";
+document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"

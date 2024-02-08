@@ -70,11 +70,12 @@ public class MarsRoverRestController {
     }
 
     private static List<RoverMove> extractRoverMovesFromInput(String input, String roverId) {
+        System.out.println("move rover triggered. Input: " + input + " and RoverID: " + roverId);
         String[] inputArray = input.split(" ");
         List<RoverMove> roverMoves = new ArrayList<>();
 
         for (String section : inputArray) {
-            Pattern regex = Pattern.compile("[FfRrBbLl]\\d*[1-9]");
+            Pattern regex = Pattern.compile("[FfRrBbLl]\\d*[1-9]?");
             Matcher matcher = regex.matcher(section);
 
             if (matcher.find()) {

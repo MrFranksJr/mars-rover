@@ -18,7 +18,7 @@ body {
     align-items: center;
     font-family: "Montserrat", sans-serif;
     color: #f18b82;
-    min-width: 400px;
+    min-width: 475px;
 }
 
 .tripled-logo {
@@ -56,28 +56,34 @@ header {
     justify-content: space-around;
     width: 100%;
     flex-grow: 1;
-    max-width: 1000px;
+    max-width: 1400px;
 }
 
 .simulationMap {
+    display: flex;
+    justify-content: center;
     font-family:'Courier New', Courier, monospace;
     text-align: center;
+    font-size: 1.3rem;
+    flex: 70%;
+    transition: all 0.5s ease;
 }
 
 .simulationState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     color: #98c7fc;
-    display: flex;
     height: 100%;
-    flex-direction: column;
-    max-width: 250px;
-    align-items: left;
+    width: 100%;
     padding: 10px;
-    margin: 0px 3% 0px 0px;
     border: 1px solid #FFF;
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 13px;
+    flex: 30%;
     background-color: #79757561;
+    margin: 20px;
 }
 
 .simulationState p {
@@ -98,17 +104,6 @@ footer {
     justify-content: center;
 }
 
-@media all and (max-width: 680px) {
-    .simStatus {
-        flex-direction: column;
-        padding: 30px 0px;
-    }
-    .simulationState {
-        height: fit-content;
-        margin: 0;
-    }
-}
-
 .feedbackModal {
     position: fixed;
     top: 50px;
@@ -122,7 +117,7 @@ footer {
     background-color: #79757561;
     border-radius: 8px;
     border: 1px solid #7ecc2d;
-    transition: transform 0.4s ease;
+    transition: all 0.4s ease;
     transform: translateY(-200px);
     padding: 10px 5px;
 }
@@ -133,6 +128,7 @@ footer {
 
 .errorModal {
     transform: translateY(150px);
+    color: #eb6f6f;
     border: 1px solid #d82828;
 }
 
@@ -140,6 +136,7 @@ footer {
 
 /* HTML: <div class="loader"></div> */
 .loader {
+    display: inline;
     width: 50px;
     aspect-ratio: 1;
     display: grid;
@@ -166,3 +163,39 @@ footer {
   @keyframes l23 {
     100% {transform: rotate(1turn)}
   }
+
+
+
+/* MEDIA QUERIES */
+  @media all and (max-width: 780px) {
+    .simStatus {
+        flex-direction: column;
+        padding: 30px 0px;
+        align-items: center;
+    }
+    .simulationMap {
+        flex: 10%;
+        height: auto;
+        max-height: 300px;
+    }
+    .simulationState {
+        height: auto;
+        max-height: 200px;
+        margin: 0;
+        width: 360px;
+        flex: 50%;
+        justify-content: center;
+    }
+}
+
+@media all and (min-width: 1000px) {
+    .simulationMap {
+        font-size: 1.5rem;
+    }
+}
+
+@media all and (min-width: 1300px) {
+    .simulationMap {
+        font-size: 2rem;
+    }
+}
