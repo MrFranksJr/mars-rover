@@ -33,7 +33,6 @@ function updateUIWithSimulationState(readableSimulationState, roversInSimulation
         `
 }
 
-
 function moveModal() {
     modalDiv.classList.add('activeModal');
     setTimeout(() => {
@@ -49,7 +48,7 @@ function modalError() {
 }
 
 function drawMap(readableSimulationState) {
-    document.getElementById('simulationMap').innerHTML =  generateMap(readableSimulationState)
+    simulationMapDiv.innerHTML =  "<div class='mapInnerDiv'>" + generateMap(readableSimulationState) + "</div>"
 }
 
 ///////ELEMENTS
@@ -61,6 +60,7 @@ const roverInstructionsField = document.getElementById('roverInstructions')
 const simulationStateField = document.getElementById('simulationState')
 const xCoordinateField = document.getElementById('roverXCoordinate')
 const yCoordinateField = document.getElementById('roverYCoordinate')
+const simulationMapDiv = document.getElementById('simulationMap')
 
 ///////EVENT LISTENERS
 landRoverBtn.addEventListener('click', landRover)

@@ -7,7 +7,7 @@ function generateMap(simulationState) {
         if(i < 10){
             mapString += "\xa0";
         }
-        mapString += i + " |";
+        mapString += "<span class='mapNumber'>" +  i + "</span> <span class='mapBorder'>|</span>";
         for (let j=0; j<=simulationState.simulationSize; j++) {
             if(!simulationState.roverList.length == 0 && j == simulationState.roverList[0].roverXPosition && i == simulationState.roverList[0].roverYPosition) {
                 mapString += "<span class='marsRover'>" + returnRoverSymbol(simulationState) + "</span>"
@@ -18,14 +18,14 @@ function generateMap(simulationState) {
         mapString += "<br/>";
     }
 
-    mapString += "\xa0\xa0\xa0|" + "-".repeat((simulationState.simulationSize + 1)  * 3) + "<br/>";
-    mapString += "\xa0\xa0\xa0|";
+    mapString += "\xa0\xa0\xa0<span class='mapBorder'>|</span>" + "<span class='mapBorder'>-</span>".repeat((simulationState.simulationSize + 1)  * 3) + "<br/>";
+    mapString += "\xa0\xa0\xa0<span class='mapBorder'>|</span>";
 
     for(let i = 0; i <= simulationState.simulationSize; i++){
         if (i<10) {
-            mapString += "\xa0" + i + "\xa0";
+            mapString += "\xa0" + "<span class='mapNumber'>" + i + "</span>\xa0";
         } else {
-            mapString += "\xa0" + i;
+            mapString += "\xa0" + "<span class='mapNumber'>" + i + "</span>";
         }
     }
 

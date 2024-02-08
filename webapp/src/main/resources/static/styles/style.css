@@ -71,13 +71,23 @@ header {
     margin: 0px 50px;
     border: 1px solid #FFF;
     border-radius: 8px;
-    background-color: #79757561;
     line-height: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.mapInnerDiv {
+    margin: 0;
+    padding: 0;
+}
+
+.mapNumber, .marsRover, .mapBorder {
+    color: #98c7fc;
+    font-weight: bold;
 }
 
 .marsRover {
-    display: inline-block;
-    color: #de4f42;
+    font-weight: bold;
 }
 
 .simulationState {
@@ -189,7 +199,7 @@ footer {
         height: auto;
         max-height: 500px;
         min-width: 275px;
-        padding: 60px;
+        padding: 30px 50px;
         margin: 0px 0px;
     }
     .simulationState {
@@ -199,6 +209,7 @@ footer {
         width: 360px;
         flex: 50%;
         justify-content: center;
+        background-color: #797575c6;
     }
 }
 
@@ -206,6 +217,7 @@ footer {
     .simulationMap {
         font-size: 1.5rem;
         line-height: 2.5rem;
+        padding: 50px;
     }
 }
 
@@ -213,5 +225,6 @@ footer {
     .simulationMap {
         font-size: 2rem;
         line-height: 3rem;
+        padding: 50px;
     }
 }
