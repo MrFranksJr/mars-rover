@@ -30,6 +30,11 @@ public class RoverMoveCommand implements Command {
             public void cannotMoveIfRoverDoesNotExist() {
                 messagePresenter.roverDoesNotExist();
             }
+
+            @Override
+            public String moveRoverUnsuccesful() {
+                return "";
+            }
         });
     }
 

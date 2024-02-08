@@ -131,6 +131,11 @@ footer {
     transform: translateY(150px);
 }
 
+.errorModal {
+    transform: translateY(150px);
+    border: 1px solid #d82828;
+}
+
 
 
 /* HTML: <div class="loader"></div> */

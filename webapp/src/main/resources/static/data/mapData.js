@@ -9,7 +9,7 @@ function generateMap(simulationState) {
         }
         mapString += i + " | ";
         for (let j=0; j<=simulationState.simulationSize; j++) {
-            if(!simulationState.roverList.length == 0 && i == simulationState.roverList[0].roverXPosition && j== simulationState.roverList[0].roverYPosition) {
+            if(!simulationState.roverList.length == 0 && j == simulationState.roverList[0].roverXPosition && i == simulationState.roverList[0].roverYPosition) {
                 mapString += returnRoverSymbol(simulationState)
             } else {
                 mapString += "\xa0.\xa0";

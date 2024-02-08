@@ -13,4 +13,9 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
     public void cannotMoveIfRoverDoesNotExist() {
 
     }
+
+    @Override
+    public String moveRoverUnsuccesful() {
+        return "Rover could not execute move instruction. Please provide correct instruction.";
+    }
 }

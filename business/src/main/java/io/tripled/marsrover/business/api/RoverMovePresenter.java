@@ -4,4 +4,6 @@ public interface RoverMovePresenter {
 
     void moveRoverSuccessful(RoverState roverState);
     void cannotMoveIfRoverDoesNotExist();
+
+    String moveRoverUnsuccesful();
 }
