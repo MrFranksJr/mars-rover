@@ -10,7 +10,7 @@ function generateMap(simulationState) {
         mapString += i + " |";
         for (let j=0; j<=simulationState.simulationSize; j++) {
             if(!simulationState.roverList.length == 0 && j == simulationState.roverList[0].roverXPosition && i == simulationState.roverList[0].roverYPosition) {
-                mapString += returnRoverSymbol(simulationState)
+                mapString += "<span class='marsRover'>" + returnRoverSymbol(simulationState) + "</span>"
             } else {
                 mapString += "\xa0\xB7\xa0";
             }

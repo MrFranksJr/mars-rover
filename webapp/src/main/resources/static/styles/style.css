@@ -1,13 +1,13 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     }
 
 html {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
 }
 
 body {
@@ -60,13 +60,24 @@ header {
 }
 
 .simulationMap {
-    display: flex;
-    justify-content: center;
     font-family:'Courier New', Courier, monospace;
     text-align: center;
     font-size: 1.3rem;
     flex: 70%;
     transition: all 0.5s ease;
+    line-height: 1.5rem;
+    color: #f18b82;
+    padding: 20px 0px;
+    margin: 0px 50px;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    background-color: #79757561;
+    line-height: 2rem;
+}
+
+.marsRover {
+    display: inline-block;
+    color: #de4f42;
 }
 
 .simulationState {
@@ -176,7 +187,10 @@ footer {
     .simulationMap {
         flex: 10%;
         height: auto;
-        max-height: 300px;
+        max-height: 500px;
+        min-width: 275px;
+        padding: 60px;
+        margin: 0px 0px;
     }
     .simulationState {
         height: auto;
@@ -191,11 +205,13 @@ footer {
 @media all and (min-width: 1000px) {
     .simulationMap {
         font-size: 1.5rem;
+        line-height: 2.5rem;
     }
 }
 
 @media all and (min-width: 1300px) {
     .simulationMap {
         font-size: 2rem;
+        line-height: 3rem;
     }
 }
