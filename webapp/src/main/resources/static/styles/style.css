@@ -74,6 +74,7 @@ header {
     line-height: 2rem;
     display: flex;
     justify-content: center;
+    backdrop-filter: blur(5px);
 }
 
 .mapInnerDiv {
@@ -105,6 +106,7 @@ header {
     flex: 30%;
     background-color: #79757561;
     margin: 20px;
+    backdrop-filter: blur(5px);
 }
 
 .simulationState p {
