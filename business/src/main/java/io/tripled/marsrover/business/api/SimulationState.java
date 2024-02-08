@@ -7,7 +7,7 @@ import java.util.List;
 
 public record SimulationState(int simulationSize, int totalCoordinates, List<Rover> roverList) {
 
-    public static SimulationState NONE = new SimulationState(0,1, List.of());
+    public static SimulationState NONE = new SimulationState(-1,-1, Collections.emptyList());
 
     private SimulationState(Builder builder) {
         this(builder.simulationSize, builder.totalCoordinates, builder.roverList);
