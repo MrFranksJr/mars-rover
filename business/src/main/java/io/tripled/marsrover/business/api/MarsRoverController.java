@@ -70,6 +70,6 @@ public class MarsRoverController implements MarsRoverApi {
         if (simulation.isPresent())
             simulationStatePresenter.simulationState(simulation.get().simulationState());
         else
-            simulationStatePresenter.simulationState(new SimulationState(-1, -1, null));
+            simulationStatePresenter.simulationState(SimulationState.NONE);
     }
 }

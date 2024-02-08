@@ -99,6 +99,20 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("6"));
     }
     @Test
+    void turnsAndMovesForward() throws Exception {
+        createSimulationOf10();
+
+        landRoverOn55();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1/R f1"));
+
+        var result = getSimulationState();
+
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("6"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+    }
+    @Test
     void roverCanTurnRight() throws Exception {
         createSimulationOf10();
 

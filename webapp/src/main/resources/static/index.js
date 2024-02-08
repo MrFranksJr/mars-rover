@@ -127,4 +127,5 @@ const moveRoverBtn = document.getElementById('moveRoverBtn');
 landRoverBtn.addEventListener('click', landRover)
 moveRoverBtn.addEventListener('click', moveRover)
 
+///////write footer
 document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association";
