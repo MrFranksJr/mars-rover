@@ -19,7 +19,6 @@ async function landRover(){
 }
 
 async function awaitFeedback(data){
-    console.log(data.result)
     if(data.result == "Landing successful"){
         await getSimulationState();
         modalDiv.innerHTML = "Your rover has successfully landed."
@@ -30,6 +29,3 @@ async function awaitFeedback(data){
         modalError()
     }
 }
-
-
-

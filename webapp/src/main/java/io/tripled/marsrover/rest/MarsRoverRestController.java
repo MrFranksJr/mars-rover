@@ -70,7 +70,6 @@ public class MarsRoverRestController {
     }
 
     private static List<RoverMove> extractRoverMovesFromInput(String input, String roverId) {
-        System.out.println("move rover triggered. Input: " + input + " and RoverID: " + roverId);
         String[] inputArray = input.split(" ");
         List<RoverMove> roverMoves = new ArrayList<>();
 

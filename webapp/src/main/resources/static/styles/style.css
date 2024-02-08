@@ -82,9 +82,9 @@ header {
     padding: 0;
 }
 
-.mapNumber, .marsRover, .mapBorder {
+.marsRover, .mapBorder {
     color: #98c7fc;
-    font-weight: bold;
+
 }
 
 .marsRover {

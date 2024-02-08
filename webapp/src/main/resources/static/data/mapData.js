@@ -18,7 +18,7 @@ function generateMap(simulationState) {
         mapString += "<br/>";
     }
 
-    mapString += "\xa0\xa0\xa0<span class='mapBorder'>|</span>" + "<span class='mapBorder'>-</span>".repeat((simulationState.simulationSize + 1)  * 3) + "<br/>";
+    mapString += "<span class='mapBorder'>---|</span>" + "<span class='mapBorder'>-</span>".repeat((simulationState.simulationSize + 1)  * 3) + "<br/>";
     mapString += "\xa0\xa0\xa0<span class='mapBorder'>|</span>";
 
     for(let i = 0; i <= simulationState.simulationSize; i++){
