@@ -7,27 +7,32 @@ async function moveRover(){
     const roverId = document.getElementById("roverId").value;
     const roverInstructions = document.getElementById("roverInstructions").value;
 
-    if(roverId != null && roverInstructions != null ){
-        //Check if rover instructions are correct
-        const regex = /^(?:[frbl](?=.*\d)?\d* ?)*$/i
-        const match = roverInstructions.match(regex)
-        if (match) {
-            await fetch(`/api/moverover/${roverId}/${roverInstructions}` , {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }});
-        
-            await getSimulationState();
-    
-            modalDiv.innerHTML = "Rover instructions successfully executed"
-            roverInstructionsField.value = "";
-            moveModal();
-        } 
-        else {
-        modalDiv.innerHTML = "Cannot execute these instructions..."
-        roverInstructionsField.value = "";
-        modalError();
-        }
+    if(roverId != "" && roverInstructions != "" ){
+        let result = await fetch(`/api/moverover/${roverId}/${roverInstructions}` , {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }});
+
+        let data = await result.json();
+
+        await awaitRoverMoveFeedback(data);
+    } else {
+        modalDiv.innerHTML = `This instruction couldn't be executed!<br/>Try again!`
+        modalError()
     }
+}
+
+async function awaitRoverMoveFeedback(data){
+    if(data.result == "Rover move successful"){
+        await getSimulationState();
+        modalDiv.innerHTML = "Your rover has successfully moved."
+        moveModal();
+    } 
+    else if(data.result == "Rover move unsuccessful") {
+        modalDiv.innerHTML = `This instruction couldn't be executed!<br/>Try again!`
+        modalError()
+    }
+
+    roverInstructionsField.value = "";
 }

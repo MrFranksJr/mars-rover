@@ -1,15 +1,14 @@
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     }
-
 html {
     min-height: 100%;
     display: flex;
     flex-direction: column;
 }
-
 body {
     display: flex;
     flex-direction: column;
@@ -20,12 +19,10 @@ body {
     color: #f18b82;
     min-width: 475px;
 }
-
 .tripled-logo {
     width: 80px;
     margin: 0px 10px;
 }
-
 .main {
     display: flex;
     flex-direction: column;
@@ -37,7 +34,6 @@ body {
     background-image: url("../images/mars-bg.png");
     width: 100%;
 }
-
 header {
     display: flex;
     width: 100%;
@@ -47,6 +43,106 @@ header {
     text-align: center;
     color: #FFF;
     margin-bottom: 30px;
+}
+.instructionBlock {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+}
+.roverControls {
+    flex: 0 0 60%;
+    justify-content: center;
+    margin: 0 49px;
+    display: flex;
+    gap: 60px;
+}
+
+.instructionBlockPadding {
+    flex: 0 0 40%;
+    margin: 20px;
+    padding: 10px;
+    border: 1px;
+}
+
+.landRoverControls {
+    display: grid;
+    grid-template-columns: auto; /* Each input will be in its own column */
+    grid-template-rows: auto auto; /* Changed from using repeat(2, 1fr) */
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    justify-items: center;
+}
+
+.landRoverBtn {
+    grid-column: 1 / span 2; /* This will make the button span two columns */
+    grid-row: 2; /* This will place the button in the second row */
+    width: 100%;
+}
+
+.moveRoverControls {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: auto auto;
+    gap: 10px; /* Adjust gap as needed */
+}
+
+.roverId {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.roverInstructions {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.moveRoverBtn {
+    grid-column: 1 / -1; /* Span full width */
+  grid-row: 2 / 3;
+}   
+
+input {
+    height: 2rem;
+    text-align: center;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+}
+
+input:disabled {
+    color: #98c7fc;
+}
+
+button:enabled {
+    height: 2.2rem;
+    background-color: transparent;
+    color: #98c7fc;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+}
+
+button:hover:enabled {
+    border: 1px solid #f18b82;
+    color: #f18b82;
+}
+
+button:active:enabled {
+    border: 1px solid #f18b82;
+    color: #f18b82;
+    background-color: #98c7fc;
+}
+
+button:disabled {
+    height: 2.2rem;
+    font-weight: bold;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #98c7fc89;
 }
 
 .simStatus {
@@ -58,7 +154,6 @@ header {
     flex-grow: 1;
     max-width: 1400px;
 }
-
 .simulationMap {
     font-family:'Courier New', Courier, monospace;
     text-align: center;
@@ -76,21 +171,16 @@ header {
     justify-content: center;
     backdrop-filter: blur(5px);
 }
-
 .mapInnerDiv {
     margin: 0;
     padding: 0;
 }
-
 .marsRover, .mapBorder {
     color: #98c7fc;
-
 }
-
 .marsRover {
     font-weight: bold;
 }
-
 .simulationState {
     display: flex;
     flex-direction: column;
@@ -108,11 +198,9 @@ header {
     margin: 20px;
     backdrop-filter: blur(5px);
 }
-
 .simulationState p {
     margin: 10px 5px;
 }
-
 footer {
     display: flex;
     align-items: center;
@@ -120,18 +208,16 @@ footer {
     height: 70px;
     font-size: 0.8rem;
 }
-
 .copyright {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .feedbackModal {
     position: fixed;
     top: 50px;
     text-align: center;
-    width: 300px;
+    width: fit-content;
     left:0;
     right:0;
     margin-left:auto;
@@ -142,19 +228,16 @@ footer {
     border: 1px solid #7ecc2d;
     transition: all 0.4s ease;
     transform: translateY(-200px);
-    padding: 10px 5px;
+    padding: 10px 10px;
 }
-
 .activeModal {
     transform: translateY(150px);
 }
-
 .errorModal {
     transform: translateY(150px);
     color: #eb6f6f;
     border: 1px solid #d82828;
 }
-
 
 
 /* HTML: <div class="loader"></div> */
@@ -188,9 +271,23 @@ footer {
   }
 
 
-
 /* MEDIA QUERIES */
   @media all and (max-width: 780px) {
+    .instructionBlock {
+        flex-direction: column;
+    }
+    .roverControls {
+        flex-direction: column;
+        align-items: center;
+    }
+    .landRoverControls {
+        width: 300px;
+    }
+    .moveRoverControls {
+        width: 300px;
+    }
+
+
     .simStatus {
         flex-direction: column;
         padding: 30px 0px;
@@ -214,7 +311,6 @@ footer {
         background-color: #797575c6;
     }
 }
-
 @media all and (min-width: 1000px) {
     .simulationMap {
         font-size: 1.5rem;
@@ -222,11 +318,10 @@ footer {
         padding: 50px;
     }
 }
-
 @media all and (min-width: 1300px) {
     .simulationMap {
-        font-size: 2rem;
-        line-height: 3rem;
+        font-size: 1.8rem;
+        line-height: 2.8rem;
         padding: 50px;
     }
 }

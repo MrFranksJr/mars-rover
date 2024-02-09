@@ -14,24 +14,27 @@
         <header>
             <h1>Mars Rover Simulator</h1>
         </header>
-        <div id="roverControls" class="roverControls">
-            <form id="landRoverControls" class="landRoverControls">
-                <button id="landRoverBtn">Land New Rover</button>
-                <input id="roverXCoordinate" placeholder="Enter X Coordinate">
-                <input id="roverYCoordinate" placeholder="Enter Y Coordinate">
-            </form>
-            <form id="moveRoverControls" class="moveRoverControls">
-                <button id="moveRoverBtn">Rover Instructions</button>
-                <input id="roverId" placeholder="Enter Rover ID">
-                <input id="roverInstructions" placeholder="Enter move instructions">
-            </form>
+        
+        <div id="instructionBlock" class="instructionBlock">
+            <div id="roverControls" class="roverControls">
+                <form id="landRoverControls" class="landRoverControls">
+                    <input id="roverXCoordinate" placeholder="Enter X Coordinate">
+                    <input id="roverYCoordinate" placeholder="Enter Y Coordinate">
+                    <button id="landRoverBtn" class="landRoverBtn">Land new Rover</button>
+                </form>
+                <form id="moveRoverControls" class="moveRoverControls">
+                    <input id="roverId" class="roverId" placeholder="Rover ID">
+                    <input id="roverInstructions" class="roverInstructions" placeholder="Enter move instructions">
+                    <button id="moveRoverBtn" class="moveRoverBtn">Move rover!</button>
+                </form>
+            </div>
+            <div id="instructionBlockPadding" class="instructionBlockPadding"></div>
         </div>
-
+        
         <div id="simStatus" class="simStatus">
             <div id="simulationMap" class="simulationMap">
                 <div class="loader"></div>
             </div>
-
             <div id="simulationState" class="simulationState">
                 <div class="loader"></div>
             </div>
@@ -40,7 +43,6 @@
     <footer>
         <p id="copyright" class="copyright"></p>
     </footer>
-
 
 
 
