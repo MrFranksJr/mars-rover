@@ -73,18 +73,27 @@ public class MarsRoverRestController {
         String[] inputArray = input.split(" ");
         List<RoverMove> roverMoves = new ArrayList<>();
 
-        for (String section : inputArray) {
-            Pattern regex = Pattern.compile("[FfRrBbLl]\\d*[1-9]?");
-            Matcher matcher = regex.matcher(section);
+        String regExpBuilder = buildRegularExpression(inputArray);
 
-            if (matcher.find()) {
-                String preppedInput = matcher.group();
+        Pattern regex = Pattern.compile(regExpBuilder);
+        Matcher matcher = regex.matcher(input.trim());
+
+        while (matcher.find()) {
+            int groupCount = matcher.groupCount();
+            for(int i = 1; i < groupCount; i++){
+                String preppedInput = matcher.group(i).trim();
                 String direction = preppedInput.substring(0, 1);
                 int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
                 final RoverMove roverMove = new RoverMove(roverId, direction, steps);
                 roverMoves.add(roverMove);
-            } else return Collections.emptyList();
+            }
         }
         return roverMoves;
+    }
+
+    private static String buildRegularExpression(String[] inputArray) {
+        return "^" + "( *[FfRrBbLl]\\d*)"
+                .repeat(inputArray.length) +
+                "$|^( *[FfRrBbLl]\\d*)$";
     }
 }
