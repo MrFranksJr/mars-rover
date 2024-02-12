@@ -17,9 +17,7 @@ async function onLoadCreateSimulation(){
     } else {
         await getSimulationState();
     }
-
 }
-
 
 setTimeout(() => {
     onLoadCreateSimulation();

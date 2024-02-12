@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class RoverMoveCommand implements Command {
-    private List<RoverMove> roverMovesFromString;
+    private List<RoverMove> roverMoves;
     private MarsRoverApi marsRoverApi;
 
     public RoverMoveCommand(List<RoverMove> roverMovesFromString, MarsRoverApi marsRoverApi) {
-        this.roverMovesFromString = roverMovesFromString;
+        this.roverMoves = roverMovesFromString;
         this.marsRoverApi = marsRoverApi;
     }
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        marsRoverApi.moveRover(roverMovesFromString, new RoverMovePresenter() {
+        marsRoverApi.moveRover(roverMoves, new RoverMovePresenter() {
             @Override
             public void moveRoverSuccessful(RoverState roverState) {
                 messagePresenter.roverMovedMessage(roverState);
@@ -43,11 +43,11 @@ public class RoverMoveCommand implements Command {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoverMoveCommand that = (RoverMoveCommand) o;
-        return Objects.equals(roverMovesFromString, that.roverMovesFromString);
+        return Objects.equals(roverMoves, that.roverMoves);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roverMovesFromString);
+        return Objects.hash(roverMoves);
     }
 }

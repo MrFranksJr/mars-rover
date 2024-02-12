@@ -16,7 +16,7 @@ async function getSimulationState() {
     else {
         disableLandControls()
         toggleRoverInstructionControls(false);
-        disableRoverIde(readableSimulationState.roverList[0].roverName);
+        disableRoverId(readableSimulationState.roverList[0].roverName);
         roversInSimulation = `Rover ${readableSimulationState.roverList[0].roverName} 
                                 is at position (${readableSimulationState.roverList[0].roverXPosition}, ${readableSimulationState.roverList[0].roverYPosition}) 
                                 with heading ${readableSimulationState.roverList[0].roverHeading}`
@@ -32,7 +32,7 @@ function disableLandControls() {
     yCoordinateField.disabled = true;
 }
 
-function disableRoverIde(roverId){
+function disableRoverId(roverId){
     roverIdField.value = roverId;
     roverIdField.disabled = true;
 }

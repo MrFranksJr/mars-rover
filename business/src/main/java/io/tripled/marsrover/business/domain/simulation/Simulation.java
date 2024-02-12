@@ -51,14 +51,16 @@ public class Simulation {
         } else if (invalidCoordinatesReceived(coordinate)) {
             eventPublisher.publish(new InvalidCoordinatesReceived(coordinate));
         } else if (landingWithinSimulationLimits(coordinate)) {
-            eventPublisher.publish(new LandingSuccessfulLandEvent(landRover(coordinate)));
+            final RoverState roverState = landRover(coordinate);
+            eventPublisher.publish(new LandingSuccessfulLandEvent(roverState));
         } else {
             eventPublisher.publish(new RoverMissesSimulationLand(simulationSize));
         }
     }
 
     public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher) {
-        eventPublisher.publish(new RoverMovedSuccessfulEvent(moveRover(roverMoves)));
+        final RoverState roverState = moveRover(roverMoves);
+        eventPublisher.publish(new RoverMovedSuccessfulEvent(roverState));
     }
 
 
@@ -77,6 +79,7 @@ public class Simulation {
             roverList.getFirst().turnRight();
     }
 
+    //TODO: remove TurnRover
     public void turnRover(Direction direction) {
         moveRover(direction);
     }

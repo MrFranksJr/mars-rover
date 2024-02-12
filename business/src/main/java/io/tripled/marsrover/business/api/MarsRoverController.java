@@ -44,11 +44,11 @@ public class MarsRoverController implements MarsRoverApi {
     }
 
     @Override
-    public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
+    public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
         if (simulationRepository.getSimulation().isPresent()) {
             final var simulation = simulationRepository.getSimulation().get();
 
-            simulation.moveRover(roverMovesFromString, event -> presentRoverMoved(roverMovePresenter, event));
+            simulation.moveRover(roverMoves, event -> presentRoverMoved(roverMovePresenter, event));
         }
     }
 

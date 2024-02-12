@@ -35,7 +35,7 @@ class CommandParserTest {
             }
 
             @Override
-            public void moveRover(List<RoverMove> roverMovesFromString, RoverMovePresenter roverMovePresenter) {
+            public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
 
             }
         };
