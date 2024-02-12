@@ -32,30 +32,3 @@ The goal of the exercise is to display your skill, practices, approach to softwa
 The goal of this exercise is NOT to make it work. Of course, it should work. That is the minimum requirement. But a small easily fixable bug in an easy modifiable system is less severe than flawless big ball of mud. 
 
 Good luck and have Fun! :-)
-
-## Mobbing Tips
-
-To pair / mob programming fluently work in fixed timed sessions.
-We use mob.sh and timer.mob.sh for this
-
-### Timing
-Set a local env variable
-
-```
-MOB_TIMER_ROOM="triple-d"
-```
-by 
-```bash
-export MOB_TIMER_ROOM="triple-d"
-```
-
-When you start a mob/paring session, you pass the time of the session
-
-```
- mob start 10
-```
-
-You can then follow in your browser at
-
-https://timer.mob.sh/triple-d#
-

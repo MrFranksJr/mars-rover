@@ -1,47 +1,43 @@
 # Mars Rover Development Program
 
-### Description
+## Description
 
 This exercise is an adaption off the well known [Mars rover kata](https://kata-log.rocks/mars-rover-kata). The full functional requirements can be found [here](REQUIREMENTS.md)
 
-### Format program
+## Mobbing Tips
 
-The goal of this exercise is to focus on development technique, not on technology. So you should be able to do everything with pure code. This code repository contains some simple start code to get things going. I've chosen to use java 21, maven and junit5. However, feel free to throw it away and do it in other way. 
+To pair / mob programming fluently work in fixed timed sessions.
+We use mob.sh and timer.mob.sh for this
 
-**The sole requirement is that the application can be run using the 'marsrover' command.** 
-Since this is how the users wil use you application. If this command does not work, your application does not work! 
+### Timing
+Set a local env variable
 
-### Getting started
-
-If you checked out the code make sure that the launch command works. 
-
-This is what you should see on windows
-
-```batch
->marsrover.bat
-**************************
-**    MarsRover       **
-**************************
-> q to quit
+```
+MOB_TIMER_ROOM="triple-d"
+```
+by
+```bash
+export MOB_TIMER_ROOM="triple-d"
 ```
 
-This is what you should see on mac/linux
+When you start a mob/paring session, you pass the time of the session
 
-```batch
->./MarsRover
-**************************
-**    MarsRover       **
-**************************
-> q to quit
+```
+ mob start 10
 ```
 
-### Problems
+You can then follow in your [browser](https://timer.mob.sh/triple-d#)
 
-```batch
-Fatal error compiling: error: release version 16 not supported
+## BDD reports
+
+We have added some Cucumber scenarios that are executed with each build when the integration tests are run. From those test you can also create nice html reports. In order to doe this, just run 
+
+```bash
+./marsBDD
 ```
 
-This means that you need to install the correct JDK.
+this will build the application and generate the reports under mars-rover/business/target/generated-report.
+You can open them from Intellij via [Cucumber reports](http://localhost:63342/mars-rover/business/target/generated-report/index.html)
 
 
 
