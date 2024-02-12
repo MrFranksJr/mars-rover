@@ -9,6 +9,7 @@ import io.tripled.marsrover.business.api.*;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 
 import java.util.ArrayList;
@@ -90,17 +91,23 @@ public class StepDefinitions {
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
     public void theRoverIsAtNewXNewYWithOrientation(String roverName, int newX, int newY, String heading) {
         if (simulationRepository.getSimulation().isPresent()) {
-            assertEquals(roverName, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverName());
-            assertEquals(newX, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverXPosition());
-            assertEquals(newY, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverYPosition());
-            assertEquals(heading, simulationRepository.getSimulation().get().getRoverList().getFirst().getRoverHeading().toString().toLowerCase());
+            final RoverState currentRoverState = getRoverState(roverName);
+            assertEquals(roverName, currentRoverState.roverId());
+            assertEquals(newX, currentRoverState.coordinate().xCoordinate());
+            assertEquals(newY, currentRoverState.coordinate().yCoordinate());
+            assertEquals(heading, currentRoverState.roverHeading().toString().toLowerCase());
         }
+    }
+
+    private RoverState getRoverState(String roverName) {
+        final Simulation simulation = simulationRepository.getSimulation().orElseThrow();
+        return simulation.takeSnapshot().getRover(roverName).orElseThrow();
     }
 
     @Then("No rover should be present in the simulation")
     public void no_rover_should_be_present_in_the_simulation() {
         if (simulationRepository.getSimulation().isPresent()) {
-            assertEquals(0, simulationRepository.getSimulation().get().getRoverList().size());
+            assertEquals(0, simulationRepository.getSimulation().get().takeSnapshot().roverList().size());
         }
     }
 
@@ -118,11 +125,6 @@ public class StepDefinitions {
 
             @Override
             public void negativeCoordinatesReceived(Coordinate coordinate) {
-
-            }
-
-            @Override
-            public void simulationAlreadyPopulated(RoverState roverState) {
 
             }
         };

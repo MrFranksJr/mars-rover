@@ -25,6 +25,7 @@ Feature: Driving around
       | 5       | 0  | 0  | right       | 3      | 0    | 0    | west  |
       | 5       | 0  | 0  | right       | 4      | 0    | 0    | north |
 
+
   Scenario: The Rover can execute a sequence of instructions in one go
     Given A simulation of size 10
     And We land a rover on coordinates 5 5
@@ -37,6 +38,20 @@ Feature: Driving around
       | back        | 3      |
       | left        | 3      |
     Then The Rover "R1" is at 7 7 with orientation "north"
+
+  Scenario: We can give Rover instructions by Id
+    Given A simulation of size 10
+    And We land a rover on coordinates 0 0
+    And We land a rover on coordinates 5 5
+    When We give the Rover "R2" the Instructions
+      | instruction | amount |
+      | forward     | 2      |
+      | right       | 1      |
+      | back        | 1      |
+      | right       | 2      |
+      | back        | 3      |
+      | left        | 3      |
+    Then The Rover "R2" is at 7 7 with orientation "north"
 
   Scenario Outline: The Rover can not fall of the map
     Given A simulation of size <simSize>

@@ -56,12 +56,13 @@ public class MarsRoverRestController {
     }
 
     @GetMapping("/api/simulationstate")
-    SimulationState getSimulationState() {
-        SimulationStatePresenterImpl simulationStatePresenter = new SimulationStatePresenterImpl();
+    SimulationViewDTO getSimulationState() {
+        SimulationStateRestPresenter simulationStatePresenter = new SimulationStateRestPresenter();
 
         marsRoverApi.lookUpSimulationState(simulationStatePresenter);
 
         return simulationStatePresenter.getSimulationState();
+
     }
 
     @PostMapping("/api/landrover/{xCoordinate}/{yCoordinate}")
@@ -71,7 +72,7 @@ public class MarsRoverRestController {
 
         LandingPresenterImpl landingPresenter = new LandingPresenterImpl();
         marsRoverApi.landRover(coordinate, landingPresenter);
-        SimulationStatePresenterImpl simulationStatePresenter = new SimulationStatePresenterImpl();
+        SimulationStateRestPresenter simulationStatePresenter = new SimulationStateRestPresenter();
 
         marsRoverApi.lookUpSimulationState(simulationStatePresenter);
         int simulationSize = simulationStatePresenter.getSimulationState().simulationSize();

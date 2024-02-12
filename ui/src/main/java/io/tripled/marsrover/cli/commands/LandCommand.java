@@ -36,10 +36,6 @@ public class LandCommand implements Command {
                 messagePresenter.landingFailureCommand(coordinateString, LandingErrorTypes.NEGATIVE_INTS);
             }
 
-            @Override
-            public void simulationAlreadyPopulated(RoverState roverState) {
-                messagePresenter.simulationAlreadyPopulated(roverState);
-            }
         });
     }
 

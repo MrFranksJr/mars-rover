@@ -24,11 +24,6 @@ public class LandingPresenterImpl implements LandingPresenter {
 
     }
 
-    @Override
-    public void simulationAlreadyPopulated(RoverState roverState) {
-
-    }
-
     public RoverState reportRoverState() {
         return roverState;
     }

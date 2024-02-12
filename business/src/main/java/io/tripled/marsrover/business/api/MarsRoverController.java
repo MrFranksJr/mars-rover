@@ -18,36 +18,26 @@ public class MarsRoverController implements MarsRoverApi {
         this.simulationRepository = simulationRepository;
     }
 
-    private static void presentLanding(LandingPresenter p, Simulation.SimulationLandEvent e) {
-        switch (e) {
-            case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessful(l.roverState());
-            case Simulation.RoverMissesSimulationLand r -> p.roverMissesSimulation(r.simulationSize());
-            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
-            case Simulation.SimulationLandAlreadyPopulated s -> p.simulationAlreadyPopulated(s.roverState());
-        }
-    }
-
-    private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
-        switch (e) {
-            case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
-        }
-    }
-
     @Override
     public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
         if (simulationRepository.getSimulation().isPresent()) {
-            final var simulation = simulationRepository.getSimulation().get();
 
-            simulation.landRover(coordinate, event -> presentLanding(landingPresenter, event));
+            final var simulation = simulationRepository.getSimulation().get();
+            final var eventPublisher = createEventPublisher(landingPresenter);
+            simulation.landRover(coordinate, eventPublisher);
         }
 
+    }
+
+    private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
+        return event -> presentLanding(landingPresenter, event);
     }
 
     @Override
     public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
         if (simulationRepository.getSimulation().isPresent()) {
-            final var simulation = simulationRepository.getSimulation().get();
 
+            final var simulation = simulationRepository.getSimulation().get();
             simulation.moveRover(roverMoves, event -> presentRoverMoved(roverMovePresenter, event));
         }
     }
@@ -60,7 +50,7 @@ public class MarsRoverController implements MarsRoverApi {
         else {
             final var simWorld = simulation.get();
             simulationRepository.add(simWorld);
-            simulationCreationPresenter.simulationCreationSuccessful(simulation.get().simulationState());
+            simulationCreationPresenter.simulationCreationSuccessful(simulation.get().takeSnapshot());
         }
     }
 
@@ -68,8 +58,22 @@ public class MarsRoverController implements MarsRoverApi {
     public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
         final var simulation = simulationRepository.getSimulation();
         if (simulation.isPresent())
-            simulationStatePresenter.simulationState(simulation.get().simulationState());
+            simulationStatePresenter.simulationState(simulation.get().takeSnapshot());
         else
             simulationStatePresenter.simulationState(SimulationState.NONE);
+    }
+
+    private static void presentLanding(LandingPresenter p, Simulation.SimulationLandEvent e) {
+        switch (e) {
+            case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessful(l.roverState());
+            case Simulation.RoverMissesSimulationLand r -> p.roverMissesSimulation(r.simulationSize());
+            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
+        }
+    }
+
+    private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
+        switch (e) {
+            case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
+        }
     }
 }

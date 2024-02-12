@@ -3,11 +3,33 @@ package io.tripled.marsrover.cli.messages;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
-import io.tripled.marsrover.business.domain.rover.Rover;
 
 import java.util.List;
 
 public class ConsolePresenter implements MessagePresenter {
+    private final String introGraphics = """
+            +----------------------------------------------------------------+
+            |                                                                |
+            |      ██████   ██████                                           |
+            |     ░░██████ ██████                                            |
+            |      ░███░█████░███   ██████   ████████   █████                |
+            |      ░███░░███ ░███  ░░░░░███ ░░███░░███ ███░░                 |
+            |      ░███ ░░░  ░███   ███████  ░███ ░░░ ░░█████                |
+            |      ░███      ░███  ███░░███  ░███      ░░░░███               |
+            |      █████     █████░░████████ █████     ██████                |
+            |     ░░░░░     ░░░░░  ░░░░░░░░ ░░░░░     ░░░░░░                 |
+            |      ███████████                                               |
+            |     ░░███░░░░░███                                              |
+            |      ░███    ░███   ██████  █████ █████  ██████  ████████      |
+            |      ░██████████   ███░░███░░███ ░░███  ███░░███░░███░░███     |
+            |      ░███░░░░░███ ░███ ░███ ░███  ░███ ░███████  ░███ ░░░      |
+            |      ░███    ░███ ░███ ░███ ░░███ ███  ░███░░░   ░███          |
+            |      █████   █████░░██████   ░░█████   ░░██████  █████         |
+            |     ░░░░░   ░░░░░  ░░░░░░     ░░░░░     ░░░░░░  ░░░░░          |
+            |                                                                |
+            +----------------------------------------------------------------+
+            """;
+
     @Override
     public void welcomeMessage() {
         System.out.println(introGraphics);
@@ -49,7 +71,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void landRoverMessage(RoverState roverState) {
-        System.out.println("Rover " + roverState.roverName() + " landed at [" + roverState.coordinate().xCoordinate() + "," + roverState.coordinate().yCoordinate() + "] and is facing NORTH");
+        System.out.println("Rover " + roverState.roverId() + " landed at [" + roverState.coordinate().xCoordinate() + "," + roverState.coordinate().yCoordinate() + "] and is facing NORTH");
     }
 
     @Override
@@ -67,12 +89,12 @@ public class ConsolePresenter implements MessagePresenter {
     @Override
     public void roverStateCommand(SimulationState simulationState) {
         System.out.println("Simulation has maxCoordinate " + simulationState.simulationSize() + " with a total of " + simulationState.totalCoordinates() + " coordinates.");
-        List<Rover> localRoverList = simulationState.roverList();
+        List<RoverState> localRoverList = simulationState.roverList();
         if (localRoverList.isEmpty()) {
             System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {
-            for (Rover rover : localRoverList) {
-                System.out.println("Rover " + rover.getRoverName() + " at Coordinates[x=" + rover.getRoverXPosition() +", y=" + rover.getRoverYPosition() + "] is facing " + rover.getRoverHeading());
+            for (RoverState rover : localRoverList) {
+                System.out.println("Rover " + rover.roverId() + " at Coordinates[x=" + rover.coordinate().xCoordinate() + ", y=" + rover.coordinate().yCoordinate() + "] is facing " + rover.roverHeading());
             }
         }
     }
@@ -81,12 +103,6 @@ public class ConsolePresenter implements MessagePresenter {
     public void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize) {
         System.out.println("Oh no! The rover misses the simulation completely!");
         System.out.println("The coordinate [" + xCoordinate + "," + yCoordinate + "] is not a valid coordinate for the planet with max coordinate " + simulationSize);
-    }
-
-    @Override
-    public void simulationAlreadyPopulated(RoverState roverState) {
-        System.out.println("There is already a rover " + roverState.roverName() + " present on this planet at coordinates [" + roverState.coordinate().xCoordinate() + "," + roverState.coordinate().yCoordinate() + "].");
-        System.out.println("Cannot land additional Rovers on this Simulation");
     }
 
     @Override
@@ -104,29 +120,5 @@ public class ConsolePresenter implements MessagePresenter {
     public void duplicateSimulationDetected(SimulationState simulationState) {
         System.out.println("There is already a simulation with size " + simulationState.simulationSize());
     }
-
-
-    private final String introGraphics = """
-            +----------------------------------------------------------------+
-            |                                                                |
-            |      ██████   ██████                                           |
-            |     ░░██████ ██████                                            |
-            |      ░███░█████░███   ██████   ████████   █████                |
-            |      ░███░░███ ░███  ░░░░░███ ░░███░░███ ███░░                 |
-            |      ░███ ░░░  ░███   ███████  ░███ ░░░ ░░█████                |
-            |      ░███      ░███  ███░░███  ░███      ░░░░███               |
-            |      █████     █████░░████████ █████     ██████                |
-            |     ░░░░░     ░░░░░  ░░░░░░░░ ░░░░░     ░░░░░░                 |
-            |      ███████████                                               |
-            |     ░░███░░░░░███                                              |
-            |      ░███    ░███   ██████  █████ █████  ██████  ████████      |
-            |      ░██████████   ███░░███░░███ ░░███  ███░░███░░███░░███     |
-            |      ░███░░░░░███ ░███ ░███ ░███  ░███ ░███████  ░███ ░░░      |
-            |      ░███    ░███ ░███ ░███ ░░███ ███  ░███░░░   ░███          |
-            |      █████   █████░░██████   ░░█████   ░░██████  █████         |
-            |     ░░░░░   ░░░░░  ░░░░░░     ░░░░░     ░░░░░░  ░░░░░          |
-            |                                                                |
-            +----------------------------------------------------------------+
-            """;
 }
 

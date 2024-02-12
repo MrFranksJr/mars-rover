@@ -2,7 +2,6 @@ package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
-import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
@@ -15,7 +14,6 @@ public class DummyPresenter implements MessagePresenter {
     private boolean hasBeenCalled = false;
     private boolean hasRoverLanded = false;
     private boolean hasLandingFailed = false;
-    private boolean alreadyRoverPresent = false;
     private boolean hadStateCommandInvoked = false;
     private boolean hasRoverMoved;
     private boolean hasSimulationCreated = false;
@@ -24,18 +22,30 @@ public class DummyPresenter implements MessagePresenter {
     public boolean hasRoverLanded() {
         return hasRoverLanded;
     }
+
     public boolean hasUnknownCommandBeenInvoked() {
         return hasBeenCalled;
     }
+
     public boolean hasRoverMissedSimulationBeenInvoked() {
         return hasRoverMissedSimulation;
     }
+
     public boolean invalidLandingInstruction() {
         return hasLandingFailed;
     }
-    public boolean hasRoverMoved() { return hasRoverMoved;}
-    public boolean hasSimulationBeenCreated() { return hasSimulationCreated; }
-    public boolean hasSimulationCreationFailed() { return hasSimulationCreationFailed; }
+
+    public boolean hasRoverMoved() {
+        return hasRoverMoved;
+    }
+
+    public boolean hasSimulationBeenCreated() {
+        return hasSimulationCreated;
+    }
+
+    public boolean hasSimulationCreationFailed() {
+        return hasSimulationCreationFailed;
+    }
 
     @Override
     public void welcomeMessage() {
@@ -85,11 +95,11 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     private void setRoverState(SimulationState simulationState) {
-        final List<Rover> rovers = simulationState.roverList();
+        final List<RoverState> rovers = simulationState.roverList();
         if (rovers.isEmpty())
             this.roverState = null;
         else
-            this.roverState = rovers.getFirst().getState();
+            this.roverState = rovers.getFirst();
     }
 
     public boolean hasStateCommandBeenInvoked() {
@@ -99,11 +109,6 @@ public class DummyPresenter implements MessagePresenter {
     @Override
     public void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize) {
         hasRoverMissedSimulation = true;
-    }
-
-    @Override
-    public void simulationAlreadyPopulated(RoverState roverState) {
-        this.alreadyRoverPresent = true;
     }
 
     @Override
@@ -121,10 +126,6 @@ public class DummyPresenter implements MessagePresenter {
     public void duplicateSimulationDetected(SimulationState simulationState) {
         hasSimulationCreated = false;
         this.simulationState = simulationState;
-    }
-
-    public boolean wasAlreadyRoverPresentInvoked() {
-        return alreadyRoverPresent;
     }
 
 }

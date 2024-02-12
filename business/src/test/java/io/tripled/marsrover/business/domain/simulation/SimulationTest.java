@@ -1,26 +1,36 @@
 package io.tripled.marsrover.business.domain.simulation;
 
+import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
-import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.vocabulary.RoverId;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationTest {
+
+    private final RoverId R1 = new RoverId(1);
+    private final RoverId R2 = new RoverId(2);
+
+    private static void landRover(Coordinate landingCoordinate, Simulation simWorld) {
+        simWorld.landRover(landingCoordinate, event -> {
+        });
+    }
+
     @Test
     void returnsCorrectSimSize() {
         Simulation simWorld = Simulation.create(52).orElseThrow();
 
-        assertEquals(52, simWorld.getSimulationSize());
+        assertEquals(52, simWorld.takeSnapshot().simulationSize());
     }
 
     @Test
     void returnsNrOfCoordinates() {
         Simulation simWorld = Simulation.create(5).orElseThrow();
 
-        assertEquals(36, simWorld.getNrOfCoordinates());
+        assertEquals(36, simWorld.takeSnapshot().totalCoordinates());
     }
 
     @Test
@@ -35,13 +45,12 @@ class SimulationTest {
                 }
                 case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
-                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> fail();
             }
         });
     }
 
     @Test
-    void onlyOneRoverAllowed() {
+    void multipleRoversAllowed() {
         final var simWorld = createSimulationWithARoverPresent();
 
         simWorld.landRover(new Coordinate(1, 1), validateRoverLandingDisallowed());
@@ -50,212 +59,210 @@ class SimulationTest {
 
     @Test
     void moveOneStepForwards() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.moveRover(Direction.FORWARD);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(6, rover.getRoverYPosition());
+        assertEquals(6, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void moveOneStepBackwards() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.moveRover(Direction.BACKWARD);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(4, rover.getRoverYPosition());
+        assertEquals(4, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void roverTurnsLeft() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.turnRover(Direction.LEFT);
+        simWorld.moveRover(R1, Direction.LEFT);
 
-        assertEquals(RoverHeading.WEST, rover.getRoverHeading());
+        assertEquals(RoverHeading.WEST, getRover(R1, simWorld).roverHeading());
     }
 
     @Test
     void roverTurnsRight() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.turnRover(Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.RIGHT);
 
-        assertEquals(RoverHeading.EAST, rover.getRoverHeading());
+        assertEquals(RoverHeading.EAST, getRover(R1, simWorld).roverHeading());
     }
 
     @Test
     void roverTurnsLeftAndMoveForward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.moveRover(Direction.FORWARD);
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(RoverHeading.WEST, rover.getRoverHeading());
-        assertEquals(4, rover.getRoverXPosition());
+        assertEquals(RoverHeading.WEST, getRover(R1, simWorld).roverHeading());
+        assertEquals(4, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverTurnsLeftAndMoveBackward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.moveRover(Direction.BACKWARD);
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(RoverHeading.WEST, rover.getRoverHeading());
-        assertEquals(6, rover.getRoverXPosition());
+        assertEquals(RoverHeading.WEST, getRover(R1, simWorld).roverHeading());
+        assertEquals(6, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverTurnsRightAndMovesForward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.moveRover(Direction.FORWARD);
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(RoverHeading.EAST, rover.getRoverHeading());
-        assertEquals(6, rover.getRoverXPosition());
+        assertEquals(RoverHeading.EAST, getRover(R1, simWorld).roverHeading());
+        assertEquals(6, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverTurnsRightAndMovesBackwards() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
 
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.moveRover(Direction.BACKWARD);
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(RoverHeading.EAST, rover.getRoverHeading());
-        assertEquals(4, rover.getRoverXPosition());
+        assertEquals(RoverHeading.EAST, getRover(R1, simWorld).roverHeading());
+        assertEquals(4, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void turnRoverToSouthClockwise() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.turnRover(Direction.RIGHT);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.RIGHT);
 
-        assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
+        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
     }
 
     @Test
     void turnRoverToSouthCounterClockwise() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.turnRover(Direction.LEFT);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.LEFT);
 
-        assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
+        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
     }
 
     @Test
     void turnRoverToSouthCounterClockwiseAndMoveForward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.moveRover(Direction.FORWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
-        assertEquals(4, rover.getRoverYPosition());
+        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
+        assertEquals(4, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void turnRoverToSouthCounterClockwiseAndMoveBackward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 5));
-        Rover rover = getRover(simWorld);
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.moveRover(Direction.BACKWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 5));
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(RoverHeading.SOUTH, rover.getRoverHeading());
-        assertEquals(6, rover.getRoverYPosition());
+        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
+        assertEquals(6, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void roverMovesNorthAndCrossesBoundry() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 10));
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 10));
 
-        simWorld.moveRover(Direction.FORWARD);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(0, getRover(simWorld).getRoverYPosition());
+        assertEquals(0, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void roverMovesWestOverBoundry() {
-        Simulation simWorld = createSimulation(10, new Coordinate(0, 8));
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.moveRover(Direction.FORWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(0, 8));
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(10, getRover(simWorld).getRoverXPosition());
+        assertEquals(10, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverMovesEastOverBoundary() {
-        Simulation simWorld = createSimulation(10, new Coordinate(10, 8));
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.moveRover(Direction.FORWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(10, 8));
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(0, getRover(simWorld).getRoverXPosition());
+        assertEquals(0, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverMovesSouthOverBoundary() {
-        Simulation simWorld = createSimulation(10, new Coordinate(10, 0));
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.moveRover(Direction.FORWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(10, 0));
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.FORWARD);
 
-        assertEquals(10, getRover(simWorld).getRoverYPosition());
+        assertEquals(10, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void roverMovesSouthAndCrossesBoundaryBackwards() {
-        Simulation simWorld = createSimulation(10, new Coordinate(5, 0));
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(5, 0));
 
-        simWorld.moveRover(Direction.BACKWARD);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(10, getRover(simWorld).getRoverYPosition());
+        assertEquals(10, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
     @Test
     void roverMovesEastOverBoundaryBackward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(10, 8));
-        simWorld.turnRover(Direction.LEFT);
-        simWorld.moveRover(Direction.BACKWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(10, 8));
+        simWorld.moveRover(R1, Direction.LEFT);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(0, getRover(simWorld).getRoverXPosition());
+        assertEquals(0, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverMovesWestOverBoundaryBackward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(0, 8));
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.moveRover(Direction.BACKWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(0, 8));
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(10, getRover(simWorld).getRoverXPosition());
+        assertEquals(10, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
     @Test
     void roverMovesNorthOverBoundaryBackward() {
-        Simulation simWorld = createSimulation(10, new Coordinate(10, 10));
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.turnRover(Direction.RIGHT);
-        simWorld.moveRover(Direction.BACKWARD);
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(10, 10));
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.RIGHT);
+        simWorld.moveRover(R1, Direction.BACKWARD);
 
-        assertEquals(0, getRover(simWorld).getRoverYPosition());
+        assertEquals(0, getRover(R1, simWorld).coordinate().yCoordinate());
+    }
+
+    @Test
+    void moveSpecificRover() {
+        Simulation simWorld = createSimulationWithRover(10, new Coordinate(10, 10));
+        landRover(new Coordinate(4, 4), simWorld);
+        simWorld.moveRover(R2, Direction.RIGHT);
+
+        assertEquals("R2", getRover(R2, simWorld).roverId());
+        assertEquals(RoverHeading.EAST, getRover(R2, simWorld).roverHeading());
     }
 
     private Simulation createSimulationWithARoverPresent() {
-        return createSimulation(5, new Coordinate(3, 4));
+        return createSimulationWithRover(5, new Coordinate(3, 4));
     }
 
     private Simulation.SimulationLandingEventPublisher validateRoverLandingDisallowed() {
@@ -265,26 +272,22 @@ class SimulationTest {
                     fail();
                 }
                 case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
-                    fail();
+                    assertTrue(true);
                 }
                 case Simulation.RoverMissesSimulationLand roverMissesSimulation -> {
                     fail();
-                }
-                case Simulation.SimulationLandAlreadyPopulated simulationAlreadyPopulated -> {
-                    assertTrue(true);
                 }
             }
         };
     }
 
-    private Rover getRover(Simulation simWorld) {
-        return simWorld.getRoverList().getFirst();
+    private RoverState getRover(RoverId roverId, Simulation simWorld) {
+        return simWorld.takeSnapshot().getRover(roverId).orElseThrow();
     }
 
-    private Simulation createSimulation(int simulationSize, Coordinate landingCoordinate) {
+    private Simulation createSimulationWithRover(int simulationSize, Coordinate landingCoordinate) {
         final Simulation simWorld = Simulation.create(simulationSize).orElseThrow();
-        simWorld.landRover(landingCoordinate, event -> {
-        });
+        landRover(landingCoordinate, simWorld);
         return simWorld;
     }
 

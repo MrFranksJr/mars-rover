@@ -3,13 +3,13 @@ package io.tripled.marsrover.business.domain.rover;
 import io.tripled.marsrover.business.api.RoverState;
 
 public class Rover implements Vehicle {
-    private final String roverName;
+    private final String roverId;
     private RoverHeading roverHeading;
     private Location location;
 
-    public Rover(String roverName, int xCoordinate, int yCoordinate, int simulationSize) {
+    public Rover(String roverId, int xCoordinate, int yCoordinate, int simulationSize) {
         this.roverHeading = RoverHeading.NORTH;
-        this.roverName = roverName;
+        this.roverId = roverId;
         this.location = Location.newBuilder()
                 .setSimulationSize(simulationSize)
                 .withXCo(xCoordinate)
@@ -17,8 +17,8 @@ public class Rover implements Vehicle {
                 .build();
     }
 
-    public String getRoverName() {
-        return roverName;
+    public String getRoverId() {
+        return roverId;
     }
     public RoverHeading getRoverHeading() {
         return roverHeading;
@@ -33,7 +33,7 @@ public class Rover implements Vehicle {
     public RoverState getState() {
         return RoverState.newBuilder()
                 .withRoverHeading(roverHeading)
-                .withRoverName(roverName)
+                .withRoverName(roverId)
                 .withCoordinate(location.coordinate())
                 .build();
     }

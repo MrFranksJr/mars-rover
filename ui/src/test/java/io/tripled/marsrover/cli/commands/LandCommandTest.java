@@ -35,30 +35,16 @@ class LandCommandTest {
         landCommand.execute(dummyPresenter);
 
         //when
-        assertEquals("R1", dummyPresenter.roverState.roverName());
+        assertEquals("R1", dummyPresenter.roverState.roverId());
         assertNotNull(dummyPresenter.roverState);
         assertTrue(dummyPresenter.hasRoverLanded());
         assertFalse(dummyPresenter.hasRoverMissedSimulationBeenInvoked());
         assertFalse(dummyPresenter.invalidLandingInstruction());
         assertEquals(landLocation.xCoordinate(), dummyPresenter.roverState.coordinate().xCoordinate());
         assertEquals(landLocation.yCoordinate(), dummyPresenter.roverState.coordinate().yCoordinate());
-        assertEquals("R1", dummyPresenter.roverState.roverName());
+        assertEquals("R1", dummyPresenter.roverState.roverId());
     }
 
-    @Test
-    void onlyOneRoverAllowed() {
-        Coordinate landLocation = new Coordinate(1, 1);
-        //given
-        Command landFirstCommand = new LandCommand(landLocation, marsRoverController);
-        Command landSecondCommand = new LandCommand(landLocation, marsRoverController);
-        landFirstCommand.execute(dummyPresenter);
-
-        //then
-        landSecondCommand.execute(dummyPresenter);
-
-        //when
-        assertTrue(dummyPresenter.wasAlreadyRoverPresentInvoked());
-    }
 
     @Test
     void roverMissingSimulation() {

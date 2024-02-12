@@ -15,6 +15,24 @@ Feature: Landing in the simulation
       | 20      | 20 | 20 |
       | 20      | 10 | 10 |
 
+  Scenario Outline: Land multiple rovers
+    Given A simulation of size <simSize>
+    When We land a rover on coordinates <x> <y>
+    And We land a rover on coordinates <x> <a>
+    And We land a rover on coordinates <a> <y>
+    Then The Rover "R1" is at <x> <y> with orientation "north"
+    And The Rover "R2" is at <x> <a> with orientation "north"
+    And The Rover "R3" is at <a> <y> with orientation "north"
+
+    Examples:
+      | simSize | x  | y  |a  |
+      | 10      | 5  | 5  |3  |
+      | 5       | 0  | 0  |3  |
+      | 5       | 5  | 5  |2  |
+      | 20      | 20 | 20 |18 |
+      | 20      | 10 | 10 |7  |
+
+
   Scenario Outline: We can not land outside of the simulation
     Given A simulation of size <simSize>
     When We land a rover on coordinates <x> <y>

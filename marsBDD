@@ -1,2 +1,3 @@
-./mvnw clean install
+./mvnw clean package -DskipTests
+./mvnw test -pl business
 ./mvnw cluecumber-report:reporting -pl business

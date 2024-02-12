@@ -9,6 +9,4 @@ public interface LandingPresenter {
     void roverMissesSimulation(int simulationSize);
 
     void negativeCoordinatesReceived(Coordinate coordinate);
-
-    void simulationAlreadyPopulated(RoverState roverState);
 }

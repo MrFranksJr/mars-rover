@@ -33,7 +33,7 @@ class RoverMoveCommandTest {
         final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
 
         roverMoveCommand.execute(dummyPresenter);
-        assertEquals("R1", dummyPresenter.roverState.roverName());
+        assertEquals("R1", dummyPresenter.roverState.roverId());
         assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
         assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
         assertTrue(dummyPresenter.hasRoverMoved());
@@ -48,7 +48,7 @@ class RoverMoveCommandTest {
         Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
 
         roverMoveCommand.execute(dummyPresenter);
-        assertEquals("R1", dummyPresenter.roverState.roverName());
+        assertEquals("R1", dummyPresenter.roverState.roverId());
         assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
         assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
     }

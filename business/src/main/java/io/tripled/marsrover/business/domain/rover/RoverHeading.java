@@ -1,7 +1,7 @@
 package io.tripled.marsrover.business.domain.rover;
 
 public enum RoverHeading {
-    NORTH ,
+    NORTH,
     EAST ,
     SOUTH,
     WEST ;
