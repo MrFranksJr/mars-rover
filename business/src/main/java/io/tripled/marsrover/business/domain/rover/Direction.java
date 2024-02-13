@@ -1,8 +1,7 @@
 package io.tripled.marsrover.business.domain.rover;
 
 public enum Direction {
-    FORWARD,
-    LEFT, RIGHT, BACKWARD;
+    FORWARD, LEFT, RIGHT, BACKWARD;
 
     public static Direction convertTextToDirection(String directionInText) {
         return switch (directionInText.toLowerCase()) {

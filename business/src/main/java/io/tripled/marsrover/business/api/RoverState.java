@@ -2,11 +2,12 @@ package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.vocabulary.RoverId;
 
-public record RoverState(String roverId, RoverHeading roverHeading, Coordinate coordinate) {
+public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate coordinate) {
 
     private RoverState(Builder builder) {
-        this(builder.roverName, builder.roverHeading, builder.coordinate);
+        this(builder.roverId, builder.roverHeading, builder.coordinate);
     }
 
     public static Builder newBuilder() {
@@ -14,15 +15,18 @@ public record RoverState(String roverId, RoverHeading roverHeading, Coordinate c
     }
 
     public static final class Builder {
-        private String roverName;
+        private RoverId roverId;
         private RoverHeading roverHeading;
         private Coordinate coordinate;
         private Builder() {
         }
 
-        public Builder withRoverName(String val) {
-            roverName = val;
+        public Builder withRoverName(RoverId val) {
+            roverId = val;
             return this;
+        }
+        public Builder withRoverName(String val) {
+            return withRoverName(new RoverId(val));
         }
 
         public Builder withRoverHeading(RoverHeading val) {

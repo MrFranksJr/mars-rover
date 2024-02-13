@@ -1,36 +1,32 @@
 package io.tripled.marsrover.business.domain.rover;
 
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.vocabulary.RoverId;
 
-public class Rover implements Vehicle {
-    private final String roverId;
+public class Rover {
+    private final RoverId roverId;
     private RoverHeading roverHeading;
-    private Location location;
 
-    public Rover(String roverId, int xCoordinate, int yCoordinate, int simulationSize) {
-        this.roverHeading = RoverHeading.NORTH;
+
+    public Rover(RoverId roverId, RoverHeading roverHeading) {
         this.roverId = roverId;
-        this.location = Location.newBuilder()
-                .setSimulationSize(simulationSize)
-                .withXCo(xCoordinate)
-                .withYco(yCoordinate)
-                .build();
+        this.roverHeading = roverHeading;
     }
 
-    public String getRoverId() {
+    public Rover(String roverId, RoverHeading roverHeading) {
+        this(new RoverId(roverId), roverHeading);
+    }
+
+
+    public RoverId getRoverId() {
         return roverId;
     }
+
     public RoverHeading getRoverHeading() {
         return roverHeading;
     }
-    public int getRoverXPosition() {
-        return location.coordinate().xCoordinate();
-    }
-    public int getRoverYPosition() {
-        return location.coordinate().yCoordinate();
-    }
 
-    public RoverState getState() {
+    public RoverState getRoverState(Location location) {
         return RoverState.newBuilder()
                 .withRoverHeading(roverHeading)
                 .withRoverName(roverId)
@@ -38,32 +34,31 @@ public class Rover implements Vehicle {
                 .build();
     }
 
-    @Override
-    public void moveForward() {
-        switch (getRoverHeading()){
-            case NORTH -> location = location.incrementY();
-            case EAST -> location = location.incrementX();
-            case SOUTH -> location = location.decrementY();
-            case WEST -> location = location.decrementX();
-        }
+
+    public Location moveForward(Location currentLocation) {
+        return switch (getRoverHeading()) {
+            case NORTH -> currentLocation.incrementY();
+            case EAST -> currentLocation.incrementX();
+            case SOUTH -> currentLocation.decrementY();
+            case WEST -> currentLocation.decrementX();
+        };
     }
 
-    @Override
-    public void moveBackward() {
-        switch (getRoverHeading()){
-            case NORTH -> location = location.decrementY();
-            case EAST -> location = location.decrementX();
-            case SOUTH -> location = location.incrementY();
-            case WEST -> location = location.incrementX();
-        }
+
+    public Location moveBackward(Location currentLocation) {
+        return switch (getRoverHeading()) {
+            case NORTH -> currentLocation.decrementY();
+            case EAST -> currentLocation.decrementX();
+            case SOUTH -> currentLocation.incrementY();
+            case WEST -> currentLocation.incrementX();
+        };
     }
 
-    @Override
     public void turnLeft() {
-        roverHeading = roverHeading.nextCounterClockWise();;
+        roverHeading = roverHeading.nextCounterClockWise();
+        ;
     }
 
-    @Override
     public void turnRight() {
         roverHeading = roverHeading.nextClockWise();
     }

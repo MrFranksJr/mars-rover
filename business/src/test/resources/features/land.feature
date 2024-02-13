@@ -20,9 +20,11 @@ Feature: Landing in the simulation
     When We land a rover on coordinates <x> <y>
     And We land a rover on coordinates <x> <a>
     And We land a rover on coordinates <a> <y>
+    And We land a rover on coordinates <a> <a>
     Then The Rover "R1" is at <x> <y> with orientation "north"
     And The Rover "R2" is at <x> <a> with orientation "north"
     And The Rover "R3" is at <a> <y> with orientation "north"
+    And The Rover "R4" is at <a> <a> with orientation "north"
 
     Examples:
       | simSize | x  | y  |a  |

@@ -21,7 +21,7 @@ public record SimulationState(int simulationSize, int totalCoordinates, List<Rov
     }
 
     public Optional<RoverState> getRover(String roverId) {
-        return roverList.stream().filter(x -> x.roverId().equals(roverId)).findFirst();
+        return roverList.stream().filter(x -> x.roverId().id().equals(roverId)).findFirst();
     }
 
     public Optional<RoverState> getRover(RoverId roverId) {

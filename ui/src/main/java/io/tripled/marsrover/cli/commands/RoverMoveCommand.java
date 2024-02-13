@@ -5,6 +5,7 @@ import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,14 +28,10 @@ public class RoverMoveCommand implements Command {
             }
 
             @Override
-            public void cannotMoveIfRoverDoesNotExist() {
-                messagePresenter.roverDoesNotExist();
+            public void roverCollided(RoverId roverId) {
+
             }
 
-            @Override
-            public String moveRoverUnsuccesful() {
-                return "";
-            }
         });
     }
 

@@ -18,4 +18,11 @@ public record Coordinate(int xCoordinate, int yCoordinate) {
     public Coordinate newX(int x) {
         return new Coordinate(x, yCoordinate);
     }
+
+    @Override
+    public String toString() {
+        return "[" + xCoordinate +
+               " - " + yCoordinate +
+               ']';
+    }
 }

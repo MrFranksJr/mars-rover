@@ -20,10 +20,6 @@ public record Location(Coordinate coordinate, int simulationSize) {
         return new Location(c, simulationSize);
     }
 
-    private int calculateIncrementY() {
-        return increment(coordinate().yCoordinate());
-    }
-
     public Location incrementX() {
         int x = calculateIncrementX();
         final Coordinate c = coordinate.newX(x);
@@ -40,6 +36,41 @@ public record Location(Coordinate coordinate, int simulationSize) {
         int y = calculateDecrementY();
         Coordinate c = coordinate.newY(y);
         return new Location(c, simulationSize);
+    }
+
+    public static class Builder {
+        private int xCoordinate;
+        private int yCoordinate;
+        private int simulationSize;
+
+        public Builder setSimulationSize(int simulationSize) {
+            this.simulationSize = simulationSize;
+            return this;
+        }
+
+        public Builder withXCo(int xCoordinate) {
+            this.xCoordinate = xCoordinate;
+            return this;
+        }
+
+        public Builder withYco(int yCoordinate) {
+            this.yCoordinate = yCoordinate;
+            return this;
+        }
+
+        public Location build() {
+            return new Location(new Coordinate(xCoordinate, yCoordinate), simulationSize);
+        }
+
+        public Builder withCoordinate(Coordinate coordinate) {
+            this.xCoordinate = coordinate.xCoordinate();
+            this.yCoordinate = coordinate.yCoordinate();
+            return this;
+        }
+    }
+
+    private int calculateIncrementY() {
+        return increment(coordinate().yCoordinate());
     }
 
     private int calculateDecrementY() {
@@ -72,31 +103,6 @@ public record Location(Coordinate coordinate, int simulationSize) {
 
     private int calculateDecrementX() {
         return decrement(coordinate().xCoordinate());
-    }
-
-    public static class Builder {
-        private int xCoordinate;
-        private int yCoordinate;
-        private int simulationSize;
-
-        public Builder setSimulationSize(int simulationSize) {
-            this.simulationSize = simulationSize;
-            return this;
-        }
-
-        public Builder withXCo(int xCoordinate) {
-            this.xCoordinate = xCoordinate;
-            return this;
-        }
-
-        public Builder withYco(int yCoordinate) {
-            this.yCoordinate = yCoordinate;
-            return this;
-        }
-
-        public Location build() {
-            return new Location(new Coordinate(xCoordinate, yCoordinate), simulationSize);
-        }
     }
 
 }

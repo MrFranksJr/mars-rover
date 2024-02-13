@@ -4,6 +4,7 @@ import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,6 +44,11 @@ public class MarsRoverController implements MarsRoverApi {
     }
 
     @Override
+    public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
+
+    }
+
+    @Override
     public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
         final Optional<Simulation> simulation = Simulation.create(simulationSize);
         if (simulation.isEmpty())
@@ -74,6 +80,7 @@ public class MarsRoverController implements MarsRoverApi {
     private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
         switch (e) {
             case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
+            case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverId());
         }
     }
 }

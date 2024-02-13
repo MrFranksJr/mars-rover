@@ -1,27 +1,26 @@
 package io.tripled.marsrover.business.domain.simulation;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.Direction;
-import io.tripled.marsrover.business.domain.rover.Rover;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.business.domain.rover.*;
+import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 public class Simulation {
     private final int simulationSize;
-    private final List<Rover> roverList;
+    private final Multimap<Location, Rover> roverLocationMap;
+    private int nrOfRovers = 0;
 
     public Simulation(int simulationSize) {
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
         this.simulationSize = simulationSize;
-        this.roverList = new ArrayList<>();
+        this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
     }
 
     public static Optional<Simulation> create(int size) {
@@ -29,13 +28,11 @@ public class Simulation {
     }
 
     public SimulationState takeSnapshot() {
-        final var roverState = roverList.stream()
-                .map(Rover::getState)
-                .collect(toList());
+        final var collect = roverLocationMap.entries().stream().map((Map.Entry<Location, Rover> x) -> x.getValue().getRoverState(x.getKey())).toList();
         return SimulationState.newBuilder()
                 .withSimSize(simulationSize)
                 .withTotalCoordinates(calculateNrOfCoordinates())
-                .withRoverList(roverState)
+                .withRoverList(collect)
                 .build();
     }
 
@@ -50,13 +47,32 @@ public class Simulation {
         }
     }
 
+    // R2 b2 l1 //ok
+    // R1 f2 R2 b2 l1 R3 f2 R1 f5 // not supported yet
     public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher) {
-        final RoverState roverState = moveRover(roverMoves);
-        eventPublisher.publish(new RoverMovedSuccessfulEvent(roverState));
-    }
+        for (RoverMove roverMove : roverMoves) {
+            for (int i = 0; i < roverMove.steps(); i++) {
 
-    public void moveRover(RoverId roverId, Direction direction) {
-        getRover(roverId.id()).ifPresent(rover -> moveRover(direction, rover));
+                final Optional<SimulationMoveRoverEvent> roverEvent = getRover(roverMove.roverId())
+                        .map(x -> moveRover(roverMove.direction(), x));
+
+                //TODO improve
+                if (roverEvent.isPresent()) {
+                    final var e = roverEvent.get();
+
+                    switch (e) {
+                        case RoverCollided roverCollided -> {
+                            eventPublisher.publish(roverCollided);
+                            //Stop processing RoverMoves
+                            return;
+                        }
+                        case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent -> {
+                            eventPublisher.publish(roverMovedSuccessfulEvent);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -75,19 +91,56 @@ public class Simulation {
 
     }
 
-    private void moveRover(Direction direction, Rover rover) {
-        if (direction == Direction.FORWARD) {
-            rover.moveForward();
-        } else if (direction == Direction.BACKWARD) {
-            rover.moveBackward();
-        } else if (direction == Direction.LEFT)
-            rover.turnLeft();
-        else
-            rover.turnRight();
+    public record RoverCollided(RoverId roverId, Location newLocation) implements SimulationMoveRoverEvent {
     }
 
-    private Optional<Rover> getRover(String roverId) {
-        return roverList.stream().filter(x -> x.getRoverId().equals(roverId)).findFirst();
+    //TODO: REFACTOR!!
+    private SimulationMoveRoverEvent moveRover(Direction direction, Pair<Location, Rover> locationRoverPair) {
+        final var rover = locationRoverPair.second();
+        final var oldLocation = locationRoverPair.first();
+        return switch (direction) {
+            case FORWARD -> {
+                final var newLocation = rover.moveForward(oldLocation);
+                yield roverGoToNewLocation(newLocation, oldLocation, rover);
+            }
+            case LEFT -> {
+                rover.turnLeft();
+                yield new RoverMovedSuccessfulEvent(rover.getRoverState(oldLocation));
+            }
+            case RIGHT -> {
+                rover.turnRight();
+                yield new RoverMovedSuccessfulEvent(rover.getRoverState(oldLocation));
+            }
+            case BACKWARD -> {
+                final var newLocation = rover.moveBackward(oldLocation);
+                yield roverGoToNewLocation(newLocation, oldLocation, rover);
+            }
+        };
+    }
+
+    private SimulationMoveRoverEvent roverGoToNewLocation(Location newLocation, Location oldLocation, Rover rover) {
+        if (isFree(newLocation)) {
+            changeRoverLocation(oldLocation, rover, newLocation);
+            return new RoverMovedSuccessfulEvent(rover.getRoverState(newLocation));
+        } else {
+            return new RoverCollided(rover.getRoverId(), newLocation);
+        }
+    }
+
+    private boolean isFree(Location newLocation) {
+        return roverLocationMap.get(newLocation).isEmpty();
+    }
+
+    private void changeRoverLocation(Location oldLocation, Rover rover, Location newLocation) {
+        roverLocationMap.remove(oldLocation, rover);
+        roverLocationMap.put(newLocation, rover);
+    }
+
+    private Optional<Pair<Location, Rover>> getRover(RoverId roverId) {
+        return roverLocationMap.entries().stream()
+                .filter(x -> x.getValue().getRoverId().equals(roverId))
+                .map(x -> new Pair<>(x.getKey(), x.getValue()))
+                .findFirst();
     }
 
     private int calculateNrOfCoordinates() {
@@ -95,15 +148,15 @@ public class Simulation {
     }
 
     private RoverState landRover(Coordinate coordinate) {
-
-        Rover r = createNewRover(coordinate);
-        roverList.add(r);
-        return r.getState();
+        Rover r = createNewRover();
+        final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(coordinate).build();
+        roverLocationMap.put(lo, r);
+        return r.getRoverState(lo);
     }
 
-    private Rover createNewRover(Coordinate coordinate) {
-        final var roverId = "R" + (roverList.size() + 1);
-        return new Rover(roverId, coordinate.xCoordinate(), coordinate.yCoordinate(), simulationSize);
+    private Rover createNewRover() {
+        final var roverId = new RoverId("R" + (++nrOfRovers));
+        return new Rover(roverId, RoverHeading.NORTH);
     }
 
     private boolean invalidCoordinatesReceived(Coordinate coordinate) {
@@ -112,15 +165,6 @@ public class Simulation {
 
     private boolean landingWithinSimulationLimits(Coordinate coordinate) {
         return coordinate.xCoordinate() <= simulationSize && coordinate.yCoordinate() <= simulationSize;
-    }
-
-    private RoverState moveRover(List<RoverMove> roverMoves) {
-        for (RoverMove roverMove : roverMoves) {
-            for (int i = 0; i < roverMove.steps(); i++) {
-                moveRover(roverMove.roverId(), Direction.convertTextToDirection(roverMove.direction()));
-            }
-        }
-        return roverList.getFirst().getState();
     }
 
     public sealed interface SimulationLandEvent {
@@ -135,5 +179,6 @@ public class Simulation {
 
     public interface SimulationRoverMovedEventPublisher {
         void publish(SimulationMoveRoverEvent event);
+        //TODO add collision event
     }
 }

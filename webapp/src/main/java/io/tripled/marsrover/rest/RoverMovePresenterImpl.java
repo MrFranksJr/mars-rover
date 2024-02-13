@@ -2,6 +2,7 @@ package io.tripled.marsrover.rest;
 
 import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.vocabulary.RoverId;
 
 public class RoverMovePresenterImpl implements RoverMovePresenter {
     @Override
@@ -9,13 +10,11 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
 
     }
 
+
     @Override
-    public void cannotMoveIfRoverDoesNotExist() {
+    public void roverCollided(RoverId roverId) {
 
     }
 
-    @Override
-    public String moveRoverUnsuccesful() {
-        return "Rover could not execute move instruction. Please provide correct instruction.";
-    }
+
 }

@@ -14,7 +14,6 @@ public class InMemSimulationRepo implements SimulationRepository {
         if (simWorld == null) {
             simWorld = simulation;
         }
-
     }
 
     @Override
