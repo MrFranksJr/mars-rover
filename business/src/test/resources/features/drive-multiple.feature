@@ -34,7 +34,7 @@ Feature: Driving around multiple Rovers
     When We give the Rover "R1" the Instructions
       | instruction | amount |
       | back        | 3      |
-      | fore        | 1      |
+      | forward        | 1      |
     Then The Rover "R2" is at 5 4 with orientation "north"
     And The Rover "R1" is at 5 5 with orientation "north"
 

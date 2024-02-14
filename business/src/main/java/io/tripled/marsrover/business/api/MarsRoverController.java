@@ -47,7 +47,6 @@ public class MarsRoverController implements MarsRoverApi {
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
                 simulation.moveRover(roverInstructions.moves(), event -> presentRoverMoved(roverMovePresenter, event));
             }
-
         }
     }
 

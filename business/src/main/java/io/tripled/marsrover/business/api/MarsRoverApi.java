@@ -14,9 +14,9 @@ public interface MarsRoverApi {
 
     void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter);
 
-    //To die
+    //TODO: To die
     void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter);
 
-    //The new way
+    //TODO: The new way
     void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter);
 }

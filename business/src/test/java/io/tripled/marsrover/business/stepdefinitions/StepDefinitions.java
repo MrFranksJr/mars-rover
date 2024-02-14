@@ -42,18 +42,17 @@ public class StepDefinitions {
 
     @When("We give the Rover {string} the Instruction {string} {int}")
     public void weGiveTheRoverTheInstructionAmount(String roverName, String instruction, int steps) {
-        String directionString = instruction.substring(0, 1);
-        final List<RoverMove> moves = List.of(new RoverMove(roverName, directionString, steps));
+        final InstructionBatch roverMoves = parseSingleRoverInstruction(roverName, instruction, steps);
 
-        marsRoverApi.moveRover(moves, LogginRoverMovePresenter.INSTANCE);
+        marsRoverApi.executeMoveInstructions(roverMoves,LogginRoverMovePresenter.INSTANCE);
     }
 
     @When("We give the Rover {string} the Instructions")
     public void weGiveTheRoverTheInstructions(String roverName, io.cucumber.datatable.DataTable dataTable) {
 
-        final List<RoverMove> roverMovesList = parseSingleRoverInstructionsDataTable(roverName, dataTable);
+        final InstructionBatch instructionBatch = parseSingleRoverInstructionsDataTable(roverName, dataTable);
 
-        marsRoverApi.moveRover(roverMovesList, LogginRoverMovePresenter.INSTANCE);
+        marsRoverApi.executeMoveInstructions(instructionBatch, LogginRoverMovePresenter.INSTANCE);
     }
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
@@ -77,7 +76,7 @@ public class StepDefinitions {
     @When("We give the Rovers the Instructions")
     public void weGiveTheRoversTheInstructions(io.cucumber.datatable.DataTable dataTable) {
 
-        final var roverMoves = parseMultipleRoverInstructionsDataTable(dataTable);
+        final InstructionBatch roverMoves = parseMultipleRoverInstructionsDataTable(dataTable);
         marsRoverApi.executeMoveInstructions(roverMoves, LogginRoverMovePresenter.INSTANCE);
     }
 
@@ -86,29 +85,37 @@ public class StepDefinitions {
 
     }
 
-    private static List<RoverMove> parseSingleRoverInstructionsDataTable(String roverId, DataTable dataTable) {
+    private static InstructionBatch parseSingleRoverInstruction(String roverId, String direction, int amount) {
+        final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
+
+        final RoverMove roverMove = new RoverMove(roverId, direction.substring(0, 1), amount);
+        instructionBatch.addRoverMoves(roverId, roverMove);
+
+        return instructionBatch.build();
+    }
+
+    private static InstructionBatch parseSingleRoverInstructionsDataTable(String roverId, DataTable dataTable) {
         final List<Map<String, String>> instructions = dataTable.asMaps(String.class, String.class);
-        final List<RoverMove> roverMovesList = new ArrayList<>();
+        final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 
         for (Map<String, String> row : instructions) {
             final String command = row.get("instruction").substring(0, 1);
             final int amount = Integer.parseInt(row.get("amount"));
-            final var roverMove = new RoverMove(roverId, command, amount);
-            roverMovesList.add(roverMove);
+            final RoverMove roverMove = new RoverMove(roverId, command, amount);
+            instructionBatch.addRoverMoves(roverId, roverMove);
         }
-        return roverMovesList;
+        return instructionBatch.build();
     }
 
     private static InstructionBatch parseMultipleRoverInstructionsDataTable(DataTable dataTable) {
         final List<Map<String, String>> instructions = dataTable.asMaps(String.class, String.class);
-        final List<RoverMove> roverMovesList = new ArrayList<>();
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 
         for (Map<String, String> row : instructions) {
             final String roverId = row.get("roverId");
             final String command = row.get("instruction").substring(0, 1);
             final int amount = Integer.parseInt(row.get("amount"));
-            final var roverMove = new RoverMove(roverId, command, amount);
+            final RoverMove roverMove = new RoverMove(roverId, command, amount);
             instructionBatch.addRoverMoves(roverId, roverMove);
         }
         return instructionBatch.build();

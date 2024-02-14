@@ -39,20 +39,6 @@ class RoverMoveCommandTest {
         assertTrue(dummyPresenter.hasRoverMoved());
     }
 
-    @Disabled
-    @Test
-    void doNotGenerateMoveCommandIfNoRoverThere() {
-        final Command simSetupCommand = createSimulationOfSize10();
-        simSetupCommand.execute(dummyPresenter);
-
-        Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
-
-        roverMoveCommand.execute(dummyPresenter);
-        assertEquals("R1", dummyPresenter.roverState.roverId());
-        assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
-        assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
-    }
-
     private Command createSimulationOfSize10() {
         dummyPresenter = new DummyPresenter();
         Command simSetupCommand = new SimSetupCommand(10, marsRoverController);
@@ -69,5 +55,4 @@ class RoverMoveCommandTest {
         Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
         return roverMoveCommand;
     }
-
 }
