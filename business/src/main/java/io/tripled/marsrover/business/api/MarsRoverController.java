@@ -29,7 +29,6 @@ public class MarsRoverController implements MarsRoverApi {
             final var eventPublisher = createEventPublisher(landingPresenter);
             simulation.landRover(coordinate, eventPublisher);
         }
-
     }
 
     private InstructionBatch parseRoverMovesListToInstructionBatch(List<RoverMove> roverMoves) {
