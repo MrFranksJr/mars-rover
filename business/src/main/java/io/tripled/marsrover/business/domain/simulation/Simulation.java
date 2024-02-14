@@ -48,8 +48,7 @@ public class Simulation {
         }
     }
 
-    // R2 b2 l1 //ok
-    // R1 f2 R2 b2 l1 R3 f2 R1 f5 // not supported yet
+
     public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher) {
         for (RoverMove roverMove : roverMoves) {
             for (int i = 0; i < roverMove.steps(); i++) {

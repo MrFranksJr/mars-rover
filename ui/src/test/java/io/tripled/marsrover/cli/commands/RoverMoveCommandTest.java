@@ -33,7 +33,7 @@ class RoverMoveCommandTest {
         final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
 
         roverMoveCommand.execute(dummyPresenter);
-        assertEquals("R1", dummyPresenter.roverState.roverId());
+        assertEquals("R1", dummyPresenter.roverState.roverId().id());
         assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
         assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
         assertTrue(dummyPresenter.hasRoverMoved());

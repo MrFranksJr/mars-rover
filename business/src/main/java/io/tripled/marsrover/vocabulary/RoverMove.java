@@ -13,4 +13,3 @@ public record RoverMove(RoverId roverId, Direction direction, int steps) {
     }
 
 }
-

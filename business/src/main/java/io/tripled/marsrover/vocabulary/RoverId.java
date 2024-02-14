@@ -16,7 +16,6 @@ public record RoverId(String id) {
         } catch (NumberFormatException ex) {
             throw new IllegalArgumentException("A rover id starts with R followed by numbers");
         }
-
     }
 
     @Override
