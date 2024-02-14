@@ -4,8 +4,11 @@ import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
+import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoverMoveCommandTest {
     private DummyPresenter dummyPresenter;
-    private MarsRoverApi marsRoverController = new MarsRoverController(new InMemSimulationRepo());
+    private final MarsRoverApi marsRoverController = new MarsRoverController(new InMemSimulationRepo());
+    private RoverId R1;
+
+    @BeforeEach
+    void init() {
+        this.R1 = new RoverId("R1");
+    }
 
     @Test
     void simpleRoverMoveInvocation() {
@@ -26,7 +35,6 @@ class RoverMoveCommandTest {
 
         assertTrue(dummyPresenter.hasRoverMoved());
     }
-
 
     @Test
     void parseMoveCommandStringR1f2() {
@@ -52,7 +60,10 @@ class RoverMoveCommandTest {
 
         Command landCommand = new LandCommand(new Coordinate(5, 5), marsRoverController);
         landCommand.execute(dummyPresenter);
-        Command roverMoveCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), marsRoverController);
-        return roverMoveCommand;
+
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
+                .build();
+        return new RoverMoveCommand(instructionBatch, marsRoverController);
     }
 }

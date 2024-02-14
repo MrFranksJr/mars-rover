@@ -4,6 +4,7 @@ import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;
 
@@ -126,6 +127,11 @@ public class DummyPresenter implements MessagePresenter {
     public void duplicateSimulationDetected(SimulationState simulationState) {
         hasSimulationCreated = false;
         this.simulationState = simulationState;
+    }
+
+    @Override
+    public void roverCollidedMessage(RoverId roverId) {
+
     }
 
 }

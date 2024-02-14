@@ -7,8 +7,6 @@ import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,7 +89,7 @@ public class MarsRoverRestController {
                 String preppedInput = matcher.group(i).trim();
                 String direction = preppedInput.substring(0, 1);
                 int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-                final RoverMove roverMove = new RoverMove(roverId, direction, steps);
+                final RoverMove roverMove = new RoverMove(direction, steps);
                 instructionBatch.addRoverMoves(roverId, roverMove);
             }
         }

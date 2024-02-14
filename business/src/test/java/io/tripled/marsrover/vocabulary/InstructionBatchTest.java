@@ -26,8 +26,8 @@ class InstructionBatchTest {
     void happyPath() {
 
         final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
-                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.RIGHT, 2), new RoverMove(R1, Direction.FORWARD, 2), new RoverMove(R1, Direction.FORWARD, 3)))
-                .addRoverMoves(R2, List.of(new RoverMove(R2, Direction.BACKWARD, 4)))
+                .addRoverMoves(R1, List.of(new RoverMove(Direction.RIGHT, 2), new RoverMove(Direction.FORWARD, 2), new RoverMove(Direction.FORWARD, 3)))
+                .addRoverMoves(R2, List.of(new RoverMove(Direction.BACKWARD, 4)))
                 .build();
 
         assertTrue(instructionBatch.batch().size() == 2);
@@ -39,8 +39,8 @@ class InstructionBatchTest {
                 () ->
                         new InstructionBatch(
                                 of(
-                                        new RoverInstructions(R1, of(new RoverMove(R1, Direction.RIGHT, 2))),
-                                        new RoverInstructions(R1, of(new RoverMove(R1, Direction.FORWARD, 4)))
+                                        new RoverInstructions(R1, of(new RoverMove(Direction.RIGHT, 2))),
+                                        new RoverInstructions(R1, of(new RoverMove(Direction.FORWARD, 4)))
                                 )
                         ));
     }
@@ -48,8 +48,8 @@ class InstructionBatchTest {
     @Test
     void builderMergesMovesOfTheSameRover() {
         final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
-                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.RIGHT, 2)))
-                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.BACKWARD, 4)))
+                .addRoverMoves(R1, List.of(new RoverMove(Direction.RIGHT, 2)))
+                .addRoverMoves(R1, List.of(new RoverMove(Direction.BACKWARD, 4)))
                 .build();
 
         assertEquals(1, instructionBatch.batch().size());
@@ -60,9 +60,9 @@ class InstructionBatchTest {
     @Test
     void builderMergesMovesOfTheMultipleRovers() {
         final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
-                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.RIGHT, 2)))
-                .addRoverMoves(R2, List.of(new RoverMove(R2, Direction.FORWARD, 3)))
-                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.BACKWARD, 4)))
+                .addRoverMoves(R1, List.of(new RoverMove(Direction.RIGHT, 2)))
+                .addRoverMoves(R2, List.of(new RoverMove(Direction.FORWARD, 3)))
+                .addRoverMoves(R1, List.of(new RoverMove(Direction.BACKWARD, 4)))
                 .build();
 
         assertEquals(2, instructionBatch.batch().size());

@@ -60,23 +60,26 @@ public class CommandParser {
         }
     }
     private Command handleMoveCommand(String input) {
-            return new RoverMoveCommand(getRoverMovesFromString(input), api);
+            return new RoverMoveCommand(extractRoverMovesFromInput(input), api);
     }
 
-    private InstructionBatch getRoverMovesFromString(String input) {
-        String roverId = extractRoverIdFromInput(input);
-        return extractRoverMovesFromInput(input, roverId);
-    }
-
-    private static InstructionBatch extractRoverMovesFromInput(String input, String roverId) {
+    // TODO ask PO if instruction needs to be discarded when 1 invalid part is recognized or only that part needs to be skipped
+    private static InstructionBatch extractRoverMovesFromInput(String input) {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
-        Pattern regex = Pattern.compile("( [frbl]\\d*)");
-        Matcher matcher = regex.matcher(input);
-        while(matcher.find()){
-            String preppedInput = matcher.group(1).trim();
-            String direction = preppedInput.substring(0,1);
-            int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-            instructionBatch.addRoverMoves(roverId, new RoverMove(roverId, direction, steps));
+
+        String[] roverInstructions = input.split("\\s+(?=[R])");
+
+        for (String instructionsPerRover : roverInstructions) {
+            String roverId = extractRoverIdFromInput(instructionsPerRover);
+
+            Pattern regex = Pattern.compile("( [frbl]\\d*)");
+            Matcher matcher = regex.matcher(instructionsPerRover);
+            while(matcher.find()){
+                String preppedInput = matcher.group(1).trim();
+                String direction = preppedInput.substring(0,1);
+                int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
+                instructionBatch.addRoverMoves(roverId, new RoverMove(direction, steps));
+            }
         }
         return instructionBatch.build();
     }
@@ -134,6 +137,9 @@ public class CommandParser {
         return input.isBlank() || input.equalsIgnoreCase("p");
     }
     private boolean isMoveRoverCommand(String input) {
-        return input.toLowerCase().startsWith("r1");
+        Pattern pattern = Pattern.compile("R\\d+ ");
+        Matcher matcher = pattern.matcher(input);
+
+        return matcher.find();
     }
 }

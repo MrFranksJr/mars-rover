@@ -1,9 +1,11 @@
 package io.tripled.marsrover.business.domain.simulation;
 
+import com.google.common.collect.ImmutableList;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.vocabulary.RoverId;
 import org.junit.jupiter.api.Test;
@@ -292,8 +294,9 @@ class SimulationTest {
     }
 
     private void moveRover(Simulation simulation, RoverId id, Direction direction) {
-        final var roverMove = new RoverMove(id, direction, 1);
-        simulation.moveRover(List.of(roverMove), dummyEventPub);
+        final var roverMove = new RoverMove(direction, 1);
+        final RoverInstructions roverInstruction = new RoverInstructions(id, ImmutableList.<RoverMove>builder().add(roverMove).build());
+        simulation.moveRover(roverInstruction, dummyEventPub);
     }
 
     private Simulation createSimulationWithARoverPresent() {

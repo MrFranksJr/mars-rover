@@ -7,6 +7,7 @@ import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.domain.rover.*;
 import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.RoverMove;
 
 import java.util.List;
@@ -49,16 +50,16 @@ public class Simulation {
     }
 
 
-    public void moveRover(List<RoverMove> roverMoves, SimulationRoverMovedEventPublisher eventPublisher) {
-        for (RoverMove roverMove : roverMoves) {
+    public void moveRover(RoverInstructions roverInstructions, SimulationRoverMovedEventPublisher eventPublisher) {
+        for (RoverMove roverMove : roverInstructions.moves()) {
             for (int i = 0; i < roverMove.steps(); i++) {
 
-                final Optional<SimulationMoveRoverEvent> roverEvent = getRover(roverMove.roverId())
+                final Optional<SimulationMoveRoverEvent> roverEvent = getRover(roverInstructions.id())
                         .map(x -> moveRover(roverMove.direction(), x));
 
                 //TODO improve
                 if (roverEvent.isPresent()) {
-                    final var e = roverEvent.get();
+                    final SimulationMoveRoverEvent e = roverEvent.get();
 
                     switch (e) {
                         case RoverCollided roverCollided -> {
@@ -71,6 +72,8 @@ public class Simulation {
             }
         }
     }
+
+
 
     /**
      * The public Events of the Simulation aggregate
@@ -91,13 +94,16 @@ public class Simulation {
     public record RoverCollided(RoverId roverId, Location newLocation) implements SimulationMoveRoverEvent {
     }
 
-    //TODO: REFACTOR!!
     private SimulationMoveRoverEvent moveRover(Direction direction, Pair<Location, Rover> locationRoverPair) {
-        final var rover = locationRoverPair.second();
-        final var oldLocation = locationRoverPair.first();
+        final Location oldLocation = locationRoverPair.first();
+        final Rover rover = locationRoverPair.second();
         return switch (direction) {
             case FORWARD -> {
-                final var newLocation = rover.moveForward(oldLocation);
+                final Location newLocation = rover.moveForward(oldLocation);
+                yield roverGoToNewLocation(newLocation, oldLocation, rover);
+            }
+            case BACKWARD -> {
+                final Location newLocation = rover.moveBackward(oldLocation);
                 yield roverGoToNewLocation(newLocation, oldLocation, rover);
             }
             case LEFT -> {
@@ -107,10 +113,6 @@ public class Simulation {
             case RIGHT -> {
                 rover.turnRight();
                 yield new RoverMovedSuccessfulEvent(rover.getRoverState(oldLocation));
-            }
-            case BACKWARD -> {
-                final var newLocation = rover.moveBackward(oldLocation);
-                yield roverGoToNewLocation(newLocation, oldLocation, rover);
             }
         };
     }

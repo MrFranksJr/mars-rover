@@ -30,7 +30,7 @@ public class RoverMoveCommand implements Command {
 
             @Override
             public void roverCollided(RoverId roverId) {
-
+                messagePresenter.roverCollidedMessage(roverId);
             }
         });
     }

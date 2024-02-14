@@ -31,21 +31,14 @@ public class MarsRoverController implements MarsRoverApi {
         }
     }
 
-    private InstructionBatch parseRoverMovesListToInstructionBatch(List<RoverMove> roverMoves) {
-        final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
-
-        for(RoverMove move : roverMoves) {
-            instructionBatch.addRoverMoves(move.roverId().id(), move);
-        }
-        return instructionBatch.build();
-    }
-
     @Override
     public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
         if (simulationRepository.getSimulation().isPresent()) {
             final var simulation = simulationRepository.getSimulation().get();
+
+
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
-                simulation.moveRover(roverInstructions.moves(), event -> presentRoverMoved(roverMovePresenter, event));
+                simulation.moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
         }
     }

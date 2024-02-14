@@ -3,6 +3,7 @@ package io.tripled.marsrover.cli.messages;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
+import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;
 
@@ -107,7 +108,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void roverMovedMessage(RoverState roverState) {
-        System.out.println("new RoverState: " + roverState.coordinate().xCoordinate() + " - " + roverState.coordinate().yCoordinate());
+        System.out.println("Rover " + roverState.roverId() + " moved to new location [" + roverState.coordinate().xCoordinate() + "-" + roverState.coordinate().yCoordinate() + "]  and is now facing " + roverState.roverHeading());
     }
 
     @Override
@@ -119,6 +120,11 @@ public class ConsolePresenter implements MessagePresenter {
     @Override
     public void duplicateSimulationDetected(SimulationState simulationState) {
         System.out.println("There is already a simulation with size " + simulationState.simulationSize());
+    }
+    //TODO: RoverID of the collided rover needs to be reported here + last successful location
+    @Override
+    public void roverCollidedMessage(RoverId roverId) {
+        System.out.println("Rover " + roverId + " has collided and returned to its last position");
     }
 }
 

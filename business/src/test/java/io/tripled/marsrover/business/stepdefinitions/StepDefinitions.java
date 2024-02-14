@@ -13,7 +13,6 @@ import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,7 +87,7 @@ public class StepDefinitions {
     private static InstructionBatch parseSingleRoverInstruction(String roverId, String direction, int amount) {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 
-        final RoverMove roverMove = new RoverMove(roverId, direction.substring(0, 1), amount);
+        final RoverMove roverMove = new RoverMove(direction.substring(0, 1), amount);
         instructionBatch.addRoverMoves(roverId, roverMove);
 
         return instructionBatch.build();
@@ -101,7 +100,7 @@ public class StepDefinitions {
         for (Map<String, String> row : instructions) {
             final String command = row.get("instruction").substring(0, 1);
             final int amount = Integer.parseInt(row.get("amount"));
-            final RoverMove roverMove = new RoverMove(roverId, command, amount);
+            final RoverMove roverMove = new RoverMove(command, amount);
             instructionBatch.addRoverMoves(roverId, roverMove);
         }
         return instructionBatch.build();
@@ -115,7 +114,7 @@ public class StepDefinitions {
             final String roverId = row.get("roverId");
             final String command = row.get("instruction").substring(0, 1);
             final int amount = Integer.parseInt(row.get("amount"));
-            final RoverMove roverMove = new RoverMove(roverId, command, amount);
+            final RoverMove roverMove = new RoverMove(command, amount);
             instructionBatch.addRoverMoves(roverId, roverMove);
         }
         return instructionBatch.build();

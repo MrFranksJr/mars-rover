@@ -3,6 +3,7 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.*;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,8 @@ class CommandParserTest {
     private CommandParser commandParser;
     private DummyPresenter dummyPresenter;
     private MarsRoverApi marsRoverController;
+    private RoverId R1;
+    private RoverId R2;
 
     @BeforeEach
     void setUp() {
@@ -42,6 +45,8 @@ class CommandParserTest {
         };
         commandParser = new CommandParser(marsRoverController);
         dummyPresenter = new DummyPresenter();
+        R1 = new RoverId(1);
+        R2 = new RoverId(2);
     }
 
     @Test
@@ -215,16 +220,25 @@ class CommandParserTest {
     void parseRoverMoveCommandWithValidForward() {
         Command roverMoveCommand = commandParser.parseInput("R1 f1");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
+
 
     @Test
     void parseRoverMoveCommandWithValidBackward() {
         Command roverMoveCommand = commandParser.parseInput("R1 b1");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("b", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -232,8 +246,11 @@ class CommandParserTest {
     @Test
     void parseRoverMoveCommandWithValidLeft() {
         Command roverMoveCommand = commandParser.parseInput("R1 l1");
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("l", 1)))
+                .build();
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "l", 1)), null);
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -242,7 +259,12 @@ class CommandParserTest {
     void parseRoverMoveCommandWithValidRight() {
         Command roverMoveCommand = commandParser.parseInput("R1 r1");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "r", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("r", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
+
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -251,7 +273,11 @@ class CommandParserTest {
     void parseRoverMoveCommandWithValidForwardNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 f");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "f", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -260,7 +286,11 @@ class CommandParserTest {
     void parseRoverMoveCommandWithValidBackwardNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 b");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("b", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -269,7 +299,11 @@ class CommandParserTest {
     void parseRoverMoveCommandWithValidLeftNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 l");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "l", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("l", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -278,7 +312,11 @@ class CommandParserTest {
     void parseRoverMoveCommandWithValidRightNoStepIndication() {
         Command roverMoveCommand = commandParser.parseInput("R1 r");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "r", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("r", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -287,9 +325,12 @@ class CommandParserTest {
     void parseRoverMoveCommandMoveForwardSouth() {
         Command roverMoveCommand = commandParser.parseInput("R1 l2 f1");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(
-                new RoverMove("R1", "l", 2),
-                new RoverMove("R1", "f", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("l", 2)))
+                .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
@@ -300,25 +341,54 @@ class CommandParserTest {
     parseRoverMoveCommandWithMultipleDirections() {
         Command roverMoveCommand = commandParser.parseInput("R1 f2 b4 r5 l f1");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(
-                new RoverMove("R1", "f", 2),
-                new RoverMove("R1", "b", 4),
-                new RoverMove("R1", "r", 5),
-                new RoverMove("R1", "l", 1),
-                new RoverMove("R1", "f", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("f", 2)))
+                .addRoverMoves(R1, List.of(new RoverMove("b", 4)))
+                .addRoverMoves(R1, List.of(new RoverMove("r", 5)))
+                .addRoverMoves(R1, List.of(new RoverMove("l", 1)))
+                .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
 
     }
 
     @Test
-    void parseRoverMoveCommandWithLowerCase() {
-        Command roverMoveCommand = commandParser.parseInput("r1 b");
+    void parseRoverR2MoveCommandWithValidRightNoStepIndication() {
+        Command roverMoveCommand = commandParser.parseInput("R2 r");
 
-        RoverMoveCommand expectedCommand = new RoverMoveCommand(List.of(new RoverMove("R1", "b", 1)), null);
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R2, List.of(new RoverMove("r", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
 
         assertEquals(expectedCommand, roverMoveCommand);
     }
 
+    @Test
+    void parseRoverMoveCommandOnlyWithUpperCase() {
+        Command roverMoveCommand = commandParser.parseInput("r1 b");
 
+        UnknownCommand expectedCommand = new UnknownCommand("r1 b");
+
+        assertEquals(expectedCommand, roverMoveCommand);
+    }
+
+    @Test
+    void parseRoverMoveCommandWithMultipleRoverIdsSimilarAsMoveInstruction() {
+        Command roverMoveCommand = commandParser.parseInput("R1 f2 r2 R2 f1");
+
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove("f", 2)))
+                .addRoverMoves(R1, List.of(new RoverMove("r", 2)))
+                .addRoverMoves(R2, List.of(new RoverMove("f", 1)))
+                .build();
+
+        RoverMoveCommand expectedCommand = new RoverMoveCommand(instructionBatch, null);
+
+        assertEquals(expectedCommand, roverMoveCommand);
+    }
 }

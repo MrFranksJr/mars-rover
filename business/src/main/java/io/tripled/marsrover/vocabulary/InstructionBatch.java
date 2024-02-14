@@ -22,7 +22,6 @@ public record InstructionBatch(ImmutableList<RoverInstructions> batch) {
     public InstructionBatch(Builder builder) {
         this(builder.getAllInstructions());
     }
-
     public static Builder newBuilder() {
         return new Builder();
     }

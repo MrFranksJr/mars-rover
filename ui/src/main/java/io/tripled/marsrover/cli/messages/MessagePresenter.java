@@ -3,6 +3,7 @@ package io.tripled.marsrover.cli.messages;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
+import io.tripled.marsrover.vocabulary.RoverId;
 
 public interface MessagePresenter {
     void welcomeMessage();
@@ -18,4 +19,5 @@ public interface MessagePresenter {
     void roverMovedMessage(RoverState roverState);
     void roverDoesNotExist();
     void duplicateSimulationDetected(SimulationState simulationState);
+    void roverCollidedMessage(RoverId roverId);
 }
