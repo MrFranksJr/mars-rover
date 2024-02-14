@@ -63,12 +63,9 @@ public class Simulation {
                     switch (e) {
                         case RoverCollided roverCollided -> {
                             eventPublisher.publish(roverCollided);
-                            //Stop processing RoverMoves
                             return;
                         }
-                        case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent -> {
-                            eventPublisher.publish(roverMovedSuccessfulEvent);
-                        }
+                        case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent -> eventPublisher.publish(roverMovedSuccessfulEvent);
                     }
                 }
             }

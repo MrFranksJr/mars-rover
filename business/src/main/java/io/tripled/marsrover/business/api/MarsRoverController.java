@@ -1,6 +1,7 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
@@ -33,11 +34,18 @@ public class MarsRoverController implements MarsRoverApi {
 
     @Override
     public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
-        if (simulationRepository.getSimulation().isPresent()) {
+        final InstructionBatch roverMovesInstructionBatch = parseRoverMovesListToInstructionBatch(roverMoves);
 
-            final var simulation = simulationRepository.getSimulation().get();
-            simulation.moveRover(roverMoves, event -> presentRoverMoved(roverMovePresenter, event));
+        executeMoveInstructions(roverMovesInstructionBatch, roverMovePresenter);
+    }
+
+    private InstructionBatch parseRoverMovesListToInstructionBatch(List<RoverMove> roverMoves) {
+        final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
+
+        for(RoverMove move : roverMoves) {
+            instructionBatch.addRoverMoves(move.roverId().id(), move);
         }
+        return instructionBatch.build();
     }
 
     @Override
