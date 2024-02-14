@@ -104,5 +104,3 @@ Feature: Driving around multiple Rovers
     And The Rover "R3" is at 4 6 with orientation "north"
 
 
-
-# TODO   Add scenario for multiple rovers driving at same time that collide

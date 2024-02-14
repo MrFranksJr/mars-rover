@@ -2,9 +2,8 @@ package io.tripled.marsrover.rest;
 
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.vocabulary.RoverMove;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -92,9 +91,9 @@ public class MarsRoverRestController {
 
 
         if (!roverMovesFromString.isEmpty()) {
-            return "{\"result\":\"Rover move successful\"}";
+            return "{\"result\":\"Rover moves successful\"}";
         } else {
-            return "{\"result\":\"Rover move unsuccessful\"}";
+            return "{\"result\":\"Rover moves unsuccessful\"}";
         }
     }
 }

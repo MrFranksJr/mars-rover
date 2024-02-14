@@ -1,10 +1,11 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
+import io.tripled.marsrover.vocabulary.RoverInstructions;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,10 +31,6 @@ public class MarsRoverController implements MarsRoverApi {
 
     }
 
-    private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
-        return event -> presentLanding(landingPresenter, event);
-    }
-
     @Override
     public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
         if (simulationRepository.getSimulation().isPresent()) {
@@ -45,7 +42,13 @@ public class MarsRoverController implements MarsRoverApi {
 
     @Override
     public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
-//TODO implement me franky
+        if (simulationRepository.getSimulation().isPresent()) {
+            final var simulation = simulationRepository.getSimulation().get();
+            for (RoverInstructions roverInstructions : instructionBatch.batch()) {
+                simulation.moveRover(roverInstructions.moves(), event -> presentRoverMoved(roverMovePresenter, event));
+            }
+
+        }
     }
 
     @Override
@@ -67,6 +70,10 @@ public class MarsRoverController implements MarsRoverApi {
             simulationStatePresenter.simulationState(simulation.get().takeSnapshot());
         else
             simulationStatePresenter.simulationState(SimulationState.NONE);
+    }
+
+    private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
+        return event -> presentLanding(landingPresenter, event);
     }
 
     private static void presentLanding(LandingPresenter p, Simulation.SimulationLandEvent e) {

@@ -4,7 +4,7 @@ import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.vocabulary.RoverId;
 import org.junit.jupiter.api.Test;
 

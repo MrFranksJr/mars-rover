@@ -112,7 +112,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void roverDoesNotExist() {
-        System.out.println("Cannot move a Rover that does not exist!");
+        System.out.println("Cannot moves a Rover that does not exist!");
 
     }
 

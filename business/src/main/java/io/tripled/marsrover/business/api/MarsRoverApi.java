@@ -1,7 +1,7 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
+import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 
 import java.util.List;

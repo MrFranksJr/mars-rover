@@ -1,7 +1,6 @@
 package io.tripled.marsrover.vocabulary;
 
 import io.tripled.marsrover.business.domain.rover.Direction;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,6 +55,22 @@ class InstructionBatchTest {
         assertEquals(1, instructionBatch.batch().size());
         final RoverInstructions first = instructionBatch.batch().getFirst();
         assertEquals(R1, first.id());
-        assertEquals(2, first.move().size());
+        assertEquals(2, first.moves().size());
+    }
+    @Test
+    void builderMergesMovesOfTheMultipleRovers() {
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.RIGHT, 2)))
+                .addRoverMoves(R2, List.of(new RoverMove(R2, Direction.FORWARD, 3)))
+                .addRoverMoves(R1, List.of(new RoverMove(R1, Direction.BACKWARD, 4)))
+                .build();
+
+        assertEquals(2, instructionBatch.batch().size());
+        final RoverInstructions r1Instructions = instructionBatch.getInstructions(R1).orElseThrow();
+        final RoverInstructions r2Instructions = instructionBatch.getInstructions(R2).orElseThrow();
+        assertEquals(R1, r1Instructions.id());
+        assertEquals(R2, r2Instructions.id());
+        assertEquals(2, r1Instructions.moves().size());
+        assertEquals(1, r2Instructions.moves().size());
     }
 }

@@ -1,7 +1,13 @@
 package io.tripled.marsrover.vocabulary;
 
 import com.google.common.collect.ImmutableList;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
-import io.tripled.marsrover.vocabulary.RoverId;
 
-public record RoverInstructions(RoverId id, ImmutableList<RoverMove> move){}
+public record RoverInstructions(RoverId id, ImmutableList<RoverMove> moves) {
+
+    public RoverInstructions addInstructions(RoverInstructions toAdd) {
+        return new RoverInstructions(id, ImmutableList.<RoverMove>builder()
+                .addAll(moves)
+                .addAll(toAdd.moves)
+                .build());
+    }
+}

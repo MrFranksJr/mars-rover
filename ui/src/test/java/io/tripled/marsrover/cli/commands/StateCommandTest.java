@@ -2,13 +2,9 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.*;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

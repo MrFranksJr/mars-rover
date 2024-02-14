@@ -1,9 +1,11 @@
 package io.tripled.marsrover.vocabulary;
 
 import com.google.common.collect.ImmutableList;
-import io.tripled.marsrover.business.domain.rover.RoverMove;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public record InstructionBatch(ImmutableList<RoverInstructions> batch) {
 
@@ -18,26 +20,33 @@ public record InstructionBatch(ImmutableList<RoverInstructions> batch) {
     }
 
     public InstructionBatch(Builder builder) {
-        this(builder.builder.build());
+        this(builder.getAllInstructions());
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    public Optional<RoverInstructions> getInstructions(RoverId roverId) {
+        return this.batch.stream().filter(x -> x.id() == roverId).findFirst();
+    }
+
     public static final class Builder {
-        private ImmutableList.Builder<RoverInstructions> builder = ImmutableList.builder();
+        private final Map<RoverId, RoverInstructions> instructionsMap = new HashMap<>();
 
         private Builder() {
         }
 
+        public ImmutableList<RoverInstructions> getAllInstructions() {
+            return ImmutableList.copyOf(instructionsMap.values());
+        }
 
         public InstructionBatch build() {
             return new InstructionBatch(this);
         }
 
         public Builder addRoverMoves(RoverInstructions roverInstructions) {
-            builder.add(roverInstructions);
+            updateInstructions(roverInstructions);
             return this;
         }
 
@@ -47,6 +56,16 @@ public record InstructionBatch(ImmutableList<RoverInstructions> batch) {
 
         public Builder addRoverMoves(String roverId, RoverMove roverMove) {
             return addRoverMoves(new RoverId(roverId), List.of(roverMove));
+        }
+
+        private void updateInstructions(RoverInstructions roverInstructions) {
+            if (instructionsMap.containsKey(roverInstructions.id())) {
+                final var existingInstructions = instructionsMap.get(roverInstructions.id());
+                final var updatedInstructions = existingInstructions.addInstructions(roverInstructions);
+                instructionsMap.put(roverInstructions.id(), updatedInstructions);
+            } else {
+                instructionsMap.put(roverInstructions.id(), roverInstructions);
+            }
         }
     }
 }

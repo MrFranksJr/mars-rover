@@ -7,6 +7,7 @@ import io.tripled.marsrover.business.api.SimulationState;
 import io.tripled.marsrover.business.domain.rover.*;
 import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.RoverMove;
 
 import java.util.List;
 import java.util.Map;
@@ -179,6 +180,5 @@ public class Simulation {
 
     public interface SimulationRoverMovedEventPublisher {
         void publish(SimulationMoveRoverEvent event);
-        //TODO add collision event
     }
 }
