@@ -32,13 +32,6 @@ public class MarsRoverController implements MarsRoverApi {
 
     }
 
-    @Override
-    public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
-        final InstructionBatch roverMovesInstructionBatch = parseRoverMovesListToInstructionBatch(roverMoves);
-
-        executeMoveInstructions(roverMovesInstructionBatch, roverMovePresenter);
-    }
-
     private InstructionBatch parseRoverMovesListToInstructionBatch(List<RoverMove> roverMoves) {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 

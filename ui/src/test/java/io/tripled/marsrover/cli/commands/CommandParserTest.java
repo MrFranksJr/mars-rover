@@ -36,11 +36,6 @@ class CommandParserTest {
             }
 
             @Override
-            public void moveRover(List<RoverMove> roverMoves, RoverMovePresenter roverMovePresenter) {
-
-            }
-
-            @Override
             public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
                 
             }

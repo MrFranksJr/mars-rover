@@ -1,13 +1,12 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.cli.messages.ConsolePresenter;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,22 +63,22 @@ public class CommandParser {
             return new RoverMoveCommand(getRoverMovesFromString(input), api);
     }
 
-    private List<RoverMove> getRoverMovesFromString(String input) {
+    private InstructionBatch getRoverMovesFromString(String input) {
         String roverId = extractRoverIdFromInput(input);
         return extractRoverMovesFromInput(input, roverId);
     }
 
-    private static List<RoverMove> extractRoverMovesFromInput(String input, String roverId) {
-        List<RoverMove> roverMoves = new ArrayList<>();
+    private static InstructionBatch extractRoverMovesFromInput(String input, String roverId) {
+        final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
         Pattern regex = Pattern.compile("( [frbl]\\d*)");
         Matcher matcher = regex.matcher(input);
         while(matcher.find()){
             String preppedInput = matcher.group(1).trim();
             String direction = preppedInput.substring(0,1);
             int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-            roverMoves.add(new RoverMove(roverId, direction, steps));
+            instructionBatch.addRoverMoves(roverId, new RoverMove(roverId, direction, steps));
         }
-        return roverMoves;
+        return instructionBatch.build();
     }
 
     private static String extractRoverIdFromInput(String input) {
