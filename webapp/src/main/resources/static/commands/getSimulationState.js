@@ -1,44 +1,37 @@
-import { drawMap, updateUIWithSimulationState, roverIdField, roverInstructionsField, xCoordinateField, yCoordinateField } from "/index.js"
+import { drawMap, updateUIWithSimulationState, roverIdField, roverInstructionsField} from "/index.js"
 
-export { getSimulationState }
+export { getSimulationState, roversInSimulation }
+
+let roversInSimulation;
 
 async function getSimulationState() {
     let simulationState = await fetch('/api/simulationstate')
     let readableSimulationState = await simulationState.json()  
-    let roversInSimulation;
+    let simulationStateString = "";
+    roversInSimulation = readableSimulationState.roverList
 
     if(readableSimulationState.roverList.length == 0){
-        roversInSimulation = 'There are currently no rovers in the simulation'
-        updateUIWithSimulationState(readableSimulationState, roversInSimulation);
-        drawMap(readableSimulationState);
+        console.log('no active rovers')
+        simulationStateString = "There are currently no active Rovers in the simulation"
         toggleRoverInstructionControls(true);
+        updateUIWithSimulationState(readableSimulationState, simulationStateString);
+        drawMap(readableSimulationState);
     } 
     else {
-        disableLandControls()
+        console.log('redraw map')
+        for (let rover of roversInSimulation) {
+            simulationStateString += `Rover ${rover.roverName} 
+                is at position (${rover.roverXPosition}, ${rover.roverYPosition}) 
+                with heading ${rover.roverHeading} <br/>`
+        }
         toggleRoverInstructionControls(false);
-        disableRoverId(readableSimulationState.roverList[0].roverName);
-        roversInSimulation = `Rover ${readableSimulationState.roverList[0].roverName} 
-                                is at position (${readableSimulationState.roverList[0].roverXPosition}, ${readableSimulationState.roverList[0].roverYPosition}) 
-                                with heading ${readableSimulationState.roverList[0].roverHeading}`
-        updateUIWithSimulationState(readableSimulationState, roversInSimulation);
+        updateUIWithSimulationState(readableSimulationState, simulationStateString);
         drawMap(readableSimulationState);
     }
+
     return simulationState;
-}
-
-function disableLandControls() {
-    landRoverBtn.disabled = true;
-    xCoordinateField.disabled = true;
-    yCoordinateField.disabled = true;
-}
-
-function disableRoverId(roverId){
-    roverIdField.value = roverId;
-    roverIdField.disabled = true;
 }
 
 function toggleRoverInstructionControls(state){
     moveRoverBtn.disabled = state;
-    roverIdField.disabled = state;
-    roverInstructionsField.disabled = state;
 }

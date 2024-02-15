@@ -9,9 +9,16 @@ function generateMap(simulationState) {
         }
         mapString += "<span class='mapNumber'>" +  i + "</span> <span class='mapBorder'>|</span>";
         for (let j=0; j<=simulationState.simulationSize; j++) {
-            if(!simulationState.roverList.length == 0 && j == simulationState.roverList[0].roverXPosition && i == simulationState.roverList[0].roverYPosition) {
-                mapString += "<span class='marsRover'>" + returnRoverSymbol(simulationState) + "</span>"
-            } else {
+            if(!simulationState.roverList.length == 0) {
+                let roverSymbol = "";
+                for (let rover of simulationState.roverList) {
+                    if (j == rover.roverXPosition && i == rover.roverYPosition) {
+                        roverSymbol = "<span class='marsRover'>" + returnRoverSymbol(rover) + "</span>"
+                    } 
+                } 
+                mapString += roverSymbol.length > 0 ? roverSymbol : "\xa0\xB7\xa0";
+            }
+            else {
                 mapString += "\xa0\xB7\xa0";
             }
         }
@@ -32,9 +39,9 @@ function generateMap(simulationState) {
     return mapString;
 }
 
-function returnRoverSymbol(simulationState) {
-    const roverHeading = simulationState.roverList[0].roverHeading
-    const roverName = simulationState.roverList[0].roverName
+function returnRoverSymbol(rover) {
+    const roverHeading = rover.roverHeading
+    const roverName = rover.roverName
     if (roverHeading == "NORTH") {
         return "\u2227" + roverName
     }

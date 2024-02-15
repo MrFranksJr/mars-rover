@@ -26,14 +26,14 @@ body {
 .main {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     flex-grow: 1;
+    align-items: center;
     background: no-repeat center center fixed;
     background-size: cover;
     background-image: url("../images/mars-bg.png");
     width: 100%;
 }
+
 header {
     display: flex;
     width: 100%;
@@ -44,74 +44,126 @@ header {
     color: #FFF;
     margin-bottom: 30px;
 }
-.instructionBlock {
+
+.main-panels {
     display: flex;
+    flex-direction: row;
     width: 100%;
-    max-width: 1400px;
-}
-.roverControls {
-    flex: 0 0 60%;
-    justify-content: center;
-    margin: 0 49px;
-    display: flex;
-    gap: 60px;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    padding: 0 50px;
+    column-gap: 30px;
 }
 
-.instructionBlockPadding {
-    flex: 0 0 40%;
-    margin: 20px;
-    padding: 10px;
-    border: 1px;
+.main-left {
+    display: flex;
+    flex-direction: column;
+    flex: 70%;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .landRoverControls {
-    display: grid;
-    grid-template-columns: auto; /* Each input will be in its own column */
-    grid-template-rows: auto auto; /* Changed from using repeat(2, 1fr) */
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    justify-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    width: 30%;
+    justify-content: space-between;
+    gap: 10px 20px;
+    min-width: 310px;
 }
 
-.landRoverBtn {
-    grid-column: 1 / span 2; /* This will make the button span two columns */
-    grid-row: 2; /* This will place the button in the second row */
+.coordinateInputFields {
+    display: flex;
+    flex-direction: row;
+
+    gap: 10px;
     width: 100%;
 }
 
+.landRoverBtn {
+    flex-basis: 100%;
+}
+
+.mapFlexWrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.simulationMap {
+    font-family:'Courier New', Courier, monospace;
+    font-size: 2rem;
+    line-height: 3rem;
+    padding: 20px 30px;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+
+.main-right {
+    display: flex;
+    flex-direction: column;
+    flex: 30%;
+    align-items: center;
+    row-gap: 30px;
+}
+
 .moveRoverControls {
-    display: grid;
-    grid-template-columns: 30% 70%;
-    grid-template-rows: auto auto;
-    gap: 10px; /* Adjust gap as needed */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 20px;
 }
 
-.roverId {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
+.roverInstructionFields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
 }
 
-.roverInstructions {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
+.singleRoverInstruction {
+    display: flex;
+    align-items: center;
+}
+
+label {
+    flex: 20%;
+    text-align: center;
 }
 
 .moveRoverBtn {
-    grid-column: 1 / -1; /* Span full width */
-  grid-row: 2 / 3;
-}   
+    width: 80%;
+    align-self: flex-end;
+}
 
-input {
-    height: 2rem;
-    text-align: center;
-    font-family:  "Montserrat", sans-serif;
+.roverInstructions {
+    flex: 80%;
+}
+
+
+.simulationState {
+    margin: 30px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #98c7fc;
     border: 1px solid #FFF;
     border-radius: 8px;
+    font-size: 1rem;
+    background-color: #79757561;
+    backdrop-filter: blur(5px);
+    padding: 20px;
 }
 
-input:disabled {
-    color: #98c7fc;
+h2 {
+    margin-bottom: 1.5rem;
 }
+
+.simulationState p {
+    margin: 10px 5px;
+}
+
 
 button:enabled {
     height: 2.2rem;
@@ -119,6 +171,14 @@ button:enabled {
     color: #98c7fc;
     font-size: 1rem;
     font-weight: bold;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+}
+
+input {
+    height: 2rem;
+    text-align: center;
     font-family:  "Montserrat", sans-serif;
     border: 1px solid #FFF;
     border-radius: 8px;
@@ -145,62 +205,10 @@ button:disabled {
     color: #98c7fc89;
 }
 
-.simStatus {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    flex-grow: 1;
-    max-width: 1400px;
+.coordinateInputFields > input {
+    flex: 1;
 }
-.simulationMap {
-    font-family:'Courier New', Courier, monospace;
-    text-align: center;
-    font-size: 1.3rem;
-    flex: 70%;
-    transition: all 0.5s ease;
-    line-height: 1.5rem;
-    color: #f18b82;
-    padding: 20px 0px;
-    margin: 0px 50px;
-    border: 1px solid #FFF;
-    border-radius: 8px;
-    line-height: 2rem;
-    display: flex;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-}
-.mapInnerDiv {
-    margin: 0;
-    padding: 0;
-}
-.marsRover, .mapBorder {
-    color: #98c7fc;
-}
-.marsRover {
-    font-weight: bold;
-}
-.simulationState {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: #98c7fc;
-    height: 100%;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #FFF;
-    border-radius: 8px;
-    font-size: 13px;
-    flex: 30%;
-    background-color: #79757561;
-    margin: 20px;
-    backdrop-filter: blur(5px);
-}
-.simulationState p {
-    margin: 10px 5px;
-}
+
 footer {
     display: flex;
     align-items: center;
@@ -271,57 +279,18 @@ footer {
   }
 
 
-/* MEDIA QUERIES */
-  @media all and (max-width: 780px) {
-    .instructionBlock {
-        flex-direction: column;
-    }
-    .roverControls {
-        flex-direction: column;
-        align-items: center;
-    }
-    .landRoverControls {
-        width: 300px;
-    }
-    .moveRoverControls {
-        width: 300px;
-    }
-
-
-    .simStatus {
-        flex-direction: column;
-        padding: 30px 0px;
-        align-items: center;
-    }
-    .simulationMap {
-        flex: 10%;
-        height: auto;
-        max-height: 500px;
-        min-width: 275px;
-        padding: 30px 50px;
-        margin: 0px 0px;
-    }
-    .simulationState {
-        height: auto;
-        max-height: 200px;
-        margin: 0;
-        width: 360px;
-        flex: 50%;
-        justify-content: center;
-        background-color: #797575c6;
-    }
+@media screen and (max-width: 1200px), 
+    screen and (max-height: 970px) {
+        .simulationMap {
+            font-size: 1.5rem;
+            line-height: 2.5rem;
+        }    
 }
-@media all and (min-width: 1000px) {
-    .simulationMap {
-        font-size: 1.5rem;
-        line-height: 2.5rem;
-        padding: 50px;
-    }
-}
-@media all and (min-width: 1300px) {
-    .simulationMap {
-        font-size: 1.8rem;
-        line-height: 2.8rem;
-        padding: 50px;
-    }
+
+@media screen and (max-width: 1110px), 
+    screen and (max-height: 820px) {
+        .simulationMap {
+            font-size: 1.2rem;
+            line-height: 2rem;
+        }    
 }

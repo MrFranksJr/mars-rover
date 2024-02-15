@@ -1,5 +1,5 @@
 import { getSimulationState } from "/commands/getSimulationState.js";
-import { moveModal, modalDiv, xCoordinateField, yCoordinateField, modalError } from "/index.js";
+import { moveModal, modalDiv, xCoordinateField, yCoordinateField, modalError, buildRoverInstructionControls } from "/index.js";
 
 export { landRover }
 
@@ -38,10 +38,18 @@ async function awaitFeedback(data){
     if(data.result == "Landing successful"){
         await getSimulationState();
         modalDiv.innerHTML = "Your rover has successfully landed."
+        clearLandingFields();
+        buildRoverInstructionControls()
         moveModal();
     } 
     else if(data.result == "Landing unsuccessful") {
         modalDiv.innerHTML = `The Rover missed the Simulation!<br/>Try again!`
+        clearLandingFields();
         modalError()
     }
+}
+
+function clearLandingFields() {
+    xCoordinateField.value = ""
+    yCoordinateField.value = ""
 }

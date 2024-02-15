@@ -4,11 +4,23 @@ import { moveModal, modalDiv, modalError, roverInstructionsField } from "/index.
 export { moveRover }
 
 async function moveRover(){
-    const roverId = document.getElementById("roverId").value;
-    const roverInstructions = document.getElementById("roverInstructions").value;
+    const roverInstructionFields = document.getElementById('roverInstructionFields');
+    const childrenOfInstructions = roverInstructionFields.children
+    let instructionString = ""
 
-    if(roverId != "" && roverInstructions != "" ){
-        let result = await fetch(`/api/moverover/${roverId}/${roverInstructions}` , {
+    for (let i = 0; i < childrenOfInstructions.length; i++) {
+        let child = childrenOfInstructions[i]
+        let inputElement = child.querySelector('.roverInstructions')
+        let roverInstructions = inputElement.value;
+        let roverId = inputElement.getAttribute('name');
+        
+        if (roverInstructions !== "") {
+            instructionString += `${roverId} ${roverInstructions} `
+        }
+    }
+
+    if (instructionString !== "") {
+        let result = await fetch(`/api/moverover/${instructionString}` , {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -17,22 +29,23 @@ async function moveRover(){
         let data = await result.json();
 
         await awaitRoverMoveFeedback(data);
-    } else {
-        modalDiv.innerHTML = `This instruction couldn't be executed!<br/>Try again!`
-        modalError()
     }
 }
 
 async function awaitRoverMoveFeedback(data){
-    if(data.result == "Rover move successful"){
+    const dataResult = data.result
+    if(dataResult.includes('collided')) {
+        await getSimulationState();
+        modalDiv.innerHTML = `Instructions stopped! ${dataResult}!<br/>Try again!`
+        modalError()
+    } else if(data.result == "Rover moves successful"){
         await getSimulationState();
         modalDiv.innerHTML = "Your rover has successfully moved."
         moveModal();
-    } 
-    else if(data.result == "Rover move unsuccessful") {
+    } else if(data.result == "Rover moves unsuccessful") {
         modalDiv.innerHTML = `This instruction couldn't be executed!<br/>Try again!`
         modalError()
-    }
+    } 
 
-    roverInstructionsField.value = "";
+    //roverInstructionsField.value = "";
 }

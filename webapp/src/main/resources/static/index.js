@@ -2,9 +2,9 @@ import { generateMap } from "/data/mapData.js";
 import { landRover } from "/commands/landRover.js";
 import { moveRover } from "/commands/moveRover.js";
 import { createSimulation } from "/commands/createSimulation.js";
-import { getSimulationState } from "/commands/getSimulationState.js";
+import { getSimulationState, roversInSimulation } from "/commands/getSimulationState.js";
 
-export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, moveRoverBtn, roverInstructionsField, xCoordinateField, yCoordinateField}
+export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, roverInstructionsField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
 
 
 async function onLoadCreateSimulation(){
@@ -19,15 +19,41 @@ async function onLoadCreateSimulation(){
     }
 }
 
+async function buildRoverInstructionControls() {
+    if (roversInSimulation.length === 0) {
+        roverInstructionFieldsDiv.innerHTML = "There are currently no active Rovers in the Simulation.<br/>Land some Rovers first!";
+    }
+    if (roversInSimulation.length !== 0) {
+        let moveControlsHtml = ""
+        for (let rover of roversInSimulation) {
+            moveControlsHtml += `
+            <div class="singleRoverInstruction">
+                <label for="${rover.roverName}">${rover.roverName}</label>
+                <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions">
+            </div>
+            `
+        }
+        roverInstructionFieldsDiv.innerHTML = moveControlsHtml;
+
+    }
+}
+
+async function buildPage(){
+    await onLoadCreateSimulation();
+    await buildRoverInstructionControls();
+}
+
 setTimeout(() => {
-    onLoadCreateSimulation();
+    buildPage();
+    
   }, "500");
 
-function updateUIWithSimulationState(readableSimulationState, roversInSimulation){
+function updateUIWithSimulationState(readableSimulationState, simulationStateString){
     simulationStateField.innerHTML = `
+        <h2>Current Simulation state:</h2>
         <p>The simuation Size is ${readableSimulationState.simulationSize}</p>
         <p>The simulation has ${readableSimulationState.totalCoordinates} total Coordinates</p>
-        <p>${roversInSimulation}</p>
+        <p>${simulationStateString}</p>
         `
 }
 
@@ -59,6 +85,7 @@ const simulationStateField = document.getElementById('simulationState')
 const xCoordinateField = document.getElementById('roverXCoordinate')
 const yCoordinateField = document.getElementById('roverYCoordinate')
 const simulationMapDiv = document.getElementById('simulationMap')
+const roverInstructionFieldsDiv = document.getElementById('roverInstructionFields')
 
 ///////EVENT LISTENERS
 landRoverBtn.addEventListener('click', landRover)

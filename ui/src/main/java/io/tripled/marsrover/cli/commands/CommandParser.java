@@ -64,6 +64,10 @@ public class CommandParser {
     }
 
     // TODO ask PO if instruction needs to be discarded when 1 invalid part is recognized or only that part needs to be skipped
+    // R1 f1 fhgfdh r2
+    // R2 f1 b2
+    // R3 f5
+    // EXECUTE
     private static InstructionBatch extractRoverMovesFromInput(String input) {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 

@@ -59,40 +59,46 @@ public class MarsRoverRestController {
         }
     }
 
-    @PostMapping("/api/moverover/{roverName}/{roverMoves}")
+    @PostMapping("/api/moverover/{roverInstructions}")
     @ResponseBody
-    String moveRover(@PathVariable String roverName, @PathVariable String roverMoves) {
+    String moveRover(@PathVariable String roverInstructions) {
         final RoverMovePresenterImpl roverMovePresenter = new RoverMovePresenterImpl();
-        final InstructionBatch roverInstructionsBatch = createInstructionBatchFromInput(roverName, roverMoves);
+        final InstructionBatch roverInstructionsBatch = extractRoverMovesFromInput(roverInstructions);
 
         marsRoverApi.executeMoveInstructions(roverInstructionsBatch, roverMovePresenter);
 
-        if (!roverInstructionsBatch.batch().isEmpty()) {
+        if (!roverInstructionsBatch.batch().isEmpty() && !roverMovePresenter.hasCollided().second()) {
             return "{\"result\":\"Rover moves successful\"}";
-        } else {
+        } else if(!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.hasCollided().second()) {
+            String roverId = roverMovePresenter.hasCollided().first().id();
+            return "{\"result\":\"Rover " + roverId + " has collided\"}";
+
+        }else {
             return "{\"result\":\"Rover moves unsuccessful\"}";
         }
     }
 
-    private static InstructionBatch createInstructionBatchFromInput(String roverId, String roverMoves) {
-        String[] inputArray = roverMoves.split(" ");
+    private static InstructionBatch extractRoverMovesFromInput(String roverMoves) {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
+        roverMoves.replace("%20", " ");
+        String[] roverInstructions = roverMoves.split("\\s+(?=[R])");
 
-        String regExpBuilder = buildRegularExpression(inputArray);
+        for (String instructionsPerRover : roverInstructions) {
+            String roverId = extractRoverIdFromInput(instructionsPerRover);
 
-        Pattern regex = Pattern.compile(regExpBuilder);
-        Matcher matcher = regex.matcher(roverMoves.trim());
-
-        while (matcher.find()) {
-            int groupCount = matcher.groupCount();
-            for (int i = 1; i < groupCount; i++) {
-                String preppedInput = matcher.group(i).trim();
-                String direction = preppedInput.substring(0, 1);
+            Pattern regex = Pattern.compile("( [frbl]\\d*)");
+            Matcher matcher = regex.matcher(instructionsPerRover);
+            while(matcher.find()){
+                String preppedInput = matcher.group(1).trim();
+                String direction = preppedInput.substring(0,1);
                 int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-                final RoverMove roverMove = new RoverMove(direction, steps);
-                instructionBatch.addRoverMoves(roverId, roverMove);
+                instructionBatch.addRoverMoves(roverId, new RoverMove(direction, steps));
             }
         }
         return instructionBatch.build();
+    }
+
+    private static String extractRoverIdFromInput(String input) {
+        return input.substring(0, input.indexOf(" ")).toUpperCase();
     }
 }

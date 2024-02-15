@@ -34,7 +34,6 @@ public class Rover {
                 .build();
     }
 
-
     public Location moveForward(Location currentLocation) {
         return switch (getRoverHeading()) {
             case NORTH -> currentLocation.incrementY();
