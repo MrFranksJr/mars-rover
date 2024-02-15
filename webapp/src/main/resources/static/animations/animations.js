@@ -21,12 +21,12 @@ function moveLogo() {
     setTimeout(() => {
         header.style.transform = 'unset'
         applicationLogo.style.transform = 'unset'
-        logoWrapper.style.gap = '20px'
-    }, 1500);
+        logoWrapper.style.gap = '10px'
+    }, 2000);
 }
 
 function showMainPanels() {
     setTimeout(() => {
         mainPanels.style.opacity = '100'
-    }, 1800);
+    }, 2300);
 }
