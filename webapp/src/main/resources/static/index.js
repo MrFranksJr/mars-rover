@@ -3,7 +3,7 @@ import { landRover } from "/commands/landRover.js";
 import { moveRover } from "/commands/moveRover.js";
 import { createSimulation } from "/commands/createSimulation.js";
 import { getSimulationState, roversInSimulation } from "/commands/getSimulationState.js";
-import { showLogo, moveLogo, showMainPanels } from "/animations/animations.js";
+import { showLogoAnimation, moveLogoAnimation, showMainPanelsAnimation } from "/animations/animations.js";
 
 export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, roverInstructionsField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
 
@@ -96,9 +96,12 @@ document.querySelectorAll('form').forEach(node => {
 document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
 
 
-showLogo()
-moveLogo()
-showMainPanels()
+if(true) {
+    showLogoAnimation()
+    moveLogoAnimation()
+    showMainPanelsAnimation()
+}
 setTimeout(() => {
     buildPage();
 }, "1000");
+

@@ -1,4 +1,4 @@
-export { showLogo, moveLogo, showMainPanels }
+export { showLogoAnimation, moveLogoAnimation, showMainPanelsAnimation }
 
 
 const main = document.getElementById('main')
@@ -10,14 +10,14 @@ const mainPanels = document.getElementById('main-panels')
 
 
 
-function showLogo() {
+function showLogoAnimation() {
     setTimeout(() => {
         main.style.opacity = '100'
         footer.style.opacity = '100'
     }, 200);
 }
 
-function moveLogo() {
+function moveLogoAnimation() {
     setTimeout(() => {
         header.style.transform = 'unset'
         applicationLogo.style.transform = 'unset'
@@ -25,7 +25,7 @@ function moveLogo() {
     }, 2000);
 }
 
-function showMainPanels() {
+function showMainPanelsAnimation() {
     setTimeout(() => {
         mainPanels.style.opacity = '100'
     }, 2300);
