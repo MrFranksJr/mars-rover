@@ -114,6 +114,7 @@ header {
     flex-direction: column;
     width: 100%;
     row-gap: 20px;
+    max-width: 500px;
 }
 
 .roverInstructionFields {
@@ -129,7 +130,7 @@ header {
 
 label {
     flex: 20%;
-    text-align: center;
+    text-align: left;
 }
 
 .moveRoverBtn {
@@ -154,6 +155,7 @@ label {
     background-color: #79757561;
     backdrop-filter: blur(5px);
     padding: 20px;
+    max-width: 500px;
 }
 
 h2 {

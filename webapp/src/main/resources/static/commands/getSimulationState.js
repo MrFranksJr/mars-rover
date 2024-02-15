@@ -11,14 +11,12 @@ async function getSimulationState() {
     roversInSimulation = readableSimulationState.roverList
 
     if(readableSimulationState.roverList.length == 0){
-        console.log('no active rovers')
         simulationStateString = "There are currently no active Rovers in the simulation"
         toggleRoverInstructionControls(true);
         updateUIWithSimulationState(readableSimulationState, simulationStateString);
         drawMap(readableSimulationState);
     } 
     else {
-        console.log('redraw map')
         for (let rover of roversInSimulation) {
             simulationStateString += `Rover ${rover.roverName} 
                 is at position (${rover.roverXPosition}, ${rover.roverYPosition}) 
