@@ -3,7 +3,7 @@ import { landRover } from "/commands/landRover.js";
 import { moveRover } from "/commands/moveRover.js";
 import { createSimulation } from "/commands/createSimulation.js";
 import { getSimulationState, roversInSimulation } from "/commands/getSimulationState.js";
-import { showLogoAnimation, moveLogoAnimation, showMainPanelsAnimation } from "/animations/animations.js";
+import { showAllAnimations } from "/animations/animations.js";
 
 export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, roverInstructionsField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
 
@@ -97,9 +97,9 @@ document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear
 
 
 if(true) {
-    showLogoAnimation()
-    moveLogoAnimation()
-    showMainPanelsAnimation()
+    showAllAnimations()
+} else {
+    disableAnimations()
 }
 setTimeout(() => {
     buildPage();

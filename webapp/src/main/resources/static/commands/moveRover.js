@@ -11,7 +11,7 @@ async function moveRover(){
     for (let i = 0; i < childrenOfInstructions.length; i++) {
         let child = childrenOfInstructions[i]
         let inputElement = child.querySelector('.roverInstructions')
-        let roverInstructions = inputElement.value;
+        let roverInstructions = inputElement.value.trim();
         let roverId = inputElement.getAttribute('name');
         
         if (roverInstructions !== "") {
@@ -29,6 +29,10 @@ async function moveRover(){
         let data = await result.json();
 
         await awaitRoverMoveFeedback(data);
+    }
+    else {
+        modalDiv.innerHTML = `This instruction field is empty!<br/>Try again!`
+        modalError()
     }
 }
 

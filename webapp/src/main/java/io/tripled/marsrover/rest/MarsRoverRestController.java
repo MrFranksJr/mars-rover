@@ -84,15 +84,21 @@ public class MarsRoverRestController {
         String[] roverInstructions = roverMoves.split("\\s+(?=[R])");
 
         for (String instructionsPerRover : roverInstructions) {
+            String[] roverInstruction = instructionsPerRover.split(" "); //f1 b5 fdhfgd r2
             String roverId = extractRoverIdFromInput(instructionsPerRover);
-
-            Pattern regex = Pattern.compile("( [frbl]\\d*)");
-            Matcher matcher = regex.matcher(instructionsPerRover);
-            while(matcher.find()){
-                String preppedInput = matcher.group(1).trim();
-                String direction = preppedInput.substring(0,1);
-                int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-                instructionBatch.addRoverMoves(roverId, new RoverMove(direction, steps));
+            for (String singleInstruction : roverInstruction) {
+                String trimmedInstruction = singleInstruction.trim();
+                Pattern regex = Pattern.compile("(^[frbl]\\d*)$");
+                Matcher matcher = regex.matcher(trimmedInstruction);
+                while(matcher.find()){
+                    String preppedInput = matcher.group(1).trim();
+                    String direction = preppedInput.substring(0,1);
+                    int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
+                    instructionBatch.addRoverMoves(roverId, new RoverMove(direction, steps));
+                }
+            }
+            if (roverInstruction.length - 1 != instructionBatch.getInstructionSizeOfRover(roverId)) {
+                instructionBatch.clearRoverMoves(roverId);
             }
         }
         return instructionBatch.build();

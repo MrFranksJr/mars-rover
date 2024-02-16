@@ -28,7 +28,7 @@ async function checkForBadRequest(result) {
         await awaitFeedback(data);
     }
     else {
-        modalDiv.innerHTML = `Cannot process these coordinates!<br/>Make sure you enter numbers within simulation bounds.`
+        modalDiv.innerHTML = `Cannot process these coordinates!`
         modalError()
     }
 }

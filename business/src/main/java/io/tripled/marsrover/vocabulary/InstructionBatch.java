@@ -66,5 +66,17 @@ public record InstructionBatch(ImmutableList<RoverInstructions> batch) {
                 instructionsMap.put(roverInstructions.id(), roverInstructions);
             }
         }
+
+        public void clearRoverMoves(String roverId) {
+            instructionsMap.remove(new RoverId(roverId));
+        }
+
+        public int getInstructionSizeOfRover(String roverId) {
+            RoverId key = new RoverId(roverId);
+            if (instructionsMap.containsKey(key)) {
+                return instructionsMap.get(key).moves().size();
+            }
+            return 0;
+        }
     }
 }
