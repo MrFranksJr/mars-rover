@@ -130,7 +130,17 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverCollidedMessage(RoverId roverId) {
+    public void roverCollidedMessage(RoverState roverState) {
+
+    }
+
+    @Override
+    public void roverDeathMessage(RoverState roverState) {
+
+    }
+
+    @Override
+    public void roverAlreadyDeadMessage(RoverId roverId) {
 
     }
 

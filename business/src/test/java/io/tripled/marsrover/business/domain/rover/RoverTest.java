@@ -1,5 +1,7 @@
 package io.tripled.marsrover.business.domain.rover;
 
+import io.tripled.marsrover.business.api.RoverState;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,43 +9,77 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RoverTest {
 
     private final Location location = new Location(new Coordinate(5, 5), 10);
+    private Rover r1;
 
-
+    @BeforeEach
+    void setUp() {
+        r1 = new Rover("R1", RoverHeading.NORTH);
+    }
     @Test
     void moveOneStepForwardsPassLocation() {
-        Rover r1 = new Rover("R1", RoverHeading.NORTH);
-
         final var newLocation = r1.moveForward(location);
 
-        assertEquals(6, newLocation.coordinate().yCoordinate());
+        RoverState roverState = r1.getRoverState(newLocation);
+
+        assertEquals(6, roverState.coordinate().yCoordinate());
     }
 
 
     @Test
     void moveOneStepBackwardsPassLocation() {
-        Rover r1 = new Rover("R1", RoverHeading.NORTH);
-
         final Location newLocation = r1.moveBackward(location);
 
-        assertEquals(4, newLocation.coordinate().yCoordinate());
+        RoverState roverState = r1.getRoverState(newLocation);
+
+        assertEquals(4, roverState.coordinate().yCoordinate());
     }
 
     @Test
     void roverTurnsLeft() {
-        Rover r1 = new Rover("R1", RoverHeading.NORTH);
-
         r1.turnLeft();
 
-        assertEquals(RoverHeading.WEST, r1.getRoverHeading());
+        RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
+
+        assertEquals(RoverHeading.WEST, roverState.roverHeading());
     }
 
     @Test
     void roverTurnsRight() {
-        Rover r1 = new Rover("R1", RoverHeading.NORTH);
-
         r1.turnRight();
 
-        assertEquals(RoverHeading.EAST, r1.getRoverHeading());
+        RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
+
+        assertEquals(RoverHeading.EAST, roverState.roverHeading());
     }
 
+    @Test
+    void roverHasHitpoints() {
+        RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
+
+        assertEquals(5, roverState.hitpoints());
+    }
+
+    @Test
+    void roverCanLoseHitPoints() {
+        r1.handleDamage();
+
+        RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
+
+        assertEquals(4, roverState.hitpoints());
+    }
+
+    @Test
+    void roverHitPointsCannotGoBelowZero() {
+        r1.handleDamage();
+        r1.handleDamage();
+        r1.handleDamage();
+        r1.handleDamage();
+        r1.handleDamage();
+        r1.handleDamage();
+
+        RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
+
+        assertEquals(RoverBrokenStatus.BROKEN, roverState.healthState());
+        assertEquals(0, roverState.hitpoints());
+    }
 }

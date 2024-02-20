@@ -4,11 +4,9 @@ package io.tripled.marsrover.rest;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
-import io.tripled.marsrover.vocabulary.RoverMove;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static io.tripled.marsrover.rest.InputParser.INPUT_PARSER;
 
 @RestController
 public class MarsRoverRestController {
@@ -17,12 +15,6 @@ public class MarsRoverRestController {
 
     public MarsRoverRestController(MarsRoverApi marsRoverApi) {
         this.marsRoverApi = marsRoverApi;
-    }
-
-    private static String buildRegularExpression(String[] inputArray) {
-        return "^" + "( *[FfRrBbLl]\\d*)"
-                .repeat(inputArray.length) +
-                "$|^( *[FfRrBbLl]\\d*)$";
     }
 
     @PostMapping("/api/createsimulation/{simulationSize}")
@@ -63,7 +55,7 @@ public class MarsRoverRestController {
     @ResponseBody
     String moveRover(@PathVariable String roverInstructions) {
         final RoverMovePresenterImpl roverMovePresenter = new RoverMovePresenterImpl();
-        final InstructionBatch roverInstructionsBatch = extractRoverMovesFromInput(roverInstructions);
+        final InstructionBatch roverInstructionsBatch = INPUT_PARSER.extractRoverMovesFromInput(roverInstructions);
 
         marsRoverApi.executeMoveInstructions(roverInstructionsBatch, roverMovePresenter);
 
@@ -78,33 +70,4 @@ public class MarsRoverRestController {
         }
     }
 
-    private static InstructionBatch extractRoverMovesFromInput(String roverMoves) {
-        final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
-        roverMoves.replace("%20", " ");
-        String[] roverInstructions = roverMoves.split("\\s+(?=[R])");
-
-        for (String instructionsPerRover : roverInstructions) {
-            String[] roverInstruction = instructionsPerRover.split(" "); //f1 b5 fdhfgd r2
-            String roverId = extractRoverIdFromInput(instructionsPerRover);
-            for (String singleInstruction : roverInstruction) {
-                String trimmedInstruction = singleInstruction.trim();
-                Pattern regex = Pattern.compile("(^[frbl]\\d*)$");
-                Matcher matcher = regex.matcher(trimmedInstruction);
-                while(matcher.find()){
-                    String preppedInput = matcher.group(1).trim();
-                    String direction = preppedInput.substring(0,1);
-                    int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
-                    instructionBatch.addRoverMoves(roverId, new RoverMove(direction, steps));
-                }
-            }
-            if (roverInstruction.length - 1 != instructionBatch.getInstructionSizeOfRover(roverId)) {
-                instructionBatch.clearRoverMoves(roverId);
-            }
-        }
-        return instructionBatch.build();
-    }
-
-    private static String extractRoverIdFromInput(String input) {
-        return input.substring(0, input.indexOf(" ")).toUpperCase();
-    }
 }

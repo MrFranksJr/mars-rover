@@ -95,7 +95,7 @@
         </plugins>
     </build>
     <modules>
-        <module>ui</module>
+        <module>cliapp</module>
         <module>business</module>
         <module>webapp</module>
     </modules>

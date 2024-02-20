@@ -4,11 +4,9 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
-import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.vocabulary.RoverId;
 
-import java.util.List;
 import java.util.Objects;
 
 public class RoverMoveCommand implements Command {
@@ -29,9 +27,20 @@ public class RoverMoveCommand implements Command {
             }
 
             @Override
-            public void roverCollided(RoverId roverId) {
-                messagePresenter.roverCollidedMessage(roverId);
+            public void roverCollided(RoverState roverState) {
+                messagePresenter.roverCollidedMessage(roverState);
             }
+
+            @Override
+            public void roverDeath(RoverState roverState) {
+                messagePresenter.roverDeathMessage(roverState);
+            }
+
+            @Override
+            public void roverAlreadyDead(RoverId roverId) {
+                messagePresenter.roverAlreadyDeadMessage(roverId);
+            }
+
         });
     }
 

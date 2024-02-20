@@ -67,6 +67,9 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].hitPoints").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverBrokenStatus").value("ALIVE"));
+
     }
 
     @Test

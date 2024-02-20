@@ -2,6 +2,7 @@ package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.domain.rover.RoverBrokenStatus;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.vocabulary.RoverId;
 
@@ -121,10 +122,22 @@ public class ConsolePresenter implements MessagePresenter {
     public void duplicateSimulationDetected(SimulationState simulationState) {
         System.out.println("There is already a simulation with size " + simulationState.simulationSize());
     }
-    //TODO: RoverID of the collided rover needs to be reported here + last successful location
     @Override
-    public void roverCollidedMessage(RoverId roverId) {
-        System.out.println("Rover " + roverId + " has collided and returned to its last position");
+    public void roverCollidedMessage(RoverState roverState) {
+            System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
+            System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
+    }
+
+    @Override
+    public void roverDeathMessage(RoverState roverState) {
+        System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
+        System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
+        System.out.println("Rover " + roverState.roverId() + " has died!!" );
+    }
+
+    @Override
+    public void roverAlreadyDeadMessage(RoverId roverId) {
+        System.out.println("Rover " + roverId + " can no longer move since it's already broken");
     }
 }
 

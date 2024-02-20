@@ -4,5 +4,8 @@ import io.tripled.marsrover.vocabulary.RoverId;
 
 public interface RoverMovePresenter {
     void moveRoverSuccessful(RoverState roverState);
-    void roverCollided(RoverId roverId);
+    void roverCollided(RoverState roverState);
+    void roverDeath(RoverState roverState);
+
+    void roverAlreadyDead(RoverId roverId);
 }

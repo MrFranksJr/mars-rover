@@ -11,7 +11,7 @@ public class SimulationStateRestPresenter implements SimulationStatePresenter {
     private SimulationState simulationState;
 
     private RoverViewDTO map(RoverState x) {
-        return new RoverViewDTO(x.roverId().id(), mapHeading(x), x.coordinate().xCoordinate(), x.coordinate().yCoordinate());
+        return new RoverViewDTO(x.roverId().id(), mapHeading(x), x.coordinate().xCoordinate(), x.coordinate().yCoordinate(), x.hitpoints(), x.healthState());
     }
 
     private String mapHeading(RoverState x) {

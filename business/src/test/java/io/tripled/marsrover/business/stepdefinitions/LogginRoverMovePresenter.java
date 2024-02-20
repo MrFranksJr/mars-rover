@@ -13,7 +13,17 @@ public enum LogginRoverMovePresenter implements RoverMovePresenter {
     }
 
     @Override
-    public void roverCollided(RoverId roverId) {
-        System.out.println(roverId + " have collided");
+    public void roverCollided(RoverState roverState) {
+        System.out.println(roverState.roverId() + " have collided");
+    }
+
+    @Override
+    public void roverDeath(RoverState roverState) {
+        System.out.println(roverState.roverId() + " has died");
+    }
+
+    @Override
+    public void roverAlreadyDead(RoverId roverId) {
+
     }
 }

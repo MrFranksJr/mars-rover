@@ -280,6 +280,18 @@ class SimulationTest {
         assertEquals(r1LandingCoordinates, getRover(R1, simWorld).coordinate());
     }
 
+    @Test
+    void roverTakesDamageWhenColliding() {
+        final Coordinate r1LandingCoordinates = new Coordinate(5, 5);
+        final Coordinate r2LandingCoordinates = new Coordinate(5, 4);
+        final Simulation simWorld = createSimulationWithRover(10, r1LandingCoordinates);
+        landRover(r2LandingCoordinates, simWorld);
+
+        moveRover(simWorld, R2, Direction.FORWARD);
+
+        assertEquals(4, getRover(R2, simWorld).hitpoints());
+    }
+
     //TODO: Verify test results on eventpublisher
     static class DummyEventPub implements Simulation.SimulationRoverMovedEventPublisher {
         @Override

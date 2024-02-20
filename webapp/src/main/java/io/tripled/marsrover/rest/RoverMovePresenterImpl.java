@@ -16,10 +16,19 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
 
 
     @Override
-    public void roverCollided(RoverId roverId) {
-        collidedRover = new Pair<>(roverId, true);
+    public void roverCollided(RoverState roverState) {
+        collidedRover = new Pair<>(roverState.roverId(), true);
     }
 
+    @Override
+    public void roverDeath(RoverState roverState) {
+
+    }
+
+    @Override
+    public void roverAlreadyDead(RoverId roverId) {
+
+    }
 
 
     public Pair<RoverId, Boolean> hasCollided() {

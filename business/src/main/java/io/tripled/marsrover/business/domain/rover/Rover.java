@@ -6,11 +6,14 @@ import io.tripled.marsrover.vocabulary.RoverId;
 public class Rover {
     private final RoverId roverId;
     private RoverHeading roverHeading;
-
+    private  int hitPoints;
+    private RoverBrokenStatus roverBrokenState;
 
     public Rover(RoverId roverId, RoverHeading roverHeading) {
         this.roverId = roverId;
         this.roverHeading = roverHeading;
+        this.hitPoints = 5;
+        this.roverBrokenState= RoverBrokenStatus.ALIVE;
     }
 
     public Rover(String roverId, RoverHeading roverHeading) {
@@ -22,7 +25,7 @@ public class Rover {
         return roverId;
     }
 
-    public RoverHeading getRoverHeading() {
+    private RoverHeading getRoverHeading() {
         return roverHeading;
     }
 
@@ -31,6 +34,8 @@ public class Rover {
                 .withRoverHeading(roverHeading)
                 .withRoverName(roverId)
                 .withCoordinate(location.coordinate())
+                .withHitPoints(hitPoints)
+                .withHealthState(roverBrokenState)
                 .build();
     }
 
@@ -55,10 +60,30 @@ public class Rover {
 
     public void turnLeft() {
         roverHeading = roverHeading.nextCounterClockWise();
-        ;
     }
 
     public void turnRight() {
         roverHeading = roverHeading.nextClockWise();
+    }
+
+    public void handleDamage() {
+        if (roverIsAlive()) {
+            subtractHitPoint();
+            disableRoverIfNoHitpoints();
+        }
+    }
+
+    private boolean roverIsAlive() {
+        return roverBrokenState == RoverBrokenStatus.ALIVE;
+    }
+
+    private void subtractHitPoint() {
+        hitPoints--;
+    }
+
+    private void disableRoverIfNoHitpoints() {
+        if (hitPoints == 0) {
+            roverBrokenState = RoverBrokenStatus.BROKEN;
+        }
     }
 }

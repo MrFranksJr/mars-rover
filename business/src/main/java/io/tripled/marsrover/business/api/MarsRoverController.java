@@ -1,15 +1,12 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.Direction;
-import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -79,7 +76,11 @@ public class MarsRoverController implements MarsRoverApi {
     private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
         switch (e) {
             case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
-            case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverId());
+            case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverState());
+            case Simulation.RoverDeath roverDeath -> { p.roverDeath(roverDeath.roverState());
+            }
+            case Simulation.RoverAlreadyDead roverAlreadyDead -> { p.roverAlreadyDead(roverAlreadyDead.roverId());
+            }
         }
     }
 }

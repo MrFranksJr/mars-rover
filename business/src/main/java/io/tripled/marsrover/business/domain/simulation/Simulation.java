@@ -10,7 +10,6 @@ import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.RoverMove;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -60,13 +59,17 @@ public class Simulation {
                 //TODO improve
                 if (roverEvent.isPresent()) {
                     final SimulationMoveRoverEvent e = roverEvent.get();
-
                     switch (e) {
                         case RoverCollided roverCollided -> {
                             eventPublisher.publish(roverCollided);
                             return;
                         }
                         case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent -> eventPublisher.publish(roverMovedSuccessfulEvent);
+                        case RoverDeath roverDeath -> {
+                            eventPublisher.publish(roverDeath);
+                            return;
+                        }
+                        case RoverAlreadyDead roverAlreadyDead -> eventPublisher.publish(roverAlreadyDead);
                     }
                 }
             }
@@ -78,25 +81,23 @@ public class Simulation {
     /**
      * The public Events of the Simulation aggregate
      */
-    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
-    }
+    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {}
 
-    public record RoverMissesSimulationLand(int simulationSize) implements SimulationLandEvent {
-    }
+    public record RoverMissesSimulationLand(int simulationSize) implements SimulationLandEvent {}
 
-    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
-    }
+    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {}
 
-    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {
+    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {}
 
-    }
+    public record RoverCollided(RoverState roverState, Location newLocation) implements SimulationMoveRoverEvent {}
 
-    public record RoverCollided(RoverId roverId, Location newLocation) implements SimulationMoveRoverEvent {
-    }
+    public record RoverDeath(RoverState roverState) implements SimulationMoveRoverEvent {}
 
     private SimulationMoveRoverEvent moveRover(Direction direction, Pair<Location, Rover> locationRoverPair) {
         final Location oldLocation = locationRoverPair.first();
         final Rover rover = locationRoverPair.second();
+        if(checkIfRoverIsBroken(rover, oldLocation)) { return new RoverAlreadyDead(rover.getRoverId()); }
+
         return switch (direction) {
             case FORWARD -> {
                 final Location newLocation = rover.moveForward(oldLocation);
@@ -117,13 +118,27 @@ public class Simulation {
         };
     }
 
+    private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {
+        return rover.getRoverState(oldLocation).healthState() == RoverBrokenStatus.BROKEN;
+    }
+
     private SimulationMoveRoverEvent roverGoToNewLocation(Location newLocation, Location oldLocation, Rover rover) {
         if (isFree(newLocation)) {
             changeRoverLocation(oldLocation, rover, newLocation);
             return new RoverMovedSuccessfulEvent(rover.getRoverState(newLocation));
         } else {
-            return new RoverCollided(rover.getRoverId(), newLocation);
+
+            rover.handleDamage();
+            if (roverIsAlive(newLocation, rover)) {
+                return new RoverCollided(rover.getRoverState(newLocation), newLocation);
+            } else {
+                return new RoverDeath(rover.getRoverState(newLocation));
+            }
         }
+    }
+
+    private static boolean roverIsAlive(Location newLocation, Rover rover) {
+        return rover.getRoverState(newLocation).healthState() == RoverBrokenStatus.ALIVE;
     }
 
     private boolean isFree(Location newLocation) {
@@ -178,5 +193,8 @@ public class Simulation {
 
     public interface SimulationRoverMovedEventPublisher {
         void publish(SimulationMoveRoverEvent event);
+    }
+
+    public record RoverAlreadyDead(RoverId roverId) implements SimulationMoveRoverEvent {
     }
 }

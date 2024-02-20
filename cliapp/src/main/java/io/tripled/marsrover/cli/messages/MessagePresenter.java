@@ -19,5 +19,8 @@ public interface MessagePresenter {
     void roverMovedMessage(RoverState roverState);
     void roverDoesNotExist();
     void duplicateSimulationDetected(SimulationState simulationState);
-    void roverCollidedMessage(RoverId roverId);
+    void roverCollidedMessage(RoverState roverState);
+    void roverDeathMessage(RoverState roverState);
+
+    void roverAlreadyDeadMessage(RoverId roverId);
 }
