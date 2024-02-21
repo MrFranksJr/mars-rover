@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.api;
 
+import com.google.common.collect.ImmutableList;
 import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public record SimulationState(int simulationSize, int totalCoordinates, List<Rov
         }
 
         public Builder withRoverList(List<RoverState> rovers) {
-            roverList = rovers;
+            roverList = ImmutableList.sortedCopyOf((o1, o2) -> o1.roverId().compareWith(o2.roverId()), rovers);
             return this;
         }
 

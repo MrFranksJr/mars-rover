@@ -32,13 +32,13 @@ public class RoverMoveCommand implements Command {
             }
 
             @Override
-            public void roverDeath(RoverState roverState) {
-                messagePresenter.roverDeathMessage(roverState);
+            public void roverBreakingDown(RoverState roverState) {
+                messagePresenter.roverBrokenMessage(roverState);
             }
 
             @Override
-            public void roverAlreadyDead(RoverId roverId) {
-                messagePresenter.roverAlreadyDeadMessage(roverId);
+            public void roverAlreadyBrokenDown(RoverId roverId) {
+                messagePresenter.roverAlreadyBrokenMessage(roverId);
             }
 
         });

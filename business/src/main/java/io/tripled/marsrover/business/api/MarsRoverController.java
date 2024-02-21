@@ -76,9 +76,9 @@ public class MarsRoverController implements MarsRoverApi {
         switch (e) {
             case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
             case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverState());
-            case Simulation.RoverDeath roverDeath -> { p.roverDeath(roverDeath.roverState());
+            case Simulation.RoverDeath roverDeath -> { p.roverBreakingDown(roverDeath.roverState());
             }
-            case Simulation.RoverAlreadyDead roverAlreadyDead -> { p.roverAlreadyDead(roverAlreadyDead.roverId());
+            case Simulation.RoverAlreadyBroken roverAlreadyBroken -> { p.roverAlreadyBrokenDown(roverAlreadyBroken.roverId());
             }
         }
     }

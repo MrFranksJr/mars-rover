@@ -59,19 +59,19 @@ public class MarsRoverRestController {
 
         marsRoverApi.executeMoveInstructions(roverInstructionsBatch, roverMovePresenter);
 
-        if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isAlreadyDead().second()) {
-            String roverId = roverMovePresenter.isAlreadyDead().first().id();
-            return "{\"result\":\"Rover " + roverId + " is already dead\"}";
-        } else if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isDead().second()) {
-            String roverId = roverMovePresenter.isDead().first().id();
-            return "{\"result\":\"Rover " + roverId + " is dead\"}";
+        if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isAlreadyBroken().second()) {
+            String roverId = roverMovePresenter.isAlreadyBroken().first().id();
+            return "{\"result\":\"Rover " + roverId + " is already down and cannot move\"}";
+        } else if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isBroken().second()) {
+            String roverId = roverMovePresenter.isBroken().first().id();
+            return "{\"result\":\"Rover " + roverId + " has broken down\"}";
         } else if (!roverInstructionsBatch.batch().isEmpty() && !roverMovePresenter.hasCollided().second()) {
-            return "{\"result\":\"Rover moves successful\"}";
+            return "{\"result\":\"Rover moves successfully\"}";
         } else if(!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.hasCollided().second()) {
             String roverId = roverMovePresenter.hasCollided().first().id();
             return "{\"result\":\"Rover " + roverId + " has collided\"}";
         } else {
-            return "{\"result\":\"Rover moves unsuccessful\"}";
+            return "{\"result\":\"Cannot execute instructions\"}";
         }
     }
 }

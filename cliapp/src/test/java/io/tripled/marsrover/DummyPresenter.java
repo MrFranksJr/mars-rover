@@ -88,13 +88,11 @@ public class DummyPresenter implements MessagePresenter {
     public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
         hasLandingFailed = true;
     }
-
     @Override
     public void roverStateCommand(SimulationState simulationState) {
         setRoverState(simulationState);
         this.hadStateCommandInvoked = true;
     }
-
     private void setRoverState(SimulationState simulationState) {
         final List<RoverState> rovers = simulationState.roverList();
         if (rovers.isEmpty())
@@ -102,7 +100,6 @@ public class DummyPresenter implements MessagePresenter {
         else
             this.roverState = rovers.getFirst();
     }
-
     public boolean hasStateCommandBeenInvoked() {
         return hadStateCommandInvoked;
     }
@@ -111,37 +108,22 @@ public class DummyPresenter implements MessagePresenter {
     public void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize) {
         hasRoverMissedSimulation = true;
     }
-
     @Override
     public void roverMovedMessage(RoverState roverState) {
         this.roverState = roverState;
         hasRoverMoved = true;
     }
-
     @Override
-    public void roverDoesNotExist() {
-
-    }
-
+    public void roverDoesNotExist() {    }
     @Override
     public void duplicateSimulationDetected(SimulationState simulationState) {
         hasSimulationCreated = false;
         this.simulationState = simulationState;
     }
-
     @Override
-    public void roverCollidedMessage(RoverState roverState) {
-
-    }
-
+    public void roverCollidedMessage(RoverState roverState) {    }
     @Override
-    public void roverDeathMessage(RoverState roverState) {
-
-    }
-
+    public void roverBrokenMessage(RoverState roverState) {    }
     @Override
-    public void roverAlreadyDeadMessage(RoverId roverId) {
-
-    }
-
+    public void roverAlreadyBrokenMessage(RoverId roverId) {    }
 }

@@ -1,11 +1,11 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.RoverBrokenStatus;
+import io.tripled.marsrover.business.domain.rover.OperationalStatus;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.RoverId;
 
-public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate coordinate, int hitpoints, RoverBrokenStatus healthState) {
+public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate coordinate, int hitpoints, OperationalStatus healthState) {
 
 
     private RoverState(Builder builder) {
@@ -22,17 +22,17 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
         private RoverHeading roverHeading;
         private Coordinate coordinate;
         private int hitPoints;
-        private RoverBrokenStatus healthState;
+        private OperationalStatus healthState;
 
         private Builder() {
         }
 
-        public Builder withRoverName(RoverId val) {
+        public Builder withRoverId(RoverId val) {
             roverId = val;
             return this;
         }
-        public Builder withRoverName(String val) {
-            return withRoverName(new RoverId(val));
+        public Builder withRoverId(String val) {
+            return withRoverId(new RoverId(val));
         }
 
         public Builder withRoverHeading(RoverHeading val) {
@@ -48,7 +48,7 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
             hitPoints = val;
             return this;
         }
-        public Builder withHealthState(RoverBrokenStatus val) {
+        public Builder withHealthState(OperationalStatus val) {
             healthState = val;
             return this;
         }

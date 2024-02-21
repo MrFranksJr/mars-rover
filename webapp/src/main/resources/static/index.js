@@ -1,12 +1,11 @@
-import { generateMap } from "/data/mapData.js";
-import { landRover } from "/commands/landRover.js";
-import { moveRover } from "/commands/moveRover.js";
-import { createSimulation } from "/commands/createSimulation.js";
-import { getSimulationState, roversInSimulation } from "/commands/getSimulationState.js";
-import { showAllAnimations, disableAnimations } from "/animations/animations.js";
+import { generateMap } from "./data/mapData.js";
+import { landRover } from "./commands/landRover.js";
+import { moveRover } from "./commands/moveRover.js";
+import { createSimulation } from "./commands/createSimulation.js";
+import { getSimulationState, roversInSimulation } from "./commands/getSimulationState.js";
+import { showAllAnimations, disableAnimations } from "./animations/animations.js";
 
-export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, roverInstructionsField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
-
+export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
 
 async function onLoadCreateSimulation(){
     let simulationState = await fetch('/api/simulationstate')
@@ -27,7 +26,7 @@ async function buildRoverInstructionControls() {
     if (roversInSimulation.length !== 0) {
         let moveControlsHtml = ""
         for (let rover of roversInSimulation) {
-            if (rover.roverBrokenStatus == "ALIVE") {
+            if (rover.operationalStatus === "OPERATIONAL") {
                 moveControlsHtml += `
                 <div class="singleRoverInstruction">
                     <label for="${rover.roverName}">${rover.roverName}</label>
@@ -86,7 +85,6 @@ const landRoverBtn = document.getElementById('landRoverBtn')
 const moveRoverBtn = document.getElementById('moveRoverBtn')
 const modalDiv = document.getElementById('feedbackModal')
 const roverIdField = document.getElementById('roverId')
-const roverInstructionsField = document.getElementById('roverInstructions')
 const simulationStateField = document.getElementById('simulationState')
 const xCoordinateField = document.getElementById('roverXCoordinate')
 const yCoordinateField = document.getElementById('roverYCoordinate')

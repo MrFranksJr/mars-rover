@@ -69,7 +69,7 @@ public class Simulation {
                             eventPublisher.publish(roverDeath);
                             return;
                         }
-                        case RoverAlreadyDead roverAlreadyDead -> eventPublisher.publish(roverAlreadyDead);
+                        case RoverAlreadyBroken roverAlreadyBroken -> eventPublisher.publish(roverAlreadyBroken);
                     }
                 }
             }
@@ -96,7 +96,7 @@ public class Simulation {
     private SimulationMoveRoverEvent moveRover(Direction direction, Pair<Location, Rover> locationRoverPair) {
         final Location oldLocation = locationRoverPair.first();
         final Rover rover = locationRoverPair.second();
-        if(checkIfRoverIsBroken(rover, oldLocation)) { return new RoverAlreadyDead(rover.getRoverId()); }
+        if(checkIfRoverIsBroken(rover, oldLocation)) { return new RoverAlreadyBroken(rover.getRoverId()); }
 
         return switch (direction) {
             case FORWARD -> {
@@ -119,7 +119,7 @@ public class Simulation {
     }
 
     private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {
-        return rover.getRoverState(oldLocation).healthState() == RoverBrokenStatus.BROKEN;
+        return rover.getRoverState(oldLocation).healthState() == OperationalStatus.BROKEN;
     }
 
     private SimulationMoveRoverEvent roverGoToNewLocation(Location newLocation, Location oldLocation, Rover rover) {
@@ -138,7 +138,7 @@ public class Simulation {
     }
 
     private static boolean roverIsAlive(Location newLocation, Rover rover) {
-        return rover.getRoverState(newLocation).healthState() == RoverBrokenStatus.ALIVE;
+        return rover.getRoverState(newLocation).healthState() == OperationalStatus.OPERATIONAL;
     }
 
     private boolean isFree(Location newLocation) {
@@ -195,6 +195,6 @@ public class Simulation {
         void publish(SimulationMoveRoverEvent event);
     }
 
-    public record RoverAlreadyDead(RoverId roverId) implements SimulationMoveRoverEvent {
+    public record RoverAlreadyBroken(RoverId roverId) implements SimulationMoveRoverEvent {
     }
 }

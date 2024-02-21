@@ -2,7 +2,6 @@ package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationState;
-import io.tripled.marsrover.business.domain.rover.RoverBrokenStatus;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.vocabulary.RoverId;
 
@@ -129,15 +128,15 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverDeathMessage(RoverState roverState) {
+    public void roverBrokenMessage(RoverState roverState) {
         System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
         System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
-        System.out.println("Rover " + roverState.roverId() + " has died!!" );
+        System.out.println("Rover " + roverState.roverId() + " has broken down!!" );
     }
 
     @Override
-    public void roverAlreadyDeadMessage(RoverId roverId) {
-        System.out.println("Rover " + roverId + " can no longer move since it's already broken");
+    public void roverAlreadyBrokenMessage(RoverId roverId) {
+        System.out.println("Rover " + roverId + " can no longer move since it has already broken down");
     }
 }
 

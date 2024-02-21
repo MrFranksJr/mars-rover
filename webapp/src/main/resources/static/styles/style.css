@@ -284,7 +284,10 @@ footer {
     border: 1px solid #d82828;
 }
 
-
+.strong-italic {
+    font-weight: bold;
+    font-style: italic;
+}
 
 @media screen and (max-width: 1200px), 
     screen and (max-height: 970px) {

@@ -68,7 +68,7 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].hitPoints").value("5"));
-        result.andExpect(jsonPath("$.roverList[0].roverBrokenStatus").value("ALIVE"));
+        result.andExpect(jsonPath("$.roverList[0].operationalStatus").value("OPERATIONAL"));
 
     }
 
@@ -184,11 +184,11 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[1].hitPoints").value("0"));
-        result.andExpect(jsonPath("$.roverList[1].roverBrokenStatus").value("BROKEN"));
+        result.andExpect(jsonPath("$.roverList[1].operationalStatus").value("BROKEN"));
     }
 
     @Test
-    void roverWasAlreadyDead() throws Exception{
+    void roverWasAlreadyBroken() throws Exception{
         createSimulationOf10();
 
         landRover(5,5);
@@ -208,7 +208,7 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[1].hitPoints").value("0"));
-        result.andExpect(jsonPath("$.roverList[1].roverBrokenStatus").value("BROKEN"));
+        result.andExpect(jsonPath("$.roverList[1].operationalStatus").value("BROKEN"));
     }
 
     private void createSimulationOf10() throws Exception {

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.hamcrest.Matchers.*;
 class SimulationTest {
 
     private final RoverId R1 = new RoverId(1);

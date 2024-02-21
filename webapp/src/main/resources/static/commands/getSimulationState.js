@@ -1,4 +1,4 @@
-import { drawMap, updateUIWithSimulationState, roverIdField, roverInstructionsField} from "/index.js"
+import { drawMap, updateUIWithSimulationState } from "../index.js"
 
 export { getSimulationState, roversInSimulation }
 
@@ -18,11 +18,11 @@ async function getSimulationState() {
     } 
     else {
         for (let rover of roversInSimulation) {
-            simulationStateString += `Rover ${rover.roverName} 
-                is at position (${rover.roverXPosition}, ${rover.roverYPosition}) <br/>
-                with heading ${rover.roverHeading} <br/>
-                with hitpoints ${rover.hitPoints} <br/>
-                is ${rover.roverBrokenStatus} <br/>
+            simulationStateString += `<strong>Rover</strong> ${rover.roverName}: 
+                <span class="strong-italic">Position:</span> (${rover.roverXPosition}, ${rover.roverYPosition}) <br/>
+                <span class="strong-italic">Heading:</span> ${rover.roverHeading}<br/>
+                <span class="strong-italic">Hitpoints:</span> ${rover.hitPoints}<br/>
+                <span class="strong-italic">Status:</span> ${rover.operationalStatus}<br/>
                 <br/>
                 `
         }
