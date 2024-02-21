@@ -1,4 +1,4 @@
-export { showAllAnimations }
+export { showAllAnimations, disableAnimations }
 
 
 const main = document.getElementById('main')

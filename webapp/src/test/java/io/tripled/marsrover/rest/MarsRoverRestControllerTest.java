@@ -154,7 +154,7 @@ public class MarsRoverRestControllerTest {
         landRover(5,5);
         landRover(5,6);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1/f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
 
         var result = getSimulationState();
 
@@ -163,6 +163,52 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
 
+    }
+    @Test
+    void roverDiesWhenHitpointsAreZero() throws Exception{
+        createSimulationOf10();
+
+        landRover(5,5);
+        landRover(5,6);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+
+        var result = getSimulationState();
+
+        result.andExpect(jsonPath("$.roverList[1].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[1].roverHeading").value("NORTH"));
+        result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[1].hitPoints").value("0"));
+        result.andExpect(jsonPath("$.roverList[1].roverBrokenStatus").value("BROKEN"));
+    }
+
+    @Test
+    void roverWasAlreadyDead() throws Exception{
+        createSimulationOf10();
+
+        landRover(5,5);
+        landRover(5,6);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
+
+        var result = getSimulationState();
+
+        result.andExpect(jsonPath("$.roverList[1].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[1].roverHeading").value("NORTH"));
+        result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[1].hitPoints").value("0"));
+        result.andExpect(jsonPath("$.roverList[1].roverBrokenStatus").value("BROKEN"));
     }
 
     private void createSimulationOf10() throws Exception {

@@ -3,7 +3,7 @@ import { landRover } from "/commands/landRover.js";
 import { moveRover } from "/commands/moveRover.js";
 import { createSimulation } from "/commands/createSimulation.js";
 import { getSimulationState, roversInSimulation } from "/commands/getSimulationState.js";
-import { showAllAnimations } from "/animations/animations.js";
+import { showAllAnimations, disableAnimations } from "/animations/animations.js";
 
 export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, roverInstructionsField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
 
@@ -27,12 +27,22 @@ async function buildRoverInstructionControls() {
     if (roversInSimulation.length !== 0) {
         let moveControlsHtml = ""
         for (let rover of roversInSimulation) {
-            moveControlsHtml += `
-            <div class="singleRoverInstruction">
-                <label for="${rover.roverName}">${rover.roverName}</label>
-                <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions">
-            </div>
-            `
+            if (rover.roverBrokenStatus == "ALIVE") {
+                moveControlsHtml += `
+                <div class="singleRoverInstruction">
+                    <label for="${rover.roverName}">${rover.roverName}</label>
+                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions">
+                </div>
+                `
+            } else {
+                moveControlsHtml += `
+                <div class="singleRoverInstruction">
+                    <label for="${rover.roverName}">${rover.roverName}</label>
+                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Rover broken" disabled>
+                </div>
+                `
+            }
+            
         }
         roverInstructionFieldsDiv.innerHTML = moveControlsHtml;
 
@@ -96,7 +106,7 @@ document.querySelectorAll('form').forEach(node => {
 document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
 
 
-if(true) {
+if(false) {
     showAllAnimations()
 } else {
     disableAnimations()

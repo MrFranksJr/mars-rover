@@ -9,6 +9,8 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
 
 
     private Pair<RoverId, Boolean> collidedRover = new Pair<>(null, false);
+    private Pair<RoverId, Boolean> deadRover = new Pair<>(null, false);
+    private Pair<RoverId, Boolean> alreadyDeadRover = new Pair<>(null, false);
 
     @Override
     public void moveRoverSuccessful(RoverState roverState) {
@@ -22,16 +24,22 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
 
     @Override
     public void roverDeath(RoverState roverState) {
-
-    }
+        deadRover = new Pair<>(roverState.roverId(), true);   }
 
     @Override
     public void roverAlreadyDead(RoverId roverId) {
-
+        alreadyDeadRover = new Pair<>(roverId, true);
     }
-
 
     public Pair<RoverId, Boolean> hasCollided() {
         return collidedRover;
+    }
+
+    public Pair<RoverId, Boolean> isDead() {
+        return deadRover;
+    }
+
+    public Pair<RoverId, Boolean> isAlreadyDead(){
+        return alreadyDeadRover;
     }
 }

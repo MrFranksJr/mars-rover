@@ -38,7 +38,15 @@ async function moveRover(){
 
 async function awaitRoverMoveFeedback(data){
     const dataResult = data.result
-    if(dataResult.includes('collided')) {
+    if(dataResult.includes('is dead')){
+        await getSimulationState();
+        modalDiv.innerHTML = `Rover has collided and died. ${dataResult}!<br/>Try again!`
+        modalError()
+    } else if(dataResult.includes('is already dead')){
+        await getSimulationState();
+        modalDiv.innerHTML = `Rover cannot move and is already dead.<br/> ${dataResult}!<br/>Try again!`
+        modalError()
+    } else if(dataResult.includes('has collided')) {
         await getSimulationState();
         modalDiv.innerHTML = `Instructions stopped! ${dataResult}!<br/>Try again!`
         modalError()

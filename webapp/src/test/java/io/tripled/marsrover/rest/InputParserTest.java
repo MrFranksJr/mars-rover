@@ -45,4 +45,27 @@ class InputParserTest {
         assertEquals(expectedInstructionBatch, instructionBatch);
 
     }
+
+    @Test
+    void validInstructionMultipleRovers() {
+        String roverMoves = "R1%20f%20b3%20r%20R2%20f3%20R1%20b3";
+        InstructionBatch instructionBatch = INPUT_PARSER.extractRoverMovesFromInput(roverMoves);
+
+        replaceSpacesFromRestCall(roverMoves);
+
+        InstructionBatch expectedInstructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves("R1", new RoverMove("f", 1))
+                .addRoverMoves("R1", new RoverMove("b", 3))
+                .addRoverMoves("R1", new RoverMove("r", 1))
+                .addRoverMoves("R2", new RoverMove("f", 3))
+                .addRoverMoves("R1", new RoverMove("b", 3))
+                .build();
+
+        assertEquals(expectedInstructionBatch, instructionBatch);
+
+    }
+
+    private void replaceSpacesFromRestCall(String roverMoves) {
+        System.out.println(roverMoves.replace("%20", " "));
+    }
 }

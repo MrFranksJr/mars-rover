@@ -213,6 +213,10 @@ input {
     border-radius: 8px;
 }
 
+input:disabled::placeholder {
+    color: #98c7fc89;
+}
+
 button:hover:enabled {
     border: 1px solid #f18b82;
     color: #f18b82;

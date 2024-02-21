@@ -19,8 +19,12 @@ async function getSimulationState() {
     else {
         for (let rover of roversInSimulation) {
             simulationStateString += `Rover ${rover.roverName} 
-                is at position (${rover.roverXPosition}, ${rover.roverYPosition}) 
-                with heading ${rover.roverHeading} <br/>`
+                is at position (${rover.roverXPosition}, ${rover.roverYPosition}) <br/>
+                with heading ${rover.roverHeading} <br/>
+                with hitpoints ${rover.hitPoints} <br/>
+                is ${rover.roverBrokenStatus} <br/>
+                <br/>
+                `
         }
         toggleRoverInstructionControls(false);
         updateUIWithSimulationState(readableSimulationState, simulationStateString);

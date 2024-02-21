@@ -59,15 +59,19 @@ public class MarsRoverRestController {
 
         marsRoverApi.executeMoveInstructions(roverInstructionsBatch, roverMovePresenter);
 
-        if (!roverInstructionsBatch.batch().isEmpty() && !roverMovePresenter.hasCollided().second()) {
+        if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isAlreadyDead().second()) {
+            String roverId = roverMovePresenter.isAlreadyDead().first().id();
+            return "{\"result\":\"Rover " + roverId + " is already dead\"}";
+        } else if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isDead().second()) {
+            String roverId = roverMovePresenter.isDead().first().id();
+            return "{\"result\":\"Rover " + roverId + " is dead\"}";
+        } else if (!roverInstructionsBatch.batch().isEmpty() && !roverMovePresenter.hasCollided().second()) {
             return "{\"result\":\"Rover moves successful\"}";
         } else if(!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.hasCollided().second()) {
             String roverId = roverMovePresenter.hasCollided().first().id();
             return "{\"result\":\"Rover " + roverId + " has collided\"}";
-
-        }else {
+        } else {
             return "{\"result\":\"Rover moves unsuccessful\"}";
         }
     }
-
 }

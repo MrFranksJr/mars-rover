@@ -33,7 +33,6 @@ public class MarsRoverController implements MarsRoverApi {
         if (simulationRepository.getSimulation().isPresent()) {
             final var simulation = simulationRepository.getSimulation().get();
 
-
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
                 simulation.moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
