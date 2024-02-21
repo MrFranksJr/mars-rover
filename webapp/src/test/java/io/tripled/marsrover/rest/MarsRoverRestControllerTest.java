@@ -158,10 +158,10 @@ public class MarsRoverRestControllerTest {
 
         var result = getSimulationState();
 
-        result.andExpect(jsonPath("$.roverList[1].roverName").value("R1"));
-        result.andExpect(jsonPath("$.roverList[1].roverHeading").value("NORTH"));
-        result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
-        result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverHeading").value("NORTH"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
 
     }
     @Test
@@ -179,12 +179,12 @@ public class MarsRoverRestControllerTest {
 
         var result = getSimulationState();
 
-        result.andExpect(jsonPath("$.roverList[1].roverName").value("R1"));
-        result.andExpect(jsonPath("$.roverList[1].roverHeading").value("NORTH"));
-        result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
-        result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
-        result.andExpect(jsonPath("$.roverList[1].hitPoints").value("0"));
-        result.andExpect(jsonPath("$.roverList[1].operationalStatus").value("BROKEN"));
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverHeading").value("NORTH"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].hitPoints").value("0"));
+        result.andExpect(jsonPath("$.roverList[0].operationalStatus").value("BROKEN"));
     }
 
     @Test
@@ -203,12 +203,12 @@ public class MarsRoverRestControllerTest {
 
         var result = getSimulationState();
 
-        result.andExpect(jsonPath("$.roverList[1].roverName").value("R1"));
-        result.andExpect(jsonPath("$.roverList[1].roverHeading").value("NORTH"));
-        result.andExpect(jsonPath("$.roverList[1].roverXPosition").value("5"));
-        result.andExpect(jsonPath("$.roverList[1].roverYPosition").value("5"));
-        result.andExpect(jsonPath("$.roverList[1].hitPoints").value("0"));
-        result.andExpect(jsonPath("$.roverList[1].operationalStatus").value("BROKEN"));
+        result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
+        result.andExpect(jsonPath("$.roverList[0].roverHeading").value("NORTH"));
+        result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
+        result.andExpect(jsonPath("$.roverList[0].hitPoints").value("0"));
+        result.andExpect(jsonPath("$.roverList[0].operationalStatus").value("BROKEN"));
     }
 
     private void createSimulationOf10() throws Exception {

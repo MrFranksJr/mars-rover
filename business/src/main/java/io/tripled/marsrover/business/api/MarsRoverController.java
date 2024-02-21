@@ -57,7 +57,7 @@ public class MarsRoverController implements MarsRoverApi {
         if (simulation.isPresent())
             simulationStatePresenter.simulationState(simulation.get().takeSnapshot());
         else
-            simulationStatePresenter.simulationState(SimulationState.NONE);
+            simulationStatePresenter.simulationState(SimulationSnapshot.NONE);
     }
 
     private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {

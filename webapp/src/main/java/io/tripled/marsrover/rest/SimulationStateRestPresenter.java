@@ -1,14 +1,14 @@
 package io.tripled.marsrover.rest;
 
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 
 import java.util.List;
 
 public class SimulationStateRestPresenter implements SimulationStatePresenter {
-    private SimulationState simulationState;
+    private SimulationSnapshot simulationSnapshot;
 
     private RoverViewDTO map(RoverState x) {
         return new RoverViewDTO(x.roverId().id(), mapHeading(x), x.coordinate().xCoordinate(), x.coordinate().yCoordinate(), x.hitpoints(), x.healthState());
@@ -25,16 +25,16 @@ public class SimulationStateRestPresenter implements SimulationStatePresenter {
     }
 
     @Override
-    public void simulationState(SimulationState simulationState) {
-        this.simulationState = simulationState;
+    public void simulationState(SimulationSnapshot simulationSnapshot) {
+        this.simulationSnapshot = simulationSnapshot;
     }
 
     public SimulationViewDTO getSimulationState() {
-        return mapToViewDTO(simulationState);
+        return mapToViewDTO(simulationSnapshot);
     }
 
-    private SimulationViewDTO mapToViewDTO(SimulationState simulationState) {
-        final List<RoverViewDTO> objectStream = simulationState.roverList().stream().map(this::map).toList();
-        return new SimulationViewDTO(simulationState.simulationSize(), simulationState.totalCoordinates(), objectStream);
+    private SimulationViewDTO mapToViewDTO(SimulationSnapshot simulationSnapshot) {
+        final List<RoverViewDTO> objectStream = simulationSnapshot.roverList().stream().map(this::map).toList();
+        return new SimulationViewDTO(simulationSnapshot.simulationSize(), simulationSnapshot.totalCoordinates(), objectStream);
     }
 }

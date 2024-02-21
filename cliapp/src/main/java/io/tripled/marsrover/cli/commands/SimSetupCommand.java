@@ -2,7 +2,7 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.SimulationCreationPresenter;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 public class SimSetupCommand implements Command {
@@ -17,8 +17,8 @@ public class SimSetupCommand implements Command {
     public void execute(MessagePresenter messagePresenter) {
         marsRoverApi.initializeSimulation(coordinateInput, new SimulationCreationPresenter() {
             @Override
-            public void simulationCreationSuccessful(SimulationState simulationState) {
-                messagePresenter.simulationCreationSuccessful(simulationState);
+            public void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot) {
+                messagePresenter.simulationCreationSuccessful(simulationSnapshot);
             }
 
             @Override
@@ -27,8 +27,8 @@ public class SimSetupCommand implements Command {
             }
 
             @Override
-            public void simulationAlreadyExists(SimulationState simulationState) {
-                messagePresenter.duplicateSimulationDetected(simulationState);
+            public void simulationAlreadyExists(SimulationSnapshot simulationSnapshot) {
+                messagePresenter.duplicateSimulationDetected(simulationSnapshot);
             }
         });
     }

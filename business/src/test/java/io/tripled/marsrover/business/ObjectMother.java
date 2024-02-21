@@ -1,7 +1,7 @@
 package io.tripled.marsrover.business;
 
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.RoverId;
@@ -46,13 +46,13 @@ public class ObjectMother {
                 .build();
     }
 
-    public static SimulationState buildSimpleSimulationState() {
+    public static SimulationSnapshot buildSimpleSimulationState() {
         return buildSimulationState(List.of(
                 ROVERSTATE_R2, ROVERSTATE_R1
         ));
     }
 
-    public static SimulationState buildComplexeSimulationState() {
+    public static SimulationSnapshot buildComplexeSimulationState() {
         return buildSimulationState(List.of(
                 ROVERSTATE_R4, ROVERSTATE_R2, ROVERSTATE_R1, ROVERSTATE_R3, ROVERSTATE_R5
         ));
@@ -72,8 +72,8 @@ public class ObjectMother {
                 .build();
     }
 
-    public static SimulationState buildSimulationState(List<RoverState> roverList) {
-        return SimulationState.newBuilder()
+    public static SimulationSnapshot buildSimulationState(List<RoverState> roverList) {
+        return SimulationSnapshot.newBuilder()
                 .withSimSize(10)
                 .withTotalCoordinates(1256456)
                 .withRoverList(roverList)

@@ -9,11 +9,11 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
-public record SimulationState(int simulationSize, int totalCoordinates, List<RoverState> roverList) {
+public record SimulationSnapshot(int simulationSize, int totalCoordinates, List<RoverState> roverList) {
 
-    public static SimulationState NONE = new SimulationState(-1, -1, emptyList());
+    public static SimulationSnapshot NONE = new SimulationSnapshot(-1, -1, emptyList());
 
-    private SimulationState(Builder builder) {
+    private SimulationSnapshot(Builder builder) {
         this(builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
     }
 
@@ -52,8 +52,8 @@ public record SimulationState(int simulationSize, int totalCoordinates, List<Rov
             return this;
         }
 
-        public SimulationState build() {
-            return new SimulationState(this);
+        public SimulationSnapshot build() {
+            return new SimulationSnapshot(this);
         }
     }
 }

@@ -3,7 +3,7 @@ package io.tripled.marsrover.business.domain.simulation;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.rover.*;
 import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
@@ -28,9 +28,9 @@ public class Simulation {
         return size < 0 ? Optional.empty() : Optional.of(new Simulation(size));
     }
 
-    public SimulationState takeSnapshot() {
+    public SimulationSnapshot takeSnapshot() {
         final var collect = roverLocationMap.entries().stream().map((Map.Entry<Location, Rover> x) -> x.getValue().getRoverState(x.getKey())).toList();
-        return SimulationState.newBuilder()
+        return SimulationSnapshot.newBuilder()
                 .withSimSize(simulationSize)
                 .withTotalCoordinates(calculateNrOfCoordinates())
                 .withRoverList(collect)

@@ -1,5 +1,5 @@
 package io.tripled.marsrover.business.api;
 
 public interface SimulationStatePresenter {
-    void simulationState(SimulationState simulationState);
+    void simulationState(SimulationSnapshot simulationSnapshot);
 }

@@ -58,7 +58,8 @@ function updateUIWithSimulationState(readableSimulationState, simulationStateStr
         <h2>Current Simulation state:</h2>
         <p>The simuation Size is ${readableSimulationState.simulationSize}</p>
         <p>The simulation has ${readableSimulationState.totalCoordinates} total Coordinates</p>
-        <p>${simulationStateString}</p>
+        <hr/>
+        <div class="rover-states">${simulationStateString}</div>
         `
 }
 
@@ -112,4 +113,3 @@ if(false) {
 setTimeout(() => {
     buildPage();
 }, "1000");
-

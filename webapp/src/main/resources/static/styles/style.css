@@ -53,7 +53,7 @@ header {
     display: flex;
     flex-direction: row;
     gap: 50px;
-    transition: 0.6s ease-in-out;
+    transition: 0.6s ease-in-out;    
 }
 
 h1 {
@@ -85,7 +85,7 @@ h1 {
 .main-left {
     display: flex;
     flex-direction: column;
-    flex: 70%;
+    flex: 60%;
     align-items: center;
     flex-grow: 1;
 }
@@ -93,7 +93,7 @@ h1 {
 .landRoverControls {
     display: flex;
     flex-wrap: wrap;
-    width: 30%;
+    width: 40%;
     justify-content: space-between;
     gap: 10px 20px;
     min-width: 310px;
@@ -131,7 +131,7 @@ h1 {
 .main-right {
     display: flex;
     flex-direction: column;
-    flex: 30%;
+    flex: 40%;
     align-items: center;
     row-gap: 30px;
 }
@@ -145,30 +145,32 @@ h1 {
 }
 
 .roverInstructionFields {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-content: space-between;
+    grid-auto-rows: auto;
+    grid-gap: 20px 10px;
 }
 
 .singleRoverInstruction {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 label {
-    flex: 20%;
-    text-align: left;
+    flex: 0 0 20%;
+    text-align: center;
 }
 
 .moveRoverBtn {
-    width: 80%;
-    align-self: flex-end;
+    width: 100%;
+    align-self: center;
 }
 
 .roverInstructions {
     flex: 80%;
 }
-
 
 .simulationState {
     margin: 30px 20px;
@@ -186,13 +188,32 @@ label {
 }
 
 h2 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h4 {
+    color: #f18b82;
+    margin-bottom: 7px;
+    font-size: 1.3rem;
+}
+
+hr {
+    margin: 10px 0px;
 }
 
 .simulationState p {
-    margin: 10px 5px;
+    margin: 5px;
+    overflow-y: auto;
 }
 
+.rover-states {
+    margin: 10px 5px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    grid-auto-rows: auto;
+    grid-gap: 25px 10px;
+}
 
 button:enabled {
     height: 2.2rem;
@@ -287,6 +308,7 @@ footer {
 .strong-italic {
     font-weight: bold;
     font-style: italic;
+    font-size: 1.2rem;
 }
 
 @media screen and (max-width: 1200px), 
@@ -303,4 +325,64 @@ footer {
             font-size: 1.2rem;
             line-height: 2rem;
         }    
+}
+
+.roverSymbolWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.roverSymbolWrapper .tooltip {
+    font-family: "Montserrat", sans-serif;
+    visibility: hidden;
+    padding: 10px 10px 5px;
+    position: absolute;
+    width: 204px;
+    z-index: 1;
+    bottom: 100%;
+    left: -50%;
+    margin-left: -80%;
+    opacity: 0;
+    transition: opacity 0.4s;
+    color: #98c7fc;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #797575d7;
+    white-space: nowrap;
+    line-height: 1.5rem;
+}
+
+.roverSymbolWrapper .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #FFF transparent transparent transparent;
+}
+
+.roverSymbolWrapper:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.status-good {
+    color: #7ecc2d;
+}
+
+.status-bad {
+    color: #f18b82;
+}
+
+.marsRover {
+    cursor: pointer;
+    color: #98c7fc;
+    font-weight: bold;
+}
+
+.brokenRover{
+    color: #d82828;
 }

@@ -1,7 +1,7 @@
 package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.vocabulary.RoverId;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DummyPresenter implements MessagePresenter {
     public RoverState roverState;
-    public SimulationState simulationState;
+    public SimulationSnapshot simulationSnapshot;
     public boolean hasRoverMissedSimulation = false;
     private boolean hasBeenCalled = false;
     private boolean hasRoverLanded = false;
@@ -68,9 +68,9 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void simulationCreationSuccessful(SimulationState simulationState) {
+    public void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot) {
         hasSimulationCreated = true;
-        this.simulationState = simulationState;
+        this.simulationSnapshot = simulationSnapshot;
     }
 
     @Override
@@ -89,12 +89,12 @@ public class DummyPresenter implements MessagePresenter {
         hasLandingFailed = true;
     }
     @Override
-    public void roverStateCommand(SimulationState simulationState) {
-        setRoverState(simulationState);
+    public void roverStateCommand(SimulationSnapshot simulationSnapshot) {
+        setRoverState(simulationSnapshot);
         this.hadStateCommandInvoked = true;
     }
-    private void setRoverState(SimulationState simulationState) {
-        final List<RoverState> rovers = simulationState.roverList();
+    private void setRoverState(SimulationSnapshot simulationSnapshot) {
+        final List<RoverState> rovers = simulationSnapshot.roverList();
         if (rovers.isEmpty())
             this.roverState = null;
         else
@@ -116,9 +116,9 @@ public class DummyPresenter implements MessagePresenter {
     @Override
     public void roverDoesNotExist() {    }
     @Override
-    public void duplicateSimulationDetected(SimulationState simulationState) {
+    public void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot) {
         hasSimulationCreated = false;
-        this.simulationState = simulationState;
+        this.simulationSnapshot = simulationSnapshot;
     }
     @Override
     public void roverCollidedMessage(RoverState roverState) {    }

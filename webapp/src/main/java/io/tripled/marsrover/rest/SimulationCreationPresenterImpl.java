@@ -1,14 +1,14 @@
 package io.tripled.marsrover.rest;
 
 import io.tripled.marsrover.business.api.SimulationCreationPresenter;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 
 public class SimulationCreationPresenterImpl implements SimulationCreationPresenter {
 
-    private SimulationState simulationState;
+    private SimulationSnapshot simulationSnapshot;
     @Override
-    public void simulationCreationSuccessful(SimulationState simulationState) {
-        this.simulationState = simulationState;
+    public void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot) {
+        this.simulationSnapshot = simulationSnapshot;
     }
 
     @Override
@@ -17,11 +17,11 @@ public class SimulationCreationPresenterImpl implements SimulationCreationPresen
     }
 
     @Override
-    public void simulationAlreadyExists(SimulationState simulationState) {
-        this.simulationState = simulationState;
+    public void simulationAlreadyExists(SimulationSnapshot simulationSnapshot) {
+        this.simulationSnapshot = simulationSnapshot;
     }
 
-    SimulationState reportSimulationState(){
-        return simulationState;
+    SimulationSnapshot reportSimulationState(){
+        return simulationSnapshot;
     }
 }

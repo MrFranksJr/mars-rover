@@ -1,13 +1,13 @@
 package io.tripled.marsrover.business.stepdefinitions;
 
 import io.tripled.marsrover.business.api.SimulationCreationPresenter;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 
 public enum LoggingSimulationCreationPresenter implements SimulationCreationPresenter {
     INSTANCE;
 
     @Override
-    public void simulationCreationSuccessful(SimulationState simulationState) {
+    public void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot) {
 
     }
 
@@ -17,7 +17,7 @@ public enum LoggingSimulationCreationPresenter implements SimulationCreationPres
     }
 
     @Override
-    public void simulationAlreadyExists(SimulationState simulationState) {
+    public void simulationAlreadyExists(SimulationSnapshot simulationSnapshot) {
 
     }
 }

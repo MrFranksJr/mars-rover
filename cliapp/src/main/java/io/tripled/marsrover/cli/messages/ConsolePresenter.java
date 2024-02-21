@@ -1,7 +1,7 @@
 package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.vocabulary.RoverId;
 
@@ -61,8 +61,8 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void simulationCreationSuccessful(SimulationState simulationState) {
-        System.out.println("Simulation with max coordinate [" + simulationState.simulationSize() + "] created successfully. Simulation contains [" + simulationState.totalCoordinates() + "] coordinates");
+    public void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot) {
+        System.out.println("Simulation with max coordinate [" + simulationSnapshot.simulationSize() + "] created successfully. Simulation contains [" + simulationSnapshot.totalCoordinates() + "] coordinates");
     }
 
     @Override
@@ -88,9 +88,9 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverStateCommand(SimulationState simulationState) {
-        System.out.println("Simulation has maxCoordinate " + simulationState.simulationSize() + " with a total of " + simulationState.totalCoordinates() + " coordinates.");
-        List<RoverState> localRoverList = simulationState.roverList();
+    public void roverStateCommand(SimulationSnapshot simulationSnapshot) {
+        System.out.println("Simulation has maxCoordinate " + simulationSnapshot.simulationSize() + " with a total of " + simulationSnapshot.totalCoordinates() + " coordinates.");
+        List<RoverState> localRoverList = simulationSnapshot.roverList();
         if (localRoverList.isEmpty()) {
             System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {
@@ -118,8 +118,8 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void duplicateSimulationDetected(SimulationState simulationState) {
-        System.out.println("There is already a simulation with size " + simulationState.simulationSize());
+    public void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot) {
+        System.out.println("There is already a simulation with size " + simulationSnapshot.simulationSize());
     }
     @Override
     public void roverCollidedMessage(RoverState roverState) {

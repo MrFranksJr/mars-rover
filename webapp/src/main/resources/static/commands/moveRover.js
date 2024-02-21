@@ -45,7 +45,7 @@ async function awaitRoverMoveFeedback(data){
         modalError()
     } else if(dataResult.includes('is already broken down and cannot move')){
         await getSimulationState();
-        modalDiv.innerHTML = `Rover cannot move because it's boken down.<br/> ${dataResult}!<br/>Try again!`
+        modalDiv.innerHTML = `Rover cannot move because it' s broken.<br/> ${dataResult}!`
         modalError()
     } else if(dataResult.includes('has collided')) {
         await getSimulationState();

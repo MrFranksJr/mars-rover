@@ -27,6 +27,6 @@ class SimSetupCommandTest {
         simSetupCommand.execute(dummyPresenter);
 
         assertTrue(dummyPresenter.hasSimulationBeenCreated());
-        assertEquals(52, dummyPresenter.simulationState.simulationSize());
+        assertEquals(52, dummyPresenter.simulationSnapshot.simulationSize());
     }
 }

@@ -18,7 +18,7 @@ public class InMemSimulationRepo implements SimulationRepository {
 
     @Override
     public Optional<Simulation> getSimulation() {
-        if(simWorld == null)
+        if (simWorld == null)
             return Optional.empty();
         return Optional.of(simWorld);
     }

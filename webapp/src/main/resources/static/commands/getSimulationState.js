@@ -18,12 +18,12 @@ async function getSimulationState() {
     } 
     else {
         for (let rover of roversInSimulation) {
-            simulationStateString += `<strong>Rover</strong> ${rover.roverName}: 
-                <span class="strong-italic">Position:</span> (${rover.roverXPosition}, ${rover.roverYPosition}) <br/>
-                <span class="strong-italic">Heading:</span> ${rover.roverHeading}<br/>
-                <span class="strong-italic">Hitpoints:</span> ${rover.hitPoints}<br/>
-                <span class="strong-italic">Status:</span> ${rover.operationalStatus}<br/>
-                <br/>
+            simulationStateString += `<div><h4>Rover ${rover.roverName}: </h4>
+                Position: (${rover.roverXPosition} - ${rover.roverYPosition})<br/>
+                Heading: ${rover.roverHeading}<br/>
+                Hitpoints: ${rover.hitPoints}/5<br/>
+                Status: ${rover.operationalStatus}<br/>
+                </div>
                 `
         }
         toggleRoverInstructionControls(false);

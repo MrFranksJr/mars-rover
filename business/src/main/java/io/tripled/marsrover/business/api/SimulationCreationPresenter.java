@@ -1,9 +1,9 @@
 package io.tripled.marsrover.business.api;
 
 public interface SimulationCreationPresenter {
-    void simulationCreationSuccessful(SimulationState simulationState);
+    void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot);
 
     void simulationCreationUnsuccessful(int simulationSize);
 
-    void simulationAlreadyExists(SimulationState simulationState);
+    void simulationAlreadyExists(SimulationSnapshot simulationSnapshot);
 }
