@@ -3,6 +3,7 @@ package io.tripled.marsrover.rest;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,12 +14,13 @@ public enum InputParser {
 
     public InstructionBatch extractRoverMovesFromInput(String roverMoves) {
         final InstructionBatch.Builder instructionBatchBuilder = InstructionBatch.newBuilder();
-        replaceSpacesFromRestCall(roverMoves);
+        roverMoves = replaceSpacesFromRestCall(roverMoves);
         final String[] roverInstructions = roverMoves.split("\\s+(?=[R])"); //[R1 f2 r3] [R2 f6 b3]
 
         for (String instructionsPerRover : roverInstructions) { //[R1 f2 r3]
-            final String[] roverInstruction = instructionsPerRover.split(" "); //[R1] [f2] [r3]
-            final String roverId = roverInstruction[0]; //R1
+            final String[] roverInstructionAndId = instructionsPerRover.split(" "); //[R1] [f2] [r3]
+            final String[] roverInstruction = Arrays.copyOfRange(roverInstructionAndId, 1, roverInstructionAndId.length);
+            final String roverId = roverInstructionAndId[0]; //R1
             for (String singleInstruction : roverInstruction) { //
                 constructInstructionBatch(singleInstruction, instructionBatchBuilder, roverId);
             }
@@ -28,7 +30,7 @@ public enum InputParser {
     }
 
     private static void clearInstructionBatchIfInputIsInvalid(String[] roverInstruction, InstructionBatch.Builder instructionBatchBuilder, String roverId) {
-        if (roverInstruction.length - 1 != instructionBatchBuilder.getInstructionSizeOfRover(roverId)) {
+        if (roverInstruction.length != instructionBatchBuilder.getInstructionSizeOfRover(roverId)) {
             instructionBatchBuilder.clearRoverMoves(roverId);
         }
     }
