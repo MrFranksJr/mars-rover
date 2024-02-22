@@ -2,6 +2,7 @@ package io.tripled.marsrover.cli.messages;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.vocabulary.RoverId;
 
@@ -95,7 +96,7 @@ public class ConsolePresenter implements MessagePresenter {
             System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {
             for (RoverState rover : localRoverList) {
-                System.out.println("Rover " + rover.roverId() + " at Coordinates[x=" + rover.coordinate().xCoordinate() + ", y=" + rover.coordinate().yCoordinate() + "] is facing " + rover.roverHeading());
+                System.out.println("Rover " + rover.roverId() + " at Coordinates[x=" + rover.coordinate().xCoordinate() + ", y=" + rover.coordinate().yCoordinate() + "] is facing " + rover.roverHeading() + ". " + rover.roverId() + " has " + rover.hitpoints() + "/5 hitpoints left and is currently " + rover.healthState());
             }
         }
     }
@@ -137,6 +138,11 @@ public class ConsolePresenter implements MessagePresenter {
     @Override
     public void roverAlreadyBrokenMessage(RoverId roverId) {
         System.out.println("Rover " + roverId + " can no longer move since it has already broken down");
+    }
+
+    @Override
+    public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
+        System.out.println("Rover " + landingOnTopEvent.roverState().roverId() + " landed on top of Rover " + landingOnTopEvent.roverId() + " at [" + landingOnTopEvent.coordinate().xCoordinate() + "," + landingOnTopEvent.coordinate().yCoordinate() + "] and both are now BROKEN.");
     }
 }
 

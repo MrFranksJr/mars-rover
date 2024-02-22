@@ -73,6 +73,11 @@ public class Rover {
         }
     }
 
+    public void breakRover() {
+        hitPoints = 0;
+        disableRoverIfNoHitpoints();
+    }
+
     private boolean roverIsAlive() {
         return roverBrokenState == OperationalStatus.OPERATIONAL;
     }

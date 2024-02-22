@@ -4,6 +4,7 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 import java.util.Objects;
@@ -34,6 +35,12 @@ public class LandCommand implements Command {
             public void negativeCoordinatesReceived(Coordinate coordinate) {
                 String coordinateString = coordinate.xCoordinate() + " " + coordinate.yCoordinate();
                 messagePresenter.landingFailureCommand(coordinateString, LandingErrorTypes.NEGATIVE_INTS);
+            }
+
+            @Override
+            public void landingOnTop(Simulation.LandingOnTopEvent landingOnTopEvent) {
+
+                messagePresenter.landRoversOnTopMessage(landingOnTopEvent);
             }
 
         });

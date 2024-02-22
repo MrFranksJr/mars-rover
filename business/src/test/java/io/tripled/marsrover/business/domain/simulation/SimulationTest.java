@@ -5,15 +5,13 @@ import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
-import io.tripled.marsrover.vocabulary.RoverInstructions;
-import io.tripled.marsrover.vocabulary.RoverMove;
-import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.Matchers.*;
+
 class SimulationTest {
 
     private final RoverId R1 = new RoverId(1);
@@ -47,6 +45,7 @@ class SimulationTest {
                 }
                 case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
+                case Simulation.LandingOnTopEvent landingOnTopEvent -> fail();
             }
         });
     }
@@ -292,12 +291,36 @@ class SimulationTest {
         assertEquals(4, getRover(R2, simWorld).hitpoints());
     }
 
+    //Todo: initial extrapolation done. Need to research further
+    @Test
+    void listExtrapolation() {
+        Simulation simWorld = Simulation.create(52).orElseThrow();
+        Pair<RoverId, RoverMove> r1MovePair = new Pair<>(R1, new RoverMove(Direction.FORWARD, 1));
+        Pair<RoverId, RoverMove> r2MovePair = new Pair<>(R2, new RoverMove(Direction.FORWARD, 1));
+
+        final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
+                .addRoverMoves(R1, List.of(new RoverMove(Direction.FORWARD, 3)))
+                .addRoverMoves(R2, List.of(new RoverMove(Direction.FORWARD, 3)))
+                .build();
+
+        List<List<Pair<RoverId,RoverMove>>> actualInstructionList = simWorld.buildSingleStepInstructions(instructionBatch.batch());
+
+        List<List<Pair<RoverId,RoverMove>>> expectedInstructionList = List.of(List.of(r2MovePair,r2MovePair,r2MovePair), List.of(r1MovePair,r1MovePair,r1MovePair));
+
+        assertEquals(expectedInstructionList, actualInstructionList);
+    }
+
     //TODO: Verify test results on eventpublisher
     static class DummyEventPub implements Simulation.SimulationRoverMovedEventPublisher {
         @Override
         public void publish(Simulation.SimulationMoveRoverEvent event) {
 
         }
+    }
+
+    @Test
+    void sequentialHandlingOf2RoversWith1Instruction(){
+
     }
 
     private static void landRover(Coordinate landingCoordinate, Simulation simWorld) {
@@ -318,15 +341,10 @@ class SimulationTest {
     private Simulation.SimulationLandingEventPublisher validateRoverLandingDisallowed() {
         return event -> {
             switch (event) {
-                case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> {
-                    fail();
-                }
-                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
-                    assertTrue(true);
-                }
-                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> {
-                    fail();
-                }
+                case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
+                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> assertTrue(true);
+                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
+                case Simulation.LandingOnTopEvent landingOnTopEvent -> fail();
             }
         };
     }

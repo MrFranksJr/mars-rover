@@ -30,14 +30,14 @@ async function buildRoverInstructionControls() {
                 moveControlsHtml += `
                 <div class="singleRoverInstruction">
                     <label for="${rover.roverName}">${rover.roverName}</label>
-                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions">
+                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions" type="text" pattern="(^[frbl]\\d*)$">
                 </div>
                 `
             } else {
                 moveControlsHtml += `
                 <div class="singleRoverInstruction">
                     <label for="${rover.roverName}">${rover.roverName}</label>
-                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Rover broken" disabled>
+                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Rover broken" disabled type="text" pattern="(^[frbl]\\d*)$">
                 </div>
                 `
             }

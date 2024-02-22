@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.domain.simulation;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import io.tripled.marsrover.business.api.RoverState;
@@ -10,6 +11,8 @@ import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.RoverMove;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,6 +43,15 @@ public class Simulation {
     public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
         if (invalidCoordinatesReceived(coordinate)) {
             eventPublisher.publish(new InvalidCoordinatesReceived(coordinate));
+        } else if (landsOnTopOfOtherRover(coordinate).second()) {
+            final Location landingLocation = new Location(coordinate, simulationSize);
+            final RoverState landingRoverState = landRover(coordinate);
+            final RoverId hitRoverId = landsOnTopOfOtherRover(coordinate).first();
+
+            roverLocationMap.get(landingLocation)
+                            .forEach(Rover::breakRover);
+
+            eventPublisher.publish(new LandingOnTopEvent(landingRoverState, hitRoverId, coordinate));
         } else if (landingWithinSimulationLimits(coordinate)) {
             final RoverState roverState = landRover(coordinate);
             eventPublisher.publish(new LandingSuccessfulLandEvent(roverState));
@@ -47,12 +59,50 @@ public class Simulation {
             eventPublisher.publish(new RoverMissesSimulationLand(simulationSize));
         }
     }
+    //Todo: cleanup
+    public void moveRovers(ImmutableList<RoverInstructions> batch) {
+        // List<ExtrapolatedInstruction> extrapolatedInstructions = buildSingleStepInstructions(batch);
+        // extrapolated list of instruction R1
+        // extrapolated list of instruction R2
+        // determine longest instructionList = length
+        // loop over length
+            // execute move on index of length R1
+            // execute move on index of length R2
+    }
+    //Todo: cleanup
+    public List<List<Pair<RoverId,RoverMove>>> buildSingleStepInstructions(ImmutableList<RoverInstructions> batch) {
+        List<List<Pair<RoverId,RoverMove>>> extrapolatedInstructions = new ArrayList<>();
+
+        for(RoverInstructions roverInstructions: batch){
+            RoverId roverId = roverInstructions.id();
+            List<Pair<RoverId,RoverMove>> singleStepRoverMoves = new ArrayList<>();
+            for(RoverMove roverMove : roverInstructions.moves()){
+                Direction direction = roverMove.direction();
+                for (int i = 0; i < roverMove.steps(); i++) {
+                    singleStepRoverMoves.add(new Pair<>(roverId,new RoverMove(direction,1)));
+                }
+            }
+            extrapolatedInstructions.add(singleStepRoverMoves);
+        }
+        return extrapolatedInstructions;
+    }
+
+    public record LandingOnTopEvent(RoverState roverState, RoverId roverId, Coordinate coordinate) implements SimulationLandEvent {
+    }
+    private Pair<RoverId, Boolean> landsOnTopOfOtherRover(Coordinate coordinate) {
+        SimulationSnapshot simulationSnapshot = this.takeSnapshot();
+        for (RoverState roverState : simulationSnapshot.roverList()) {
+            if (roverState.coordinate().equals(coordinate)) {
+                return new Pair<>(roverState.roverId(), true);
+            }
+        }
+        return new Pair<>(null, false);
+    }
 
 
     public void moveRover(RoverInstructions roverInstructions, SimulationRoverMovedEventPublisher eventPublisher) {
         for (RoverMove roverMove : roverInstructions.moves()) {
             for (int i = 0; i < roverMove.steps(); i++) {
-
                 final Optional<SimulationMoveRoverEvent> roverEvent = getRover(roverInstructions.id())
                         .map(x -> moveRover(roverMove.direction(), x));
 
@@ -75,8 +125,6 @@ public class Simulation {
             }
         }
     }
-
-
 
     /**
      * The public Events of the Simulation aggregate
@@ -127,7 +175,6 @@ public class Simulation {
             changeRoverLocation(oldLocation, rover, newLocation);
             return new RoverMovedSuccessfulEvent(rover.getRoverState(newLocation));
         } else {
-
             rover.handleDamage();
             if (roverIsAlive(newLocation, rover)) {
                 return new RoverCollided(rover.getRoverState(newLocation), newLocation);
@@ -197,4 +244,6 @@ public class Simulation {
 
     public record RoverAlreadyBroken(RoverId roverId) implements SimulationMoveRoverEvent {
     }
+
+
 }

@@ -2,6 +2,7 @@ package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.vocabulary.RoverId;
@@ -126,4 +127,9 @@ public class DummyPresenter implements MessagePresenter {
     public void roverBrokenMessage(RoverState roverState) {    }
     @Override
     public void roverAlreadyBrokenMessage(RoverId roverId) {    }
+
+    @Override
+    public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
+
+    }
 }

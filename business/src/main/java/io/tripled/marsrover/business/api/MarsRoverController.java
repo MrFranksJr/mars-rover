@@ -36,6 +36,9 @@ public class MarsRoverController implements MarsRoverApi {
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
                 simulation.moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
+
+            //TODO:cleanup
+            //simulation.moveRovers(instructionBatch.batch());
         }
     }
 
@@ -69,6 +72,7 @@ public class MarsRoverController implements MarsRoverApi {
             case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessful(l.roverState());
             case Simulation.RoverMissesSimulationLand r -> p.roverMissesSimulation(r.simulationSize());
             case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
+            case Simulation.LandingOnTopEvent l -> p.landingOnTop(l);
         }
     }
 

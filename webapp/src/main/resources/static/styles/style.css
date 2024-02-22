@@ -238,6 +238,14 @@ input:disabled::placeholder {
     color: #98c7fc89;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
 button:hover:enabled {
     border: 1px solid #f18b82;
     color: #f18b82;
