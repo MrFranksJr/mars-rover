@@ -1,15 +1,16 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.vocabulary.InstructionBatch;
-import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.cli.messages.ConsolePresenter;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
+import io.tripled.marsrover.vocabulary.RoverMove;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 @Component
 public class CommandParser {
     private final MarsRoverApi api;
@@ -30,39 +31,6 @@ public class CommandParser {
         return Integer.parseInt(yCoordinate);
     }
 
-    public Command parseInput(String input) {
-        if (isPrintCommand(input)) {
-            return PrintCommand.INSTANCE;
-        }
-        else if (isQuitCommand(input)) {
-            return QuitCommand.INSTANCE;
-        }
-        else if (isLandCommand(input)) {
-            return handleLandCommand(input);
-        }
-        else if (isStateCommand(input)) {
-            return new StateCommand(api);
-        }
-        else if (isMoveRoverCommand(input)) {
-            return handleMoveCommand(input);
-        }
-        return new UnknownCommand(input);
-    }
-
-
-
-    private Command handleLandCommand(String input) {
-        String trimmedLandCommandString = input.trim();
-        if (isValidLandCommandInput(trimmedLandCommandString))
-            return new LandCommand(new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
-        else {
-            return new LandingFailureCommand(trimmedLandCommandString);
-        }
-    }
-    private Command handleMoveCommand(String input) {
-            return new RoverMoveCommand(extractRoverMovesFromInput(input), api);
-    }
-
     // TODO ask PO if instruction needs to be discarded when 1 invalid part is recognized or only that part needs to be skipped
     // R1 f1 fhgfdh r2
     // R2 f1 b2
@@ -78,9 +46,9 @@ public class CommandParser {
 
             Pattern regex = Pattern.compile("( [frbl]\\d*)");
             Matcher matcher = regex.matcher(instructionsPerRover);
-            while(matcher.find()){
+            while (matcher.find()) {
                 String preppedInput = matcher.group(1).trim();
-                String direction = preppedInput.substring(0,1);
+                String direction = preppedInput.substring(0, 1);
                 int steps = preppedInput.length() > 1 ? Integer.parseInt(preppedInput.substring(1)) : 1;
                 instructionBatch.addRoverMoves(roverId, new RoverMove(direction, steps));
             }
@@ -90,6 +58,26 @@ public class CommandParser {
 
     private static String extractRoverIdFromInput(String input) {
         return input.substring(0, input.indexOf(" ")).toUpperCase();
+    }
+
+    public Command parseInput(String input) {
+        if (isPrintCommand(input)) return PrintCommand.INSTANCE;
+        if (isQuitCommand(input)) return QuitCommand.INSTANCE;
+        if (isLandCommand(input)) return handleLandCommand(input);
+        if (isStateCommand(input)) return new StateCommand(api);
+        if (isMoveRoverCommand(input)) return handleMoveCommand(input);
+        return new UnknownCommand(input);
+    }
+
+    private Command handleLandCommand(String input) {
+        String trimmedLandCommandString = input.trim();
+        if (isValidLandCommandInput(trimmedLandCommandString))
+            return new LandCommand(new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
+        else return new LandingFailureCommand(trimmedLandCommandString);
+    }
+
+    private Command handleMoveCommand(String input) {
+        return new RoverMoveCommand(extractRoverMovesFromInput(input), api);
     }
 
     private boolean isStateCommand(String input) {
@@ -113,9 +101,7 @@ public class CommandParser {
             Command quitCommand = this.parseInput(coordinate);
             quitCommand.execute(new ConsolePresenter());
 
-        } else if (coordinate.matches("\\d+")) {
-            return Optional.of(true);
-        }
+        } else if (coordinate.matches("\\d+")) return Optional.of(true);
         return Optional.of(false);
     }
 
@@ -126,9 +112,7 @@ public class CommandParser {
     public Optional<Command> createSimWorld(String simSizeInput) {
         if (containsOnlyNumbers(simSizeInput).orElse(false)) {
             int simSize = Integer.parseInt(simSizeInput);
-            if (isWithinLimit(simSize)) {
-                return Optional.of(new SimSetupCommand(simSize, api));
-            }
+            if (isWithinLimit(simSize)) return Optional.of(new SimSetupCommand(simSize, api));
         }
         return Optional.empty();
     }
@@ -140,10 +124,10 @@ public class CommandParser {
     private boolean isPrintCommand(String input) {
         return input.isBlank() || input.equalsIgnoreCase("p");
     }
+
     private boolean isMoveRoverCommand(String input) {
         Pattern pattern = Pattern.compile("R\\d+ ");
         Matcher matcher = pattern.matcher(input);
-
         return matcher.find();
     }
 }

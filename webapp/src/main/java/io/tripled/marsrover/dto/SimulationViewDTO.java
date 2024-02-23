@@ -1,4 +1,4 @@
-package io.tripled.marsrover.rest;
+package io.tripled.marsrover.dto;
 
 import java.util.List;
 

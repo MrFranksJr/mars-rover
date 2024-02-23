@@ -31,6 +31,14 @@ public class Simulation {
         return size < 0 ? Optional.empty() : Optional.of(new Simulation(size));
     }
 
+    private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {
+        return rover.getRoverState(oldLocation).healthState() == OperationalStatus.BROKEN;
+    }
+
+    private static boolean roverIsAlive(Location newLocation, Rover rover) {
+        return rover.getRoverState(newLocation).healthState() == OperationalStatus.OPERATIONAL;
+    }
+
     public SimulationSnapshot takeSnapshot() {
         final var collect = roverLocationMap.entries().stream().map((Map.Entry<Location, Rover> x) -> x.getValue().getRoverState(x.getKey())).toList();
         return SimulationSnapshot.newBuilder()
@@ -49,16 +57,17 @@ public class Simulation {
             final RoverId hitRoverId = landsOnTopOfOtherRover(coordinate).first();
 
             roverLocationMap.get(landingLocation)
-                            .forEach(Rover::breakRover);
+                    .forEach(Rover::breakRover);
 
             eventPublisher.publish(new LandingOnTopEvent(landingRoverState, hitRoverId, coordinate));
         } else if (landingWithinSimulationLimits(coordinate)) {
             final RoverState roverState = landRover(coordinate);
             eventPublisher.publish(new LandingSuccessfulLandEvent(roverState));
         } else {
-            eventPublisher.publish(new RoverMissesSimulationLand(simulationSize));
+            eventPublisher.publish(new RoverMissesSimulationLand(simulationSize, coordinate));
         }
     }
+
     //Todo: cleanup
     public void moveRovers(ImmutableList<RoverInstructions> batch) {
         // List<ExtrapolatedInstruction> extrapolatedInstructions = buildSingleStepInstructions(batch);
@@ -66,20 +75,21 @@ public class Simulation {
         // extrapolated list of instruction R2
         // determine longest instructionList = length
         // loop over length
-            // execute move on index of length R1
-            // execute move on index of length R2
+        // execute move on index of length R1
+        // execute move on index of length R2
     }
-    //Todo: cleanup
-    public List<List<Pair<RoverId,RoverMove>>> buildSingleStepInstructions(ImmutableList<RoverInstructions> batch) {
-        List<List<Pair<RoverId,RoverMove>>> extrapolatedInstructions = new ArrayList<>();
 
-        for(RoverInstructions roverInstructions: batch){
+    //Todo: cleanup
+    public List<List<Pair<RoverId, RoverMove>>> buildSingleStepInstructions(ImmutableList<RoverInstructions> batch) {
+        List<List<Pair<RoverId, RoverMove>>> extrapolatedInstructions = new ArrayList<>();
+
+        for (RoverInstructions roverInstructions : batch) {
             RoverId roverId = roverInstructions.id();
-            List<Pair<RoverId,RoverMove>> singleStepRoverMoves = new ArrayList<>();
-            for(RoverMove roverMove : roverInstructions.moves()){
+            List<Pair<RoverId, RoverMove>> singleStepRoverMoves = new ArrayList<>();
+            for (RoverMove roverMove : roverInstructions.moves()) {
                 Direction direction = roverMove.direction();
                 for (int i = 0; i < roverMove.steps(); i++) {
-                    singleStepRoverMoves.add(new Pair<>(roverId,new RoverMove(direction,1)));
+                    singleStepRoverMoves.add(new Pair<>(roverId, new RoverMove(direction, 1)));
                 }
             }
             extrapolatedInstructions.add(singleStepRoverMoves);
@@ -87,8 +97,6 @@ public class Simulation {
         return extrapolatedInstructions;
     }
 
-    public record LandingOnTopEvent(RoverState roverState, RoverId roverId, Coordinate coordinate) implements SimulationLandEvent {
-    }
     private Pair<RoverId, Boolean> landsOnTopOfOtherRover(Coordinate coordinate) {
         SimulationSnapshot simulationSnapshot = this.takeSnapshot();
         for (RoverState roverState : simulationSnapshot.roverList()) {
@@ -98,7 +106,6 @@ public class Simulation {
         }
         return new Pair<>(null, false);
     }
-
 
     public void moveRover(RoverInstructions roverInstructions, SimulationRoverMovedEventPublisher eventPublisher) {
         for (RoverMove roverMove : roverInstructions.moves()) {
@@ -114,7 +121,8 @@ public class Simulation {
                             eventPublisher.publish(roverCollided);
                             return;
                         }
-                        case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent -> eventPublisher.publish(roverMovedSuccessfulEvent);
+                        case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent ->
+                                eventPublisher.publish(roverMovedSuccessfulEvent);
                         case RoverDeath roverDeath -> {
                             eventPublisher.publish(roverDeath);
                             return;
@@ -126,25 +134,12 @@ public class Simulation {
         }
     }
 
-    /**
-     * The public Events of the Simulation aggregate
-     */
-    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {}
-
-    public record RoverMissesSimulationLand(int simulationSize) implements SimulationLandEvent {}
-
-    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {}
-
-    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {}
-
-    public record RoverCollided(RoverState roverState, Location newLocation) implements SimulationMoveRoverEvent {}
-
-    public record RoverDeath(RoverState roverState) implements SimulationMoveRoverEvent {}
-
     private SimulationMoveRoverEvent moveRover(Direction direction, Pair<Location, Rover> locationRoverPair) {
         final Location oldLocation = locationRoverPair.first();
         final Rover rover = locationRoverPair.second();
-        if(checkIfRoverIsBroken(rover, oldLocation)) { return new RoverAlreadyBroken(rover.getRoverId()); }
+        if (checkIfRoverIsBroken(rover, oldLocation)) {
+            return new RoverAlreadyBroken(rover.getRoverId());
+        }
 
         return switch (direction) {
             case FORWARD -> {
@@ -166,10 +161,6 @@ public class Simulation {
         };
     }
 
-    private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {
-        return rover.getRoverState(oldLocation).healthState() == OperationalStatus.BROKEN;
-    }
-
     private SimulationMoveRoverEvent roverGoToNewLocation(Location newLocation, Location oldLocation, Rover rover) {
         if (isFree(newLocation)) {
             changeRoverLocation(oldLocation, rover, newLocation);
@@ -182,10 +173,6 @@ public class Simulation {
                 return new RoverDeath(rover.getRoverState(newLocation));
             }
         }
-    }
-
-    private static boolean roverIsAlive(Location newLocation, Rover rover) {
-        return rover.getRoverState(newLocation).healthState() == OperationalStatus.OPERATIONAL;
     }
 
     private boolean isFree(Location newLocation) {
@@ -240,6 +227,31 @@ public class Simulation {
 
     public interface SimulationRoverMovedEventPublisher {
         void publish(SimulationMoveRoverEvent event);
+    }
+
+    public record LandingOnTopEvent(RoverState roverState, RoverId roverId,
+                                    Coordinate coordinate) implements SimulationLandEvent {
+    }
+
+    /**
+     * The public Events of the Simulation aggregate
+     */
+    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
+    }
+
+    public record RoverMissesSimulationLand(int simulationSize, Coordinate coordinate) implements SimulationLandEvent {
+    }
+
+    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
+    }
+
+    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {
+    }
+
+    public record RoverCollided(RoverState roverState, Location newLocation) implements SimulationMoveRoverEvent {
+    }
+
+    public record RoverDeath(RoverState roverState) implements SimulationMoveRoverEvent {
     }
 
     public record RoverAlreadyBroken(RoverId roverId) implements SimulationMoveRoverEvent {

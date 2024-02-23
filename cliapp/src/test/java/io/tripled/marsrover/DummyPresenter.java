@@ -89,11 +89,13 @@ public class DummyPresenter implements MessagePresenter {
     public void landingFailureCommand(String coordinateString, LandingErrorTypes landingError) {
         hasLandingFailed = true;
     }
+
     @Override
     public void roverStateCommand(SimulationSnapshot simulationSnapshot) {
         setRoverState(simulationSnapshot);
         this.hadStateCommandInvoked = true;
     }
+
     private void setRoverState(SimulationSnapshot simulationSnapshot) {
         final List<RoverState> rovers = simulationSnapshot.roverList();
         if (rovers.isEmpty())
@@ -101,6 +103,7 @@ public class DummyPresenter implements MessagePresenter {
         else
             this.roverState = rovers.getFirst();
     }
+
     public boolean hasStateCommandBeenInvoked() {
         return hadStateCommandInvoked;
     }
@@ -109,24 +112,34 @@ public class DummyPresenter implements MessagePresenter {
     public void roverMissesSimulation(int xCoordinate, int yCoordinate, int simulationSize) {
         hasRoverMissedSimulation = true;
     }
+
     @Override
     public void roverMovedMessage(RoverState roverState) {
         this.roverState = roverState;
         hasRoverMoved = true;
     }
+
     @Override
-    public void roverDoesNotExist() {    }
+    public void roverDoesNotExist() {
+    }
+
     @Override
     public void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot) {
         hasSimulationCreated = false;
         this.simulationSnapshot = simulationSnapshot;
     }
+
     @Override
-    public void roverCollidedMessage(RoverState roverState) {    }
+    public void roverCollidedMessage(RoverState roverState) {
+    }
+
     @Override
-    public void roverBrokenMessage(RoverState roverState) {    }
+    public void roverBrokenMessage(RoverState roverState) {
+    }
+
     @Override
-    public void roverAlreadyBrokenMessage(RoverId roverId) {    }
+    public void roverAlreadyBrokenMessage(RoverId roverId) {
+    }
 
     @Override
     public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {

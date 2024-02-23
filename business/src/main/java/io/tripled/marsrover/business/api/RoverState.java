@@ -31,6 +31,7 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
             roverId = val;
             return this;
         }
+
         public Builder withRoverId(String val) {
             return withRoverId(new RoverId(val));
         }
@@ -44,14 +45,17 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
             coordinate = val;
             return this;
         }
+
         public Builder withHitPoints(int val) {
             hitPoints = val;
             return this;
         }
+
         public Builder withHealthState(OperationalStatus val) {
             healthState = val;
             return this;
         }
+
         public RoverState build() {
             return new RoverState(this);
         }

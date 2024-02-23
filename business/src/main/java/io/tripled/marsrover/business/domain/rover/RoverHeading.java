@@ -2,11 +2,11 @@ package io.tripled.marsrover.business.domain.rover;
 
 public enum RoverHeading {
     NORTH,
-    EAST ,
+    EAST,
     SOUTH,
-    WEST ;
+    WEST;
 
-    RoverHeading nextClockWise(){
+    RoverHeading nextClockWise() {
         return switch (this) {
             case NORTH -> EAST;
             case EAST -> SOUTH;

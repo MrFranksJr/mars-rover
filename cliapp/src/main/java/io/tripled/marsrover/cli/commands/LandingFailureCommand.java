@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class LandingFailureCommand implements Command {
     private final String input;
-    private String coordinateString;
+    private final String coordinateString;
 
     public LandingFailureCommand(String input) {
         this.input = input;
@@ -27,20 +27,15 @@ public class LandingFailureCommand implements Command {
 
         if (matcher.matches()) {
             String[] parts = input.split(" ");
-
             try {
                 int firstCoordinate = Integer.parseInt(parts[1]);
                 int secondCoordinate = Integer.parseInt(parts[2]);
 
-                if (firstCoordinate < 0 || secondCoordinate < 0) {
-                    return LandingErrorTypes.NEGATIVE_INTS;
-                }
+                if (firstCoordinate < 0 || secondCoordinate < 0) return LandingErrorTypes.NEGATIVE_INTS;
             } catch (NumberFormatException e) {
                 return LandingErrorTypes.RECEIVED_LETTERS;
             }
-        } else {
-            return LandingErrorTypes.UNABLE_TO_PARSE;
-        }
+        } else return LandingErrorTypes.UNABLE_TO_PARSE;
         return LandingErrorTypes.UNABLE_TO_PARSE;
     }
 

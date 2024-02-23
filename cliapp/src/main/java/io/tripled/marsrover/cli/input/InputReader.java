@@ -4,9 +4,10 @@ import io.tripled.marsrover.cli.messages.ConsolePresenter;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
+
 @Component
 public class InputReader {
-    private final InputHandler inputHandler ;
+    private final InputHandler inputHandler;
 
     public InputReader(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
@@ -20,6 +21,7 @@ public class InputReader {
             listenForCommands(scanner, presenter);
         }
     }
+
     private void createSimWorld(Scanner scanner, ConsolePresenter presenter) {
         do {
             String input;
@@ -36,7 +38,6 @@ public class InputReader {
         }
         while (!isQuit(input));
     }
-
 
     private boolean isQuit(String input) {
         return "q".equalsIgnoreCase(input);

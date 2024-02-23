@@ -14,15 +14,6 @@ public record RoverId(String id) {
         else
             return 1;
     };
-    public boolean isSmaller(RoverId other) {
-        final int thisRoverId = parseInt(this.id.substring(1));
-        final int otherRoverId = parseInt(other.id.substring(1));
-        return thisRoverId < otherRoverId;
-    }
-
-    public boolean isBigger(RoverId roverId) {
-        return !isSmaller(roverId);
-    }
 
     public RoverId(int idNR) {
         this("R" + idNR);
@@ -37,6 +28,16 @@ public record RoverId(String id) {
         } catch (NumberFormatException ex) {
             throw new IllegalArgumentException("A rover id starts with R followed by numbers");
         }
+    }
+
+    public boolean isSmaller(RoverId other) {
+        final int thisRoverId = parseInt(this.id.substring(1));
+        final int otherRoverId = parseInt(other.id.substring(1));
+        return thisRoverId < otherRoverId;
+    }
+
+    public boolean isBigger(RoverId roverId) {
+        return !isSmaller(roverId);
     }
 
     public int compareWith(RoverId secondRoverId) {

@@ -12,24 +12,6 @@ public enum InputParser {
 
     public static final String REGEX = "(^[frbl]\\d*)$";
 
-    public InstructionBatch extractRoverMovesFromInput(String roverMoves) {
-        final InstructionBatch.Builder instructionBatchBuilder = InstructionBatch.newBuilder();
-        roverMoves = replaceSpacesFromRestCall(roverMoves);
-        final String[] roversAndInstructions = roverMoves.split("\\s+(?=[R])");
-
-        for (String instructionsPerRover : roversAndInstructions) {
-            final String[] roverIdAndInstructions = instructionsPerRover.split(" ");
-            final String roverId = roverIdAndInstructions[0];
-            final String[] roverInstructions = Arrays.copyOfRange(roverIdAndInstructions, 1, roverIdAndInstructions.length);
-            final int initialRoverInstructionBatchSize = instructionBatchBuilder.getInstructionSizeOfRover(roverId);
-
-            addInstructionToBatch(roverInstructions, instructionBatchBuilder, roverId);
-            final int totalNumberOfInstructions = initialRoverInstructionBatchSize + roverInstructions.length;
-            clearInstructionBatchIfInputIsInvalid(totalNumberOfInstructions, instructionBatchBuilder, roverId);
-        }
-        return instructionBatchBuilder.build();
-    }
-
     private static void addInstructionToBatch(String[] roverInstruction, InstructionBatch.Builder instructionBatchBuilder, String roverId) {
         for (String singleInstruction : roverInstruction) {
             constructInstructionBatch(singleInstruction, instructionBatchBuilder, roverId);
@@ -60,5 +42,23 @@ public enum InputParser {
 
     private static String replaceSpacesFromRestCall(String roverMoves) {
         return roverMoves.replace("%20", " ");
+    }
+
+    public InstructionBatch extractRoverMovesFromInput(String roverMoves) {
+        final InstructionBatch.Builder instructionBatchBuilder = InstructionBatch.newBuilder();
+        roverMoves = replaceSpacesFromRestCall(roverMoves);
+        final String[] roversAndInstructions = roverMoves.split("\\s+(?=[R])");
+
+        for (String instructionsPerRover : roversAndInstructions) {
+            final String[] roverIdAndInstructions = instructionsPerRover.split(" ");
+            final String roverId = roverIdAndInstructions[0];
+            final String[] roverInstructions = Arrays.copyOfRange(roverIdAndInstructions, 1, roverIdAndInstructions.length);
+            final int initialRoverInstructionBatchSize = instructionBatchBuilder.getInstructionSizeOfRover(roverId);
+
+            addInstructionToBatch(roverInstructions, instructionBatchBuilder, roverId);
+            final int totalNumberOfInstructions = initialRoverInstructionBatchSize + roverInstructions.length;
+            clearInstructionBatchIfInputIsInvalid(totalNumberOfInstructions, instructionBatchBuilder, roverId);
+        }
+        return instructionBatchBuilder.build();
     }
 }

@@ -1,9 +1,11 @@
-package io.tripled.marsrover.rest;
+package io.tripled.marsrover.presenters;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.dto.RoverViewDTO;
+import io.tripled.marsrover.dto.SimulationViewDTO;
 
 import java.util.List;
 

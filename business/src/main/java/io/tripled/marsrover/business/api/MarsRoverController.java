@@ -18,6 +18,28 @@ public class MarsRoverController implements MarsRoverApi {
         this.simulationRepository = simulationRepository;
     }
 
+    private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
+        return event -> presentLanding(landingPresenter, event);
+    }
+
+    private static void presentLanding(LandingPresenter p, Simulation.SimulationLandEvent e) {
+        switch (e) {
+            case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessfulRefactor(l.roverState());
+            case Simulation.RoverMissesSimulationLand r -> p.roverMissesSimulation(r.simulationSize(), r.coordinate());
+            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
+            case Simulation.LandingOnTopEvent l -> p.landingOnTop(l);
+        }
+    }
+
+    private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
+        switch (e) {
+            case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
+            case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverState());
+            case Simulation.RoverDeath roverDeath -> p.roverBreakingDown(roverDeath.roverState());
+            case Simulation.RoverAlreadyBroken roverAlreadyBroken -> p.roverAlreadyBrokenDown(roverAlreadyBroken.roverId());
+        }
+    }
+
     @Override
     public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
         if (simulationRepository.getSimulation().isPresent()) {
@@ -61,29 +83,5 @@ public class MarsRoverController implements MarsRoverApi {
             simulationStatePresenter.simulationState(simulation.get().takeSnapshot());
         else
             simulationStatePresenter.simulationState(SimulationSnapshot.NONE);
-    }
-
-    private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
-        return event -> presentLanding(landingPresenter, event);
-    }
-
-    private static void presentLanding(LandingPresenter p, Simulation.SimulationLandEvent e) {
-        switch (e) {
-            case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessful(l.roverState());
-            case Simulation.RoverMissesSimulationLand r -> p.roverMissesSimulation(r.simulationSize());
-            case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
-            case Simulation.LandingOnTopEvent l -> p.landingOnTop(l);
-        }
-    }
-
-    private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
-        switch (e) {
-            case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
-            case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverState());
-            case Simulation.RoverDeath roverDeath -> { p.roverBreakingDown(roverDeath.roverState());
-            }
-            case Simulation.RoverAlreadyBroken roverAlreadyBroken -> { p.roverAlreadyBrokenDown(roverAlreadyBroken.roverId());
-            }
-        }
     }
 }

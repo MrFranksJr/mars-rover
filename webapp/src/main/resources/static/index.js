@@ -105,7 +105,7 @@ document.querySelectorAll('form').forEach(node => {
 document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
 
 
-if(true) {
+if(false) {
     showAllAnimations()
 } else {
     disableAnimations()

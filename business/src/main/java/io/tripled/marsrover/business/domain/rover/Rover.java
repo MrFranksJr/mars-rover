@@ -6,14 +6,14 @@ import io.tripled.marsrover.vocabulary.RoverId;
 public class Rover {
     private final RoverId roverId;
     private RoverHeading roverHeading;
-    private  int hitPoints;
+    private int hitPoints;
     private OperationalStatus roverBrokenState;
 
     public Rover(RoverId roverId, RoverHeading roverHeading) {
         this.roverId = roverId;
         this.roverHeading = roverHeading;
         this.hitPoints = 5;
-        this.roverBrokenState= OperationalStatus.OPERATIONAL;
+        this.roverBrokenState = OperationalStatus.OPERATIONAL;
     }
 
     public Rover(String roverId, RoverHeading roverHeading) {

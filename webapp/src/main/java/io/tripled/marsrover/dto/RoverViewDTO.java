@@ -1,4 +1,4 @@
-package io.tripled.marsrover.rest;
+package io.tripled.marsrover.dto;
 
 import io.tripled.marsrover.business.domain.rover.OperationalStatus;
 

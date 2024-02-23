@@ -1,12 +1,17 @@
 package io.tripled.marsrover.rest;
 
-
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.dto.SimulationViewDTO;
+import io.tripled.marsrover.presenters.LandingPresenterImpl;
+import io.tripled.marsrover.presenters.RoverMovePresenterImpl;
+import io.tripled.marsrover.presenters.SimulationCreationPresenterImpl;
+import io.tripled.marsrover.presenters.SimulationStateRestPresenter;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import org.springframework.web.bind.annotation.*;
 
 import static io.tripled.marsrover.rest.InputParser.INPUT_PARSER;
+import static io.tripled.marsrover.rest.ResultParser.RESULT_PARSER;
 
 @RestController
 public class MarsRoverRestController {
@@ -30,7 +35,6 @@ public class MarsRoverRestController {
         marsRoverApi.lookUpSimulationState(simulationStatePresenter);
 
         return simulationStatePresenter.getSimulationState();
-
     }
 
     @PostMapping("/api/landrover/{xCoordinate}/{yCoordinate}")
@@ -44,14 +48,7 @@ public class MarsRoverRestController {
 
         marsRoverApi.lookUpSimulationState(simulationStatePresenter);
 
-        if(landingPresenter.isLandingOnTop()){
-            return "{\"result\":\"Landing on top\"}";
-        } else if (landingPresenter.hasLandedSuccessfully()) {
-            return "{\"result\":\"Landing successful\"}";
-        } else if (landingPresenter.hasMissedSimulation()){
-            return "{\"result\":\"Has missed simulation\"}";
-        } else
-            return "{\"result\":\"Landing unsuccessful\"}";
+        return RESULT_PARSER.landExecutionResult(landingPresenter);
     }
 
     @PostMapping("/api/moverover/{roverInstructions}")
@@ -62,19 +59,6 @@ public class MarsRoverRestController {
 
         marsRoverApi.executeMoveInstructions(roverInstructionsBatch, roverMovePresenter);
 
-        if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isAlreadyBroken().second()) {
-            String roverId = roverMovePresenter.isAlreadyBroken().first().id();
-            return "{\"result\":\"Rover " + roverId + " is already down and cannot move\"}";
-        } else if (!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.isBroken().second()) {
-            String roverId = roverMovePresenter.isBroken().first().id();
-            return "{\"result\":\"Rover " + roverId + " has broken down\"}";
-        } else if (!roverInstructionsBatch.batch().isEmpty() && !roverMovePresenter.hasCollided().second()) {
-            return "{\"result\":\"Rover moves successfully\"}";
-        } else if(!roverInstructionsBatch.batch().isEmpty() && roverMovePresenter.hasCollided().second()) {
-            String roverId = roverMovePresenter.hasCollided().first().id();
-            return "{\"result\":\"Rover " + roverId + " has collided\"}";
-        } else {
-            return "{\"result\":\"Cannot execute instructions\"}";
-        }
+        return RESULT_PARSER.moveExecutionResult(roverInstructionsBatch, roverMovePresenter);
     }
 }

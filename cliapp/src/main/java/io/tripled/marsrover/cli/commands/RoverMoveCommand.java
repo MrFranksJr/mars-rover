@@ -3,8 +3,8 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.Objects;

@@ -9,31 +9,29 @@ import io.tripled.marsrover.vocabulary.RoverId;
 import java.util.List;
 
 public class ConsolePresenter implements MessagePresenter {
-    private final String introGraphics = """
-            +----------------------------------------------------------------+
-            |                                                                |
-            |      ██████   ██████                                           |
-            |     ░░██████ ██████                                            |
-            |      ░███░█████░███   ██████   ████████   █████                |
-            |      ░███░░███ ░███  ░░░░░███ ░░███░░███ ███░░                 |
-            |      ░███ ░░░  ░███   ███████  ░███ ░░░ ░░█████                |
-            |      ░███      ░███  ███░░███  ░███      ░░░░███               |
-            |      █████     █████░░████████ █████     ██████                |
-            |     ░░░░░     ░░░░░  ░░░░░░░░ ░░░░░     ░░░░░░                 |
-            |      ███████████                                               |
-            |     ░░███░░░░░███                                              |
-            |      ░███    ░███   ██████  █████ █████  ██████  ████████      |
-            |      ░██████████   ███░░███░░███ ░░███  ███░░███░░███░░███     |
-            |      ░███░░░░░███ ░███ ░███ ░███  ░███ ░███████  ░███ ░░░      |
-            |      ░███    ░███ ░███ ░███ ░░███ ███  ░███░░░   ░███          |
-            |      █████   █████░░██████   ░░█████   ░░██████  █████         |
-            |     ░░░░░   ░░░░░  ░░░░░░     ░░░░░     ░░░░░░  ░░░░░          |
-            |                                                                |
-            +----------------------------------------------------------------+
-            """;
 
     @Override
     public void welcomeMessage() {
+        String introGraphics = """
+                +----------------------------------------------------------------+
+                |      ██████   ██████                                           |
+                |     ░░██████ ██████                                            |
+                |      ░███░█████░███   ██████   ████████   █████                |
+                |      ░███░░███ ░███  ░░░░░███ ░░███░░███ ███░░                 |
+                |      ░███ ░░░  ░███   ███████  ░███ ░░░ ░░█████                |
+                |      ░███      ░███  ███░░███  ░███      ░░░░███               |
+                |      █████     █████░░████████ █████     ██████                |
+                |     ░░░░░     ░░░░░  ░░░░░░░░ ░░░░░     ░░░░░░                 |
+                |      ███████████                                               |
+                |     ░░███░░░░░███                                              |
+                |      ░███    ░███   ██████  █████ █████  ██████  ████████      |
+                |      ░██████████   ███░░███░░███ ░░███  ███░░███░░███░░███     |
+                |      ░███░░░░░███ ░███ ░███ ░███  ░███ ░███████  ░███ ░░░      |
+                |      ░███    ░███ ░███ ░███ ░░███ ███  ░███░░░   ░███          |
+                |      █████   █████░░██████   ░░█████   ░░██████  █████         |
+                |     ░░░░░   ░░░░░  ░░░░░░     ░░░░░     ░░░░░░  ░░░░░          |
+                +----------------------------------------------------------------+
+                """;
         System.out.println(introGraphics);
         System.out.println("Determine the maxCoordinate of the simulation by setting the maximum coordinate [0-100]");
         System.out.println("[Enter max coordinate] : ");
@@ -115,24 +113,24 @@ public class ConsolePresenter implements MessagePresenter {
     @Override
     public void roverDoesNotExist() {
         System.out.println("Cannot moves a Rover that does not exist!");
-
     }
 
     @Override
     public void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot) {
         System.out.println("There is already a simulation with size " + simulationSnapshot.simulationSize());
     }
+
     @Override
     public void roverCollidedMessage(RoverState roverState) {
-            System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
-            System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
+        System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
+        System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
     }
 
     @Override
     public void roverBrokenMessage(RoverState roverState) {
         System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
         System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
-        System.out.println("Rover " + roverState.roverId() + " has broken down!!" );
+        System.out.println("Rover " + roverState.roverId() + " has broken down!!");
     }
 
     @Override

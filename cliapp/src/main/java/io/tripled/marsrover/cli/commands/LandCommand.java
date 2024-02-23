@@ -20,30 +20,7 @@ public class LandCommand implements Command {
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        marsRoverApi.landRover(coordinate, new LandingPresenter() {
-            @Override
-            public void landingSuccessful(RoverState state) {
-                messagePresenter.landRoverMessage(state);
-            }
-
-            @Override
-            public void roverMissesSimulation(int simulationSize) {
-                messagePresenter.roverMissesSimulation(coordinate.xCoordinate(), coordinate.yCoordinate(), simulationSize);
-            }
-
-            @Override
-            public void negativeCoordinatesReceived(Coordinate coordinate) {
-                String coordinateString = coordinate.xCoordinate() + " " + coordinate.yCoordinate();
-                messagePresenter.landingFailureCommand(coordinateString, LandingErrorTypes.NEGATIVE_INTS);
-            }
-
-            @Override
-            public void landingOnTop(Simulation.LandingOnTopEvent landingOnTopEvent) {
-
-                messagePresenter.landRoversOnTopMessage(landingOnTopEvent);
-            }
-
-        });
+        marsRoverApi.landRover(coordinate, new LandingPresenterImpl(messagePresenter));
     }
 
     @Override
