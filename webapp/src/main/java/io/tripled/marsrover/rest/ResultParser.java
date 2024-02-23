@@ -13,9 +13,7 @@ public enum ResultParser {
     RESULT_PARSER;
 
     public RoverMoveResultDTO moveExecutionResult(InstructionBatch roverInstructionsBatch, RoverMovePresenterImpl roverMovePresenter) {
-
         Pair<RoverId, RoverMoveState> result = roverMovePresenter.reportRoverMoveResult();
-
         RoverMoveState roverMoveState = !roverInstructionsBatch.batch().isEmpty() ? result.second() : RoverMoveState.ERROR;
         String roverId = !roverInstructionsBatch.batch().isEmpty() ? result.first().id() : "";
 
@@ -24,6 +22,7 @@ public enum ResultParser {
 
     public RoverLandingResultDTO landExecutionResult(LandingPresenterImpl landingPresenter) {
         LandingState landingState = landingPresenter.reportLandingState();
+
         return new RoverLandingResultDTO(landingState);
     }
 }

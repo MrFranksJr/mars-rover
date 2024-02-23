@@ -6,6 +6,4 @@ public enum LandingState {
     MISSES,
     ON_TOP,
     NONE;
-
-
 }
