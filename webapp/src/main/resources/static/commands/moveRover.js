@@ -38,24 +38,23 @@ async function moveRover(){
 }
 
 async function awaitRoverMoveFeedback(data){
-    console.log(data)
-    if(data.result === "success"){
+    if(data.roverModeState === "SUCCESS"){
         await getSimulationState();
         modalDiv.innerHTML = `Rover moved successfully.`
         moveModal();
-    } else if(data.result === "broken"){
+    } else if(data.roverModeState === "BROKEN"){
         await getSimulationState();
-        modalDiv.innerHTML = `Rover has collided!<br/>Rover ${data.roverData.roverId} is now broken!<br/>Try again!`
+        modalDiv.innerHTML = `Rover has collided!<br/>Rover ${data.roverId} is now broken!<br/>Try again!`
         modalError()
-    } else if(data.result === "alreadyBroken"){
+    } else if(data.roverModeState === "ALREADY_BROKEN"){
         await getSimulationState();
-        modalDiv.innerHTML = `Rover ${data.roverData.roverId} cannot move because it's broken.`
+        modalDiv.innerHTML = `Rover ${data.roverId} cannot move because it's broken.`
         modalError()
-    } else if(data.result === "collided") {
+    } else if(data.roverModeState === "COLLIDED") {
         await getSimulationState();
-        modalDiv.innerHTML = `Instruction execution stopped!<br/>Rover ${data.roverData.roverId} has suffered a collision! Try again!`
+        modalDiv.innerHTML = `Instruction execution stopped!<br/>Rover ${data.roverId} has suffered a collision! Try again!`
         modalError()
-    } else if(data.result === "error") {
+    } else if(data.roverModeState === "ERROR") {
         modalDiv.innerHTML = `This instruction couldn't be executed!<br/>Try again!`
         modalError()
     }

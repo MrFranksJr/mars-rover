@@ -2,6 +2,7 @@ package io.tripled.marsrover.rest;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.dto.RoverMoveResultDTO;
 import io.tripled.marsrover.dto.SimulationViewDTO;
 import io.tripled.marsrover.presenters.LandingPresenterImpl;
 import io.tripled.marsrover.presenters.RoverMovePresenterImpl;
@@ -53,7 +54,7 @@ public class MarsRoverRestController {
 
     @PostMapping("/api/moverover/{roverInstructions}")
     @ResponseBody
-    String moveRover(@PathVariable String roverInstructions) {
+    RoverMoveResultDTO moveRover(@PathVariable String roverInstructions) {
         final RoverMovePresenterImpl roverMovePresenter = new RoverMovePresenterImpl();
         final InstructionBatch roverInstructionsBatch = INPUT_PARSER.extractRoverMovesFromInput(roverInstructions);
 

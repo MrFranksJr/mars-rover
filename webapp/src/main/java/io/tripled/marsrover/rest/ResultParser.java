@@ -1,5 +1,6 @@
 package io.tripled.marsrover.rest;
 
+import io.tripled.marsrover.dto.RoverMoveResultDTO;
 import io.tripled.marsrover.presenters.LandingPresenterImpl;
 import io.tripled.marsrover.presenters.LandingState;
 import io.tripled.marsrover.presenters.RoverMovePresenterImpl;
@@ -10,24 +11,14 @@ import io.tripled.marsrover.vocabulary.RoverId;
 public enum ResultParser {
     RESULT_PARSER;
 
-    public String moveExecutionResult(InstructionBatch roverInstructionsBatch, RoverMovePresenterImpl roverMovePresenter) {
+    public RoverMoveResultDTO moveExecutionResult(InstructionBatch roverInstructionsBatch, RoverMovePresenterImpl roverMovePresenter) {
 
         Pair<RoverId, RoverMoveState> result = roverMovePresenter.reportRoverMoveResult();
-        String roverId = result.first().id();
-        RoverMoveState roverMoveState = result.second();
 
-        final boolean roverHasInstructions = !roverInstructionsBatch.batch().isEmpty();
+        RoverMoveState roverMoveState = !roverInstructionsBatch.batch().isEmpty() ? result.second() : RoverMoveState.ERROR;
+        String roverId = !roverInstructionsBatch.batch().isEmpty() ? result.first().id() : "";
 
-        if (roverHasInstructions && roverMoveState.equals(RoverMoveState.ALREADY_BROKEN))
-            return new JsonFactory().createResult("alreadyBroken", roverId);
-        if (roverHasInstructions && roverMoveState.equals(RoverMoveState.BROKEN))
-            return new JsonFactory().createResult("broken", roverId);
-        if (roverHasInstructions && roverMoveState.equals(RoverMoveState.SUCCESS))
-            return new JsonFactory().createResult("success", "");
-        if (roverHasInstructions && roverMoveState.equals(RoverMoveState.COLLIDED))
-            return new JsonFactory().createResult("collided", roverId);
-
-        return new JsonFactory().createResult("error", "");
+        return new RoverMoveResultDTO(roverMoveState,roverId);
     }
 
     public String landExecutionResult(LandingPresenterImpl landingPresenter) {
