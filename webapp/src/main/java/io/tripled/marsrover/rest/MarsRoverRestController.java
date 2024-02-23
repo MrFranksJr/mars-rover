@@ -44,7 +44,10 @@ public class MarsRoverRestController {
 
         marsRoverApi.lookUpSimulationState(simulationStatePresenter);
         int simulationSize = simulationStatePresenter.getSimulationState().simulationSize();
-        if (xCoordinate <= simulationSize && yCoordinate <= simulationSize) {
+
+        if(landingPresenter.isLandingOnTopEvent()){
+            return "{\"result\":\"Landing on top\"}";
+        } else if (xCoordinate <= simulationSize && yCoordinate <= simulationSize) {
             return "{\"result\":\"Landing successful\"}";
         } else {
             return "{\"result\":\"Landing unsuccessful\"}";

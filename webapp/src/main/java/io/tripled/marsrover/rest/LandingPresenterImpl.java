@@ -10,6 +10,9 @@ public class LandingPresenterImpl implements LandingPresenter {
 
     private RoverState roverState;
 
+
+    private boolean landingOnTopEvent;
+
     @Override
     public void landingSuccessful(RoverState roverState) {
         this.roverState = roverState;
@@ -27,11 +30,15 @@ public class LandingPresenterImpl implements LandingPresenter {
 
     @Override
     public void landingOnTop(Simulation.LandingOnTopEvent landingOnTopEvent) {
-        this.roverState = roverState;
+        this.landingOnTopEvent = true;
     }
 
     public RoverState reportRoverState() {
         return roverState;
     }
+    public boolean isLandingOnTopEvent() {
+        return landingOnTopEvent;
+    }
+
 
 }

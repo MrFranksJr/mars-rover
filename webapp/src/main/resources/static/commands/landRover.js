@@ -35,7 +35,13 @@ async function checkForBadRequest(result) {
 
 
 async function awaitFeedback(data){
-    if(data.result === "Landing successful"){
+    if(data.result === "Landing on top"){
+        await getSimulationState();
+        modalDiv.innerHTML = "Rover landed on top!<br/> Both Rovers Broken!!"
+        clearLandingFields();
+        buildRoverInstructionControls()
+        modalError();
+    } else if(data.result === "Landing successful"){
         await getSimulationState();
         modalDiv.innerHTML = "Your rover has successfully landed."
         clearLandingFields();
