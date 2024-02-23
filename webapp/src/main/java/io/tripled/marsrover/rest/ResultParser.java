@@ -1,5 +1,6 @@
 package io.tripled.marsrover.rest;
 
+import io.tripled.marsrover.dto.RoverLandingResultDTO;
 import io.tripled.marsrover.dto.RoverMoveResultDTO;
 import io.tripled.marsrover.presenters.LandingPresenterImpl;
 import io.tripled.marsrover.presenters.LandingState;
@@ -21,15 +22,8 @@ public enum ResultParser {
         return new RoverMoveResultDTO(roverMoveState,roverId);
     }
 
-    public String landExecutionResult(LandingPresenterImpl landingPresenter) {
+    public RoverLandingResultDTO landExecutionResult(LandingPresenterImpl landingPresenter) {
         LandingState landingState = landingPresenter.reportLandingState();
-        if (landingState.equals(LandingState.ON_TOP))
-            return new JsonFactory().createResult("onTop", "");
-        else if (landingState.equals(LandingState.SUCCESS))
-            return new JsonFactory().createResult("success", "");
-        else if (landingState.equals(LandingState.MISSES))
-            return new JsonFactory().createResult("missed", "");
-        else
-            return new JsonFactory().createResult("unSuccessful", "");
+        return new RoverLandingResultDTO(landingState);
     }
 }

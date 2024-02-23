@@ -4,7 +4,8 @@ public enum LandingState {
     SUCCESS,
     UNSUCCESSFUL,
     MISSES,
-    ON_TOP, NONE;
+    ON_TOP,
+    NONE;
 
 
 }

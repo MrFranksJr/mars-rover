@@ -35,24 +35,24 @@ async function checkForBadRequest(result) {
 
 
 async function awaitFeedback(data){
-    if(data.result === "onTop"){
+    if(data.landingState === "ON_TOP"){
         await getSimulationState();
         modalDiv.innerHTML = "Rover landed on top!<br/>Both Rovers Broken!!"
         clearLandingFields();
         buildRoverInstructionControls()
         modalError();
-    } else if(data.result === "success"){
+    } else if(data.landingState === "SUCCESS"){
         await getSimulationState();
-        modalDiv.innerHTML = `Rover ${data.roverData.roverId} has successfully landed.`
+        modalDiv.innerHTML = `Rover has successfully landed.`
         clearLandingFields();
         buildRoverInstructionControls()
         moveModal();
     } 
-    else if(data.result === "missed") {
+    else if(data.landingState === "MISSES") {
         modalDiv.innerHTML = `The Rover missed the Simulation!<br/>Try again!`
         clearLandingFields();
         modalError()
-    } else if (data.result === "unSuccessful") {
+    } else if (data.landingState === "UNSUCCESSFUL") {
         modalDiv.innerHTML = `The landing was unsuccessful`
         clearLandingFields();
         modalError()
