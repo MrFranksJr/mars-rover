@@ -37,21 +37,21 @@ public class MarsRoverRestController {
     @ResponseBody
     String landRover(@PathVariable int xCoordinate, @PathVariable int yCoordinate) {
         Coordinate coordinate = new Coordinate(xCoordinate, yCoordinate);
-
         LandingPresenterImpl landingPresenter = new LandingPresenterImpl();
-        marsRoverApi.landRover(coordinate, landingPresenter);
         SimulationStateRestPresenter simulationStatePresenter = new SimulationStateRestPresenter();
 
-        marsRoverApi.lookUpSimulationState(simulationStatePresenter);
-        int simulationSize = simulationStatePresenter.getSimulationState().simulationSize();
+        marsRoverApi.landRover(coordinate, landingPresenter);
 
-        if(landingPresenter.isLandingOnTopEvent()){
+        marsRoverApi.lookUpSimulationState(simulationStatePresenter);
+
+        if(landingPresenter.isLandingOnTop()){
             return "{\"result\":\"Landing on top\"}";
-        } else if (xCoordinate <= simulationSize && yCoordinate <= simulationSize) {
+        } else if (landingPresenter.hasLandedSuccessfully()) {
             return "{\"result\":\"Landing successful\"}";
-        } else {
+        } else if (landingPresenter.hasMissedSimulation()){
+            return "{\"result\":\"Has missed simulation\"}";
+        } else
             return "{\"result\":\"Landing unsuccessful\"}";
-        }
     }
 
     @PostMapping("/api/moverover/{roverInstructions}")

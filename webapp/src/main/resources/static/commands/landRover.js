@@ -48,8 +48,12 @@ async function awaitFeedback(data){
         buildRoverInstructionControls()
         moveModal();
     } 
-    else if(data.result === "Landing unsuccessful") {
+    else if(data.result === "Has missed simulation") {
         modalDiv.innerHTML = `The Rover missed the Simulation!<br/>Try again!`
+        clearLandingFields();
+        modalError()
+    } else if (data.result === "Landing unsuccessful") {
+        modalDiv.innerHTML = `The landing was unsuccessful`
         clearLandingFields();
         modalError()
     }
