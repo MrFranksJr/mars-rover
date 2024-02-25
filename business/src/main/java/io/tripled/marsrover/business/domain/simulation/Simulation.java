@@ -51,15 +51,15 @@ public class Simulation {
     public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
         if (invalidCoordinatesReceived(coordinate)) {
             eventPublisher.publish(new InvalidCoordinatesReceived(coordinate));
-        } else if (landsOnTopOfOtherRover(coordinate).second()) {
+        } else if (!landsOnTopOfOtherRover(coordinate).isEmpty()) {
             final Location landingLocation = new Location(coordinate, simulationSize);
             final RoverState landingRoverState = landRover(coordinate);
-            final RoverId hitRoverId = landsOnTopOfOtherRover(coordinate).first();
+            final List<RoverId> hitRoverIds = landsOnTopOfOtherRover(coordinate);
 
             roverLocationMap.get(landingLocation)
                     .forEach(Rover::breakRover);
 
-            eventPublisher.publish(new LandingOnTopEvent(landingRoverState, hitRoverId, coordinate));
+            eventPublisher.publish(new LandingOnTopEvent(landingRoverState, hitRoverIds, coordinate));
         } else if (landingWithinSimulationLimits(coordinate)) {
             final RoverState roverState = landRover(coordinate);
             eventPublisher.publish(new LandingSuccessfulLandEvent(roverState));
@@ -97,14 +97,15 @@ public class Simulation {
         return extrapolatedInstructions;
     }
 
-    private Pair<RoverId, Boolean> landsOnTopOfOtherRover(Coordinate coordinate) {
+    private List<RoverId> landsOnTopOfOtherRover(Coordinate coordinate) {
+        List<RoverId> hitRoverIds = new ArrayList<>();
         SimulationSnapshot simulationSnapshot = this.takeSnapshot();
         for (RoverState roverState : simulationSnapshot.roverList()) {
             if (roverState.coordinate().equals(coordinate)) {
-                return new Pair<>(roverState.roverId(), true);
+                hitRoverIds.add(roverState.roverId());
             }
         }
-        return new Pair<>(null, false);
+        return hitRoverIds;
     }
 
     public void moveRover(RoverInstructions roverInstructions, SimulationRoverMovedEventPublisher eventPublisher) {
@@ -229,8 +230,7 @@ public class Simulation {
         void publish(SimulationMoveRoverEvent event);
     }
 
-    public record LandingOnTopEvent(RoverState roverState, RoverId roverId,
-                                    Coordinate coordinate) implements SimulationLandEvent {
+    public record LandingOnTopEvent(RoverState landingRoverState, List<RoverId> hitRoverIds, Coordinate coordinate) implements SimulationLandEvent {
     }
 
     /**

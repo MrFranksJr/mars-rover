@@ -44,12 +44,9 @@ public class MarsRoverRestController {
     RoverLandingResultDTO landRover(@PathVariable int xCoordinate, @PathVariable int yCoordinate) {
         Coordinate coordinate = new Coordinate(xCoordinate, yCoordinate);
         LandingPresenterImpl landingPresenter = new LandingPresenterImpl();
-        SimulationStateRestPresenter simulationStatePresenter = new SimulationStateRestPresenter();
 
         marsRoverApi.landRover(coordinate, landingPresenter);
-
-        marsRoverApi.lookUpSimulationState(simulationStatePresenter);
-
+        //TODO: Not enough info about the landing. need to regain that intelligence
         return RESULT_PARSER.landExecutionResult(landingPresenter);
     }
 

@@ -140,7 +140,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
-        System.out.println("Rover " + landingOnTopEvent.roverState().roverId() + " landed on top of Rover " + landingOnTopEvent.roverId() + " at [" + landingOnTopEvent.coordinate().xCoordinate() + "," + landingOnTopEvent.coordinate().yCoordinate() + "] and both are now BROKEN.");
+        System.out.println("Rover " + landingOnTopEvent.landingRoverState().roverId() + " landed on top of Rover " + landingOnTopEvent.hitRoverIds() + " at [" + landingOnTopEvent.coordinate().xCoordinate() + "," + landingOnTopEvent.coordinate().yCoordinate() + "] and both are now BROKEN.");
     }
 }
 

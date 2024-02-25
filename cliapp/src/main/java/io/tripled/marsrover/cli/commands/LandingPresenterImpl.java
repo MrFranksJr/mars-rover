@@ -26,7 +26,6 @@ public class LandingPresenterImpl implements LandingPresenter {
 
     @Override
     public void landingOnTop(Simulation.LandingOnTopEvent landingOnTopEvent) {
-
         messagePresenter.landRoversOnTopMessage(landingOnTopEvent);
     }
 

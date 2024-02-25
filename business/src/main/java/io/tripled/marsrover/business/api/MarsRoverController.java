@@ -42,17 +42,20 @@ public class MarsRoverController implements MarsRoverApi {
 
     @Override
     public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
-        if (simulationRepository.getSimulation().isPresent()) {
-
+        if (simulationExists()) {
             final var simulation = simulationRepository.getSimulation().get();
             final var eventPublisher = createEventPublisher(landingPresenter);
             simulation.landRover(coordinate, eventPublisher);
         }
     }
 
+    private boolean simulationExists() {
+        return simulationRepository.getSimulation().isPresent();
+    }
+
     @Override
     public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
-        if (simulationRepository.getSimulation().isPresent()) {
+        if (simulationExists()) {
             final var simulation = simulationRepository.getSimulation().get();
 
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {

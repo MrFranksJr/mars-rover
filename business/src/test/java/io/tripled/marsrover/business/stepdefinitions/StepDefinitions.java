@@ -111,7 +111,7 @@ public class StepDefinitions {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 
         for (Map<String, String> row : instructions) {
-            final String roverId = row.get("roverId");
+            final String roverId = row.get("hitRoverIds");
             final String command = row.get("instruction").substring(0, 1);
             final int amount = Integer.parseInt(row.get("amount"));
             final RoverMove roverMove = new RoverMove(command, amount);
