@@ -44,7 +44,6 @@ public class MarsRoverRestControllerTest {
 
     @Test
     void createMultipleSimulationsCheck() throws Exception {
-
         createSimulationOf10();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/20"));
@@ -116,7 +115,7 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverHeading").value("EAST"));
     }
     @Test
-    void turnLeftIsCaseInsensitive() throws Exception {
+    void roverCanTurnLeft() throws Exception {
         createSimulationOf10();
 
         landRoverOn55();
@@ -178,7 +177,7 @@ public class MarsRoverRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/R1 f1"));
 
         var result = getSimulationState();
-
+        System.out.println("result is: " + result);
         result.andExpect(jsonPath("$.roverList[0].roverName").value("R1"));
         result.andExpect(jsonPath("$.roverList[0].roverHeading").value("NORTH"));
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));

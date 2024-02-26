@@ -28,6 +28,8 @@ public class MarsRoverRestController {
     void createSimulation(@PathVariable int simulationSize) {
         SimulationCreationPresenterImpl simulationCreationPresenter = new SimulationCreationPresenterImpl();
         marsRoverApi.initializeSimulation(simulationSize, simulationCreationPresenter);
+
+
     }
 
     @GetMapping("/api/simulationstate")
@@ -57,7 +59,7 @@ public class MarsRoverRestController {
         final InstructionBatch roverInstructionsBatch = INPUT_PARSER.extractRoverMovesFromInput(roverInstructions);
 
         marsRoverApi.executeMoveInstructions(roverInstructionsBatch, roverMovePresenter);
-
+        System.out.println("executing moveRover");
         return RESULT_PARSER.moveExecutionResult(roverInstructionsBatch, roverMovePresenter);
     }
 }

@@ -323,6 +323,8 @@ class SimulationTest {
 
     }
 
+
+
     private static void landRover(Coordinate landingCoordinate, Simulation simWorld) {
         simWorld.landRover(landingCoordinate, event -> {
         });

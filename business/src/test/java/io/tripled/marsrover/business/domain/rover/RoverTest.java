@@ -79,7 +79,7 @@ class RoverTest {
 
         RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
 
-        assertEquals(OperationalStatus.BROKEN, roverState.healthState());
+        assertEquals(HealthState.BROKEN, roverState.healthState());
         assertEquals(0, roverState.hitpoints());
     }
 }

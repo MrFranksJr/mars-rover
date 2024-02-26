@@ -1,7 +1,9 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class MarsRoverController implements MarsRoverApi {
 
     private final SimulationRepository simulationRepository;
+    private final int simulationId = 1;
 
     public MarsRoverController(SimulationRepository simulationRepository) {
         this.simulationRepository = simulationRepository;
@@ -42,48 +45,51 @@ public class MarsRoverController implements MarsRoverApi {
 
     @Override
     public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
-        if (simulationExists()) {
-            final var simulation = simulationRepository.getSimulation().get();
+        Optional<Simulation> simulation = simulationRepository.getSimulation(simulationId);
+        if (simulation.isPresent()) {
             final var eventPublisher = createEventPublisher(landingPresenter);
-            simulation.landRover(coordinate, eventPublisher);
-        }
-    }
 
-    private boolean simulationExists() {
-        return simulationRepository.getSimulation().isPresent();
+            simulation.get().landRover(coordinate, eventPublisher);
+
+            simulationRepository.save(simulation.get());
+        }
     }
 
     @Override
     public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
-        if (simulationExists()) {
-            final var simulation = simulationRepository.getSimulation().get();
-
+        Optional<Simulation> simulation = simulationRepository.getSimulation(simulationId);
+        if (simulation.isPresent()) {
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
-                simulation.moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
+                simulation.get().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
+            simulationRepository.save(simulation.get());
 
-            //TODO:cleanup
+            //TODO:simultaneous rover move cleanup
             //simulation.moveRovers(instructionBatch.batch());
         }
     }
 
     @Override
     public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
-        final Optional<Simulation> simulation = Simulation.create(simulationSize);
-        if (simulation.isEmpty())
-            simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
-        else {
-            final var simWorld = simulation.get();
-            simulationRepository.add(simWorld);
-            simulationCreationPresenter.simulationCreationSuccessful(simulation.get().takeSnapshot());
+        //TODO: unlock ability to create multiple simulations
+        if (simulationRepository.getSimulation(1).isEmpty()) {
+            final Optional<Simulation> simulation = Simulation.create(simulationSize);
+            if (simulation.isEmpty())
+                simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
+            else {
+                final var simWorld = simulation.get();
+                simulationRepository.add(simWorld);
+                simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
+            }
         }
     }
 
     @Override
     public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
-        final var simulation = simulationRepository.getSimulation();
-        if (simulation.isPresent())
+        Optional<Simulation> simulation = simulationRepository.getSimulation(simulationId);
+        if (simulation.isPresent()) {
             simulationStatePresenter.simulationState(simulation.get().takeSnapshot());
+        }
         else
             simulationStatePresenter.simulationState(SimulationSnapshot.NONE);
     }

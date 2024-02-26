@@ -1,6 +1,9 @@
 package io.tripled.marsrover.business.api;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multimap;
+import io.tripled.marsrover.business.domain.rover.Location;
+import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;

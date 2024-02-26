@@ -4,12 +4,12 @@ import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,12 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoverMoveCommandTest {
     private DummyPresenter dummyPresenter;
-    private final MarsRoverApi marsRoverController = new MarsRoverController(new InMemSimulationRepo());
+    private SimulationRepository simulationRepository;
+    private MarsRoverApi marsRoverController;
     private RoverId R1;
 
     @BeforeEach
     void init() {
         this.R1 = new RoverId("R1");
+        simulationRepository = new InMemSimulationRepo();
+        marsRoverController = new MarsRoverController(simulationRepository);
     }
 
     @Test

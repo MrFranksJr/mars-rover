@@ -4,7 +4,6 @@ import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 
 public interface MarsRoverApi {
-
     void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter);
 
     void landRover(Coordinate coordinate, LandingPresenter landingPresenter);

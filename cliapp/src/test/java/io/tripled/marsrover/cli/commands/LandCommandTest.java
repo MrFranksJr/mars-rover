@@ -5,6 +5,7 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
+import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,11 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class LandCommandTest {
     private DummyPresenter dummyPresenter;
     private MarsRoverApi marsRoverController;
+    private SimulationRepository simulationRepository;
 
     @BeforeEach
     void setUp() {
         dummyPresenter = new DummyPresenter();
-        marsRoverController = new MarsRoverController(new InMemSimulationRepo());
+        final InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
+        simulationRepository = inMemSimulationRepo;
+        marsRoverController = new MarsRoverController(simulationRepository);
         Command simSetupCommand = new SimSetupCommand(10, marsRoverController);
         simSetupCommand.execute(dummyPresenter);
 

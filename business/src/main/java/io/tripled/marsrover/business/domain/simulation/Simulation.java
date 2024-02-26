@@ -27,16 +27,38 @@ public class Simulation {
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
     }
 
+    private Simulation(Builder builder) {
+        simulationSize = builder.simulationSize;
+        roverLocationMap = builder.roverLocationMap;
+        nrOfRovers = builder.nrOfRovers;
+    }
+
+    private Simulation(SimulationSnapshot simulationSnapshot){
+        this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
+
+        simulationSize = simulationSnapshot.simulationSize();
+        for(RoverState roverState: simulationSnapshot.roverList()){
+            Rover r = new Rover(roverState.roverId(),roverState.roverHeading(),roverState.hitpoints(), roverState.healthState());
+            final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(roverState.coordinate()).build();
+            roverLocationMap.put(lo, r);
+        }
+        nrOfRovers = roverLocationMap.size();
+    }
+
     public static Optional<Simulation> create(int size) {
         return size < 0 ? Optional.empty() : Optional.of(new Simulation(size));
     }
 
     private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {
-        return rover.getRoverState(oldLocation).healthState() == OperationalStatus.BROKEN;
+        return rover.getRoverState(oldLocation).healthState() == HealthState.BROKEN;
     }
 
     private static boolean roverIsAlive(Location newLocation, Rover rover) {
-        return rover.getRoverState(newLocation).healthState() == OperationalStatus.OPERATIONAL;
+        return rover.getRoverState(newLocation).healthState() == HealthState.OPERATIONAL;
+    }
+
+    static Simulation of(SimulationSnapshot simulationSnapshot) {
+        return new Simulation(simulationSnapshot);
     }
 
     public SimulationSnapshot takeSnapshot() {
@@ -205,7 +227,7 @@ public class Simulation {
 
     private Rover createNewRover() {
         final var roverId = new RoverId("R" + (++nrOfRovers));
-        return new Rover(roverId, RoverHeading.NORTH);
+        return new Rover(roverId, RoverHeading.NORTH, 5, HealthState.OPERATIONAL);
     }
 
     private boolean invalidCoordinatesReceived(Coordinate coordinate) {
@@ -257,5 +279,37 @@ public class Simulation {
     public record RoverAlreadyBroken(RoverId roverId) implements SimulationMoveRoverEvent {
     }
 
+    public static Builder newBuilder(){
+        return new Builder();
+    }
 
+    public static final class Builder {
+        private int simulationSize;
+        private final Multimap<Location, Rover> roverLocationMap;
+        private int nrOfRovers;
+
+        private Builder(){
+            roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
+        }
+
+        public Builder withSimulationSize(int val){
+            simulationSize = val;
+            return this;
+        }
+
+        public Builder withRoverLocations(List<RoverState> val){
+            for(RoverState roverState: val){
+                Rover r = new Rover(roverState.roverId(),roverState.roverHeading(), roverState.hitpoints(), roverState.healthState());
+                final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(roverState.coordinate()).build();
+                roverLocationMap.put(lo, r);
+            }
+
+            nrOfRovers = val.size();
+            return this;
+        }
+
+        public Simulation build() {
+            return new Simulation(this);
+        }
+    }
 }

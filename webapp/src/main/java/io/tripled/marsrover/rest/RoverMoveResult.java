@@ -1,9 +1,10 @@
 package io.tripled.marsrover.rest;
 
-public enum RoverMoveState {
+public enum RoverMoveResult {
     ALREADY_BROKEN,
     BROKEN,
     SUCCESS,
     ERROR,
-    COLLIDED, NONE;
+    COLLIDED,
+    NONE;
 }

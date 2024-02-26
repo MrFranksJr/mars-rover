@@ -7,17 +7,17 @@ public class Rover {
     private final RoverId roverId;
     private RoverHeading roverHeading;
     private int hitPoints;
-    private OperationalStatus roverBrokenState;
+    private HealthState healthState;
 
-    public Rover(RoverId roverId, RoverHeading roverHeading) {
+    public Rover(RoverId roverId, RoverHeading roverHeading, int hitPoints, HealthState healthState) {
         this.roverId = roverId;
         this.roverHeading = roverHeading;
-        this.hitPoints = 5;
-        this.roverBrokenState = OperationalStatus.OPERATIONAL;
+        this.hitPoints = hitPoints;
+        this.healthState = healthState;
     }
 
     public Rover(String roverId, RoverHeading roverHeading) {
-        this(new RoverId(roverId), roverHeading);
+        this(new RoverId(roverId), roverHeading, 5, HealthState.OPERATIONAL);
     }
 
 
@@ -35,7 +35,7 @@ public class Rover {
                 .withRoverHeading(roverHeading)
                 .withCoordinate(location.coordinate())
                 .withHitPoints(hitPoints)
-                .withHealthState(roverBrokenState)
+                .withHealthState(healthState)
                 .build();
     }
 
@@ -79,7 +79,7 @@ public class Rover {
     }
 
     private boolean roverIsAlive() {
-        return roverBrokenState == OperationalStatus.OPERATIONAL;
+        return healthState == HealthState.OPERATIONAL;
     }
 
     private void subtractHitPoint() {
@@ -88,7 +88,7 @@ public class Rover {
 
     private void disableRoverIfNoHitpoints() {
         if (hitPoints == 0) {
-            roverBrokenState = OperationalStatus.BROKEN;
+            healthState = HealthState.BROKEN;
         }
     }
 }

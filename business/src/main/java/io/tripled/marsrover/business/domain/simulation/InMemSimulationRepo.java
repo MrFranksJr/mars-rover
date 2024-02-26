@@ -1,25 +1,36 @@
 package io.tripled.marsrover.business.domain.simulation;
 
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public class InMemSimulationRepo implements SimulationRepository {
-
-    private Simulation simWorld;
+public class InMemSimulationRepo implements SimulationRepository, SimulationQuery {
+    private SimulationSnapshot simulationSnapshot;
 
     @Override
     public void add(Simulation simulation) {
-        if (simWorld == null) {
-            simWorld = simulation;
-        }
+        simulationSnapshot = simulation.takeSnapshot();
     }
 
     @Override
-    public Optional<Simulation> getSimulation() {
-        if (simWorld == null)
+    public void save(Simulation simulation) {
+        simulationSnapshot = simulation.takeSnapshot();
+    }
+
+    //TODO implement SimulationID
+    public Optional<Simulation> getSimulation(int simulationId) {
+        if (simulationSnapshot == null)
             return Optional.empty();
-        return Optional.of(simWorld);
+        return Optional.of(Simulation.of(simulationSnapshot));
+    }
+
+    @Override
+    public SimulationSnapshot getSimulationInformation() {
+        if (simulationSnapshot != null){
+            return simulationSnapshot;
+        }
+        return null;
     }
 }

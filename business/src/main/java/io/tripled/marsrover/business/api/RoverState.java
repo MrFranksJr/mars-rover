@@ -1,11 +1,11 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.rover.OperationalStatus;
+import io.tripled.marsrover.business.domain.rover.HealthState;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.RoverId;
 
-public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate coordinate, int hitpoints, OperationalStatus healthState) {
+public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate coordinate, int hitpoints, HealthState healthState) {
 
 
     private RoverState(Builder builder) {
@@ -22,7 +22,7 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
         private RoverHeading roverHeading;
         private Coordinate coordinate;
         private int hitPoints;
-        private OperationalStatus healthState;
+        private HealthState healthState;
 
         private Builder() {
         }
@@ -51,7 +51,7 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
             return this;
         }
 
-        public Builder withHealthState(OperationalStatus val) {
+        public Builder withHealthState(HealthState val) {
             healthState = val;
             return this;
         }

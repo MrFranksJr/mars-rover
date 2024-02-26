@@ -1,9 +1,11 @@
 package io.tripled.marsrover.business.domain.simulation;
 
+import io.tripled.marsrover.business.api.SimulationSnapshot;
+
 import java.util.Optional;
 
 public interface SimulationRepository {
     void add(Simulation simulation);
-
-    Optional<Simulation> getSimulation();
+    void save(Simulation simulationSnapshot);
+    Optional<Simulation> getSimulation(int simulationId);
 }
