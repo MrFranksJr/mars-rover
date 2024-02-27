@@ -34,7 +34,7 @@ public class StepDefinitions {
     public StepDefinitions() {
         InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
         SimpleMongoRepository<SimulationDocument, UUID> simpleMongoRepository = new SimpleMongoRepository<>();
-        marsRoverApi = new MarsRoverController(inMemSimulationRepo);
+        marsRoverApi = new MarsRoverController(inMemSimulationRepo, simpleMongoRepository);
         simulationQuery = inMemSimulationRepo;
 
     }
