@@ -6,6 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.UUID;
 
 public interface SimulationDocumentRepository extends MongoRepository<SimulationDocument, UUID> {
-
-
+    public void save(Simulation )
 }
