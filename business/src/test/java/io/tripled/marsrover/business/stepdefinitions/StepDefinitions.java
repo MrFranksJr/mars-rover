@@ -5,11 +5,15 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.tripled.marsrover.business.api.*;
+import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.business.api.MarsRoverController;
+import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.*;
-import io.tripled.marsrover.vocabulary.RoverMove;
+import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
+import io.tripled.marsrover.vocabulary.RoverMove;
 
 import java.util.List;
 import java.util.Map;
@@ -20,11 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StepDefinitions {
 
     private final MarsRoverApi marsRoverApi;
-    private final SimulationRepository simulationRepository;
+    private final SimulationQuery simulationQuery;
+
 
     public StepDefinitions() {
-        simulationRepository = new InMemSimulationRepo();
-        marsRoverApi = new MarsRoverController(simulationRepository);
+        InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
+        marsRoverApi = new MarsRoverController(inMemSimulationRepo);
+        simulationQuery = inMemSimulationRepo;
+
     }
 
     private static InstructionBatch parseSingleRoverInstruction(String roverId, String direction, int amount) {
@@ -91,7 +98,8 @@ public class StepDefinitions {
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
     public void theRoverIsAtNewXNewYWithOrientation(String roverId, int newX, int newY, String heading) {
-        final Optional<Simulation> simulation = simulationRepository.getSimulation(1);
+//        final Optional<Simulation> simulation = simulationQuery.getSimulation(1);
+        final Optional<Simulation> simulation = Optional.of(Simulation.of(simulationQuery.getSimulationInformation()));
         if (simulation.isPresent()) {
             final RoverState currentRoverState = getRoverState(roverId);
             assertEquals(roverId, currentRoverState.roverId().id());
@@ -103,8 +111,10 @@ public class StepDefinitions {
 
     @Then("No rover should be present in the simulation")
     public void no_rover_should_be_present_in_the_simulation() {
-        final Optional<Simulation> simulation = simulationRepository.getSimulation(1);
+//        final Optional<Simulation> simulation = simulationQuery.getSimulation(1);
+        final Optional<Simulation> simulation = Optional.of(Simulation.of(simulationQuery.getSimulationInformation()));
         simulation.ifPresent(s -> assertEquals(0, s.takeSnapshot().roverList().size()));
+
     }
 
     @When("We give the Rovers the Instructions")
@@ -120,7 +130,8 @@ public class StepDefinitions {
     }
 
     private RoverState getRoverState(String roverId) {
-        final Simulation simulation = simulationRepository.getSimulation(1).orElseThrow();
-        return simulation.takeSnapshot().getRover(roverId).orElseThrow();
+//        final Simulation simulation = simulationQuery.getSimulation(1).orElseThrow();
+        final Optional<Simulation> simulation = Optional.of(Simulation.of(simulationQuery.getSimulationInformation()));
+        return simulation.get().takeSnapshot().getRover(roverId).orElseThrow();
     }
 }
