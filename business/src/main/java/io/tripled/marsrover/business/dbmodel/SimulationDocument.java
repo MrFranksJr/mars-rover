@@ -36,7 +36,7 @@ public class SimulationDocument {
     public SimulationDocument(Simulation simulation){
         super();
         SimulationSnapshot snapshot = simulation.takeSnapshot();
-        this.id ;
+        this.id = snapshot.id();
         this.simulationSize = snapshot.simulationSize();
         this.roverList = snapshot.roverList();
         this.nrOfRovers = roverList.size();

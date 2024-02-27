@@ -9,16 +9,20 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.business.dbmodel.SimulationDocument;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.business.domain.simulation.SimulationDocumentRepository;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,9 +31,9 @@ public class StepDefinitions {
     private final MarsRoverApi marsRoverApi;
     private final SimulationQuery simulationQuery;
 
-
     public StepDefinitions() {
         InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
+        SimpleMongoRepository<SimulationDocument, UUID> simpleMongoRepository = new SimpleMongoRepository<>();
         marsRoverApi = new MarsRoverController(inMemSimulationRepo);
         simulationQuery = inMemSimulationRepo;
 
