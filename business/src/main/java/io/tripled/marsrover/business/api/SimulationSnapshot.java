@@ -8,16 +8,17 @@ import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
-public record SimulationSnapshot(int simulationSize, int totalCoordinates, List<RoverState> roverList) {
+public record SimulationSnapshot(UUID id, int simulationSize, int totalCoordinates, List<RoverState> roverList) {
 
-    public static SimulationSnapshot NONE = new SimulationSnapshot(-1, -1, emptyList());
+    public static SimulationSnapshot NONE = new SimulationSnapshot(null,-1, -1, emptyList());
 
     private SimulationSnapshot(Builder builder) {
-        this(builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
+        this(builder.uuId, builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
     }
 
     public static Builder newBuilder() {
@@ -33,11 +34,17 @@ public record SimulationSnapshot(int simulationSize, int totalCoordinates, List<
     }
 
     public static final class Builder {
+        private UUID uuId;
         private int simulationSize;
         private int totalCoordinates;
         private List<RoverState> roverList;
 
         private Builder() {
+        }
+
+        public Builder withUUID(UUID value) {
+            uuId = value;
+            return this;
         }
 
         public Builder withSimSize(int value) {

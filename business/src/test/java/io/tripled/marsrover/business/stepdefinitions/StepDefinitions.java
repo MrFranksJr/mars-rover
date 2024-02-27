@@ -8,16 +8,22 @@ import io.cucumber.java.en.When;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.business.dbmodel.SimulationDocument;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.business.domain.simulation.SimulationDocumentRepository;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
+import io.tripled.marsrover.business.dummyrepo.SimulationDocumentRepositoryImpl;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,10 +32,10 @@ public class StepDefinitions {
     private final MarsRoverApi marsRoverApi;
     private final SimulationQuery simulationQuery;
 
-
     public StepDefinitions() {
         InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
-        marsRoverApi = new MarsRoverController(inMemSimulationRepo);
+        SimulationDocumentRepository dummySimulationDocumentRepository = new SimulationDocumentRepositoryImpl();
+        marsRoverApi = new MarsRoverController(inMemSimulationRepo, dummySimulationDocumentRepository);
         simulationQuery = inMemSimulationRepo;
 
     }
@@ -98,23 +104,17 @@ public class StepDefinitions {
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
     public void theRoverIsAtNewXNewYWithOrientation(String roverId, int newX, int newY, String heading) {
-//        final Optional<Simulation> simulation = simulationQuery.getSimulation(1);
-        final Optional<Simulation> simulation = Optional.of(Simulation.of(simulationQuery.getSimulationInformation()));
-        if (simulation.isPresent()) {
-            final RoverState currentRoverState = getRoverState(roverId);
-            assertEquals(roverId, currentRoverState.roverId().id());
-            assertEquals(newX, currentRoverState.coordinate().xCoordinate());
-            assertEquals(newY, currentRoverState.coordinate().yCoordinate());
-            assertEquals(heading, currentRoverState.roverHeading().toString().toLowerCase());
-        }
+        final RoverState currentRoverState = getRoverState(roverId);
+        assertEquals(roverId, currentRoverState.roverId().id());
+        assertEquals(newX, currentRoverState.coordinate().xCoordinate());
+        assertEquals(newY, currentRoverState.coordinate().yCoordinate());
+        assertEquals(heading, currentRoverState.roverHeading().toString().toLowerCase());
     }
 
     @Then("No rover should be present in the simulation")
     public void no_rover_should_be_present_in_the_simulation() {
-//        final Optional<Simulation> simulation = simulationQuery.getSimulation(1);
-        final Optional<Simulation> simulation = Optional.of(Simulation.of(simulationQuery.getSimulationInformation()));
-        simulation.ifPresent(s -> assertEquals(0, s.takeSnapshot().roverList().size()));
-
+        final SimulationSnapshot snapshot = simulationQuery.getSimulationInformation();
+        assertEquals(0, snapshot.roverList().size());
     }
 
     @When("We give the Rovers the Instructions")
@@ -130,8 +130,7 @@ public class StepDefinitions {
     }
 
     private RoverState getRoverState(String roverId) {
-//        final Simulation simulation = simulationQuery.getSimulation(1).orElseThrow();
-        final Optional<Simulation> simulation = Optional.of(Simulation.of(simulationQuery.getSimulationInformation()));
-        return simulation.get().takeSnapshot().getRover(roverId).orElseThrow();
+        final SimulationSnapshot snapshot = simulationQuery.getSimulationInformation();
+        return snapshot.getRover(roverId).orElseThrow();
     }
 }

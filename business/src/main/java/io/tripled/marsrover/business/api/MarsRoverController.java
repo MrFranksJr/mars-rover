@@ -1,10 +1,8 @@
 package io.tripled.marsrover.business.api;
 
+import io.tripled.marsrover.business.dbmodel.SimulationDocument;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
-import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.business.domain.simulation.*;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import org.springframework.stereotype.Component;
@@ -13,12 +11,13 @@ import java.util.Optional;
 
 @Component
 public class MarsRoverController implements MarsRoverApi {
-
     private final SimulationRepository simulationRepository;
+    private final SimulationDocumentRepository simulationDocumentRepository;
     private final int simulationId = 1;
 
-    public MarsRoverController(SimulationRepository simulationRepository) {
+    public MarsRoverController(SimulationRepository simulationRepository, SimulationDocumentRepository simulationDocumentRepository) {
         this.simulationRepository = simulationRepository;
+        this.simulationDocumentRepository = simulationDocumentRepository;
     }
 
     private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
@@ -52,6 +51,7 @@ public class MarsRoverController implements MarsRoverApi {
             simulation.get().landRover(coordinate, eventPublisher);
 
             simulationRepository.save(simulation.get());
+            simulationDocumentRepository.save(new SimulationDocument(simulation.get()));
         }
     }
 
