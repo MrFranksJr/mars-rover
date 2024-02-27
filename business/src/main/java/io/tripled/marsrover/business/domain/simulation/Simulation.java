@@ -57,7 +57,7 @@ public class Simulation {
         return rover.getRoverState(newLocation).healthState() == HealthState.OPERATIONAL;
     }
 
-    public static Simulation of(SimulationSnapshot simulationSnapshot) {
+    static Simulation of(SimulationSnapshot simulationSnapshot) {
         return new Simulation(simulationSnapshot);
     }
 
