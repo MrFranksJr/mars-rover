@@ -11,18 +11,18 @@ import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.RoverMove;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class Simulation {
     private final int simulationSize;
     private final Multimap<Location, Rover> roverLocationMap;
     private int nrOfRovers = 0;
 
+    private UUID id;
+
     public Simulation(int simulationSize) {
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
+        this.id = UUID.randomUUID();
         this.simulationSize = simulationSize;
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
     }
