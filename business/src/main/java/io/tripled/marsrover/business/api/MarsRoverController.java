@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.api;
 
+import io.tripled.marsrover.business.dbmodel.SimulationDocument;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.*;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
@@ -51,6 +52,7 @@ public class MarsRoverController implements MarsRoverApi {
             simulation.get().landRover(coordinate, eventPublisher);
 
             simulationRepository.save(simulation.get());
+            simulationDocumentRepository.save(new SimulationDocument(simulation));
 
         }
     }
