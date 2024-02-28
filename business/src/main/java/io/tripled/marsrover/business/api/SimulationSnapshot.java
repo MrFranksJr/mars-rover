@@ -1,25 +1,22 @@
 package io.tripled.marsrover.business.api;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
-import io.tripled.marsrover.business.domain.rover.Location;
-import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.vocabulary.RoverId;
-import org.bson.types.ObjectId;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
-public record SimulationSnapshot(ObjectId id, int simulationSize, int totalCoordinates, List<RoverState> roverList) {
+public record SimulationSnapshot(SimulationId id, int simulationSize, int totalCoordinates, List<RoverState> roverList) {
 
-    public static SimulationSnapshot NONE = new SimulationSnapshot(null,-1, -1, emptyList());
+    public static SimulationSnapshot NONE = new SimulationSnapshot(null, -1, -1, emptyList());
 
     private SimulationSnapshot(Builder builder) {
-        this(builder._id, builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
+        this(builder.id, builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
     }
 
     public static Builder newBuilder() {
@@ -35,8 +32,7 @@ public record SimulationSnapshot(ObjectId id, int simulationSize, int totalCoord
     }
 
     public static final class Builder {
-        private UUID uuId;
-        private ObjectId _id;
+        public SimulationId id;
         private int simulationSize;
         private int totalCoordinates;
         private List<RoverState> roverList;
@@ -44,13 +40,9 @@ public record SimulationSnapshot(ObjectId id, int simulationSize, int totalCoord
         private Builder() {
         }
 
-        public Builder withUUID(UUID value) {
-            uuId = value;
-            return this;
-        }
-
-        public Builder withId(ObjectId value) {
-            _id = value;
+        public Builder withId(SimulationId value) {
+            Objects.requireNonNull(value);
+            id = value;
             return this;
         }
 
@@ -70,6 +62,7 @@ public record SimulationSnapshot(ObjectId id, int simulationSize, int totalCoord
         }
 
         public SimulationSnapshot build() {
+            Objects.requireNonNull(id);
             return new SimulationSnapshot(this);
         }
     }

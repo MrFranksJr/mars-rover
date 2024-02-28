@@ -1,10 +1,13 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.business.dbmodel.SimulationDocument;
+import io.tripled.marsrover.business.dbmodel.SimulationDocumentDao;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.*;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
+import io.tripled.marsrover.vocabulary.SimulationId;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -12,12 +15,11 @@ import java.util.Optional;
 @Component
 public class MarsRoverController implements MarsRoverApi {
     private final SimulationRepository simulationRepository;
-    private final SimulationDocumentRepository simulationDocumentRepository;
-    private final int simulationId = 1;
+    //TODO Get true SimulationId from the simulation (instead of generating new one)
+    private SimulationId simulationId = SimulationId.create();
 
-    public MarsRoverController(SimulationRepository simulationRepository, SimulationDocumentRepository simulationDocumentRepository) {
+    public MarsRoverController(SimulationRepository simulationRepository) {
         this.simulationRepository = simulationRepository;
-        this.simulationDocumentRepository = simulationDocumentRepository;
     }
 
     private static Simulation.SimulationLandingEventPublisher createEventPublisher(LandingPresenter landingPresenter) {
@@ -51,7 +53,6 @@ public class MarsRoverController implements MarsRoverApi {
             simulation.get().landRover(coordinate, eventPublisher);
 
             simulationRepository.save(simulation.get());
-            simulationDocumentRepository.save(new SimulationDocument(simulation.get()));
         }
     }
 
@@ -63,7 +64,6 @@ public class MarsRoverController implements MarsRoverApi {
                 simulation.get().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
             simulationRepository.save(simulation.get());
-            simulationDocumentRepository.save(new SimulationDocument(simulation.get()));
 
             //TODO:simultaneous rover move cleanup
             //simulation.moveRovers(instructionBatch.batch());
@@ -77,9 +77,9 @@ public class MarsRoverController implements MarsRoverApi {
         if (simulation.isEmpty())
             simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
         else {
+            simulationId = simulation.get().takeSnapshot().id();
             final var simWorld = simulation.get();
             simulationRepository.add(simWorld);
-            simulationDocumentRepository.save(new SimulationDocument(simulation.get()));
             simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
         }
     }

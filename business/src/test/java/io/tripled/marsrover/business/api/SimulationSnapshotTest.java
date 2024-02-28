@@ -11,10 +11,10 @@ class SimulationSnapshotTest {
 
     @Test
     void normalHappyBuild() {
-        final SimulationSnapshot simulationSnapshot = buildSimpleSimulationState();
+        final SimulationSnapshot simulationSnapshot = buildSimpleSimulation();
 
         assertEquals(10, simulationSnapshot.simulationSize());
-        assertEquals(1256456, simulationSnapshot.totalCoordinates());
+        assertEquals(121, simulationSnapshot.totalCoordinates());
         assertThat(simulationSnapshot.roverList()).containsExactly(ROVERSTATE_R1, ROVERSTATE_R2);
     }
     @Test
@@ -22,7 +22,7 @@ class SimulationSnapshotTest {
         final SimulationSnapshot simulationSnapshot = buildComplexeSimulationState();
 
         assertEquals(10, simulationSnapshot.simulationSize());
-        assertEquals(1256456, simulationSnapshot.totalCoordinates());
+        assertEquals(121, simulationSnapshot.totalCoordinates());
         assertThat(simulationSnapshot.roverList()).containsExactly(ROVERSTATE_R1, ROVERSTATE_R2,ROVERSTATE_R3,ROVERSTATE_R4,ROVERSTATE_R5);
     }
 

@@ -6,43 +6,39 @@ import com.google.common.collect.MultimapBuilder;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.rover.*;
-import io.tripled.marsrover.vocabulary.Pair;
-import io.tripled.marsrover.vocabulary.RoverId;
-import io.tripled.marsrover.vocabulary.RoverInstructions;
-import io.tripled.marsrover.vocabulary.RoverMove;
-import org.bson.types.ObjectId;
+import io.tripled.marsrover.vocabulary.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class Simulation {
     private final int simulationSize;
     private final Multimap<Location, Rover> roverLocationMap;
+    private final SimulationId id;
     private int nrOfRovers = 0;
-
-    private UUID id;
-    private ObjectId _id;
 
     public Simulation(int simulationSize) {
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
-        this.id = UUID.randomUUID();
-        this._id = ObjectId.get();
+        this.id = SimulationId.create();
         this.simulationSize = simulationSize;
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
     }
 
     private Simulation(Builder builder) {
-        _id = builder._id;
+        id = builder.id;
         simulationSize = builder.simulationSize;
         roverLocationMap = builder.roverLocationMap;
         nrOfRovers = builder.nrOfRovers;
     }
 
-    private Simulation(SimulationSnapshot simulationSnapshot){
+    private Simulation(SimulationSnapshot simulationSnapshot) {
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
-
+        this.id = simulationSnapshot.id();
         simulationSize = simulationSnapshot.simulationSize();
-        for(RoverState roverState: simulationSnapshot.roverList()){
-            Rover r = new Rover(roverState.roverId(),roverState.roverHeading(),roverState.hitpoints(), roverState.healthState());
+        for (RoverState roverState : simulationSnapshot.roverList()) {
+            Rover r = new Rover(roverState.roverId(), roverState.roverHeading(), roverState.hitpoints(), roverState.healthState());
             final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(roverState.coordinate()).build();
             roverLocationMap.put(lo, r);
         }
@@ -61,13 +57,18 @@ public class Simulation {
         return rover.getRoverState(newLocation).healthState() == HealthState.OPERATIONAL;
     }
 
-    static Simulation of(SimulationSnapshot simulationSnapshot) {
+    public static Simulation of(SimulationSnapshot simulationSnapshot) {
         return new Simulation(simulationSnapshot);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     public SimulationSnapshot takeSnapshot() {
         final var collect = roverLocationMap.entries().stream().map((Map.Entry<Location, Rover> x) -> x.getValue().getRoverState(x.getKey())).toList();
         return SimulationSnapshot.newBuilder()
+                .withId(id)
                 .withSimSize(simulationSize)
                 .withTotalCoordinates(calculateNrOfCoordinates())
                 .withRoverList(collect)
@@ -256,7 +257,8 @@ public class Simulation {
         void publish(SimulationMoveRoverEvent event);
     }
 
-    public record LandingOnTopEvent(RoverState landingRoverState, List<RoverId> hitRoverIds, Coordinate coordinate) implements SimulationLandEvent {
+    public record LandingOnTopEvent(RoverState landingRoverState, List<RoverId> hitRoverIds,
+                                    Coordinate coordinate) implements SimulationLandEvent {
     }
 
     /**
@@ -283,34 +285,29 @@ public class Simulation {
     public record RoverAlreadyBroken(RoverId roverId) implements SimulationMoveRoverEvent {
     }
 
-    public static Builder newBuilder(){
-        return new Builder();
-    }
-
     public static final class Builder {
-        private int simulationSize;
         private final Multimap<Location, Rover> roverLocationMap;
+        public SimulationId id;
+        private int simulationSize;
         private int nrOfRovers;
 
-        private ObjectId _id;
-
-        private Builder(){
+        private Builder() {
             roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
         }
 
-        public Builder withSimulationSize(int val){
+        public Builder withSimulationSize(int val) {
             simulationSize = val;
             return this;
         }
 
-        public Builder withId(ObjectId val){
-            _id = val;
+        public Builder withId(SimulationId val) {
+            id = val;
             return this;
         }
 
-        public Builder withRoverLocations(List<RoverState> val){
-            for(RoverState roverState: val){
-                Rover r = new Rover(roverState.roverId(),roverState.roverHeading(), roverState.hitpoints(), roverState.healthState());
+        public Builder withRoverLocations(List<RoverState> val) {
+            for (RoverState roverState : val) {
+                Rover r = new Rover(roverState.roverId(), roverState.roverHeading(), roverState.hitpoints(), roverState.healthState());
                 final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(roverState.coordinate()).build();
                 roverLocationMap.put(lo, r);
             }

@@ -1,16 +1,14 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.SimulationDocumentRepositoryImpl;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.SimulationDocumentRepository;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;
-import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
+import io.tripled.marsrover.business.dbmodel.InMemSimulationRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +27,7 @@ class RoverMoveCommandTest {
     void init() {
         this.R1 = new RoverId("R1");
         simulationRepository = new InMemSimulationRepo();
-        SimulationDocumentRepository dummySimulationDocumentRepository = new SimulationDocumentRepositoryImpl();
-        marsRoverController = new MarsRoverController(simulationRepository, dummySimulationDocumentRepository);
+        marsRoverController = new MarsRoverController(simulationRepository);
     }
 
     @Test

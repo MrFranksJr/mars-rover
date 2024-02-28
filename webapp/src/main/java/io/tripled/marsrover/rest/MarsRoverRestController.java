@@ -28,8 +28,6 @@ public class MarsRoverRestController {
     void createSimulation(@PathVariable int simulationSize) {
         SimulationCreationPresenterImpl simulationCreationPresenter = new SimulationCreationPresenterImpl();
         marsRoverApi.initializeSimulation(simulationSize, simulationCreationPresenter);
-
-
     }
 
     @GetMapping("/api/simulationstate")

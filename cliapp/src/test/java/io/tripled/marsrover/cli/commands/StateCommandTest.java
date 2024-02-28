@@ -1,11 +1,9 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.SimulationDocumentRepositoryImpl;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
-import io.tripled.marsrover.business.domain.simulation.InMemSimulationRepo;
-import io.tripled.marsrover.business.domain.simulation.SimulationDocumentRepository;
+import io.tripled.marsrover.business.dbmodel.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +21,7 @@ class StateCommandTest {
     void setUp() {
         dummyPresenter = new DummyPresenter();
         simulationRepository = new InMemSimulationRepo();
-        SimulationDocumentRepository dummySimulationDocumentRepository = new SimulationDocumentRepositoryImpl();
-        marsRoverApi = new MarsRoverController(simulationRepository,dummySimulationDocumentRepository);
+        marsRoverApi = new MarsRoverController(simulationRepository);
         simSetupCommand = new SimSetupCommand(13, marsRoverApi);
         simSetupCommand.execute(dummyPresenter);
     }
