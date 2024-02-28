@@ -1,49 +1,50 @@
 package io.tripled.marsrover.business.dbmodel;
 
-import com.google.common.collect.Multimap;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.rover.Location;
-import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.processing.Generated;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Document("simulationrepository")
 public class SimulationDocument {
 
+
+//    private final UUID id;
     @Id
-    private final UUID id;
-
+    private final ObjectId _id;
     private final int simulationSize;
-    private int nrOfRovers;
     private final List<RoverState> roverList;
+    private int nrOfRovers;
 
-    public SimulationDocument(UUID id, int simulationSize, List<RoverState> roverList) {
+    public SimulationDocument(ObjectId _id, int simulationSize, List<RoverState> roverList) {
         super();
-        this.id = id;
+//        this.id = id;
+        this._id = _id;
         this.simulationSize = simulationSize;
         this.roverList = roverList;
         this.nrOfRovers = roverList.size();
     }
 
-    public SimulationDocument(Simulation simulation){
+    public SimulationDocument(Simulation simulation) {
         super();
         SimulationSnapshot snapshot = simulation.takeSnapshot();
-        this.id = snapshot.id();
+        this._id = snapshot.id();
+//        this.id = snapshot.id();
         this.simulationSize = snapshot.simulationSize();
         this.roverList = snapshot.roverList();
         this.nrOfRovers = roverList.size();
     }
 
-    public UUID getId() {
-        return id;
+//    public UUID getId() {
+//        return id;
+//    }
+    public ObjectId getId() {
+        return _id;
     }
 
     public int getSimulationSize() {

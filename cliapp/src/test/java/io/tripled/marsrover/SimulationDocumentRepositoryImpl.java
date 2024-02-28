@@ -1,7 +1,6 @@
 package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.dbmodel.SimulationDocument;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationDocumentRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -17,6 +16,7 @@ import java.util.function.Function;
 
 @Repository
 public class SimulationDocumentRepositoryImpl implements SimulationDocumentRepository {
+
     @Override
     public <S extends SimulationDocument> S insert(S entity) {
         return null;

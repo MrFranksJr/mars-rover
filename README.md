@@ -41,3 +41,10 @@ You can open them from Intellij via [Cucumber reports](http://localhost:63342/ma
 
 
 
+### MongoDB setup
+
+first run:
+docker network create mongodb
+
+Second run:
+docker run --name marsroversimulationdb --network mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=adminpassword -d -p 27017:27017 -v /Users/frankyjrblondeel/db/mars-rover/data:/data/db mongodb/mongodb-community-server:6.0-ubi8

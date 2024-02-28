@@ -10,6 +10,7 @@ import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.RoverMove;
+import org.bson.types.ObjectId;
 
 import java.util.*;
 
@@ -19,15 +20,18 @@ public class Simulation {
     private int nrOfRovers = 0;
 
     private UUID id;
+    private ObjectId _id;
 
     public Simulation(int simulationSize) {
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
         this.id = UUID.randomUUID();
+        this._id = ObjectId.get();
         this.simulationSize = simulationSize;
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
     }
 
     private Simulation(Builder builder) {
+        _id = builder._id;
         simulationSize = builder.simulationSize;
         roverLocationMap = builder.roverLocationMap;
         nrOfRovers = builder.nrOfRovers;
@@ -288,12 +292,19 @@ public class Simulation {
         private final Multimap<Location, Rover> roverLocationMap;
         private int nrOfRovers;
 
+        private ObjectId _id;
+
         private Builder(){
             roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
         }
 
         public Builder withSimulationSize(int val){
             simulationSize = val;
+            return this;
+        }
+
+        public Builder withId(ObjectId val){
+            _id = val;
             return this;
         }
 

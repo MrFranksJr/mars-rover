@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 public class MarsRoverApplication {
     @Autowired
-    SimulationRepository simulationDocumentRepository;
+    SimulationRepository simulationRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MarsRoverApplication.class, args);

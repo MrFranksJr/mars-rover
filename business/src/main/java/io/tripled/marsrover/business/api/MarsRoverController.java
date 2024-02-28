@@ -63,6 +63,7 @@ public class MarsRoverController implements MarsRoverApi {
                 simulation.get().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
             simulationRepository.save(simulation.get());
+            simulationDocumentRepository.save(new SimulationDocument(simulation.get()));
 
             //TODO:simultaneous rover move cleanup
             //simulation.moveRovers(instructionBatch.batch());
@@ -72,15 +73,14 @@ public class MarsRoverController implements MarsRoverApi {
     @Override
     public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
         //TODO: unlock ability to create multiple simulations
-        if (simulationRepository.getSimulation(1).isEmpty()) {
-            final Optional<Simulation> simulation = Simulation.create(simulationSize);
-            if (simulation.isEmpty())
-                simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
-            else {
-                final var simWorld = simulation.get();
-                simulationRepository.add(simWorld);
-                simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
-            }
+        final Optional<Simulation> simulation = Simulation.create(simulationSize);
+        if (simulation.isEmpty())
+            simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
+        else {
+            final var simWorld = simulation.get();
+            simulationRepository.add(simWorld);
+            simulationDocumentRepository.save(new SimulationDocument(simulation.get()));
+            simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
         }
     }
 
