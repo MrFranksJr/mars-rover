@@ -41,10 +41,26 @@ You can open them from Intellij via [Cucumber reports](http://localhost:63342/ma
 
 
 
-### MongoDB setup
+## Dockerized MongoDB setup
 
-first run:
+### Install the Docker Desktop Application for your platform from
+[Docker download page](https://www.docker.com/get-started/)
+
+### Start the Docker Desktop Application
+
+### Check if docker is available in terminal.
+Check your current docker version
+```bash
+docker -v
+```
+
+### Create a Docker network for our application to work on:
+```bash
 docker network create mongodb
-
-Second run:
-docker run --name marsroversimulationdb --network mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=adminpassword -d -p 27017:27017 -v /Users/frankyjrblondeel/db/mars-rover/data:/data/db mongodb/mongodb-community-server:6.0-ubi8
+```
+### Create our Docker container running the MongoDB:
+Replace (Local folder location) with the folder location where you want to persist your data if your MongoDB 
+container goes down or is deleted.
+```bash
+docker run --name marsroversimulationdb --network mongodb -d -p 27017:27017 -v (Local folder location):/data/db mongodb/mongodb-community-server:6.0-ubi8
+```
