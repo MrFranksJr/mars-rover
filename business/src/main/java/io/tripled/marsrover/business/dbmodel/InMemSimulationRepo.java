@@ -5,11 +5,11 @@ import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,6 +27,15 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
         simulationSnapshot = simulation.takeSnapshot();
     }
 
+    @Override
+    public Optional<List<Simulation>> retrieveSimulations() {
+
+        if(simulationSnapshot == null)
+            return Optional.empty();
+        else
+            return Optional.of(List.of(Simulation.of(simulationSnapshot)));
+    }
+
     //TODO implement SimulationID
     public Optional<Simulation> getSimulation(SimulationId simulationId) {
         if (simulationSnapshot == null)
@@ -35,10 +44,23 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
     }
 
     @Override
+    public void clear() {
+
+    }
+
+    @Override
     public SimulationSnapshot getSimulationInformation() {
         if (simulationSnapshot != null){
             return simulationSnapshot;
         }
         return null;
+    }
+
+    private static Simulation map(SimulationDocument x) {
+        return Simulation.newBuilder()
+                .withId(x.getId())
+                .withSimulationSize(x.getSimulationSize())
+                .withRoverLocations(x.getRoverList())
+                .build();
     }
 }

@@ -6,6 +6,7 @@ import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.db.MongoDbConfiguration;
 import io.tripled.marsrover.vocabulary.SimulationId;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,6 +22,11 @@ class MongoDbSimulationRepositoryTest {
 
     @Autowired
     private MongoDbSimulationRepository repository;
+
+    @AfterEach
+    void clearDB(){
+        repository.clear();
+    }
 
     @Test
     void simpleSimulationCreation() {

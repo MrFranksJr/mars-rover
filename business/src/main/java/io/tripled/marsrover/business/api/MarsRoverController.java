@@ -10,13 +10,14 @@ import io.tripled.marsrover.vocabulary.SimulationId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
 public class MarsRoverController implements MarsRoverApi {
     private final SimulationRepository simulationRepository;
     //TODO Get true SimulationId from the simulation (instead of generating new one)
-    private SimulationId simulationId = SimulationId.create();
+    private SimulationId simulationId;
 
     public MarsRoverController(SimulationRepository simulationRepository) {
         this.simulationRepository = simulationRepository;
@@ -73,24 +74,29 @@ public class MarsRoverController implements MarsRoverApi {
     @Override
     public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
         //TODO: unlock ability to create multiple simulations
-        final Optional<Simulation> simulation = Simulation.create(simulationSize);
-        if (simulation.isEmpty())
-            simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
-        else {
-            simulationId = simulation.get().takeSnapshot().id();
-            final var simWorld = simulation.get();
-            simulationRepository.add(simWorld);
-            simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
+        if(simulationId == null){
+            final Optional<Simulation> simulation = Simulation.create(simulationSize);
+            if (simulation.isEmpty())
+                simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
+            else {
+                simulationId = simulation.get().takeSnapshot().id();
+                final var simWorld = simulation.get();
+                simulationRepository.add(simWorld);
+                simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
+            }
         }
     }
 
     @Override
     public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
-        Optional<Simulation> simulation = simulationRepository.getSimulation(simulationId);
-        if (simulation.isPresent()) {
-            simulationStatePresenter.simulationState(simulation.get().takeSnapshot());
-        }
-        else
+        Optional<List<Simulation>> existingSimulations = simulationRepository.retrieveSimulations();
+        if(existingSimulations.isEmpty())
             simulationStatePresenter.simulationState(SimulationSnapshot.NONE);
+        else {
+            Simulation simulation = existingSimulations.get().getFirst();
+            simulationId = simulation.takeSnapshot().id();
+            simulationStatePresenter.simulationState(simulation.takeSnapshot());
+        }
     }
+
 }

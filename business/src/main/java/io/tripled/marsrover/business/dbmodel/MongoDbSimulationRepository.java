@@ -3,10 +3,10 @@ package io.tripled.marsrover.business.dbmodel;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -40,7 +40,22 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     }
 
     @Override
+    public Optional<List<Simulation>> retrieveSimulations() {
+        List<Simulation> retrievedSimulations = mongdoDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
+
+        if(retrievedSimulations.isEmpty())
+            return Optional.empty();
+        else
+            return Optional.of(retrievedSimulations);
+    }
+
+    @Override
     public Optional<Simulation> getSimulation(SimulationId simulationId) {
         return mongdoDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
+    }
+
+    @Override
+    public void clear() {
+        mongdoDao.deleteAll();
     }
 }

@@ -1,5 +1,6 @@
 package io.tripled.marsrover.rest;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = MarsRoverRestController.class)
@@ -33,7 +35,6 @@ public class MarsRoverRestControllerTest {
 
     @Test
     void doesResponseReturnSimulationState() throws Exception {
-
         createSimulationOf10();
 
         var result = getSimulationState();
@@ -44,11 +45,16 @@ public class MarsRoverRestControllerTest {
 
     @Test
     void createMultipleSimulationsCheck() throws Exception {
+
+        var result = getSimulationState();
+        result.andExpect(content().string(not(containsString("10"))));
+
         createSimulationOf10();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/20"));
 
-        var result = getSimulationState();
+        result = getSimulationState();
+
 
         result.andExpect(content().string(containsString("10")));
         result.andExpect(jsonPath("$.simulationSize").value("10"));
@@ -209,6 +215,25 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].hitPoints").value("0"));
         result.andExpect(jsonPath("$.roverList[0].operationalStatus").value("BROKEN"));
     }
+
+    @Test
+    void applicationShouldRetrieveSimulationStateOnReboot() throws Exception {
+        createSimulationOf10();
+
+        var result = getSimulationState();
+
+
+
+        result = getSimulationState();
+
+
+
+        result.andExpect(content().string(containsString("10")));
+        result.andExpect(jsonPath("$.simulationSize").value("10"));
+
+    }
+
+
 
     private void createSimulationOf10() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/10"));
