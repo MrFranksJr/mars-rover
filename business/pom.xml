@@ -10,7 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.tripled</groupId>
     <artifactId>business</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -42,21 +41,11 @@
             <version>7.11.0</version>
             <scope>test</scope>
         </dependency>
-     <!--   <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo.spring30x</artifactId>
-            <version>4.11.0</version>
-            <scope>test</scope>
-        </dependency>-->
 
     </dependencies>
 
     <build>
         <plugins>
-            <!--
-            Generating the html reports from the json in isolation
-            mvnw cluecumber-report:reporting
-            -->
             <plugin>
                 <groupId>com.trivago.rta</groupId>
                 <artifactId>cluecumber-report-plugin</artifactId>
