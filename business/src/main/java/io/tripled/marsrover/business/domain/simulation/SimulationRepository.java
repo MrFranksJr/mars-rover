@@ -12,6 +12,4 @@ public interface SimulationRepository {
     Optional<List<Simulation>> retrieveSimulations();
 
     Optional<Simulation> getSimulation(SimulationId simulationId);
-
-    void clear();
 }

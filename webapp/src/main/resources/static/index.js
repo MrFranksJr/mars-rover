@@ -4,13 +4,13 @@ import { moveRover } from "./commands/moveRover.js";
 import { createSimulation } from "./commands/createSimulation.js";
 import { getSimulationState, roversInSimulation } from "./commands/getSimulationState.js";
 import { showAllAnimations, disableAnimations } from "./animations/animations.js";
+import {showInfo} from "./commands/showInfo.js";
 
-export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, roverIdField, xCoordinateField, yCoordinateField, buildRoverInstructionControls}
+export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, xCoordinateField, yCoordinateField, simulationIdDiv, buildRoverInstructionControls}
 
 async function onLoadCreateSimulation(){
     let simulationState = await fetch('/api/simulationstate')
     let readableSimulationState = await simulationState.json()
-    
     if( readableSimulationState.simulationSize == -1 ){
         await createSimulation();
         await getSimulationState();
@@ -85,14 +85,18 @@ function drawMap(readableSimulationState) {
 const landRoverBtn = document.getElementById('landRoverBtn')
 const moveRoverBtn = document.getElementById('moveRoverBtn')
 const modalDiv = document.getElementById('feedbackModal')
-const roverIdField = document.getElementById('roverId')
 const simulationStateField = document.getElementById('simulationState')
 const xCoordinateField = document.getElementById('roverXCoordinate')
 const yCoordinateField = document.getElementById('roverYCoordinate')
 const simulationMapDiv = document.getElementById('simulationMap')
 const roverInstructionFieldsDiv = document.getElementById('roverInstructionFields')
+const simulationIdDiv = document.getElementById('simulationId')
+const infoBtn = document.getElementById('infoBtn')
+const infoCloseBtn = document.getElementById('info-close-btn')
 
 ///////EVENT LISTENERS
+infoBtn.addEventListener('click', showInfo)
+infoCloseBtn.addEventListener('click', showInfo)
 landRoverBtn.addEventListener('click', landRover)
 moveRoverBtn.addEventListener('click', moveRover)
 document.querySelectorAll('form').forEach(node => {
@@ -105,7 +109,7 @@ document.querySelectorAll('form').forEach(node => {
 document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
 
 
-if(false) {
+if(true) {
     showAllAnimations()
 } else {
     disableAnimations()

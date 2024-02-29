@@ -43,11 +43,6 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
     }
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
     public SimulationSnapshot getSimulationInformation() {
         if (simulationSnapshot != null){
             return simulationSnapshot;

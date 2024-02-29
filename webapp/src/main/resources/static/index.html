@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -46,11 +47,18 @@
         </div>
     </div>
     <footer id="footer">
-        <p id="copyright" class="copyright"></p>
+        <div id="infoBtn" class="infoBtn"><i class="fa-solid fa-circle-info fa-2xl"></i></div>
+        <div id="copyright" class="copyright"></div>
+        <div id="simulationId" class="simulationId"></div>
     </footer>
 
     <div id="feedbackModal" class="feedbackModal">
     </div>
+    <div id="info-modal" class="info-modal">
+        <i class="fa-solid fa-circle-xmark" id="info-close-btn"></i>
+        The API will be shown to the user here!
+    </div>
 </body>
 <script type="module" src="index.js"></script>
+<script src="https://kit.fontawesome.com/d681ac91cb.js" crossorigin="anonymous"></script>
 </html>

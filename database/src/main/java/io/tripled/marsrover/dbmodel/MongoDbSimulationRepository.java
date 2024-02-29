@@ -54,9 +54,4 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     public Optional<Simulation> getSimulation(SimulationId simulationId) {
         return mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
     }
-
-    @Override
-    public void clear() {
-        mongoDbDao.deleteAll();
-    }
 }

@@ -3,7 +3,7 @@ export { generateMap }
 function generateMap(simulationState) {
     let mapString = ""
 
-    for(let i=simulationState.simulationSize; i>= 0; i--) {
+    for(let i = simulationState.simulationSize; i>= 0; i--) {
         if(i < 10){
             mapString += "\xa0"
         }
@@ -12,10 +12,10 @@ function generateMap(simulationState) {
             if(!simulationState.roverList.length == 0) {
                 let roverSymbol = ""
                 for (let rover of simulationState.roverList) {
-                    if (j == rover.roverXPosition && i == rover.roverYPosition) {
+                    if (j === rover.roverXPosition && i === rover.roverYPosition) {
                         roverSymbol = returnRoverSymbol(rover)
                     } 
-                } 
+                }
                 mapString += roverSymbol.length > 0 ? roverSymbol : "\xa0\xB7\xa0"
             }
             else {
@@ -42,19 +42,19 @@ function returnRoverSymbol(rover) {
     const roverName = rover.roverName
     const roverStatus = rover.operationalStatus
     const roverHitPoints = rover.hitPoints
-    if (roverStatus == "BROKEN") {
+    if (roverStatus === "BROKEN") {
         return `<p class='roverSymbolWrapper'><span class='marsRover brokenRover'>\u2297${roverName}</span><span class="tooltip brokenTooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-bad'>${roverStatus}</span></span></p>`
     }
-    else if (roverHeading == "NORTH") {
+    else if (roverHeading === "NORTH") {
         return `<p class='roverSymbolWrapper'><span class='marsRover'>\u2227${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
     }
-    else if (roverHeading == "EAST") {
+    else if (roverHeading === "EAST") {
         return `<p class='roverSymbolWrapper'><span class='marsRover'>${roverName}\u203A</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
     }
-    else if (roverHeading == "SOUTH") {
+    else if (roverHeading === "SOUTH") {
         return `<p class='roverSymbolWrapper'><span class='marsRover'>${roverName}\u2228</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
     }
-    else if (roverHeading == "WEST") {
+    else if (roverHeading === "WEST") {
         return `<p class='roverSymbolWrapper'><span class='marsRover'>\u2039${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
     }
 }

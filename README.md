@@ -2,7 +2,7 @@
 
 ## Description
 
-This exercise is an adaption off the well known [Mars rover kata](https://kata-log.rocks/mars-rover-kata). The full functional requirements can be found [here](REQUIREMENTS.md)
+This exercise is an adaption off the well known [Mars Rover kata](https://kata-log.rocks/mars-rover-kata). The full functional requirements can be found [here](REQUIREMENTS.md)
 
 ## Mobbing Tips
 
@@ -48,13 +48,13 @@ You can open them from Intellij via [Cucumber reports](http://localhost:63342/ma
 
 ### Start the Docker Desktop Application
 
-### Check if docker is available in terminal.
+### Check if docker is available via terminal
 Check your current docker version
 ```bash
 docker -v
 ```
 ### Spinning up our MarsRover application and the MongoDB.
-Data stored in the MongoDB will be persisted in the: user HOME/marsrover/persisted-data map on your system.
+Data stored in the MongoDB will be persisted in the < userhome >/marsrover/persisted-data folder on your system.
 ```bash
 docker compose up
 ```
@@ -66,7 +66,7 @@ docker compose up
 
 ### Start the Docker Desktop Application
 
-### Check if docker is available in terminal.
+### Check if docker is available via terminal
 Check your current docker version
 ```bash
 docker -v
@@ -78,8 +78,8 @@ docker -v
 docker network create mongodb
 ```
 
-### Spinning up our MarsRover application and the MongoDB.
-Data stored in the MongoDB will be persisted in the: user HOME/marsrover-dev/persisted-data map on your system.
+### Spinning up our MarsRover application and the MongoDB
+Data stored in the MongoDB will be persisted in the < userhome >/marsrover-dev/persisted-data folder on your system.
 ```bash
-docker run --name marsroversimulationdb --network mongodb -d -p 27017/27017 -v ~/marsrover-dev/persistant-data:/data/db mongodb/mongodb-community-server:6.0-ubi8
+docker run --name marsroversimulationdb --network mongodb -d -p 27017:27017 -v ~/marsrover-dev/persistant-data:/data/db mongodb/mongodb-community-server:6.0-ubi8
 ```

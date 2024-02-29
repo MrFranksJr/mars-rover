@@ -37,6 +37,6 @@ public class SimulationStateRestPresenter implements SimulationStatePresenter {
 
     private SimulationViewDTO mapToSimulationViewDTO(SimulationSnapshot simulationSnapshot) {
         final List<RoverViewDTO> objectStream = simulationSnapshot.roverList().stream().map(this::map).toList();
-        return new SimulationViewDTO(simulationSnapshot.simulationSize(), simulationSnapshot.totalCoordinates(), objectStream);
+        return new SimulationViewDTO(simulationSnapshot.id().toString(), simulationSnapshot.simulationSize(), simulationSnapshot.totalCoordinates(), objectStream);
     }
 }

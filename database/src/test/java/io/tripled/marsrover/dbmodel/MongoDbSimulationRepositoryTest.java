@@ -23,13 +23,6 @@ class MongoDbSimulationRepositoryTest {
     @Autowired
     private MongoDbSimulationRepository repository;
 
-    @AfterEach
-    void clearDB(){
-        repository.clear();
-    }
-
-
-
     @Test
     void simpleSimulationCreation() {
         Simulation simulation = new Simulation(10);

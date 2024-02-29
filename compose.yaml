@@ -11,7 +11,7 @@ services:
   db:
     image: mongodb/mongodb-community-server:6.0-ubi8
     volumes:
-      - ~/marsrover/persistent-data:/data/db
+      - ~/docker/marsrover/persistent-data:/data/db
     ports:
       - 27017:27017
     networks:
