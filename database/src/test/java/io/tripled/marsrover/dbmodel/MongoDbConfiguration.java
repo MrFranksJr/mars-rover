@@ -2,6 +2,7 @@ package io.tripled.marsrover.dbmodel;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoOperations;

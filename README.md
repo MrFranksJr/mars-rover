@@ -53,9 +53,33 @@ Check your current docker version
 ```bash
 docker -v
 ```
-
 ### Spinning up our MarsRover application and the MongoDB.
 Data stored in the MongoDB will be persisted in the: user HOME/marsrover/persisted-data map on your system.
 ```bash
 docker compose up
+```
+
+## For development purposes
+
+### Install the Docker Desktop Application for your platform from
+[Docker download page](https://www.docker.com/get-started/)
+
+### Start the Docker Desktop Application
+
+### Check if docker is available in terminal.
+Check your current docker version
+```bash
+docker -v
+```
+
+### Create a Docker network for the mongoDB
+
+```bash
+docker network create mongodb
+```
+
+### Spinning up our MarsRover application and the MongoDB.
+Data stored in the MongoDB will be persisted in the: user HOME/marsrover-dev/persisted-data map on your system.
+```bash
+docker run --name marsroversimulationdb --network mongodb -d -p 27017/27017 -v ~/marsrover-dev/persistant-data:/data/db mongodb/mongodb-community-server:6.0-ubi8
 ```
