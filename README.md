@@ -54,13 +54,8 @@ Check your current docker version
 docker -v
 ```
 
-### Create a Docker network for our application to work on:
+### Spinning up our MarsRover application and the MongoDB.
+Data stored in the MongoDB will be persisted in the: user HOME/marsrover/persisted-data map on your system.
 ```bash
-docker network create mongodb
-```
-### Create our Docker container running the MongoDB:
-Replace (Local folder location) with the folder location where you want to persist your data if your MongoDB 
-container goes down or is deleted.
-```bash
-docker run --name marsroversimulationdb --network mongodb -d -p 27017:27017 -v (Local folder location):/data/db mongodb/mongodb-community-server:6.0-ubi8
+docker compose up
 ```
