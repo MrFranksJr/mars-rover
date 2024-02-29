@@ -8,7 +8,6 @@ import io.tripled.marsrover.vocabulary.SimulationId;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,13 +53,5 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
             return simulationSnapshot;
         }
         return null;
-    }
-
-    private static Simulation map(SimulationDocument x) {
-        return Simulation.newBuilder()
-                .withId(x.getId())
-                .withSimulationSize(x.getSimulationSize())
-                .withRoverLocations(x.getRoverList())
-                .build();
     }
 }

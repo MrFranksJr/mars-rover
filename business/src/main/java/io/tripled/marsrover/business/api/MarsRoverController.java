@@ -1,13 +1,11 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.business.dbmodel.SimulationDocument;
-import io.tripled.marsrover.business.dbmodel.SimulationDocumentDao;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.*;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,10 +1,7 @@
-package io.tripled.marsrover.db;
+package io.tripled.marsrover.dbmodel;
 
-import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import io.tripled.marsrover.business.dbmodel.MongoDbSimulationRepository;
-import io.tripled.marsrover.business.dbmodel.SimulationDocumentDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoOperations;

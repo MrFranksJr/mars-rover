@@ -1,12 +1,11 @@
-package io.tripled.marsrover.business.dbmodel;
+package io.tripled.marsrover.dbmodel;
 
-import io.tripled.marsrover.business.ObjectMother;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
-import io.tripled.marsrover.db.MongoDbConfiguration;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -27,6 +26,8 @@ class MongoDbSimulationRepositoryTest {
     void clearDB(){
         repository.clear();
     }
+
+
 
     @Test
     void simpleSimulationCreation() {
@@ -69,6 +70,6 @@ class MongoDbSimulationRepositoryTest {
         //then
         Simulation landedSimulation = repository.getSimulation(id).orElseThrow();
         assertEquals(1, landedSimulation.takeSnapshot().roverList().size());
-        assertEquals(ObjectMother.R1, landedSimulation.takeSnapshot().roverList().getFirst().roverId());
+        Assertions.assertEquals(ObjectMother.R1, landedSimulation.takeSnapshot().roverList().getFirst().roverId());
     }
 }

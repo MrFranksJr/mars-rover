@@ -1,4 +1,4 @@
-package io.tripled.marsrover.business.dbmodel;
+package io.tripled.marsrover.dbmodel;
 
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
@@ -13,10 +13,10 @@ import java.util.Optional;
 @Profile("MONGO")
 public class MongoDbSimulationRepository implements SimulationRepository {
 
-    private final SimulationDocumentDao mongdoDao;
+    private final SimulationDocumentDao mongoDbDao;
 
-    public MongoDbSimulationRepository(SimulationDocumentDao mongdoDao) {
-        this.mongdoDao = mongdoDao;
+    public MongoDbSimulationRepository(SimulationDocumentDao mongoDbDao) {
+        this.mongoDbDao = mongoDbDao;
     }
 
     private static Simulation map(SimulationDocument x) {
@@ -30,18 +30,19 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     @Override
     public void add(Simulation simulation) {
         SimulationDocument s = new SimulationDocument(simulation);
-        mongdoDao.save(s);
+
+        mongoDbDao.save(s);
     }
 
     @Override
     public void save(Simulation simulation) {
         SimulationDocument s = new SimulationDocument(simulation);
-        mongdoDao.save(s);
+        mongoDbDao.save(s);
     }
 
     @Override
     public Optional<List<Simulation>> retrieveSimulations() {
-        List<Simulation> retrievedSimulations = mongdoDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
+        List<Simulation> retrievedSimulations = mongoDbDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
 
         if(retrievedSimulations.isEmpty())
             return Optional.empty();
@@ -51,11 +52,11 @@ public class MongoDbSimulationRepository implements SimulationRepository {
 
     @Override
     public Optional<Simulation> getSimulation(SimulationId simulationId) {
-        return mongdoDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
+        return mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
     }
 
     @Override
     public void clear() {
-        mongdoDao.deleteAll();
+        mongoDbDao.deleteAll();
     }
 }
