@@ -40,6 +40,7 @@ async function moveRover(){
 }
 
 async function awaitRoverMoveFeedback(data){
+    console.log(data)
     await getSimulationState(data.simulationId);
     if(data.roverMove === "SUCCESS"){
         modalDiv.innerHTML = `Rover ${data.roverId} moved successfully.`

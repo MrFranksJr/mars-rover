@@ -135,4 +135,9 @@ public class DummyPresenter implements MessagePresenter {
     public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
 
     }
+
+    @Override
+    public void roverMoveErrorMessage() {
+
+    }
 }

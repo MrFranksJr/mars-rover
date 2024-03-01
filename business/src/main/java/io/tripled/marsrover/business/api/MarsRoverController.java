@@ -61,10 +61,15 @@ public class MarsRoverController implements MarsRoverApi {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
         Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
 
+        if(instructionBatch.batch().isEmpty())
+            roverMovePresenter.moveRoverError(simulationId);
+        else {
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
                 simulation.orElseThrow().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
             simulationRepository.save(simulation.orElseThrow());
+        }
+
     }
 
     @Override

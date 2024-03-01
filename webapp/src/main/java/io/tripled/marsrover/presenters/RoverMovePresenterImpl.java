@@ -7,6 +7,8 @@ import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;
 
+import java.util.UUID;
+
 public class RoverMovePresenterImpl implements RoverMovePresenter {
 
     private Pair<RoverId, RoverMoveResult> result = new Pair<>(null, RoverMoveResult.NONE);
@@ -34,6 +36,12 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
     public void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r) {
         this.simulationId = r.id();
         result = new Pair<>(r.roverId(), RoverMoveResult.ALREADY_BROKEN);
+    }
+
+    @Override
+    public void moveRoverError(String simulationId) {
+        this.simulationId = new SimulationId(UUID.fromString(simulationId));
+        result = new Pair<>(null, RoverMoveResult.ERROR);
     }
 
     public Pair<RoverId, RoverMoveResult> reportRoverMoveResult() {

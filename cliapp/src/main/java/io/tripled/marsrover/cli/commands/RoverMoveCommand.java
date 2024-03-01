@@ -44,6 +44,11 @@ public class RoverMoveCommand implements Command {
             public void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r) {
                 messagePresenter.roverAlreadyBrokenMessage(r.roverId());
             }
+
+            @Override
+            public void moveRoverError(String simulationId) {
+                messagePresenter.roverMoveErrorMessage();
+            }
         });
     }
 

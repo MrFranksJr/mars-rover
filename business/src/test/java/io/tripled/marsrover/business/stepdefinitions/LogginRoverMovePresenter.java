@@ -25,4 +25,9 @@ public enum LogginRoverMovePresenter implements RoverMovePresenter {
     public void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r) {
 
     }
+
+    @Override
+    public void moveRoverError(String simulationId) {
+        System.out.println("`This instruction couldn't be executed!\nTry again!");
+    }
 }

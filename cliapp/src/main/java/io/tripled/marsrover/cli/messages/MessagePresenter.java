@@ -36,4 +36,6 @@ public interface MessagePresenter {
     void roverAlreadyBrokenMessage(RoverId roverId);
 
     void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent);
+
+    void roverMoveErrorMessage();
 }

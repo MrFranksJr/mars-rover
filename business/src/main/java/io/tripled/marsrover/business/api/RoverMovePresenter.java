@@ -10,4 +10,6 @@ public interface RoverMovePresenter {
     void roverBreakingDown(Simulation.RoverBreaksDownEvent r);
 
     void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r);
+
+    void moveRoverError(String simulationId);
 }

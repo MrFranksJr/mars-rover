@@ -72,5 +72,6 @@ public class MarsRoverRestController {
         marsRoverApi.executeMoveInstructions(simulationId, roverInstructionsBatch, roverMovePresenter);
 
         return RESULT_PARSER.moveExecutionResult(roverInstructionsBatch, roverMovePresenter);
+
     }
 }

@@ -132,5 +132,10 @@ public class ConsolePresenter implements MessagePresenter {
     public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
         System.out.println("Rover " + landingOnTopEvent.landingRoverState().roverId() + " landed on top of other Rover(s) at [" + landingOnTopEvent.coordinate().xCoordinate() + "," + landingOnTopEvent.coordinate().yCoordinate() + "] and both are now BROKEN.");
     }
+
+    @Override
+    public void roverMoveErrorMessage() {
+        System.out.println("`This instruction couldn't be executed!\nTry again!");
+    }
 }
 

@@ -445,3 +445,7 @@ footer {
 .brokenRover{
     color: #d82828;
 }
+
+.hidden {
+    display: none;
+}

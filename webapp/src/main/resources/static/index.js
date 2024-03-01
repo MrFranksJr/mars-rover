@@ -36,6 +36,7 @@ async function onLoadCreateSimulation(toLoad){
 async function buildRoverInstructionControls() {
     if (roversInSimulation.length === 0) {
         roverInstructionFieldsDiv.innerHTML = "There are currently no active Rovers in the Simulation.<br/>Land some Rovers first!";
+        moveRoverBtn.classList.add("hidden");
     }
     if (roversInSimulation.length !== 0) {
         let moveControlsHtml = ""
@@ -58,7 +59,7 @@ async function buildRoverInstructionControls() {
             
         }
         roverInstructionFieldsDiv.innerHTML = moveControlsHtml;
-
+        moveRoverBtn.classList.remove("hidden");
     }
 }
 
@@ -142,6 +143,7 @@ simulationsDropDown.addEventListener('change', async function () {
         await onLoadCreateSimulation(createdId)
     }
     await onLoadCreateSimulation(simulationsDropDown.value)
+    await buildRoverInstructionControls();
 })
 
 
