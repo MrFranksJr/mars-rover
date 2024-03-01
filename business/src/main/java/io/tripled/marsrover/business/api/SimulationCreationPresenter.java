@@ -5,5 +5,4 @@ public interface SimulationCreationPresenter {
 
     void simulationCreationUnsuccessful(int simulationSize);
 
-    void simulationAlreadyExists(SimulationSnapshot simulationSnapshot);
 }

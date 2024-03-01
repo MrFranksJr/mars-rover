@@ -4,11 +4,13 @@ import { moveModal, modalDiv, xCoordinateField, yCoordinateField, modalError, bu
 export { landRover }
 
 async function landRover(){
-    const xCoordinate = xCoordinateField.value;
-    const yCoordinate = yCoordinateField.value;
+    const xCoordinate = xCoordinateField.value
+    const yCoordinate = yCoordinateField.value
+    const simulationSelectionField = document.getElementById('simulations')
+    const simulationId = simulationSelectionField.value
 
     if (xCoordinate && yCoordinate) {
-        let result = await fetch(`/api/landrover/${xCoordinate}/${yCoordinate}` , {
+        let result = await fetch(`/api/landrover/${simulationId}/${xCoordinate}/${yCoordinate}` , {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -36,14 +38,14 @@ async function checkForBadRequest(result) {
 
 async function awaitFeedback(data){
     if(data.landingState === "ON_TOP"){
-        await getSimulationState();
-        modalDiv.innerHTML = "Rover landed on top!<br/>Both Rovers Broken!!"
+        await getSimulationState(data.simulationId)
+        modalDiv.innerHTML = `Rover ${data.roverId} landed on top of other Rover(s)!<br/>Rover(s) at this location broke down!`
         clearLandingFields();
         buildRoverInstructionControls()
         modalError();
     } else if(data.landingState === "SUCCESS"){
-        await getSimulationState();
-        modalDiv.innerHTML = `Rover has successfully landed.`
+        await getSimulationState(data.simulationId)
+        modalDiv.innerHTML = `Rover ${data.roverId} has successfully landed.`
         clearLandingFields();
         buildRoverInstructionControls()
         moveModal();

@@ -8,8 +8,10 @@ import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class MarsRoverController implements MarsRoverApi {
@@ -27,8 +29,8 @@ public class MarsRoverController implements MarsRoverApi {
 
     private static void presentLanding(LandingPresenter p, Simulation.SimulationLandEvent e) {
         switch (e) {
-            case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessfulRefactor(l.roverState());
-            case Simulation.RoverMissesSimulationLand r -> p.roverMissesSimulation(r.simulationSize(), r.coordinate());
+            case Simulation.LandingSuccessfulLandEvent l -> p.landingSuccessful(l);
+            case Simulation.RoverMissesSimulationLandEvent r -> p.roverMissesSimulation(r);
             case Simulation.InvalidCoordinatesReceived i -> p.negativeCoordinatesReceived(i.coordinate());
             case Simulation.LandingOnTopEvent l -> p.landingOnTop(l);
         }
@@ -36,64 +38,63 @@ public class MarsRoverController implements MarsRoverApi {
 
     private static void presentRoverMoved(RoverMovePresenter p, Simulation.SimulationMoveRoverEvent e) {
         switch (e) {
-            case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r.roverState());
-            case Simulation.RoverCollided roverCollided -> p.roverCollided(roverCollided.roverState());
-            case Simulation.RoverDeath roverDeath -> p.roverBreakingDown(roverDeath.roverState());
-            case Simulation.RoverAlreadyBroken roverAlreadyBroken -> p.roverAlreadyBrokenDown(roverAlreadyBroken.roverId());
+            case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r);
+            case Simulation.RoverCollidedEvent r -> p.roverCollided(r);
+            case Simulation.RoverBreaksDownEvent r -> p.roverBreakingDown(r);
+            case Simulation.RoverAlreadyBrokenEvent r ->
+                    p.roverAlreadyBrokenDown(r);
         }
     }
 
     @Override
-    public void landRover(Coordinate coordinate, LandingPresenter landingPresenter) {
-        Optional<Simulation> simulation = simulationRepository.getSimulation(simulationId);
-        if (simulation.isPresent()) {
+    public void landRover(String simulationId, Coordinate coordinate, LandingPresenter landingPresenter) {
+        SimulationId simId = new SimulationId(UUID.fromString(simulationId));
+        Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
             final var eventPublisher = createEventPublisher(landingPresenter);
-
-            simulation.get().landRover(coordinate, eventPublisher);
+            simulation.orElseThrow().landRover(coordinate, eventPublisher);
 
             simulationRepository.save(simulation.get());
-        }
     }
 
     @Override
-    public void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
-        Optional<Simulation> simulation = simulationRepository.getSimulation(simulationId);
-        if (simulation.isPresent()) {
-            for (RoverInstructions roverInstructions : instructionBatch.batch()) {
-                simulation.get().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
-            }
-            simulationRepository.save(simulation.get());
+    public void executeMoveInstructions(String simulationId, InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
+        SimulationId simId = new SimulationId(UUID.fromString(simulationId));
+        Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
 
-            //TODO:simultaneous rover move cleanup
-            //simulation.moveRovers(instructionBatch.batch());
-        }
+            for (RoverInstructions roverInstructions : instructionBatch.batch()) {
+                simulation.orElseThrow().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
+            }
+            simulationRepository.save(simulation.orElseThrow());
     }
 
     @Override
     public void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter) {
-        //TODO: unlock ability to create multiple simulations
-        if(simulationId == null){
-            final Optional<Simulation> simulation = Simulation.create(simulationSize);
-            if (simulation.isEmpty())
-                simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
-            else {
-                simulationId = simulation.get().takeSnapshot().id();
-                final var simWorld = simulation.get();
-                simulationRepository.add(simWorld);
-                simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
-            }
+        final Optional<Simulation> simulation = Simulation.create(simulationSize);
+        if (simulation.isEmpty())
+            simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
+        else {
+            simulationId = simulation.get().takeSnapshot().id();
+            final var simWorld = simulation.orElseThrow();
+            simulationRepository.add(simWorld);
+            simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
         }
     }
 
     @Override
-    public void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter) {
+    public void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter) {
+        SimulationId simId = new SimulationId(UUID.fromString(simulationId));
+        Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
+        simulation.ifPresent(simulationStatePresenter::simulationState);
+    }
+
+    @Override
+    public void lookUpSimulationStates(SimulationStatePresenter simulationStatePresenter) {
         Optional<List<Simulation>> existingSimulations = simulationRepository.retrieveSimulations();
-        if(existingSimulations.isEmpty())
-            simulationStatePresenter.simulationState(SimulationSnapshot.NONE);
+        if (existingSimulations.isEmpty())
+            simulationStatePresenter.simulationState(Collections.emptyList());
         else {
-            Simulation simulation = existingSimulations.get().getFirst();
-            simulationId = simulation.takeSnapshot().id();
-            simulationStatePresenter.simulationState(simulation.takeSnapshot());
+            List<Simulation> simulationList = existingSimulations.get();
+            simulationStatePresenter.simulationState(simulationList);
         }
     }
 

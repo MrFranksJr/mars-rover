@@ -43,7 +43,6 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     @Override
     public Optional<List<Simulation>> retrieveSimulations() {
         List<Simulation> retrievedSimulations = mongoDbDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
-
         if(retrievedSimulations.isEmpty())
             return Optional.empty();
         else
@@ -52,6 +51,7 @@ public class MongoDbSimulationRepository implements SimulationRepository {
 
     @Override
     public Optional<Simulation> getSimulation(SimulationId simulationId) {
-        return mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
+        Optional<Simulation> simulation = mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
+        return simulation;
     }
 }

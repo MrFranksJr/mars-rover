@@ -5,6 +5,7 @@ import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 public class LandingPresenterImpl implements LandingPresenter {
 
@@ -12,10 +13,6 @@ public class LandingPresenterImpl implements LandingPresenter {
 
     public LandingPresenterImpl(MessagePresenter messagePresenter){
         this.messagePresenter = messagePresenter;
-    }
-    @Override
-    public void roverMissesSimulation(int simulationSize, Coordinate coordinate) {
-        messagePresenter.roverMissesSimulation(coordinate.xCoordinate(), coordinate.yCoordinate(), simulationSize);
     }
 
     @Override
@@ -30,8 +27,12 @@ public class LandingPresenterImpl implements LandingPresenter {
     }
 
     @Override
-    public void landingSuccessfulRefactor(RoverState roverState) {
-        messagePresenter.landRoverMessage(roverState);
+    public void landingSuccessful(Simulation.LandingSuccessfulLandEvent landingSuccessfulLandEvent) {
+        messagePresenter.landRoverMessage(landingSuccessfulLandEvent.roverState());
     }
 
+    @Override
+    public void roverMissesSimulation(Simulation.RoverMissesSimulationLandEvent roverMissesSimulationLandEvent) {
+        messagePresenter.roverMissesSimulation(roverMissesSimulationLandEvent.coordinate().xCoordinate(), roverMissesSimulationLandEvent.coordinate().yCoordinate(), roverMissesSimulationLandEvent.simulationSize());
+    }
 }

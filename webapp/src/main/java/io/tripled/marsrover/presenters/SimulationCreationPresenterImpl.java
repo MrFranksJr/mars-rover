@@ -17,12 +17,7 @@ public class SimulationCreationPresenterImpl implements SimulationCreationPresen
 
     }
 
-    @Override
-    public void simulationAlreadyExists(SimulationSnapshot simulationSnapshot) {
-        this.simulationSnapshot = simulationSnapshot;
-    }
-
-    SimulationSnapshot reportSimulationState() {
+    public SimulationSnapshot reportSimulationState() {
         return simulationSnapshot;
     }
 }

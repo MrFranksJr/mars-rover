@@ -8,6 +8,7 @@ import io.tripled.marsrover.vocabulary.RoverMove;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,11 +32,6 @@ public class CommandParser {
         return Integer.parseInt(yCoordinate);
     }
 
-    // TODO ask PO if instruction needs to be discarded when 1 invalid part is recognized or only that part needs to be skipped
-    // R1 f1 fhgfdh r2
-    // R2 f1 b2
-    // R3 f5
-    // EXECUTE
     private static InstructionBatch extractRoverMovesFromInput(String input) {
         final InstructionBatch.Builder instructionBatch = InstructionBatch.newBuilder();
 
@@ -64,7 +60,7 @@ public class CommandParser {
         if (isPrintCommand(input)) return PrintCommand.INSTANCE;
         if (isQuitCommand(input)) return QuitCommand.INSTANCE;
         if (isLandCommand(input)) return handleLandCommand(input);
-        if (isStateCommand(input)) return new StateCommand(api);
+        if (isStateCommand(input)) return new StateCommand("1234", api);
         if (isMoveRoverCommand(input)) return handleMoveCommand(input);
         return new UnknownCommand(input);
     }
@@ -72,12 +68,12 @@ public class CommandParser {
     private Command handleLandCommand(String input) {
         String trimmedLandCommandString = input.trim();
         if (isValidLandCommandInput(trimmedLandCommandString))
-            return new LandCommand(new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
+            return new LandCommand("1234", new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
         else return new LandingFailureCommand(trimmedLandCommandString);
     }
 
     private Command handleMoveCommand(String input) {
-        return new RoverMoveCommand(extractRoverMovesFromInput(input), api);
+        return new RoverMoveCommand("1234", extractRoverMovesFromInput(input), api);
     }
 
     private boolean isStateCommand(String input) {
@@ -97,7 +93,6 @@ public class CommandParser {
 
     private Optional<Boolean> containsOnlyNumbers(String coordinate) {
         if ("q".equalsIgnoreCase(coordinate)) {
-            //WHAT TO DO?
             Command quitCommand = this.parseInput(coordinate);
             quitCommand.execute(new ConsolePresenter());
 

@@ -238,6 +238,10 @@ input {
     border-radius: 8px;
 }
 
+input:disabled {
+    cursor: not-allowed;
+}
+
 input:disabled::placeholder {
     color: #98c7fc89;
 }
@@ -422,6 +426,7 @@ footer {
     visibility: visible;
     opacity: 1;
 }
+
 
 .status-good {
     color: #7ecc2d;

@@ -17,6 +17,7 @@ import io.tripled.marsrover.vocabulary.RoverMove;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,12 +25,14 @@ public class StepDefinitions {
 
     private final MarsRoverApi marsRoverApi;
     private final SimulationQuery simulationQuery;
+    private final UUID testUUID;
 
     public StepDefinitions() {
         InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
         marsRoverApi = new MarsRoverController(inMemSimulationRepo);
         simulationQuery = inMemSimulationRepo;
 
+        testUUID = UUID.randomUUID();
     }
 
     private static InstructionBatch parseSingleRoverInstruction(String roverId, String direction, int amount) {
@@ -76,14 +79,14 @@ public class StepDefinitions {
     @And("We land a rover on coordinates {int} {int}")
     public void weLandARoverOnCoordinatesXY(int x, int y) {
         final var coordinate = new Coordinate(x, y);
-        marsRoverApi.landRover(coordinate, LoggingLandingPresenter.INSTANCE);
+        marsRoverApi.landRover(testUUID.toString(), coordinate, LoggingLandingPresenter.INSTANCE);
     }
 
     @When("We give the Rover {string} the Instruction {string} {int}")
     public void weGiveTheRoverTheInstructionAmount(String roverName, String instruction, int steps) {
         final InstructionBatch roverMoves = parseSingleRoverInstruction(roverName, instruction, steps);
 
-        marsRoverApi.executeMoveInstructions(roverMoves, LogginRoverMovePresenter.INSTANCE);
+        marsRoverApi.executeMoveInstructions(testUUID.toString(), roverMoves, LogginRoverMovePresenter.INSTANCE);
     }
 
     @When("We give the Rover {string} the Instructions")
@@ -91,7 +94,7 @@ public class StepDefinitions {
 
         final InstructionBatch instructionBatch = parseSingleRoverInstructionsDataTable(roverName, dataTable);
 
-        marsRoverApi.executeMoveInstructions(instructionBatch, LogginRoverMovePresenter.INSTANCE);
+        marsRoverApi.executeMoveInstructions(testUUID.toString(), instructionBatch, LogginRoverMovePresenter.INSTANCE);
     }
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
@@ -113,7 +116,7 @@ public class StepDefinitions {
     public void weGiveTheRoversTheInstructions(io.cucumber.datatable.DataTable dataTable) {
 
         final InstructionBatch roverMoves = parseMultipleRoverInstructionsDataTable(dataTable);
-        marsRoverApi.executeMoveInstructions(roverMoves, LogginRoverMovePresenter.INSTANCE);
+        marsRoverApi.executeMoveInstructions(testUUID.toString(), roverMoves, LogginRoverMovePresenter.INSTANCE);
     }
 
     @And("The timeline is")

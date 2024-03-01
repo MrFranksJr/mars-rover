@@ -16,8 +16,4 @@ public enum LoggingSimulationCreationPresenter implements SimulationCreationPres
 
     }
 
-    @Override
-    public void simulationAlreadyExists(SimulationSnapshot simulationSnapshot) {
-
-    }
 }

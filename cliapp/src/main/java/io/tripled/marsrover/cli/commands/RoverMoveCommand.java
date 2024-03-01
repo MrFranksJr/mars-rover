@@ -3,6 +3,7 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
@@ -13,34 +14,36 @@ public class RoverMoveCommand implements Command {
     private InstructionBatch roverInstructionBatch;
     private MarsRoverApi marsRoverApi;
 
-    public RoverMoveCommand(InstructionBatch roverInstructionsFromString, MarsRoverApi marsRoverApi) {
+    private String simulationId;
+
+    public RoverMoveCommand(String simulationId, InstructionBatch roverInstructionsFromString, MarsRoverApi marsRoverApi) {
         this.roverInstructionBatch = roverInstructionsFromString;
         this.marsRoverApi = marsRoverApi;
+        this.simulationId = simulationId;
     }
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        marsRoverApi.executeMoveInstructions(roverInstructionBatch, new RoverMovePresenter() {
+        marsRoverApi.executeMoveInstructions(simulationId, roverInstructionBatch, new RoverMovePresenter() {
             @Override
-            public void moveRoverSuccessful(RoverState roverState) {
-                messagePresenter.roverMovedMessage(roverState);
+            public void moveRoverSuccessful(Simulation.RoverMovedSuccessfulEvent r) {
+                messagePresenter.roverMovedMessage(r.roverState());
             }
 
             @Override
-            public void roverCollided(RoverState roverState) {
-                messagePresenter.roverCollidedMessage(roverState);
+            public void roverCollided(Simulation.RoverCollidedEvent r) {
+                messagePresenter.roverCollidedMessage(r.roverState());
             }
 
             @Override
-            public void roverBreakingDown(RoverState roverState) {
-                messagePresenter.roverBrokenMessage(roverState);
+            public void roverBreakingDown(Simulation.RoverBreaksDownEvent r) {
+                messagePresenter.roverBrokenMessage(r.roverState());
             }
 
             @Override
-            public void roverAlreadyBrokenDown(RoverId roverId) {
-                messagePresenter.roverAlreadyBrokenMessage(roverId);
+            public void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r) {
+                messagePresenter.roverAlreadyBrokenMessage(r.roverId());
             }
-
         });
     }
 

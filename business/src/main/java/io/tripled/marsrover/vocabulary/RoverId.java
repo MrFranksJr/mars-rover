@@ -46,7 +46,7 @@ public record RoverId(String id) {
 
     @Override
     public String toString() {
-        return "[" + id + "]";
+        return id;
     }
 
 }

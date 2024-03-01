@@ -20,13 +20,15 @@ async function moveRover(){
     }
 
     if (instructionString !== "") {
-        let result = await fetch(`/api/moverover/${instructionString}` , {
+        const simulationSelectionField = document.getElementById('simulations')
+        const simulationId = simulationSelectionField.value;
+        const result = await fetch(`/api/moverover/${simulationId}/${instructionString}` , {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }});
 
-        let data = await result.json();
+        const data = await result.json();
 
         await awaitRoverMoveFeedback(data)
         await buildRoverInstructionControls()
@@ -38,12 +40,12 @@ async function moveRover(){
 }
 
 async function awaitRoverMoveFeedback(data){
-    await getSimulationState();
+    await getSimulationState(data.simulationId);
     if(data.roverMove === "SUCCESS"){
-        modalDiv.innerHTML = `Rover moved successfully.`
+        modalDiv.innerHTML = `Rover ${data.roverId} moved successfully.`
         moveModal();
     } else if(data.roverMove === "BROKEN"){
-        modalDiv.innerHTML = `Rover has collided!<br/>Rover ${data.roverId} is now broken!<br/>Try again!`
+        modalDiv.innerHTML = `Rover ${data.roverId} has collided!<br/>Rover ${data.roverId} is now broken!<br/>Try again!`
         modalError()
     } else if(data.roverMove === "ALREADY_BROKEN"){
         modalDiv.innerHTML = `Rover ${data.roverId} cannot move because it's broken.`
@@ -55,7 +57,7 @@ async function awaitRoverMoveFeedback(data){
         modalDiv.innerHTML = `This instruction couldn't be executed!<br/>Try again!`
         modalError()
     } else {
-        modalDiv.innerHTML = `Something went wrong in the application!`
+        modalDiv.innerHTML = `Something went wrong!<br/>Try again!`
         modalError()
     }
 }

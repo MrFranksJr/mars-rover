@@ -120,16 +120,6 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverDoesNotExist() {
-    }
-
-    @Override
-    public void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot) {
-        hasSimulationCreated = false;
-        this.simulationSnapshot = simulationSnapshot;
-    }
-
-    @Override
     public void roverCollidedMessage(RoverState roverState) {
     }
 

@@ -1,29 +1,28 @@
 package io.tripled.marsrover.business.stepdefinitions;
 
 import io.tripled.marsrover.business.api.RoverMovePresenter;
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 
 public enum LogginRoverMovePresenter implements RoverMovePresenter {
     INSTANCE;
 
     @Override
-    public void moveRoverSuccessful(RoverState roverState) {
-        System.out.println("Rover " + roverState.roverId() + " is at " + roverState.coordinate() + " facing " + roverState.roverHeading());
+    public void moveRoverSuccessful(Simulation.RoverMovedSuccessfulEvent r) {
+        System.out.println("Rover " + r.roverState().roverId() + " is at " + r.roverState().coordinate() + " facing " + r.roverState().roverHeading());
     }
 
     @Override
-    public void roverCollided(RoverState roverState) {
-        System.out.println(roverState.roverId() + " have collided");
+    public void roverCollided(Simulation.RoverCollidedEvent r) {
+        System.out.println(r.roverState().roverId() + " have collided");
     }
 
     @Override
-    public void roverBreakingDown(RoverState roverState) {
-        System.out.println(roverState.roverId() + " has died");
+    public void roverBreakingDown(Simulation.RoverBreaksDownEvent r) {
+        System.out.println(r.roverState().roverId() + " has broken down");
     }
 
     @Override
-    public void roverAlreadyBrokenDown(RoverId roverId) {
+    public void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r) {
 
     }
 }

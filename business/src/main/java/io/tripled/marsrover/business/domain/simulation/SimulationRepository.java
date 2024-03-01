@@ -9,6 +9,7 @@ public interface SimulationRepository {
     void add(Simulation simulation);
 
     void save(Simulation simulation);
+
     Optional<List<Simulation>> retrieveSimulations();
 
     Optional<Simulation> getSimulation(SimulationId simulationId);

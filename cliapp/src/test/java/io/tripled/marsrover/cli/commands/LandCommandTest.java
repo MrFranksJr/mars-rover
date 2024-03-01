@@ -11,12 +11,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LandCommandTest {
     private DummyPresenter dummyPresenter;
     private MarsRoverApi marsRoverController;
     private SimulationRepository simulationRepository;
+    private final UUID testUUID = UUID.randomUUID();
+
 
     @BeforeEach
     void setUp() {
@@ -32,7 +36,7 @@ class LandCommandTest {
     @ArgumentsSource(CoordinateProvider.class)
     void landingWasSuccessful(Coordinate landLocation) {
         //given
-        Command landCommand = new LandCommand(landLocation, marsRoverController);
+        Command landCommand = new LandCommand(testUUID.toString(), landLocation, marsRoverController);
 
         //then
         landCommand.execute(dummyPresenter);
@@ -51,7 +55,7 @@ class LandCommandTest {
     @Test
     void roverMissingSimulation() {
         //given
-        Command landCommand = new LandCommand(new Coordinate(300, 700), marsRoverController);
+        Command landCommand = new LandCommand(testUUID.toString(), new Coordinate(300, 700), marsRoverController);
 
         //when
         landCommand.execute(dummyPresenter);

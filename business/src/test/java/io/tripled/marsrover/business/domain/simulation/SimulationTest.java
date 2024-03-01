@@ -43,7 +43,7 @@ class SimulationTest {
                     assertEquals(4, landingSuccessfulEvent.roverState().coordinate().yCoordinate());
                     assertEquals(RoverHeading.NORTH, landingSuccessfulEvent.roverState().roverHeading());
                 }
-                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
+                case Simulation.RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
                 case Simulation.LandingOnTopEvent landingOnTopEvent -> fail();
             }
@@ -310,7 +310,6 @@ class SimulationTest {
         assertEquals(expectedInstructionList, actualInstructionList);
     }
 
-    //TODO: Verify test results on eventpublisher
     static class DummyEventPub implements Simulation.SimulationRoverMovedEventPublisher {
         @Override
         public void publish(Simulation.SimulationMoveRoverEvent event) {
@@ -345,7 +344,7 @@ class SimulationTest {
             switch (event) {
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
                 case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> assertTrue(true);
-                case Simulation.RoverMissesSimulationLand roverMissesSimulation -> fail();
+                case Simulation.RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
                 case Simulation.LandingOnTopEvent landingOnTopEvent -> fail();
             }
         };

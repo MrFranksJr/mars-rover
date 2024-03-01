@@ -111,16 +111,6 @@ public class ConsolePresenter implements MessagePresenter {
     }
 
     @Override
-    public void roverDoesNotExist() {
-        System.out.println("Cannot moves a Rover that does not exist!");
-    }
-
-    @Override
-    public void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot) {
-        System.out.println("There is already a simulation with size " + simulationSnapshot.simulationSize());
-    }
-
-    @Override
     public void roverCollidedMessage(RoverState roverState) {
         System.out.println("Rover " + roverState.roverId() + " has collided and returned to its last position");
         System.out.println("Rover " + roverState.roverId() + " is currently left with " + roverState.hitpoints() + "/5 hitpoints");
@@ -140,7 +130,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
-        System.out.println("Rover " + landingOnTopEvent.landingRoverState().roverId() + " landed on top of Rover " + landingOnTopEvent.hitRoverIds() + " at [" + landingOnTopEvent.coordinate().xCoordinate() + "," + landingOnTopEvent.coordinate().yCoordinate() + "] and both are now BROKEN.");
+        System.out.println("Rover " + landingOnTopEvent.landingRoverState().roverId() + " landed on top of other Rover(s) at [" + landingOnTopEvent.coordinate().xCoordinate() + "," + landingOnTopEvent.coordinate().yCoordinate() + "] and both are now BROKEN.");
     }
 }
 

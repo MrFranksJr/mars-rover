@@ -1,10 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.LandingPresenter;
-import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.domain.rover.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 import java.util.Objects;
@@ -12,15 +9,17 @@ import java.util.Objects;
 public class LandCommand implements Command {
     private final MarsRoverApi marsRoverApi;
     private Coordinate coordinate;
+    private String simulationId;
 
-    public LandCommand(Coordinate coordinate, MarsRoverApi marsRoverApi) {
+    public LandCommand(String simulationId, Coordinate coordinate, MarsRoverApi marsRoverApi) {
         this.coordinate = coordinate;
         this.marsRoverApi = marsRoverApi;
+        this.simulationId = simulationId;
     }
 
     @Override
     public void execute(MessagePresenter messagePresenter) {
-        marsRoverApi.landRover(coordinate, new LandingPresenterImpl(messagePresenter));
+        marsRoverApi.landRover(simulationId, coordinate, new LandingPresenterImpl(messagePresenter));
     }
 
     @Override

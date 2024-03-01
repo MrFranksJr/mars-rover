@@ -1,10 +1,13 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 
 public interface RoverMovePresenter {
-    void moveRoverSuccessful(RoverState roverState);
-    void roverCollided(RoverState roverState);
-    void roverBreakingDown(RoverState roverState);
-    void roverAlreadyBrokenDown(RoverId roverId);
+    void moveRoverSuccessful(Simulation.RoverMovedSuccessfulEvent r);
+
+    void roverCollided(Simulation.RoverCollidedEvent r);
+
+    void roverBreakingDown(Simulation.RoverBreaksDownEvent r);
+
+    void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r);
 }

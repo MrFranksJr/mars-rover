@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,6 +23,7 @@ class RoverMoveCommandTest {
     private SimulationRepository simulationRepository;
     private MarsRoverApi marsRoverController;
     private RoverId R1;
+    private UUID testUUID = UUID.randomUUID();
 
     @BeforeEach
     void init() {
@@ -61,12 +63,12 @@ class RoverMoveCommandTest {
         final Command simSetupCommand = createSimulationOfSize10();
         simSetupCommand.execute(dummyPresenter);
 
-        Command landCommand = new LandCommand(new Coordinate(5, 5), marsRoverController);
+        Command landCommand = new LandCommand(testUUID.toString(), new Coordinate(5, 5), marsRoverController);
         landCommand.execute(dummyPresenter);
 
         final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
                 .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
                 .build();
-        return new RoverMoveCommand(instructionBatch, marsRoverController);
+        return new RoverMoveCommand(testUUID.toString(),instructionBatch, marsRoverController);
     }
 }

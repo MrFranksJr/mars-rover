@@ -28,25 +28,24 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
 
     @Override
     public Optional<List<Simulation>> retrieveSimulations() {
-
         if(simulationSnapshot == null)
             return Optional.empty();
         else
             return Optional.of(List.of(Simulation.of(simulationSnapshot)));
     }
 
-    //TODO implement SimulationID
     public Optional<Simulation> getSimulation(SimulationId simulationId) {
         if (simulationSnapshot == null)
             return Optional.empty();
+
         return Optional.of(Simulation.of(simulationSnapshot));
     }
 
     @Override
     public SimulationSnapshot getSimulationInformation() {
-        if (simulationSnapshot != null){
+        if (simulationSnapshot != null)
             return simulationSnapshot;
-        }
-        return null;
+
+        return SimulationSnapshot.NONE;
     }
 }

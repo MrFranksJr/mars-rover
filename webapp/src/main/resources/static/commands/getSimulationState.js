@@ -4,20 +4,20 @@ export { getSimulationState, roversInSimulation }
 
 let roversInSimulation;
 
-async function getSimulationState() {
-    let simulationState = await fetch('/api/simulationstate')
-    let readableSimulationState = await simulationState.json()  
-    let simulationStateString = ""
-    roversInSimulation = readableSimulationState.roverList
+async function getSimulationState(selectedSimulation) {
+    const simulationState = await fetch(`/api/simulationstate/${selectedSimulation}`)
+    const readableSimulationState = await simulationState.json()
 
-    if(readableSimulationState.roverList.length == 0){
-        simulationStateString = "There are currently no active Rovers in the simulation"
+    let roversInSimulationState = ""
+    roversInSimulation = readableSimulationState.roverList
+    if(roversInSimulation.length == 0){
+        roversInSimulationState = "There are currently no active Rovers in the simulation"
         toggleRoverInstructionControls(true)
-        updateUIWithSimulationState(readableSimulationState, simulationStateString);
+        updateUIWithSimulationState(readableSimulationState, roversInSimulationState);
         drawMap(readableSimulationState);
     } else {
         for (let rover of roversInSimulation) {
-            simulationStateString += `<div><h4>Rover ${rover.roverName}: </h4>
+            roversInSimulationState += `<div><h4>Rover ${rover.roverName}: </h4>
                 Position: (${rover.roverXPosition} - ${rover.roverYPosition})<br/>
                 Heading: ${rover.roverHeading}<br/>
                 Hitpoints: ${rover.hitPoints}/5<br/>
@@ -25,9 +25,8 @@ async function getSimulationState() {
                 </div>
                 `
         }
-        simulationIdDiv.innerText = readableSimulationState.simulationId
         toggleRoverInstructionControls(false)
-        updateUIWithSimulationState(readableSimulationState, simulationStateString)
+        updateUIWithSimulationState(readableSimulationState, roversInSimulationState)
         drawMap(readableSimulationState)
     }
 

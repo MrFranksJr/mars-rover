@@ -29,10 +29,6 @@ public interface MessagePresenter {
 
     void roverMovedMessage(RoverState roverState);
 
-    void roverDoesNotExist();
-
-    void duplicateSimulationDetected(SimulationSnapshot simulationSnapshot);
-
     void roverCollidedMessage(RoverState roverState);
 
     void roverBrokenMessage(RoverState roverState);

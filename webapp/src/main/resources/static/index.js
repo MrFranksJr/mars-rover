@@ -8,14 +8,28 @@ import {showInfo} from "./commands/showInfo.js";
 
 export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, xCoordinateField, yCoordinateField, simulationIdDiv, buildRoverInstructionControls}
 
-async function onLoadCreateSimulation(){
-    let simulationState = await fetch('/api/simulationstate')
-    let readableSimulationState = await simulationState.json()
-    if( readableSimulationState.simulationSize == -1 ){
+async function buildPage(){
+    await onLoadCreateSimulation("loadFirst");
+    await buildRoverInstructionControls();
+}
+
+
+async function onLoadCreateSimulation(toLoad){
+    let simulationStates = await fetch('/api/simulationstates')
+    let readableSimulationStates = await simulationStates.json()
+    if(readableSimulationStates.length == 0){
         await createSimulation();
-        await getSimulationState();
+        await onLoadCreateSimulation();
     } else {
-        await getSimulationState();
+        const simulationSelectionField = document.getElementById('simulations')
+        if (toLoad == "loadFirst") {
+            buildSimulationSelector(readableSimulationStates, toLoad)
+        } else {
+            buildSimulationSelector(readableSimulationStates, toLoad)
+        }
+        const simulationId = simulationSelectionField.value;
+
+        await getSimulationState(simulationId);
     }
 }
 
@@ -30,14 +44,14 @@ async function buildRoverInstructionControls() {
                 moveControlsHtml += `
                 <div class="singleRoverInstruction">
                     <label for="${rover.roverName}">${rover.roverName}</label>
-                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions" type="text" pattern="(^[frbl]\\d*)$">
+                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions" type="text">
                 </div>
                 `
             } else {
                 moveControlsHtml += `
                 <div class="singleRoverInstruction">
                     <label for="${rover.roverName}">${rover.roverName}</label>
-                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Rover broken" disabled type="text" pattern="(^[frbl]\\d*)$">
+                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Rover broken" disabled type="text">
                 </div>
                 `
             }
@@ -46,11 +60,6 @@ async function buildRoverInstructionControls() {
         roverInstructionFieldsDiv.innerHTML = moveControlsHtml;
 
     }
-}
-
-async function buildPage(){
-    await onLoadCreateSimulation();
-    await buildRoverInstructionControls();
 }
 
 function updateUIWithSimulationState(readableSimulationState, simulationStateString){
@@ -62,6 +71,28 @@ function updateUIWithSimulationState(readableSimulationState, simulationStateStr
         <div class="rover-states">${simulationStateString}</div>
         `
 }
+
+function buildSimulationSelector(readableSimulationState, toLoad){
+    let optionList = "";
+    if (toLoad == "loadFirst") {
+        for(let simulationState of readableSimulationState){
+            optionList += `<option id="${simulationState.simulationId}" value="${simulationState.simulationId}">${simulationState.simulationId}</option>`
+        }
+    } else {
+        for(let simulationState of readableSimulationState){
+             if (simulationState.simulationId == toLoad) {
+                optionList += `<option selected id="${simulationState.simulationId}" value="${simulationState.simulationId}">${simulationState.simulationId}</option>`
+            } else {
+                optionList += `<option id="${simulationState.simulationId}" value="${simulationState.simulationId}">${simulationState.simulationId}</option>`
+            }
+        }
+    }
+    optionList += `<option id="newSimulationOption" value="newSimulation">Create new...</option>`
+    document.getElementById("simulations").innerHTML = optionList;
+}
+
+
+
 
 function moveModal() {
     modalDiv.classList.add('activeModal');
@@ -93,6 +124,7 @@ const roverInstructionFieldsDiv = document.getElementById('roverInstructionField
 const simulationIdDiv = document.getElementById('simulationId')
 const infoBtn = document.getElementById('infoBtn')
 const infoCloseBtn = document.getElementById('info-close-btn')
+const simulationsDropDown = document.getElementById("simulations")
 
 ///////EVENT LISTENERS
 infoBtn.addEventListener('click', showInfo)
@@ -104,12 +136,21 @@ document.querySelectorAll('form').forEach(node => {
         event.preventDefault()
     })
 })
+simulationsDropDown.addEventListener('change', async function () {
+    if (simulationsDropDown.value == "newSimulation") {
+        let createdId = await createSimulation()
+        await onLoadCreateSimulation(createdId)
+    }
+    await onLoadCreateSimulation(simulationsDropDown.value)
+})
+
+
 
 ///////write footer
 document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
 
 
-if(true) {
+if(false) {
     showAllAnimations()
 } else {
     disableAnimations()

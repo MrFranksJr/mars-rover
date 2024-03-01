@@ -53,7 +53,7 @@ public class Simulation {
         return rover.getRoverState(oldLocation).healthState() == HealthState.BROKEN;
     }
 
-    private static boolean roverIsAlive(Location newLocation, Rover rover) {
+    private static boolean roverIsOperational(Location newLocation, Rover rover) {
         return rover.getRoverState(newLocation).healthState() == HealthState.OPERATIONAL;
     }
 
@@ -77,21 +77,20 @@ public class Simulation {
 
     public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
         if (invalidCoordinatesReceived(coordinate)) {
-            eventPublisher.publish(new InvalidCoordinatesReceived(coordinate));
+            eventPublisher.publish(new InvalidCoordinatesReceived(id, coordinate));
         } else if (!landsOnTopOfOtherRover(coordinate).isEmpty()) {
             final Location landingLocation = new Location(coordinate, simulationSize);
             final RoverState landingRoverState = landRover(coordinate);
-            final List<RoverId> hitRoverIds = landsOnTopOfOtherRover(coordinate);
 
             roverLocationMap.get(landingLocation)
                     .forEach(Rover::breakRover);
 
-            eventPublisher.publish(new LandingOnTopEvent(landingRoverState, hitRoverIds, coordinate));
+            eventPublisher.publish(new LandingOnTopEvent(id, landingRoverState, coordinate));
         } else if (landingWithinSimulationLimits(coordinate)) {
             final RoverState roverState = landRover(coordinate);
-            eventPublisher.publish(new LandingSuccessfulLandEvent(roverState));
+            eventPublisher.publish(new LandingSuccessfulLandEvent(id, roverState));
         } else {
-            eventPublisher.publish(new RoverMissesSimulationLand(simulationSize, coordinate));
+            eventPublisher.publish(new RoverMissesSimulationLandEvent(id, simulationSize, coordinate));
         }
     }
 
@@ -138,24 +137,21 @@ public class Simulation {
     public void moveRover(RoverInstructions roverInstructions, SimulationRoverMovedEventPublisher eventPublisher) {
         for (RoverMove roverMove : roverInstructions.moves()) {
             for (int i = 0; i < roverMove.steps(); i++) {
-                final Optional<SimulationMoveRoverEvent> roverEvent = getRover(roverInstructions.id())
-                        .map(x -> moveRover(roverMove.direction(), x));
+                final Optional<SimulationMoveRoverEvent> roverMoveEvent = getRover(roverInstructions.id()).map(x -> moveRover(roverMove.direction(), x));
 
                 //TODO improve
-                if (roverEvent.isPresent()) {
-                    final SimulationMoveRoverEvent e = roverEvent.get();
-                    switch (e) {
-                        case RoverCollided roverCollided -> {
-                            eventPublisher.publish(roverCollided);
-                            return;
-                        }
-                        case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent ->
-                                eventPublisher.publish(roverMovedSuccessfulEvent);
-                        case RoverDeath roverDeath -> {
-                            eventPublisher.publish(roverDeath);
-                            return;
-                        }
-                        case RoverAlreadyBroken roverAlreadyBroken -> eventPublisher.publish(roverAlreadyBroken);
+                final SimulationMoveRoverEvent e = roverMoveEvent.orElseThrow();
+                switch (e) {
+                    case RoverMovedSuccessfulEvent roverMovedSuccessfulEvent ->
+                            eventPublisher.publish(roverMovedSuccessfulEvent);
+                    case RoverAlreadyBrokenEvent roverAlreadyBroken -> eventPublisher.publish(roverAlreadyBroken);
+                    case RoverCollidedEvent roverCollided -> {
+                        eventPublisher.publish(roverCollided);
+                        return;
+                    }
+                    case RoverBreaksDownEvent roverDeath -> {
+                        eventPublisher.publish(roverDeath);
+                        return;
                     }
                 }
             }
@@ -166,7 +162,7 @@ public class Simulation {
         final Location oldLocation = locationRoverPair.first();
         final Rover rover = locationRoverPair.second();
         if (checkIfRoverIsBroken(rover, oldLocation)) {
-            return new RoverAlreadyBroken(rover.getRoverId());
+            return new RoverAlreadyBrokenEvent(id, rover.getRoverId());
         }
 
         return switch (direction) {
@@ -180,11 +176,11 @@ public class Simulation {
             }
             case LEFT -> {
                 rover.turnLeft();
-                yield new RoverMovedSuccessfulEvent(rover.getRoverState(oldLocation));
+                yield new RoverMovedSuccessfulEvent(id, rover.getRoverState(oldLocation));
             }
             case RIGHT -> {
                 rover.turnRight();
-                yield new RoverMovedSuccessfulEvent(rover.getRoverState(oldLocation));
+                yield new RoverMovedSuccessfulEvent(id, rover.getRoverState(oldLocation));
             }
         };
     }
@@ -192,13 +188,13 @@ public class Simulation {
     private SimulationMoveRoverEvent roverGoToNewLocation(Location newLocation, Location oldLocation, Rover rover) {
         if (isFree(newLocation)) {
             changeRoverLocation(oldLocation, rover, newLocation);
-            return new RoverMovedSuccessfulEvent(rover.getRoverState(newLocation));
+            return new RoverMovedSuccessfulEvent(id, rover.getRoverState(newLocation));
         } else {
             rover.handleDamage();
-            if (roverIsAlive(newLocation, rover)) {
-                return new RoverCollided(rover.getRoverState(newLocation), newLocation);
+            if (roverIsOperational(newLocation, rover)) {
+                return new RoverCollidedEvent(id, rover.getRoverState(newLocation), newLocation);
             } else {
-                return new RoverDeath(rover.getRoverState(newLocation));
+                return new RoverBreaksDownEvent(id, rover.getRoverState(newLocation));
             }
         }
     }
@@ -227,6 +223,7 @@ public class Simulation {
         Rover r = createNewRover();
         final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(coordinate).build();
         roverLocationMap.put(lo, r);
+
         return r.getRoverState(lo);
     }
 
@@ -257,32 +254,31 @@ public class Simulation {
         void publish(SimulationMoveRoverEvent event);
     }
 
-    public record LandingOnTopEvent(RoverState landingRoverState, List<RoverId> hitRoverIds,
-                                    Coordinate coordinate) implements SimulationLandEvent {
-    }
-
     /**
      * The public Events of the Simulation aggregate
      */
-    public record LandingSuccessfulLandEvent(RoverState roverState) implements SimulationLandEvent {
+    public record LandingOnTopEvent(SimulationId id, RoverState landingRoverState, Coordinate coordinate) implements SimulationLandEvent {
     }
 
-    public record RoverMissesSimulationLand(int simulationSize, Coordinate coordinate) implements SimulationLandEvent {
+    public record LandingSuccessfulLandEvent(SimulationId id, RoverState roverState) implements SimulationLandEvent {
     }
 
-    public record InvalidCoordinatesReceived(Coordinate coordinate) implements SimulationLandEvent {
+    public record RoverMissesSimulationLandEvent(SimulationId id, int simulationSize, Coordinate coordinate) implements SimulationLandEvent {
     }
 
-    public record RoverMovedSuccessfulEvent(RoverState roverState) implements SimulationMoveRoverEvent {
+    public record InvalidCoordinatesReceived(SimulationId id, Coordinate coordinate) implements SimulationLandEvent {
     }
 
-    public record RoverCollided(RoverState roverState, Location newLocation) implements SimulationMoveRoverEvent {
+    public record RoverMovedSuccessfulEvent(SimulationId id, RoverState roverState) implements SimulationMoveRoverEvent {
     }
 
-    public record RoverDeath(RoverState roverState) implements SimulationMoveRoverEvent {
+    public record RoverCollidedEvent(SimulationId id, RoverState roverState, Location newLocation) implements SimulationMoveRoverEvent {
     }
 
-    public record RoverAlreadyBroken(RoverId roverId) implements SimulationMoveRoverEvent {
+    public record RoverBreaksDownEvent(SimulationId id, RoverState roverState) implements SimulationMoveRoverEvent {
+    }
+
+    public record RoverAlreadyBrokenEvent(SimulationId id, RoverId roverId) implements SimulationMoveRoverEvent {
     }
 
     public static final class Builder {

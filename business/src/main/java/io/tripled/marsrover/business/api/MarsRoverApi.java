@@ -4,11 +4,13 @@ import io.tripled.marsrover.business.domain.rover.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 
 public interface MarsRoverApi {
-    void lookUpSimulationState(SimulationStatePresenter simulationStatePresenter);
+    void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter);
 
-    void landRover(Coordinate coordinate, LandingPresenter landingPresenter);
+    void lookUpSimulationStates(SimulationStatePresenter simulationStatePresenter);
+
+    void landRover(String simulationId, Coordinate coordinate, LandingPresenter landingPresenter);
 
     void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter);
 
-    void executeMoveInstructions(InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter);
+    void executeMoveInstructions(String simulationId, InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter);
 }
