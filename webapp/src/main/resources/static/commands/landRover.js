@@ -1,5 +1,7 @@
-import { getSimulationState } from "./getSimulationState.js";
-import { moveModal, modalDiv, xCoordinateField, yCoordinateField, modalError, buildRoverInstructionControls } from "../index.js";
+import { getSimulationState } from "./getSimulationState.js"
+import { buildRoverInstructionControls } from "../index.js"
+import { modalDiv, xCoordinateField, yCoordinateField } from "../ui/htmlElements.js"
+import { moveModal, modalError } from "../ui/feedbackModal.js"
 
 export { landRover }
 

@@ -1,4 +1,10 @@
-export { generateMap }
+import { simulationMapDiv } from "../htmlElements.js";
+
+export { generateMap, drawMap }
+
+function drawMap(readableSimulationState) {
+    simulationMapDiv.innerHTML =  "<div class='mapInnerDiv'>" + generateMap(readableSimulationState) + "</div>"
+}
 
 function generateMap(simulationState) {
     let mapString = ""

@@ -1,5 +1,7 @@
 import { getSimulationState } from "./getSimulationState.js";
-import { moveModal, modalDiv, modalError, buildRoverInstructionControls } from "../index.js";
+import { buildRoverInstructionControls } from "../index.js";
+import { modalDiv } from "../ui/htmlElements.js"
+import { modalError, moveModal } from "../ui/feedbackModal.js"
 
 export { moveRover }
 
@@ -40,7 +42,6 @@ async function moveRover(){
 }
 
 async function awaitRoverMoveFeedback(data){
-    console.log(data)
     await getSimulationState(data.simulationId);
     if(data.roverMove === "SUCCESS"){
         modalDiv.innerHTML = `Rover ${data.roverId} moved successfully.`

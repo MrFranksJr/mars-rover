@@ -317,13 +317,38 @@ footer {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -100%);
-    background-color: lightgray;
-    padding: 50px 20px;
+    transform: translate(-50%, -300%);
+    background-color: #79757561;
+    padding: 50px 50px;
     color: #f18b82;
     border: 1px solid #FFF;
     border-radius: 8px;
     transition: all 0.4s ease;
+    width: 90%;
+    max-width: 1000px;
+    height: fit-content;
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+.info-modal ul {
+    list-style-position: outside;
+    list-style-type: circle;
+    margin-inline-start: 20px;
+    padding-inline: 20px;
+    margin-bottom: 1.5rem;
+}
+.info-modal li {
+    margin-bottom: 0.8rem;
+}
+
+.info-modal p {
+    margin-bottom: 1.1rem;
+}
+
+.info-modal h2 {
+    color: #98c7fc;
+    margin-bottom: 1.9rem;
 }
 
 .info-modal-visible {
@@ -333,8 +358,10 @@ footer {
 
 .fa-circle-xmark {
     position: absolute;
-    top: 5px;
-    left: 5px;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 5;
 }
 
 .feedbackModal {

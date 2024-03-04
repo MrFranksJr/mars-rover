@@ -1,4 +1,5 @@
-import { drawMap, updateUIWithSimulationState, simulationIdDiv } from "../index.js"
+import { updateUIWithSimulationState } from "../index.js"
+import { drawMap } from "../ui/map/drawMap.js"
 
 export { getSimulationState, roversInSimulation }
 

@@ -1,18 +1,18 @@
-import { generateMap } from "./data/mapData.js";
-import { landRover } from "./commands/landRover.js";
-import { moveRover } from "./commands/moveRover.js";
-import { createSimulation } from "./commands/createSimulation.js";
-import { getSimulationState, roversInSimulation } from "./commands/getSimulationState.js";
-import { showAllAnimations, disableAnimations } from "./animations/animations.js";
-import {showInfo} from "./commands/showInfo.js";
+import { landRover } from "./commands/landRover.js"
+import { moveRover } from "./commands/moveRover.js"
+import { createSimulation } from "./commands/createSimulation.js"
+import { getSimulationState } from "./commands/getSimulationState.js"
+import { showAllAnimations, disableAnimations } from "./animations/animations.js"
+import { infoModal } from "./ui/infoModal.js"
+import { buildRoverInstructionControls } from "./ui/roverInstructions.js"
+import { infoCloseBtn, simulationsDropDown, simulationStateField } from "./ui/htmlElements.js"
 
-export {drawMap, updateUIWithSimulationState, moveModal, modalDiv, modalError, xCoordinateField, yCoordinateField, simulationIdDiv, buildRoverInstructionControls}
+export {updateUIWithSimulationState, buildRoverInstructionControls }
 
 async function buildPage(){
     await onLoadCreateSimulation("loadFirst");
     await buildRoverInstructionControls();
 }
-
 
 async function onLoadCreateSimulation(toLoad){
     let simulationStates = await fetch('/api/simulationstates')
@@ -30,36 +30,6 @@ async function onLoadCreateSimulation(toLoad){
         const simulationId = simulationSelectionField.value;
 
         await getSimulationState(simulationId);
-    }
-}
-
-async function buildRoverInstructionControls() {
-    if (roversInSimulation.length === 0) {
-        roverInstructionFieldsDiv.innerHTML = "There are currently no active Rovers in the Simulation.<br/>Land some Rovers first!";
-        moveRoverBtn.classList.add("hidden");
-    }
-    if (roversInSimulation.length !== 0) {
-        let moveControlsHtml = ""
-        for (let rover of roversInSimulation) {
-            if (rover.operationalStatus === "OPERATIONAL") {
-                moveControlsHtml += `
-                <div class="singleRoverInstruction">
-                    <label for="${rover.roverName}">${rover.roverName}</label>
-                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Enter move instructions" type="text">
-                </div>
-                `
-            } else {
-                moveControlsHtml += `
-                <div class="singleRoverInstruction">
-                    <label for="${rover.roverName}">${rover.roverName}</label>
-                    <input id="${rover.roverName}-roverInstructions" name="${rover.roverName}" class="roverInstructions" placeholder="Rover broken" disabled type="text">
-                </div>
-                `
-            }
-            
-        }
-        roverInstructionFieldsDiv.innerHTML = moveControlsHtml;
-        moveRoverBtn.classList.remove("hidden");
     }
 }
 
@@ -92,44 +62,9 @@ function buildSimulationSelector(readableSimulationState, toLoad){
     document.getElementById("simulations").innerHTML = optionList;
 }
 
-
-
-
-function moveModal() {
-    modalDiv.classList.add('activeModal');
-    setTimeout(() => {
-        modalDiv.classList.remove('activeModal');
-      }, "2500");
-}
-
-function modalError() {
-    modalDiv.classList.add('errorModal');
-    setTimeout(() => {
-        modalDiv.classList.remove('errorModal');
-      }, "2500");
-}
-
-function drawMap(readableSimulationState) {
-    simulationMapDiv.innerHTML =  "<div class='mapInnerDiv'>" + generateMap(readableSimulationState) + "</div>"
-}
-
-///////ELEMENTS
-const landRoverBtn = document.getElementById('landRoverBtn')
-const moveRoverBtn = document.getElementById('moveRoverBtn')
-const modalDiv = document.getElementById('feedbackModal')
-const simulationStateField = document.getElementById('simulationState')
-const xCoordinateField = document.getElementById('roverXCoordinate')
-const yCoordinateField = document.getElementById('roverYCoordinate')
-const simulationMapDiv = document.getElementById('simulationMap')
-const roverInstructionFieldsDiv = document.getElementById('roverInstructionFields')
-const simulationIdDiv = document.getElementById('simulationId')
-const infoBtn = document.getElementById('infoBtn')
-const infoCloseBtn = document.getElementById('info-close-btn')
-const simulationsDropDown = document.getElementById("simulations")
-
 ///////EVENT LISTENERS
-infoBtn.addEventListener('click', showInfo)
-infoCloseBtn.addEventListener('click', showInfo)
+infoBtn.addEventListener('click', infoModal)
+infoCloseBtn.addEventListener('click', infoModal)
 landRoverBtn.addEventListener('click', landRover)
 moveRoverBtn.addEventListener('click', moveRover)
 document.querySelectorAll('form').forEach(node => {
@@ -147,12 +82,7 @@ simulationsDropDown.addEventListener('change', async function () {
 })
 
 
-
-///////write footer
-document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
-
-
-if(false) {
+if(true) {
     showAllAnimations()
 } else {
     disableAnimations()
@@ -160,3 +90,7 @@ if(false) {
 setTimeout(() => {
     buildPage();
 }, "1000");
+///////write footer
+
+
+document.getElementById('copyright').innerHTML = "\xA9" + new Date().getFullYear() + "\xa0<img src=\"images/TripleD.svg\" class=\"tripled-logo\"> Mars Rover Association"
