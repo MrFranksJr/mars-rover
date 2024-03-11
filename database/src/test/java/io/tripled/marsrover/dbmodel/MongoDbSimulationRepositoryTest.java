@@ -1,8 +1,7 @@
 package io.tripled.marsrover.dbmodel;
 
+import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -12,7 +11,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @Disabled
 @DataMongoTest
 @EnableAutoConfiguration
@@ -24,10 +27,10 @@ class MongoDbSimulationRepositoryTest {
 
     @Test
     void simpleSimulationCreation() {
-        SimulationSnapshot snapshot = new Simulation(10).takeSnapshot();
+        SimulationSnapshot snapshot = ObjectMother.buildEmptySimulation();
         repository.add(snapshot);
         SimulationId id = snapshot.id();
-
+        System.out.println(id);
         SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
 
         assertEquals(snapshot, returnedSimulationSnapshot);
@@ -53,11 +56,16 @@ class MongoDbSimulationRepositoryTest {
         SimulationSnapshot simulationSnapshot = ObjectMother.buildEmptySimulation();
         SimulationId id = simulationSnapshot.id();
         repository.add(simulationSnapshot);
-        Simulation simulation = Simulation.of(simulationSnapshot);
-        simulation.landRover(new Coordinate(4,5),event -> {});
+        List<RoverState> rovers = new ArrayList<>();
+        rovers.add(ObjectMother.buildRover1());
+        SimulationSnapshot simulationWithRover = SimulationSnapshot.newBuilder()
+                .withId(simulationSnapshot.id())
+                .withSimSize(10)
+                .withRoverList(rovers)
+                .build();
 
         //when
-        repository.save(simulation.takeSnapshot());
+        repository.save(simulationWithRover);
 
         //then
         SimulationSnapshot landedSimulationSnapshot = repository.getSimulation(id).orElseThrow();

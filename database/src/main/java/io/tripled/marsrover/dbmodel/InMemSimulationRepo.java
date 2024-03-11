@@ -1,7 +1,6 @@
 package io.tripled.marsrover.dbmodel;
 
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
@@ -28,7 +27,7 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
 
     @Override
     public Optional<List<SimulationSnapshot>> retrieveSimulations() {
-        if(simulationSnapshot == null)
+        if (simulationSnapshot == null)
             return Optional.empty();
         else
             return Optional.of(List.of(simulationSnapshot));
