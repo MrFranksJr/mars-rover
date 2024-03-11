@@ -9,7 +9,7 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.dbmodel.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.vocabulary.InstructionBatch;

@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
@@ -16,8 +16,6 @@ import java.util.UUID;
 @Component
 public class MarsRoverController implements MarsRoverApi {
     private final SimulationRepository simulationRepository;
-    //TODO Get true SimulationId from the simulation (instead of generating new one)
-    private SimulationId simulationId;
 
     public MarsRoverController(SimulationRepository simulationRepository) {
         this.simulationRepository = simulationRepository;
@@ -41,33 +39,34 @@ public class MarsRoverController implements MarsRoverApi {
             case Simulation.RoverMovedSuccessfulEvent r -> p.moveRoverSuccessful(r);
             case Simulation.RoverCollidedEvent r -> p.roverCollided(r);
             case Simulation.RoverBreaksDownEvent r -> p.roverBreakingDown(r);
-            case Simulation.RoverAlreadyBrokenEvent r ->
-                    p.roverAlreadyBrokenDown(r);
+            case Simulation.RoverAlreadyBrokenEvent r -> p.roverAlreadyBrokenDown(r);
         }
     }
 
     @Override
     public void landRover(String simulationId, Coordinate coordinate, LandingPresenter landingPresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
-        Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
-            final var eventPublisher = createEventPublisher(landingPresenter);
-            simulation.orElseThrow().landRover(coordinate, eventPublisher);
+        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);
+        Simulation simulation = Simulation.of(simulationSnapshot.orElseThrow());
+        final var eventPublisher = createEventPublisher(landingPresenter);
+        simulation.landRover(coordinate, eventPublisher);
 
-            simulationRepository.save(simulation.get());
+        simulationRepository.save(simulation);
     }
 
     @Override
     public void executeMoveInstructions(String simulationId, InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
-        Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
+        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);
+        Simulation simulation = Simulation.of(simulationSnapshot.orElseThrow());
 
-        if(instructionBatch.batch().isEmpty())
+        if (instructionBatch.batch().isEmpty())
             roverMovePresenter.moveRoverError(simulationId);
         else {
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
-                simulation.orElseThrow().moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
+                simulation.moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
-            simulationRepository.save(simulation.orElseThrow());
+            simulationRepository.save(simulation);
         }
 
     }
@@ -78,7 +77,6 @@ public class MarsRoverController implements MarsRoverApi {
         if (simulation.isEmpty())
             simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
         else {
-            simulationId = simulation.get().takeSnapshot().id();
             final var simWorld = simulation.orElseThrow();
             simulationRepository.add(simWorld);
             simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
@@ -88,19 +86,22 @@ public class MarsRoverController implements MarsRoverApi {
     @Override
     public void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
-        Optional<Simulation> simulation = simulationRepository.getSimulation(simId);
-        simulation.ifPresent(simulationStatePresenter::simulationState);
+        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);
+        Simulation simulation = Simulation.of(simulationSnapshot.orElseThrow());
+        simulationStatePresenter.simulationState(simulation);
     }
 
     @Override
     public void lookUpSimulationStates(SimulationStatePresenter simulationStatePresenter) {
-        Optional<List<Simulation>> existingSimulations = simulationRepository.retrieveSimulations();
-        if (existingSimulations.isEmpty())
+        Optional<List<SimulationSnapshot>> existingSimulationSnapshots = simulationRepository.retrieveSimulations();
+        if (existingSimulationSnapshots.isEmpty())
             simulationStatePresenter.simulationState(Collections.emptyList());
         else {
-            List<Simulation> simulationList = existingSimulations.get();
-            simulationStatePresenter.simulationState(simulationList);
+            List<SimulationSnapshot> simulationSnapshots = existingSimulationSnapshots.get();
+            List<Simulation> simulations = simulationSnapshots.stream()
+                    .map(Simulation::of)
+                    .toList();
+            simulationStatePresenter.simulationState(simulations);
         }
     }
-
 }

@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.rover.HealthState;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.RoverId;

@@ -1,7 +1,7 @@
 package io.tripled.marsrover.presenters;
 
 import io.tripled.marsrover.business.api.LandingPresenter;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;

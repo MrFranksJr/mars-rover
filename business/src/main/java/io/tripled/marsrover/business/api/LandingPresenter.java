@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 
 public interface LandingPresenter {

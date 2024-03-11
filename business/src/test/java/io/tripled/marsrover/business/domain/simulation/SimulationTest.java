@@ -2,7 +2,7 @@ package io.tripled.marsrover.business.domain.simulation;
 
 import com.google.common.collect.ImmutableList;
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.rover.Direction;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.*;

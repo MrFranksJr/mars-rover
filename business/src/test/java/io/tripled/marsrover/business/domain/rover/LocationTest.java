@@ -1,5 +1,6 @@
 package io.tripled.marsrover.business.domain.rover;
 
+import io.tripled.marsrover.vocabulary.Coordinate;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

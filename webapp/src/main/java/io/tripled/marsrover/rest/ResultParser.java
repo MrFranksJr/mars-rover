@@ -10,7 +10,6 @@ import io.tripled.marsrover.presenters.SimulationCreationPresenterImpl;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
-import io.tripled.marsrover.vocabulary.SimulationId;
 
 public enum ResultParser {
     RESULT_PARSER;
@@ -30,8 +29,7 @@ public enum ResultParser {
         if (!roverInstructionsBatch.batch().isEmpty()) {
             roverMoveState = result.second();
             roverId = result.first().id();
-        }
-        else {
+        } else {
             roverMoveState = RoverMoveResult.ERROR;
             roverId = "";
         }

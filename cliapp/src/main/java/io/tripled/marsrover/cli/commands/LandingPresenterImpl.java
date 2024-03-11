@@ -1,11 +1,9 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.business.api.LandingPresenter;
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
-import io.tripled.marsrover.vocabulary.SimulationId;
 
 public class LandingPresenterImpl implements LandingPresenter {
 

@@ -2,7 +2,7 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.*;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;

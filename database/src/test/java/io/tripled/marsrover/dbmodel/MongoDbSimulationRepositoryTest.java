@@ -1,10 +1,9 @@
 package io.tripled.marsrover.dbmodel;
 
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -29,9 +28,9 @@ class MongoDbSimulationRepositoryTest {
         repository.add(simulation);
         SimulationId id = simulation.takeSnapshot().id();
 
-        Simulation returnedSimulation = repository.getSimulation(id).orElseThrow();
+        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
 
-        assertEquals(simulation.takeSnapshot(), returnedSimulation.takeSnapshot());
+        assertEquals(simulation.takeSnapshot(), returnedSimulationSnapshot);
     }
 
     @Test
@@ -44,26 +43,25 @@ class MongoDbSimulationRepositoryTest {
 
         //then
         SimulationId id = simulationSnapshot.id();
-        Simulation returnedSimulation = repository.getSimulation(id).orElseThrow();
-        assertEquals(simulationSnapshot, returnedSimulation.takeSnapshot());
+        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
+        assertEquals(simulationSnapshot, returnedSimulationSnapshot);
     }
 
     @Test
     void persistSimulationWithLandedRoversSave() {
         //given
         SimulationSnapshot simulationSnapshot = ObjectMother.buildEmptySimulation();
-        repository.add(Simulation.of(simulationSnapshot));
-        SimulationId id = simulationSnapshot.id();
-        Simulation returnedSimulation = repository.getSimulation(id).orElseThrow();
-        returnedSimulation.landRover(new Coordinate(4, 5), event -> {
-        });
+        Simulation simulation = Simulation.of(simulationSnapshot);
+        SimulationId id = simulation.takeSnapshot().id();
+        repository.add(simulation);
+        simulation.landRover(new Coordinate(4,5),event -> {});
 
         //when
-        repository.save(returnedSimulation);
+        repository.save(simulation);
 
         //then
-        Simulation landedSimulation = repository.getSimulation(id).orElseThrow();
-        assertEquals(1, landedSimulation.takeSnapshot().roverList().size());
-        Assertions.assertEquals(ObjectMother.R1, landedSimulation.takeSnapshot().roverList().getFirst().roverId());
+        SimulationSnapshot landedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
+        assertEquals(1, landedSimulationSnapshot.roverList().size());
+        Assertions.assertEquals(ObjectMother.R1, landedSimulationSnapshot.roverList().getFirst().roverId());
     }
 }

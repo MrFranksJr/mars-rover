@@ -1,5 +1,6 @@
 package io.tripled.marsrover.dbmodel;
 
+import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
@@ -19,12 +20,13 @@ public class MongoDbSimulationRepository implements SimulationRepository {
         this.mongoDbDao = mongoDbDao;
     }
 
-    private static Simulation map(SimulationDocument x) {
+    private static SimulationSnapshot map(SimulationDocument x) {
         return Simulation.newBuilder()
                 .withId(x.getId())
                 .withSimulationSize(x.getSimulationSize())
                 .withRoverLocations(x.getRoverList())
-                .build();
+                .build()
+                .takeSnapshot();
     }
 
     @Override
@@ -41,17 +43,16 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     }
 
     @Override
-    public Optional<List<Simulation>> retrieveSimulations() {
-        List<Simulation> retrievedSimulations = mongoDbDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
-        if(retrievedSimulations.isEmpty())
+    public Optional<List<SimulationSnapshot>> retrieveSimulations() {
+        List<SimulationSnapshot> retrievedSimulationSnapShots = mongoDbDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
+        if(retrievedSimulationSnapShots.isEmpty())
             return Optional.empty();
         else
-            return Optional.of(retrievedSimulations);
+            return Optional.of(retrievedSimulationSnapShots);
     }
 
     @Override
-    public Optional<Simulation> getSimulation(SimulationId simulationId) {
-        Optional<Simulation> simulation = mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
-        return simulation;
+    public Optional<SimulationSnapshot> getSimulation(SimulationId simulationId) {
+        return mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
     }
 }

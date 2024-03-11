@@ -1,6 +1,7 @@
 package io.tripled.marsrover.business.domain.rover;
 
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

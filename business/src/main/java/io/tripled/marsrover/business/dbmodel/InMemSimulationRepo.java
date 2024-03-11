@@ -27,18 +27,18 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
     }
 
     @Override
-    public Optional<List<Simulation>> retrieveSimulations() {
+    public Optional<List<SimulationSnapshot>> retrieveSimulations() {
         if(simulationSnapshot == null)
             return Optional.empty();
         else
-            return Optional.of(List.of(Simulation.of(simulationSnapshot)));
+            return Optional.of(List.of(simulationSnapshot));
     }
 
-    public Optional<Simulation> getSimulation(SimulationId simulationId) {
+    public Optional<SimulationSnapshot> getSimulation(SimulationId simulationId) {
         if (simulationSnapshot == null)
             return Optional.empty();
 
-        return Optional.of(Simulation.of(simulationSnapshot));
+        return Optional.of(simulationSnapshot);
     }
 
     @Override

@@ -2,7 +2,7 @@ package io.tripled.marsrover.business;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.rover.Coordinate;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;
