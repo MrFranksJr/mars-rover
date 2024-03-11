@@ -1,4 +1,4 @@
-package io.tripled.marsrover.business.dbmodel;
+package io.tripled.marsrover.dbmodel;
 
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.simulation.Simulation;

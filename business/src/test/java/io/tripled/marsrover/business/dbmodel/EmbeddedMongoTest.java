@@ -15,36 +15,5 @@ public class EmbeddedMongoTest {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-//    @Test
-//    void saveOwnCreatedObjectInDB() {
-//        // given
-//        final Simulation simulation = new Simulation(10);
-//        final SimulationId id = simulation.takeSnapshot().id();
-//        SimulationDocument simulationDocument = new SimulationDocument(simulation);
-//
-//        // when
-//        mongoTemplate.save(simulationDocument, "marscollection");
-//
-//        System.out.println(mongoTemplate.findAll(DBObject.class, "marscollection"));
-//
-//        // then
-//        assertThat(mongoTemplate.findAll(DBObject.class, "marscollection"))
-//                .extracting("_id")
-//                .contains(id.toString());
-//    }
-//
-//    @Test
-//    void extractSimSize() {
-//        // given
-//        final Simulation simulation = new Simulation(10);
-//        SimulationDocument simulationDocument = new SimulationDocument(simulation);
-//
-//        // when
-//        mongoTemplate.save(simulationDocument, "marscollection");
-//        // then
-//        assertThat(mongoTemplate.findAll(DBObject.class, "marscollection"))
-//                .extracting("simulationSize")
-//                .contains(10);
-//    }
 
 }

@@ -93,17 +93,13 @@ public class MarsRoverController implements MarsRoverApi {
 
     @Override
     public void lookUpSimulationStates(SimulationStatePresenter simulationStatePresenter) {
-        System.out.println("I AM TRIGGERED!");
-
         Optional<List<SimulationSnapshot>> existingSimulationSnapshots = simulationRepository.retrieveSimulations();
-        if (existingSimulationSnapshots.isEmpty())
-            simulationStatePresenter.simulationState(Collections.emptyList());
-        else {
-            List<SimulationSnapshot> simulationSnapshots = existingSimulationSnapshots.get();
-            List<Simulation> simulations = simulationSnapshots.stream()
+        if (existingSimulationSnapshots.isPresent()) {
+            List<Simulation> simulations = existingSimulationSnapshots.orElseThrow().stream()
                     .map(Simulation::of)
                     .toList();
             simulationStatePresenter.simulationState(simulations);
         }
+        else simulationStatePresenter.simulationState(Collections.emptyList());
     }
 }

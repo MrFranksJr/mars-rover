@@ -1,4 +1,4 @@
-package io.tripled.marsrover.business.stepdefinitions;
+package stepdefinitions;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
@@ -9,17 +9,16 @@ import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.business.dbmodel.InMemSimulationRepo;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
+import io.tripled.marsrover.dbmodel.InMemSimulationRepo;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StepDefinitions {
 
@@ -100,16 +99,16 @@ public class StepDefinitions {
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
     public void theRoverIsAtNewXNewYWithOrientation(String roverId, int newX, int newY, String heading) {
         final RoverState currentRoverState = getRoverState(roverId);
-        assertEquals(roverId, currentRoverState.roverId().id());
-        assertEquals(newX, currentRoverState.coordinate().xCoordinate());
-        assertEquals(newY, currentRoverState.coordinate().yCoordinate());
-        assertEquals(heading, currentRoverState.roverHeading().toString().toLowerCase());
+        Assertions.assertEquals(roverId, currentRoverState.roverId().id());
+        Assertions.assertEquals(newX, currentRoverState.coordinate().xCoordinate());
+        Assertions.assertEquals(newY, currentRoverState.coordinate().yCoordinate());
+        Assertions.assertEquals(heading, currentRoverState.roverHeading().toString().toLowerCase());
     }
 
     @Then("No rover should be present in the simulation")
     public void no_rover_should_be_present_in_the_simulation() {
         final SimulationSnapshot snapshot = simulationQuery.getSimulationInformation();
-        assertEquals(0, snapshot.roverList().size());
+        Assertions.assertEquals(0, snapshot.roverList().size());
     }
 
     @When("We give the Rovers the Instructions")
