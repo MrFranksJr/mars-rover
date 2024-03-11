@@ -15,14 +15,11 @@ public class SimulationDocument {
     @Id
     private String id;
     private int simulationSize;
-
-
     private List<RoverState> roverList;
     private int nrOfRovers;
 
 
-    public SimulationDocument(Simulation simulation) {
-        SimulationSnapshot snapshot = simulation.takeSnapshot();
+    public SimulationDocument(SimulationSnapshot snapshot) {
         this.id = snapshot.id().id().toString();
         this.simulationSize = snapshot.simulationSize();
         this.roverList = snapshot.roverList();
@@ -40,17 +37,10 @@ public class SimulationDocument {
         return simulationSize;
     }
 
-    public int getNrOfRovers() {
-        return nrOfRovers;
-    }
-
-    public void setNrOfRovers(int nrOfRovers) {
-        this.nrOfRovers = nrOfRovers;
-    }
-
     public List<RoverState> getRoverList() {
         return roverList;
     }
+
     @Override
     public String toString() {
         return "SimulationDocument{" +

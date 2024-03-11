@@ -1,7 +1,6 @@
 package io.tripled.marsrover.dbmodel;
 
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.springframework.context.annotation.Profile;
@@ -21,31 +20,35 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     }
 
     private static SimulationSnapshot map(SimulationDocument x) {
-        return Simulation.newBuilder()
+        return SimulationSnapshot.newBuilder()
                 .withId(x.getId())
-                .withSimulationSize(x.getSimulationSize())
-                .withRoverLocations(x.getRoverList())
-                .build()
-                .takeSnapshot();
+                .withSimSize(x.getSimulationSize())
+                .withTotalCoordinates((int) Math.pow(x.getSimulationSize() + 1, 2))
+                .withRoverList(x.getRoverList())
+                .build();
     }
 
     @Override
-    public void add(Simulation simulation) {
-        SimulationDocument s = new SimulationDocument(simulation);
+    public void add(SimulationSnapshot snapshot) {
+        SimulationDocument s = new SimulationDocument(snapshot);
 
         mongoDbDao.save(s);
     }
 
     @Override
-    public void save(Simulation simulation) {
-        SimulationDocument s = new SimulationDocument(simulation);
+    public void save(SimulationSnapshot snapshot) {
+        SimulationDocument s = new SimulationDocument(snapshot);
         mongoDbDao.save(s);
     }
 
     @Override
     public Optional<List<SimulationSnapshot>> retrieveSimulations() {
-        List<SimulationSnapshot> retrievedSimulationSnapShots = mongoDbDao.findAll().stream().map(MongoDbSimulationRepository::map).toList();
-        if(retrievedSimulationSnapShots.isEmpty())
+        List<SimulationSnapshot> retrievedSimulationSnapShots = mongoDbDao.findAll()
+                .stream()
+                .map(MongoDbSimulationRepository::map)
+                .toList();
+
+        if (retrievedSimulationSnapShots.isEmpty())
             return Optional.empty();
         else
             return Optional.of(retrievedSimulationSnapShots);

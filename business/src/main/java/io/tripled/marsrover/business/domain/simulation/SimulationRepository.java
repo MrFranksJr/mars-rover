@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SimulationRepository {
-    void add(Simulation simulation);
+    void add(SimulationSnapshot snapshot);
 
-    void save(Simulation simulation);
+    void save(SimulationSnapshot snapshot);
 
     Optional<List<SimulationSnapshot>> retrieveSimulations();
 

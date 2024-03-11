@@ -24,13 +24,13 @@ class MongoDbSimulationRepositoryTest {
 
     @Test
     void simpleSimulationCreation() {
-        Simulation simulation = new Simulation(10);
-        repository.add(simulation);
-        SimulationId id = simulation.takeSnapshot().id();
+        SimulationSnapshot snapshot = new Simulation(10).takeSnapshot();
+        repository.add(snapshot);
+        SimulationId id = snapshot.id();
 
         SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
 
-        assertEquals(simulation.takeSnapshot(), returnedSimulationSnapshot);
+        assertEquals(snapshot, returnedSimulationSnapshot);
     }
 
     @Test
@@ -39,7 +39,7 @@ class MongoDbSimulationRepositoryTest {
         SimulationSnapshot simulationSnapshot = ObjectMother.buildComplexeSimulationState();
 
         //when
-        repository.add(Simulation.of(simulationSnapshot));
+        repository.add(simulationSnapshot);
 
         //then
         SimulationId id = simulationSnapshot.id();
@@ -51,13 +51,13 @@ class MongoDbSimulationRepositoryTest {
     void persistSimulationWithLandedRoversSave() {
         //given
         SimulationSnapshot simulationSnapshot = ObjectMother.buildEmptySimulation();
+        SimulationId id = simulationSnapshot.id();
+        repository.add(simulationSnapshot);
         Simulation simulation = Simulation.of(simulationSnapshot);
-        SimulationId id = simulation.takeSnapshot().id();
-        repository.add(simulation);
         simulation.landRover(new Coordinate(4,5),event -> {});
 
         //when
-        repository.save(simulation);
+        repository.save(simulation.takeSnapshot());
 
         //then
         SimulationSnapshot landedSimulationSnapshot = repository.getSimulation(id).orElseThrow();

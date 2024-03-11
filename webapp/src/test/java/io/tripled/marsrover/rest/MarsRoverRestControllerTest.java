@@ -222,11 +222,9 @@ public class MarsRoverRestControllerTest {
 
         result.andExpect(content().string(containsString("10")));
         result.andExpect(jsonPath("$.simulationSize").value("10"));
-
     }
 
     private void createSimulationOf10() throws Exception {
-
         mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/10")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8"));

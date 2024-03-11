@@ -17,13 +17,13 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
     private SimulationSnapshot simulationSnapshot;
 
     @Override
-    public void add(Simulation simulation) {
-        simulationSnapshot = simulation.takeSnapshot();
+    public void add(SimulationSnapshot snapshot) {
+        simulationSnapshot = snapshot;
     }
 
     @Override
-    public void save(Simulation simulation) {
-        simulationSnapshot = simulation.takeSnapshot();
+    public void save(SimulationSnapshot snapshot) {
+        simulationSnapshot = snapshot;
     }
 
     @Override

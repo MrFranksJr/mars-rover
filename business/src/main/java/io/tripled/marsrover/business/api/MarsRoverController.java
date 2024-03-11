@@ -51,7 +51,7 @@ public class MarsRoverController implements MarsRoverApi {
         final var eventPublisher = createEventPublisher(landingPresenter);
         simulation.landRover(coordinate, eventPublisher);
 
-        simulationRepository.save(simulation);
+        simulationRepository.save(simulation.takeSnapshot());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class MarsRoverController implements MarsRoverApi {
             for (RoverInstructions roverInstructions : instructionBatch.batch()) {
                 simulation.moveRover(roverInstructions, event -> presentRoverMoved(roverMovePresenter, event));
             }
-            simulationRepository.save(simulation);
+            simulationRepository.save(simulation.takeSnapshot());
         }
 
     }
@@ -78,7 +78,7 @@ public class MarsRoverController implements MarsRoverApi {
             simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
         else {
             final var simWorld = simulation.orElseThrow();
-            simulationRepository.add(simWorld);
+            simulationRepository.add(simWorld.takeSnapshot());
             simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
         }
     }
@@ -93,6 +93,8 @@ public class MarsRoverController implements MarsRoverApi {
 
     @Override
     public void lookUpSimulationStates(SimulationStatePresenter simulationStatePresenter) {
+        System.out.println("I AM TRIGGERED!");
+
         Optional<List<SimulationSnapshot>> existingSimulationSnapshots = simulationRepository.retrieveSimulations();
         if (existingSimulationSnapshots.isEmpty())
             simulationStatePresenter.simulationState(Collections.emptyList());
