@@ -104,6 +104,7 @@
     <module>business</module>
     <module>webapp</module>
     <module>database</module>
-      <module>main</module>
+    <module>vocabulary</module>
+    <module>main</module>
   </modules>
 </project>
