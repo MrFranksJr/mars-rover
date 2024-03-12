@@ -2,7 +2,6 @@ package io.tripled.marsrover.dbmodel;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -24,8 +23,9 @@ public class MongoDbConfiguration {
     MongoOperations mongoTemplate(MongoClient mongoClient) {
         return new MongoTemplate(mongoClient, db);
     }
+
     @Bean
-    MongoDbSimulationRepository getSimulationRepo(SimulationDocumentDao simulationDocumentDao){
+    MongoDbSimulationRepository getSimulationRepo(SimulationDocumentDao simulationDocumentDao) {
         return new MongoDbSimulationRepository(simulationDocumentDao);
     }
 

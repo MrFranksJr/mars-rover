@@ -1,19 +1,18 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+
 public class MarsRoverController implements MarsRoverApi {
     private final SimulationRepository simulationRepository;
 
@@ -99,7 +98,6 @@ public class MarsRoverController implements MarsRoverApi {
                     .map(Simulation::of)
                     .toList();
             simulationStatePresenter.simulationState(simulations);
-        }
-        else simulationStatePresenter.simulationState(Collections.emptyList());
+        } else simulationStatePresenter.simulationState(Collections.emptyList());
     }
 }
