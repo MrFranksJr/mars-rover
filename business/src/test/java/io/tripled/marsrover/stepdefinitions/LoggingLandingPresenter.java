@@ -1,4 +1,4 @@
-package stepdefinitions;
+package io.tripled.marsrover.stepdefinitions;
 
 import io.tripled.marsrover.business.api.LandingPresenter;
 import io.tripled.marsrover.vocabulary.Coordinate;

@@ -1,17 +1,13 @@
-package io.tripled.marsrover.dbmodel;
+package io.tripled.marsrover.inmemory;
 
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-@Profile("INMEM")
 public class InMemSimulationRepo implements SimulationRepository, SimulationQuery {
     private SimulationSnapshot simulationSnapshot;
 

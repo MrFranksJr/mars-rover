@@ -1,4 +1,4 @@
-package stepdefinitions;
+package io.tripled.marsrover.stepdefinitions;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
@@ -10,7 +10,7 @@ import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
-import io.tripled.marsrover.dbmodel.InMemSimulationRepo;
+import io.tripled.marsrover.inmemory.InMemSimulationRepo;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;

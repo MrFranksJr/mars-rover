@@ -1,3 +1,5 @@
+package io.tripled.marsrover;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tripled.marsrover.dto.SimulationViewDTO;
 import io.tripled.marsrover.rest.MarsRoverRestController;

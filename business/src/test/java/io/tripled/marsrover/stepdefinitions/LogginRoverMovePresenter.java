@@ -1,4 +1,4 @@
-package stepdefinitions;
+package io.tripled.marsrover.stepdefinitions;
 
 import io.tripled.marsrover.business.api.RoverMovePresenter;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
