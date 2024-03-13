@@ -1,12 +1,12 @@
-package io.tripled.marsrover.business.domain.rover;
+package io.tripled.marsrover.vocabulary;
 
-public enum RoverHeading {
+public enum Heading {
     NORTH,
     EAST,
     SOUTH,
     WEST;
 
-    RoverHeading nextClockWise() {
+    public Heading nextClockWise() {
         return switch (this) {
             case NORTH -> EAST;
             case EAST -> SOUTH;
@@ -15,7 +15,7 @@ public enum RoverHeading {
         };
     }
 
-    RoverHeading nextCounterClockWise() {
+    public Heading nextCounterClockWise() {
         return switch (this) {
             case NORTH -> WEST;
             case EAST -> NORTH;

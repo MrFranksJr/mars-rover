@@ -1,15 +1,15 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.business.domain.rover.HealthState;
-import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.vocabulary.HealthState;
+import io.tripled.marsrover.vocabulary.Heading;
 import io.tripled.marsrover.vocabulary.RoverId;
 
-public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate coordinate, int hitpoints, HealthState healthState) {
+public record RoverState(RoverId roverId, Heading heading, Coordinate coordinate, int hitpoints, HealthState healthState) {
 
 
     private RoverState(Builder builder) {
-        this(builder.roverId, builder.roverHeading, builder.coordinate, builder.hitPoints, builder.healthState);
+        this(builder.roverId, builder.heading, builder.coordinate, builder.hitPoints, builder.healthState);
     }
 
     public static Builder newBuilder() {
@@ -19,7 +19,7 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
 
     public static final class Builder {
         private RoverId roverId;
-        private RoverHeading roverHeading;
+        private Heading heading;
         private Coordinate coordinate;
         private int hitPoints;
         private HealthState healthState;
@@ -36,8 +36,8 @@ public record RoverState(RoverId roverId, RoverHeading roverHeading, Coordinate 
             return withRoverId(new RoverId(val));
         }
 
-        public Builder withRoverHeading(RoverHeading val) {
-            roverHeading = val;
+        public Builder withRoverHeading(Heading val) {
+            heading = val;
             return this;
         }
 

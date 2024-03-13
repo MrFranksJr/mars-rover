@@ -3,7 +3,7 @@ package io.tripled.marsrover.presenters;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.business.api.SimulationStatePresenter;
-import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.vocabulary.Heading;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.dto.RoverViewDTO;
 import io.tripled.marsrover.dto.SimulationViewDTO;
@@ -20,8 +20,8 @@ public class SimulationStateRestPresenter implements SimulationStatePresenter {
     }
 
     private String mapHeading(RoverState x) {
-        final RoverHeading roverHeading = x.roverHeading();
-        return switch (roverHeading) {
+        final Heading heading = x.heading();
+        return switch (heading) {
             case NORTH -> "NORTH";
             case EAST -> "EAST";
             case SOUTH -> "SOUTH";

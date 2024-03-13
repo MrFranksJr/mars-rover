@@ -1,23 +1,26 @@
 package io.tripled.marsrover.business.domain.rover;
 
 import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.vocabulary.Heading;
+import io.tripled.marsrover.vocabulary.HealthState;
+import io.tripled.marsrover.vocabulary.Location;
 import io.tripled.marsrover.vocabulary.RoverId;
 
 public class Rover {
     private final RoverId roverId;
-    private RoverHeading roverHeading;
+    private Heading heading;
     private int hitPoints;
     private HealthState healthState;
 
-    public Rover(RoverId roverId, RoverHeading roverHeading, int hitPoints, HealthState healthState) {
+    public Rover(RoverId roverId, Heading heading, int hitPoints, HealthState healthState) {
         this.roverId = roverId;
-        this.roverHeading = roverHeading;
+        this.heading = heading;
         this.hitPoints = hitPoints;
         this.healthState = healthState;
     }
 
-    public Rover(String roverId, RoverHeading roverHeading) {
-        this(new RoverId(roverId), roverHeading, 5, HealthState.OPERATIONAL);
+    public Rover(String roverId, Heading heading) {
+        this(new RoverId(roverId), heading, 5, HealthState.OPERATIONAL);
     }
 
 
@@ -25,14 +28,14 @@ public class Rover {
         return roverId;
     }
 
-    private RoverHeading getRoverHeading() {
-        return roverHeading;
+    private Heading getRoverHeading() {
+        return heading;
     }
 
     public RoverState getRoverState(Location location) {
         return RoverState.newBuilder()
                 .withRoverId(roverId)
-                .withRoverHeading(roverHeading)
+                .withRoverHeading(heading)
                 .withCoordinate(location.coordinate())
                 .withHitPoints(hitPoints)
                 .withHealthState(healthState)
@@ -59,11 +62,11 @@ public class Rover {
     }
 
     public void turnLeft() {
-        roverHeading = roverHeading.nextCounterClockWise();
+        heading = heading.nextCounterClockWise();
     }
 
     public void turnRight() {
-        roverHeading = roverHeading.nextClockWise();
+        heading = heading.nextClockWise();
     }
 
     public void handleDamage() {

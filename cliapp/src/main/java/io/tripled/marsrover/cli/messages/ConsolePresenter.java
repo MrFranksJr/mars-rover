@@ -94,7 +94,7 @@ public class ConsolePresenter implements MessagePresenter {
             System.out.println("No Rovers landed yet. Use the Land command to place a Rover in the simulation!");
         } else {
             for (RoverState rover : localRoverList) {
-                System.out.println("Rover " + rover.roverId() + " at Coordinates[x=" + rover.coordinate().xCoordinate() + ", y=" + rover.coordinate().yCoordinate() + "] is facing " + rover.roverHeading() + ". " + rover.roverId() + " has " + rover.hitpoints() + "/5 hitpoints left and is currently " + rover.healthState());
+                System.out.println("Rover " + rover.roverId() + " at Coordinates[x=" + rover.coordinate().xCoordinate() + ", y=" + rover.coordinate().yCoordinate() + "] is facing " + rover.heading() + ". " + rover.roverId() + " has " + rover.hitpoints() + "/5 hitpoints left and is currently " + rover.healthState());
             }
         }
     }
@@ -107,7 +107,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void roverMovedMessage(RoverState roverState) {
-        System.out.println("Rover " + roverState.roverId() + " moved to new location [" + roverState.coordinate().xCoordinate() + "-" + roverState.coordinate().yCoordinate() + "]  and is now facing " + roverState.roverHeading());
+        System.out.println("Rover " + roverState.roverId() + " moved to new location [" + roverState.coordinate().xCoordinate() + "-" + roverState.coordinate().yCoordinate() + "]  and is now facing " + roverState.heading());
     }
 
     @Override

@@ -3,7 +3,7 @@ package io.tripled.marsrover.business;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
 import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.business.domain.rover.RoverHeading;
+import io.tripled.marsrover.vocabulary.Heading;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;
 
@@ -26,7 +26,7 @@ public class ObjectMother {
         return RoverState.newBuilder()
                 .withRoverId("R3")
                 .withCoordinate(new Coordinate(1, 3))
-                .withRoverHeading(RoverHeading.SOUTH)
+                .withRoverHeading(Heading.SOUTH)
                 .build();
     }
 
@@ -34,7 +34,7 @@ public class ObjectMother {
         return RoverState.newBuilder()
                 .withRoverId("R4")
                 .withCoordinate(new Coordinate(2, 7))
-                .withRoverHeading(RoverHeading.EAST)
+                .withRoverHeading(Heading.EAST)
                 .build();
     }
 
@@ -42,7 +42,7 @@ public class ObjectMother {
         return RoverState.newBuilder()
                 .withRoverId("R5")
                 .withCoordinate(new Coordinate(4, 9))
-                .withRoverHeading(RoverHeading.WEST)
+                .withRoverHeading(Heading.WEST)
                 .withHitPoints(0)
                 .build();
     }

@@ -2,8 +2,11 @@ package io.tripled.marsrover.business.domain.rover;
 
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.vocabulary.Coordinate;
+import io.tripled.marsrover.vocabulary.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import io.tripled.marsrover.vocabulary.Heading;
+import io.tripled.marsrover.vocabulary.HealthState;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,7 +17,7 @@ class RoverTest {
 
     @BeforeEach
     void setUp() {
-        r1 = new Rover("R1", RoverHeading.NORTH);
+        r1 = new Rover("R1", Heading.NORTH);
     }
     @Test
     void moveOneStepForwardsPassLocation() {
@@ -41,7 +44,7 @@ class RoverTest {
 
         RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
 
-        assertEquals(RoverHeading.WEST, roverState.roverHeading());
+        assertEquals(Heading.WEST, roverState.heading());
     }
 
     @Test
@@ -50,7 +53,7 @@ class RoverTest {
 
         RoverState roverState = r1.getRoverState(new Location(new Coordinate(5,5), 10));
 
-        assertEquals(RoverHeading.EAST, roverState.roverHeading());
+        assertEquals(Heading.EAST, roverState.heading());
     }
 
     @Test

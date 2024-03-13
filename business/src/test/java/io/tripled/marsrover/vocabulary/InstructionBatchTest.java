@@ -1,6 +1,5 @@
 package io.tripled.marsrover.vocabulary;
 
-import io.tripled.marsrover.business.domain.rover.Direction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

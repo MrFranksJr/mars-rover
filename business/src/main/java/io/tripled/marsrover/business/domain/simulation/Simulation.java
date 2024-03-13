@@ -5,7 +5,8 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import io.tripled.marsrover.business.api.RoverState;
 import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.rover.*;
+import io.tripled.marsrover.vocabulary.Location;
+import io.tripled.marsrover.business.domain.rover.Rover;
 import io.tripled.marsrover.vocabulary.*;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Simulation {
         this.id = simulationSnapshot.id();
         simulationSize = simulationSnapshot.simulationSize();
         for (RoverState roverState : simulationSnapshot.roverList()) {
-            Rover r = new Rover(roverState.roverId(), roverState.roverHeading(), roverState.hitpoints(), roverState.healthState());
+            Rover r = new Rover(roverState.roverId(), roverState.heading(), roverState.hitpoints(), roverState.healthState());
             final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(roverState.coordinate()).build();
             roverLocationMap.put(lo, r);
         }
@@ -229,7 +230,7 @@ public class Simulation {
 
     private Rover createNewRover() {
         final var roverId = new RoverId("R" + (++nrOfRovers));
-        return new Rover(roverId, RoverHeading.NORTH, 5, HealthState.OPERATIONAL);
+        return new Rover(roverId, Heading.NORTH, 5, HealthState.OPERATIONAL);
     }
 
     private boolean invalidCoordinatesReceived(Coordinate coordinate) {
@@ -303,7 +304,7 @@ public class Simulation {
 
         public Builder withRoverLocations(List<RoverState> val) {
             for (RoverState roverState : val) {
-                Rover r = new Rover(roverState.roverId(), roverState.roverHeading(), roverState.hitpoints(), roverState.healthState());
+                Rover r = new Rover(roverState.roverId(), roverState.heading(), roverState.hitpoints(), roverState.healthState());
                 final var lo = Location.newBuilder().setSimulationSize(simulationSize).withCoordinate(roverState.coordinate()).build();
                 roverLocationMap.put(lo, r);
             }

@@ -3,14 +3,15 @@ package io.tripled.marsrover.cli.commands;
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.business.api.MarsRoverApi;
 import io.tripled.marsrover.business.api.MarsRoverController;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.vocabulary.*;
 import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import io.tripled.marsrover.vocabulary.Coordinate;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
+import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.RoverMove;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

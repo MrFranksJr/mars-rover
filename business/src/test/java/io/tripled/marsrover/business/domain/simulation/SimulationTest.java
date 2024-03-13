@@ -2,9 +2,6 @@ package io.tripled.marsrover.business.domain.simulation;
 
 import com.google.common.collect.ImmutableList;
 import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.business.domain.rover.Direction;
-import io.tripled.marsrover.business.domain.rover.RoverHeading;
 import io.tripled.marsrover.vocabulary.*;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +38,7 @@ class SimulationTest {
                 case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
                     assertEquals(3, landingSuccessfulEvent.roverState().coordinate().xCoordinate());
                     assertEquals(4, landingSuccessfulEvent.roverState().coordinate().yCoordinate());
-                    assertEquals(RoverHeading.NORTH, landingSuccessfulEvent.roverState().roverHeading());
+                    assertEquals(Heading.NORTH, landingSuccessfulEvent.roverState().heading());
                 }
                 case Simulation.RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
                 case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
@@ -82,7 +79,7 @@ class SimulationTest {
 
         moveRover(simWorld, R1, Direction.LEFT);
 
-        assertEquals(RoverHeading.WEST, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.WEST, getRover(R1, simWorld).heading());
     }
 
     @Test
@@ -91,7 +88,7 @@ class SimulationTest {
 
         moveRover(simWorld, R1, Direction.RIGHT);
 
-        assertEquals(RoverHeading.EAST, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.EAST, getRover(R1, simWorld).heading());
     }
 
     @Test
@@ -101,7 +98,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.LEFT);
         moveRover(simWorld, R1, Direction.FORWARD);
 
-        assertEquals(RoverHeading.WEST, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.WEST, getRover(R1, simWorld).heading());
         assertEquals(4, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
@@ -112,7 +109,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.LEFT);
         moveRover(simWorld, R1, Direction.BACKWARD);
 
-        assertEquals(RoverHeading.WEST, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.WEST, getRover(R1, simWorld).heading());
         assertEquals(6, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
@@ -123,7 +120,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.RIGHT);
         moveRover(simWorld, R1, Direction.FORWARD);
 
-        assertEquals(RoverHeading.EAST, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.EAST, getRover(R1, simWorld).heading());
         assertEquals(6, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
@@ -134,7 +131,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.RIGHT);
         moveRover(simWorld, R1, Direction.BACKWARD);
 
-        assertEquals(RoverHeading.EAST, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.EAST, getRover(R1, simWorld).heading());
         assertEquals(4, getRover(R1, simWorld).coordinate().xCoordinate());
     }
 
@@ -144,7 +141,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.RIGHT);
         moveRover(simWorld, R1, Direction.RIGHT);
 
-        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.SOUTH, getRover(R1, simWorld).heading());
     }
 
     @Test
@@ -153,7 +150,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.LEFT);
         moveRover(simWorld, R1, Direction.LEFT);
 
-        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.SOUTH, getRover(R1, simWorld).heading());
     }
 
     @Test
@@ -163,7 +160,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.LEFT);
         moveRover(simWorld, R1, Direction.FORWARD);
 
-        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.SOUTH, getRover(R1, simWorld).heading());
         assertEquals(4, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
@@ -174,7 +171,7 @@ class SimulationTest {
         moveRover(simWorld, R1, Direction.LEFT);
         moveRover(simWorld, R1, Direction.BACKWARD);
 
-        assertEquals(RoverHeading.SOUTH, getRover(R1, simWorld).roverHeading());
+        assertEquals(Heading.SOUTH, getRover(R1, simWorld).heading());
         assertEquals(6, getRover(R1, simWorld).coordinate().yCoordinate());
     }
 
@@ -263,7 +260,7 @@ class SimulationTest {
         moveRover(simWorld, R2, Direction.RIGHT);
 
         assertEquals(R2, getRover(R2, simWorld).roverId());
-        assertEquals(RoverHeading.EAST, getRover(R2, simWorld).roverHeading());
+        assertEquals(Heading.EAST, getRover(R2, simWorld).heading());
     }
 
     @Test

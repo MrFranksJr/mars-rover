@@ -102,7 +102,7 @@ public class StepDefinitions {
         Assertions.assertEquals(roverId, currentRoverState.roverId().id());
         Assertions.assertEquals(newX, currentRoverState.coordinate().xCoordinate());
         Assertions.assertEquals(newY, currentRoverState.coordinate().yCoordinate());
-        Assertions.assertEquals(heading, currentRoverState.roverHeading().toString().toLowerCase());
+        Assertions.assertEquals(heading, currentRoverState.heading().toString().toLowerCase());
     }
 
     @Then("No rover should be present in the simulation")

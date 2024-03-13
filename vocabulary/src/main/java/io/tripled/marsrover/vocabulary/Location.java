@@ -1,6 +1,4 @@
-package io.tripled.marsrover.business.domain.rover;
-
-import io.tripled.marsrover.vocabulary.Coordinate;
+package io.tripled.marsrover.vocabulary;
 
 public record Location(Coordinate coordinate, int simulationSize) {
     public Location {

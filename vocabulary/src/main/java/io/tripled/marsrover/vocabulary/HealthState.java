@@ -1,4 +1,4 @@
-package io.tripled.marsrover.business.domain.rover;
+package io.tripled.marsrover.vocabulary;
 
 public enum HealthState {
     OPERATIONAL, BROKEN

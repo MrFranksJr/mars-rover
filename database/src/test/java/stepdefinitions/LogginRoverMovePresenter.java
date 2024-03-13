@@ -8,7 +8,7 @@ public enum LogginRoverMovePresenter implements RoverMovePresenter {
 
     @Override
     public void moveRoverSuccessful(Simulation.RoverMovedSuccessfulEvent r) {
-        System.out.println("Rover " + r.roverState().roverId() + " is at " + r.roverState().coordinate() + " facing " + r.roverState().roverHeading());
+        System.out.println("Rover " + r.roverState().roverId() + " is at " + r.roverState().coordinate() + " facing " + r.roverState().heading());
     }
 
     @Override
