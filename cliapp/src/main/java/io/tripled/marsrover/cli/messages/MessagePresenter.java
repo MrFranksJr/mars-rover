@@ -5,6 +5,7 @@ import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.events.LandingOnTopEvent;
 import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 public interface MessagePresenter {
     void welcomeMessage();
@@ -38,4 +39,6 @@ public interface MessagePresenter {
     void landRoversOnTopMessage(LandingOnTopEvent landingOnTopEvent);
 
     void roverMoveErrorMessage();
+
+    SimulationId getSimId();
 }

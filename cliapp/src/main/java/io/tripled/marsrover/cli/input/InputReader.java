@@ -16,6 +16,7 @@ public class InputReader {
         presenter.welcomeMessage();
         try (Scanner scanner = new Scanner(System.in)) {
             createSimWorld(scanner, presenter);
+
             listenForCommands(scanner, presenter);
         }
     }

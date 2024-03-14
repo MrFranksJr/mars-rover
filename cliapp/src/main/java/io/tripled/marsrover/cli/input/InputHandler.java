@@ -3,6 +3,7 @@ package io.tripled.marsrover.cli.input;
 import io.tripled.marsrover.cli.commands.Command;
 import io.tripled.marsrover.cli.commands.CommandParser;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -16,7 +17,7 @@ public class InputHandler {
     }
 
     public void handleCommandInput(String commandInput, MessagePresenter presenter) {
-        final Command command = commandParser.parseInput(commandInput);
+        final Command command = commandParser.parseInput(commandInput, presenter.getSimId());
         command.execute(presenter);
     }
 
@@ -33,5 +34,3 @@ public class InputHandler {
         createSimWorld.ifPresentOrElse(consumer, runnable);
     }
 }
-
-

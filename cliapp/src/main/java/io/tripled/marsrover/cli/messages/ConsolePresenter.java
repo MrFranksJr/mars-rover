@@ -5,10 +5,16 @@ import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.events.LandingOnTopEvent;
 import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.List;
 
 public class ConsolePresenter implements MessagePresenter {
+    private SimulationId simId;
+
+    public SimulationId getSimId() {
+        return simId;
+    }
 
     @Override
     public void welcomeMessage() {
@@ -61,6 +67,7 @@ public class ConsolePresenter implements MessagePresenter {
 
     @Override
     public void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot) {
+        simId = simulationSnapshot.id();
         System.out.println("Simulation with max coordinate [" + simulationSnapshot.simulationSize() + "] created successfully. Simulation contains [" + simulationSnapshot.totalCoordinates() + "] coordinates");
     }
 

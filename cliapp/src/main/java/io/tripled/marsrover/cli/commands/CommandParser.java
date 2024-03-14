@@ -5,6 +5,7 @@ import io.tripled.marsrover.cli.messages.ConsolePresenter;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -53,13 +54,17 @@ public class CommandParser {
         return input.substring(0, input.indexOf(" ")).toUpperCase();
     }
 
-    public Command parseInput(String input) {
+    public Command parseInput(String input, SimulationId simId) {
         if (isPrintCommand(input)) return PrintCommand.INSTANCE;
         if (isQuitCommand(input)) return QuitCommand.INSTANCE;
         if (isLandCommand(input)) return handleLandCommand(input);
-        if (isStateCommand(input)) return new StateCommand("1234", api);
+        if (isStateCommand(input)) return getStateCommand(simId);
         if (isMoveRoverCommand(input)) return handleMoveCommand(input);
         return new UnknownCommand(input);
+    }
+
+    private StateCommand getStateCommand(SimulationId simulationId) {
+        return new StateCommand(simulationId.toString(), api);
     }
 
     private Command handleLandCommand(String input) {
@@ -90,11 +95,11 @@ public class CommandParser {
 
     private Optional<Boolean> containsOnlyNumbers(String coordinate) {
         if ("q".equalsIgnoreCase(coordinate)) {
-            Command quitCommand = this.parseInput(coordinate);
+            Command quitCommand = QuitCommand.INSTANCE;
             quitCommand.execute(new ConsolePresenter());
-
-        } else if (coordinate.matches("\\d+")) return Optional.of(true);
-        return Optional.of(false);
+        }
+        else if (coordinate.matches("\\d+")) return Optional.of(true);
+            return Optional.of(false);
     }
 
     private boolean isWithinLimit(int coordinate) {

@@ -6,8 +6,10 @@ import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.events.LandingOnTopEvent;
 import io.tripled.marsrover.vocabulary.RoverId;
+import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DummyPresenter implements MessagePresenter {
     public RoverState roverState;
@@ -139,5 +141,13 @@ public class DummyPresenter implements MessagePresenter {
     @Override
     public void roverMoveErrorMessage() {
 
+    }
+
+    @Override
+    public SimulationId getSimId() {
+        if (simulationSnapshot == null) {
+            return new SimulationId(UUID.randomUUID());
+        }
+        return simulationSnapshot.id();
     }
 }
