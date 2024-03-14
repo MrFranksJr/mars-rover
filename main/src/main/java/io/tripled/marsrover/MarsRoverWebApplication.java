@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableMongoRepositories
 public class MarsRoverWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(MarsRoverWebApplication.class, args);
