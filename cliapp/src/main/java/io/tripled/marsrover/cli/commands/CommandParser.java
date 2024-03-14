@@ -57,9 +57,9 @@ public class CommandParser {
     public Command parseInput(String input, SimulationId simId) {
         if (isPrintCommand(input)) return PrintCommand.INSTANCE;
         if (isQuitCommand(input)) return QuitCommand.INSTANCE;
-        if (isLandCommand(input)) return handleLandCommand(input);
+        if (isLandCommand(input)) return handleLandCommand(simId, input);
         if (isStateCommand(input)) return getStateCommand(simId);
-        if (isMoveRoverCommand(input)) return handleMoveCommand(input);
+        if (isMoveRoverCommand(input)) return handleMoveCommand(simId, input);
         return new UnknownCommand(input);
     }
 
@@ -67,15 +67,15 @@ public class CommandParser {
         return new StateCommand(simulationId.toString(), api);
     }
 
-    private Command handleLandCommand(String input) {
+    private Command handleLandCommand(SimulationId simulationId, String input) {
         String trimmedLandCommandString = input.trim();
         if (isValidLandCommandInput(trimmedLandCommandString))
-            return new LandCommand("1234", new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
+            return new LandCommand(simulationId.toString(), new Coordinate(getXCoordinateFromString(trimmedLandCommandString), getYCoordinateFromString(trimmedLandCommandString)), api);
         else return new LandingFailureCommand(trimmedLandCommandString);
     }
 
-    private Command handleMoveCommand(String input) {
-        return new RoverMoveCommand("1234", extractRoverMovesFromInput(input), api);
+    private Command handleMoveCommand(SimulationId simulationId, String input) {
+        return new RoverMoveCommand(simulationId.toString(), extractRoverMovesFromInput(input), api);
     }
 
     private boolean isStateCommand(String input) {
