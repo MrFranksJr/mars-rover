@@ -1,19 +1,18 @@
 package io.tripled.marsrover;
 
+import io.tripled.marsrover.business.api.MarsRoverController;
+import io.tripled.marsrover.cli.commands.CommandParser;
+import io.tripled.marsrover.cli.input.InputHandler;
 import io.tripled.marsrover.cli.input.InputReader;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import io.tripled.marsrover.inmemory.InMemSimulationRepo;
 
 public class MarsRoverCLIApplication {
-    @Autowired
-    SimulationRepository simulationRepository;
 
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("io.tripled.marsrover");
-        final InputReader bean = applicationContext.getBean(InputReader.class);
-        bean.readInput();
+        final MarsRoverApi marsRoverApi = new MarsRoverController(new InMemSimulationRepo());
+        final CommandParser commandParser = new CommandParser(marsRoverApi);
+        final InputHandler inputHandler = new InputHandler(commandParser);
+        final InputReader inputReader = new InputReader(inputHandler);
+        inputReader.readInput();
     }
 }

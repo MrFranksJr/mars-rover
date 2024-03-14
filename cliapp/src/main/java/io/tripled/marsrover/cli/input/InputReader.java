@@ -1,11 +1,9 @@
 package io.tripled.marsrover.cli.input;
 
 import io.tripled.marsrover.cli.messages.ConsolePresenter;
-import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-@Component
 public class InputReader {
     private final InputHandler inputHandler;
 
