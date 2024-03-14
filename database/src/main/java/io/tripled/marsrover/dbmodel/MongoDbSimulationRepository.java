@@ -1,7 +1,7 @@
 package io.tripled.marsrover.dbmodel;
 
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
+import io.tripled.marsrover.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -42,7 +42,7 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     }
 
     @Override
-    public Optional<List<SimulationSnapshot>> retrieveSimulations() {
+    public Optional<List<SimulationSnapshot>> getSimulationSnapshots() {
         List<SimulationSnapshot> retrievedSimulationSnapShots = mongoDbDao.findAll()
                 .stream()
                 .map(MongoDbSimulationRepository::map)
@@ -55,7 +55,7 @@ public class MongoDbSimulationRepository implements SimulationRepository {
     }
 
     @Override
-    public Optional<SimulationSnapshot> getSimulation(SimulationId simulationId) {
+    public Optional<SimulationSnapshot> getSimulationSnapshot(SimulationId simulationId) {
         return mongoDbDao.findById(simulationId.toString()).map(MongoDbSimulationRepository::map);
     }
 }

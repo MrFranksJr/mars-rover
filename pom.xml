@@ -106,5 +106,6 @@
     <module>database</module>
     <module>vocabulary</module>
     <module>main</module>
+      <module>applicationapi</module>
   </modules>
 </project>

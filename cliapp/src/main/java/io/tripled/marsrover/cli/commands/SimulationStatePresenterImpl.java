@@ -1,7 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.business.api.SimulationStatePresenter;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
+import io.tripled.marsrover.SimulationStatePresenter;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 import java.util.List;
@@ -14,14 +14,14 @@ public class SimulationStatePresenterImpl implements SimulationStatePresenter {
     }
 
     @Override
-    public void simulationState(List<Simulation> simulations) {
-        for (Simulation simulation : simulations) {
-            messagePresenter.roverStateCommand(simulation.takeSnapshot());
+    public void simulationState(List<SimulationSnapshot> simulationSnapshots) {
+        for (SimulationSnapshot simulationSnapshot : simulationSnapshots) {
+            messagePresenter.roverStateCommand(simulationSnapshot);
         }
     }
 
     @Override
-    public void simulationState(Simulation simulation) {
-        messagePresenter.roverStateCommand(simulation.takeSnapshot());
+    public void simulationState(SimulationSnapshot simulationSnapshot) {
+        messagePresenter.roverStateCommand(simulationSnapshot);
     }
 }

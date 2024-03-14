@@ -1,4 +1,4 @@
-package io.tripled.marsrover.business.api;
+package io.tripled.marsrover.DTOs;
 
 import com.google.common.collect.ImmutableList;
 import io.tripled.marsrover.vocabulary.RoverId;

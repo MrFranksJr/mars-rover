@@ -1,7 +1,10 @@
 package io.tripled.marsrover.presenters;
 
-import io.tripled.marsrover.business.api.RoverMovePresenter;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.RoverMovePresenter;
+import io.tripled.marsrover.events.RoverAlreadyBrokenEvent;
+import io.tripled.marsrover.events.RoverBreaksDownEvent;
+import io.tripled.marsrover.events.RoverCollidedEvent;
+import io.tripled.marsrover.events.RoverMovedSuccessfulEvent;
 import io.tripled.marsrover.rest.RoverMoveResult;
 import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;
@@ -15,27 +18,27 @@ public class RoverMovePresenterImpl implements RoverMovePresenter {
     private SimulationId simulationId;
 
     @Override
-    public void moveRoverSuccessful(Simulation.RoverMovedSuccessfulEvent r) {
-        this.simulationId = r.id();
-        result = new Pair<>(r.roverState().roverId(), RoverMoveResult.SUCCESS);
-    }
-
-    @Override
-    public void roverCollided(Simulation.RoverCollidedEvent r) {
+    public void roverCollided(RoverCollidedEvent r) {
         this.simulationId = r.id();
         result = new Pair<>(r.roverState().roverId(), RoverMoveResult.COLLIDED);
     }
 
     @Override
-    public void roverBreakingDown(Simulation.RoverBreaksDownEvent r) {
+    public void roverBreakingDown(RoverBreaksDownEvent r) {
         this.simulationId = r.id();
         result = new Pair<>(r.roverState().roverId(), RoverMoveResult.BROKEN);
     }
 
     @Override
-    public void roverAlreadyBrokenDown(Simulation.RoverAlreadyBrokenEvent r) {
+    public void roverAlreadyBrokenDown(RoverAlreadyBrokenEvent r) {
         this.simulationId = r.id();
         result = new Pair<>(r.roverId(), RoverMoveResult.ALREADY_BROKEN);
+    }
+
+    @Override
+    public void moveRoverSuccessful(RoverMovedSuccessfulEvent r) {
+        this.simulationId = r.id();
+        result = new Pair<>(r.roverState().roverId(), RoverMoveResult.SUCCESS);
     }
 
     @Override

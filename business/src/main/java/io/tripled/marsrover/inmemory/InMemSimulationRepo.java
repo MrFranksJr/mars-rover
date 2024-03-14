@@ -1,8 +1,8 @@
 package io.tripled.marsrover.inmemory;
 
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
+import io.tripled.marsrover.SimulationQuery;
+import io.tripled.marsrover.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.List;
@@ -22,14 +22,14 @@ public class InMemSimulationRepo implements SimulationRepository, SimulationQuer
     }
 
     @Override
-    public Optional<List<SimulationSnapshot>> retrieveSimulations() {
+    public Optional<List<SimulationSnapshot>> getSimulationSnapshots() {
         if (simulationSnapshot == null)
             return Optional.empty();
         else
             return Optional.of(List.of(simulationSnapshot));
     }
 
-    public Optional<SimulationSnapshot> getSimulation(SimulationId simulationId) {
+    public Optional<SimulationSnapshot> getSimulationSnapshot(SimulationId simulationId) {
         if (simulationSnapshot == null)
             return Optional.empty();
 

@@ -1,7 +1,7 @@
 package io.tripled.marsrover.dbmodel;
 
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.DTOs.RoverState;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

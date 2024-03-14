@@ -1,8 +1,10 @@
 package io.tripled.marsrover.presenters;
 
-import io.tripled.marsrover.business.api.LandingPresenter;
+import io.tripled.marsrover.LandingPresenter;
+import io.tripled.marsrover.events.LandingOnTopEvent;
+import io.tripled.marsrover.events.LandingSuccessfulLandEvent;
+import io.tripled.marsrover.events.RoverMissesSimulationLandEvent;
 import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;
 
@@ -12,14 +14,14 @@ public class LandingPresenterImpl implements LandingPresenter {
     private RoverId roverId;
 
     @Override
-    public void landingSuccessful(Simulation.LandingSuccessfulLandEvent landingSuccessfulLandEvent){
+    public void landingSuccessful(LandingSuccessfulLandEvent landingSuccessfulLandEvent) {
         landingState = LandingState.SUCCESS;
         simulationId = landingSuccessfulLandEvent.id();
         roverId = landingSuccessfulLandEvent.roverState().roverId();
     }
 
     @Override
-    public void roverMissesSimulation(Simulation.RoverMissesSimulationLandEvent roverMissesSimulationLandEvent) {
+    public void roverMissesSimulation(RoverMissesSimulationLandEvent roverMissesSimulationLandEvent) {
         landingState = LandingState.MISSES;
         simulationId = roverMissesSimulationLandEvent.id();
     }
@@ -29,7 +31,7 @@ public class LandingPresenterImpl implements LandingPresenter {
     }
 
     @Override
-    public void landingOnTop(Simulation.LandingOnTopEvent landingOnTopEvent) {
+    public void landingOnTop(LandingOnTopEvent landingOnTopEvent) {
         landingState = LandingState.ON_TOP;
         simulationId = landingOnTopEvent.id();
         roverId = landingOnTopEvent.landingRoverState().roverId();
@@ -42,6 +44,7 @@ public class LandingPresenterImpl implements LandingPresenter {
     public SimulationId simulationId() {
         return simulationId;
     }
+
     public RoverId roverId() {
         return roverId;
     }

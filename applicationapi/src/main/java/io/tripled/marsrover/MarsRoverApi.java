@@ -1,4 +1,4 @@
-package io.tripled.marsrover.business.api;
+package io.tripled.marsrover;
 
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;

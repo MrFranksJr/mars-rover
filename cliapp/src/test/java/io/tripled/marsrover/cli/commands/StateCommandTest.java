@@ -1,9 +1,8 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.MarsRoverController;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.*;
+import io.tripled.marsrover.vocabulary.Coordinate;
+import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ class StateCommandTest {
     void setUp() {
         dummyPresenter = new DummyPresenter();
         SimulationRepository simulationRepository = new SimulationRepositoryImpl();
-        marsRoverApi = new MarsRoverController(simulationRepository);
+        marsRoverApi = new MarsRoverControllerImpl(simulationRepository);
         SimSetupCommand simSetupCommand = new SimSetupCommand(13, marsRoverApi);
         simSetupCommand.execute(dummyPresenter);
         simulationId = new SimulationId(UUID.randomUUID()).toString();

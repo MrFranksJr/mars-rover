@@ -1,6 +1,6 @@
 package io.tripled.marsrover.rest;
 
-import io.tripled.marsrover.business.api.MarsRoverApi;
+import io.tripled.marsrover.MarsRoverApi;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.dto.RoverLandingResultDTO;
 import io.tripled.marsrover.dto.RoverMoveResultDTO;

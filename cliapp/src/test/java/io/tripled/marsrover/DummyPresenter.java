@@ -1,10 +1,10 @@
 package io.tripled.marsrover;
 
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.DTOs.RoverState;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
+import io.tripled.marsrover.events.LandingOnTopEvent;
 import io.tripled.marsrover.vocabulary.RoverId;
 
 import java.util.List;
@@ -132,7 +132,7 @@ public class DummyPresenter implements MessagePresenter {
     }
 
     @Override
-    public void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent) {
+    public void landRoversOnTopMessage(LandingOnTopEvent landingOnTopEvent) {
 
     }
 

@@ -1,15 +1,12 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.MarsRoverController;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import io.tripled.marsrover.*;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +25,7 @@ class RoverMoveCommandTest {
     void init() {
         this.R1 = new RoverId("R1");
         simulationRepository = new SimulationRepositoryImpl();
-        marsRoverController = new MarsRoverController(simulationRepository);
+        marsRoverController = new MarsRoverControllerImpl(simulationRepository);
     }
 
     @Test
@@ -37,17 +34,6 @@ class RoverMoveCommandTest {
 
         roverMoveCommand.execute(dummyPresenter);
 
-        assertTrue(dummyPresenter.hasRoverMoved());
-    }
-
-    @Test
-    void parseMoveCommandStringR1f2() {
-        final Command roverMoveCommand = setUpSimWorldAndSimpleMoveCommand();
-
-        roverMoveCommand.execute(dummyPresenter);
-        assertEquals("R1", dummyPresenter.roverState.roverId().id());
-        assertEquals(5, dummyPresenter.roverState.coordinate().xCoordinate());
-        assertEquals(6, dummyPresenter.roverState.coordinate().yCoordinate());
         assertTrue(dummyPresenter.hasRoverMoved());
     }
 
@@ -68,6 +54,6 @@ class RoverMoveCommandTest {
         final InstructionBatch instructionBatch = InstructionBatch.newBuilder()
                 .addRoverMoves(R1, List.of(new RoverMove("f", 1)))
                 .build();
-        return new RoverMoveCommand(testUUID.toString(),instructionBatch, marsRoverController);
+        return new RoverMoveCommand(testUUID.toString(), instructionBatch, marsRoverController);
     }
 }

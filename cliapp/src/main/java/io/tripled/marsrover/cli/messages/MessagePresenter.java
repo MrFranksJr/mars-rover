@@ -1,9 +1,9 @@
 package io.tripled.marsrover.cli.messages;
 
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.DTOs.RoverState;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
+import io.tripled.marsrover.events.LandingOnTopEvent;
 import io.tripled.marsrover.vocabulary.RoverId;
 
 public interface MessagePresenter {
@@ -35,7 +35,7 @@ public interface MessagePresenter {
 
     void roverAlreadyBrokenMessage(RoverId roverId);
 
-    void landRoversOnTopMessage(Simulation.LandingOnTopEvent landingOnTopEvent);
+    void landRoversOnTopMessage(LandingOnTopEvent landingOnTopEvent);
 
     void roverMoveErrorMessage();
 }

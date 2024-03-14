@@ -1,7 +1,8 @@
 package io.tripled.marsrover.business.domain.simulation;
 
 import com.google.common.collect.ImmutableList;
-import io.tripled.marsrover.business.api.RoverState;
+import io.tripled.marsrover.DTOs.RoverState;
+import io.tripled.marsrover.events.*;
 import io.tripled.marsrover.vocabulary.*;
 import org.junit.jupiter.api.Test;
 
@@ -35,14 +36,15 @@ class SimulationTest {
 
         simWorld.landRover(new Coordinate(3, 4), event -> {
             switch (event) {
-                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> {
+                case LandingSuccessfulLandEvent landingSuccessfulEvent -> {
                     assertEquals(3, landingSuccessfulEvent.roverState().coordinate().xCoordinate());
                     assertEquals(4, landingSuccessfulEvent.roverState().coordinate().yCoordinate());
                     assertEquals(Heading.NORTH, landingSuccessfulEvent.roverState().heading());
                 }
-                case Simulation.RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
-                case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
-                case Simulation.LandingOnTopEvent landingOnTopEvent -> fail();
+                case RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
+                case InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
+                case LandingOnTopEvent landingOnTopEvent -> fail();
+                default -> throw new IllegalStateException("Unexpected value: " + event);
             }
         });
     }
@@ -307,9 +309,9 @@ class SimulationTest {
         assertEquals(expectedInstructionList, actualInstructionList);
     }
 
-    static class DummyEventPub implements Simulation.SimulationRoverMovedEventPublisher {
+    static class DummyEventPub implements SimulationRoverMovedEventPublisher {
         @Override
-        public void publish(Simulation.SimulationMoveRoverEvent event) {
+        public void publish(SimulationMoveRoverEvent event) {
 
         }
     }
@@ -336,13 +338,14 @@ class SimulationTest {
         return createSimulationWithRover(5, new Coordinate(3, 4));
     }
 
-    private Simulation.SimulationLandingEventPublisher validateRoverLandingDisallowed() {
+    private SimulationLandEventPublisher validateRoverLandingDisallowed() {
         return event -> {
             switch (event) {
-                case Simulation.InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
-                case Simulation.LandingSuccessfulLandEvent landingSuccessfulEvent -> assertTrue(true);
-                case Simulation.RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
-                case Simulation.LandingOnTopEvent landingOnTopEvent -> fail();
+                case InvalidCoordinatesReceived invalidCoordinatesReceived -> fail();
+                case LandingSuccessfulLandEvent landingSuccessfulEvent -> assertTrue(true);
+                case RoverMissesSimulationLandEvent roverMissesSimulation -> fail();
+                case LandingOnTopEvent landingOnTopEvent -> fail();
+                default -> throw new IllegalStateException("Unexpected value: " + event);
             }
         };
     }

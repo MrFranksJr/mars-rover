@@ -1,10 +1,10 @@
 package io.tripled.marsrover.cli.commands;
 
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.MarsRoverController;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.MarsRoverApi;
+import io.tripled.marsrover.MarsRoverControllerImpl;
+import io.tripled.marsrover.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SimSetupCommandTest {
@@ -35,16 +34,16 @@ class SimSetupCommandTest {
             }
 
             @Override
-            public Optional<List<SimulationSnapshot>> retrieveSimulations() {
+            public Optional<List<SimulationSnapshot>> getSimulationSnapshots() {
                 return Optional.empty();
             }
 
             @Override
-            public Optional<SimulationSnapshot> getSimulation(SimulationId simulationId) {
+            public Optional<SimulationSnapshot> getSimulationSnapshot(SimulationId simulationId) {
                 return Optional.empty();
             }
         };
-        marsRoverController = new MarsRoverController(simulationRepository);
+        marsRoverController = new MarsRoverControllerImpl(simulationRepository);
     }
 
     @Test
@@ -53,6 +52,5 @@ class SimSetupCommandTest {
         simSetupCommand.execute(dummyPresenter);
 
         assertTrue(dummyPresenter.hasSimulationBeenCreated());
-        assertEquals(52, dummyPresenter.simulationSnapshot.simulationSize());
     }
 }

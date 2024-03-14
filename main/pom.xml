@@ -48,6 +48,12 @@
         </dependency>
         <dependency>
             <groupId>io.tripled</groupId>
+            <artifactId>applicationapi</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.tripled</groupId>
             <artifactId>vocabulary</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

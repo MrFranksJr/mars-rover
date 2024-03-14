@@ -1,8 +1,8 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.business.domain.simulation.SimulationQuery;
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
+import io.tripled.marsrover.SimulationQuery;
+import io.tripled.marsrover.SimulationRepository;
 import io.tripled.marsrover.vocabulary.SimulationId;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class SimulationRepositoryImpl implements SimulationRepository, Simulatio
     }
 
     @Override
-    public Optional<List<SimulationSnapshot>> retrieveSimulations() {
+    public Optional<List<SimulationSnapshot>> getSimulationSnapshots() {
         if(simulationSnapshot == null)
             return Optional.empty();
         else
@@ -30,7 +30,7 @@ public class SimulationRepositoryImpl implements SimulationRepository, Simulatio
     }
 
     @Override
-    public Optional<SimulationSnapshot> getSimulation(SimulationId simulationId) {
+    public Optional<SimulationSnapshot> getSimulationSnapshot(SimulationId simulationId) {
         if (simulationSnapshot == null)
             return Optional.empty();
 

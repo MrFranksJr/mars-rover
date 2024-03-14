@@ -1,7 +1,7 @@
 package io.tripled.marsrover.dbmodel;
 
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.DTOs.RoverState;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -31,7 +31,7 @@ class MongoDbSimulationRepositoryTest {
         repository.add(snapshot);
         SimulationId id = snapshot.id();
         System.out.println(id);
-        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
+        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulationSnapshot(id).orElseThrow();
 
         assertEquals(snapshot, returnedSimulationSnapshot);
     }
@@ -46,7 +46,7 @@ class MongoDbSimulationRepositoryTest {
 
         //then
         SimulationId id = simulationSnapshot.id();
-        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
+        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulationSnapshot(id).orElseThrow();
         assertEquals(simulationSnapshot, returnedSimulationSnapshot);
     }
 
@@ -68,7 +68,7 @@ class MongoDbSimulationRepositoryTest {
         repository.save(simulationWithRover);
 
         //then
-        SimulationSnapshot landedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
+        SimulationSnapshot landedSimulationSnapshot = repository.getSimulationSnapshot(id).orElseThrow();
         assertEquals(1, landedSimulationSnapshot.roverList().size());
         Assertions.assertEquals(ObjectMother.R1, landedSimulationSnapshot.roverList().getFirst().roverId());
     }

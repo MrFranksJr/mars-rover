@@ -1,4 +1,6 @@
-package io.tripled.marsrover.business.api;
+package io.tripled.marsrover;
+
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 
 public interface SimulationCreationPresenter {
     void simulationCreationSuccessful(SimulationSnapshot simulationSnapshot);

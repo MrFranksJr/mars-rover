@@ -1,11 +1,8 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.business.api.MarsRoverApi;
-import io.tripled.marsrover.business.api.SimulationStatePresenter;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
+import io.tripled.marsrover.MarsRoverApi;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
-import java.util.List;
 import java.util.Objects;
 
 class StateCommand implements Command {

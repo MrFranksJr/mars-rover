@@ -1,6 +1,5 @@
 package io.tripled.marsrover;
 
-import io.tripled.marsrover.business.domain.simulation.SimulationRepository;
 import io.tripled.marsrover.cli.input.InputReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,9 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@SpringBootApplication
-@EnableMongoRepositories
-public class MarsRoverApplication {
+public class MarsRoverCLIApplication {
     @Autowired
     SimulationRepository simulationRepository;
 

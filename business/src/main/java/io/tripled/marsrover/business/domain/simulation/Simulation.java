@@ -3,10 +3,10 @@ package io.tripled.marsrover.business.domain.simulation;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import io.tripled.marsrover.business.api.RoverState;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
-import io.tripled.marsrover.vocabulary.Location;
+import io.tripled.marsrover.DTOs.RoverState;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.rover.Rover;
+import io.tripled.marsrover.events.*;
 import io.tripled.marsrover.vocabulary.*;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class Simulation {
                 .build();
     }
 
-    public void landRover(Coordinate coordinate, SimulationLandingEventPublisher eventPublisher) {
+    public void landRover(Coordinate coordinate, SimulationLandEventPublisher eventPublisher) {
         if (invalidCoordinatesReceived(coordinate)) {
             eventPublisher.publish(new InvalidCoordinatesReceived(id, coordinate));
         } else if (!landsOnTopOfOtherRover(coordinate).isEmpty()) {
@@ -93,17 +93,6 @@ public class Simulation {
         } else {
             eventPublisher.publish(new RoverMissesSimulationLandEvent(id, simulationSize, coordinate));
         }
-    }
-
-    //Todo: cleanup
-    public void moveRovers(ImmutableList<RoverInstructions> batch) {
-        // List<ExtrapolatedInstruction> extrapolatedInstructions = buildSingleStepInstructions(batch);
-        // extrapolated list of instruction R1
-        // extrapolated list of instruction R2
-        // determine longest instructionList = length
-        // loop over length
-        // execute move on index of length R1
-        // execute move on index of length R2
     }
 
     //Todo: cleanup
@@ -154,6 +143,7 @@ public class Simulation {
                         eventPublisher.publish(roverDeath);
                         return;
                     }
+                    default -> throw new IllegalStateException("Unexpected value: " + e);
                 }
             }
         }
@@ -241,46 +231,9 @@ public class Simulation {
         return coordinate.xCoordinate() <= simulationSize && coordinate.yCoordinate() <= simulationSize;
     }
 
-    public sealed interface SimulationLandEvent {
-    }
-
-    public interface SimulationLandingEventPublisher {
-        void publish(SimulationLandEvent event);
-    }
-
-    public sealed interface SimulationMoveRoverEvent {
-    }
-
-    public interface SimulationRoverMovedEventPublisher {
-        void publish(SimulationMoveRoverEvent event);
-    }
-
     /**
      * The public Events of the Simulation aggregate
      */
-    public record LandingOnTopEvent(SimulationId id, RoverState landingRoverState, Coordinate coordinate) implements SimulationLandEvent {
-    }
-
-    public record LandingSuccessfulLandEvent(SimulationId id, RoverState roverState) implements SimulationLandEvent {
-    }
-
-    public record RoverMissesSimulationLandEvent(SimulationId id, int simulationSize, Coordinate coordinate) implements SimulationLandEvent {
-    }
-
-    public record InvalidCoordinatesReceived(SimulationId id, Coordinate coordinate) implements SimulationLandEvent {
-    }
-
-    public record RoverMovedSuccessfulEvent(SimulationId id, RoverState roverState) implements SimulationMoveRoverEvent {
-    }
-
-    public record RoverCollidedEvent(SimulationId id, RoverState roverState, Location newLocation) implements SimulationMoveRoverEvent {
-    }
-
-    public record RoverBreaksDownEvent(SimulationId id, RoverState roverState) implements SimulationMoveRoverEvent {
-    }
-
-    public record RoverAlreadyBrokenEvent(SimulationId id, RoverId roverId) implements SimulationMoveRoverEvent {
-    }
 
     public static final class Builder {
         private final Multimap<Location, Rover> roverLocationMap;

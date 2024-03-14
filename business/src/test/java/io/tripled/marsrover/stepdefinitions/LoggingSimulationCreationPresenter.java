@@ -1,7 +1,7 @@
 package io.tripled.marsrover.stepdefinitions;
 
-import io.tripled.marsrover.business.api.SimulationCreationPresenter;
-import io.tripled.marsrover.business.api.SimulationSnapshot;
+import io.tripled.marsrover.SimulationCreationPresenter;
+import io.tripled.marsrover.DTOs.SimulationSnapshot;
 
 public enum LoggingSimulationCreationPresenter implements SimulationCreationPresenter {
     INSTANCE;
