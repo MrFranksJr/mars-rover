@@ -103,9 +103,10 @@
     <module>cliapp</module>
     <module>business</module>
     <module>webapp</module>
-    <module>database</module>
+    <module>mongodb</module>
     <module>vocabulary</module>
     <module>main</module>
       <module>applicationapi</module>
+      <module>inmemorydb</module>
   </modules>
 </project>

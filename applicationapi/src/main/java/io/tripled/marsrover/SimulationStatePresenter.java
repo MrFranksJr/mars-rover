@@ -1,6 +1,6 @@
 package io.tripled.marsrover;
 
-import io.tripled.marsrover.DTOs.SimulationSnapshot;
+import io.tripled.marsrover.simulation.SimulationSnapshot;
 
 import java.util.List;
 

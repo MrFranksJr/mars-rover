@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.domain.rover;
 
-import io.tripled.marsrover.DTOs.RoverState;
+import rover.RoverState;
 import io.tripled.marsrover.vocabulary.Heading;
 import io.tripled.marsrover.vocabulary.HealthState;
 import io.tripled.marsrover.vocabulary.Location;

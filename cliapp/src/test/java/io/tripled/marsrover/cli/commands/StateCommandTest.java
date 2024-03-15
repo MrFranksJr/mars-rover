@@ -1,8 +1,6 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.*;
-import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,20 +8,19 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 
 class StateCommandTest {
     private MarsRoverApi marsRoverApi;
-    private DummyPresenter dummyPresenter;
     private String simulationId;
 
     @BeforeEach
     void setUp() {
-        dummyPresenter = new DummyPresenter();
-        SimulationRepository simulationRepository = new SimulationRepositoryImpl();
-        marsRoverApi = new MarsRoverControllerImpl(simulationRepository);
-        SimSetupCommand simSetupCommand = new SimSetupCommand(13, marsRoverApi);
-        simSetupCommand.execute(dummyPresenter);
+        marsRoverApi = mock(MarsRoverApi.class);
         simulationId = new SimulationId(UUID.randomUUID()).toString();
     }
 
@@ -33,9 +30,9 @@ class StateCommandTest {
         Command stateCommand = new StateCommand(simulationId, marsRoverApi);
 
         //when
-        stateCommand.execute(dummyPresenter);
+        stateCommand.execute(new DummyPresenter());
 
         //then
-        assertTrue(dummyPresenter.hasStateCommandBeenInvoked());
+        verify(marsRoverApi).lookUpSimulationState(eq(simulationId), any(SimulationStatePresenter.class));
     }
 }

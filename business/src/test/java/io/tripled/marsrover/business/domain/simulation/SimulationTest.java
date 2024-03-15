@@ -1,7 +1,7 @@
 package io.tripled.marsrover.business.domain.simulation;
 
 import com.google.common.collect.ImmutableList;
-import io.tripled.marsrover.DTOs.RoverState;
+import rover.RoverState;
 import io.tripled.marsrover.events.*;
 import io.tripled.marsrover.vocabulary.*;
 import org.junit.jupiter.api.Test;

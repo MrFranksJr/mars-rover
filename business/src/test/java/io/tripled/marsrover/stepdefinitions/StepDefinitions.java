@@ -6,11 +6,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.tripled.marsrover.MarsRoverApi;
+import io.tripled.marsrover.business.SimulationRepository;
 import io.tripled.marsrover.business.api.MarsRoverController;
-import io.tripled.marsrover.DTOs.RoverState;
-import io.tripled.marsrover.DTOs.SimulationSnapshot;
-import io.tripled.marsrover.SimulationQuery;
-import io.tripled.marsrover.inmemory.InMemSimulationRepo;
+import rover.RoverState;
+import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.business.SimulationQuery;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverMove;
@@ -21,15 +21,15 @@ import java.util.Map;
 import java.util.UUID;
 
 public class StepDefinitions {
-
+    private final SimulationRepository simulationRepository;
     private final MarsRoverApi marsRoverApi;
     private final SimulationQuery simulationQuery;
     private final UUID testUUID;
 
     public StepDefinitions() {
-        InMemSimulationRepo inMemSimulationRepo = new InMemSimulationRepo();
-        marsRoverApi = new MarsRoverController(inMemSimulationRepo);
-        simulationQuery = inMemSimulationRepo;
+        simulationRepository = new DummySimulationRepository();
+        marsRoverApi = new MarsRoverController(simulationRepository);
+        simulationQuery = (SimulationQuery) simulationRepository;
 
         testUUID = UUID.randomUUID();
     }

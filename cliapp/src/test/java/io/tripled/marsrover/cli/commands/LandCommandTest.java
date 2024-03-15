@@ -1,66 +1,39 @@
 package io.tripled.marsrover.cli.commands;
 
-import io.tripled.marsrover.*;
+import io.tripled.marsrover.DummyPresenter;
+import io.tripled.marsrover.LandingPresenter;
+import io.tripled.marsrover.MarsRoverApi;
+import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.vocabulary.Coordinate;
-import io.tripled.marsrover.vocabulary.InstructionBatch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 class LandCommandTest {
-    private DummyPresenter dummyPresenter;
-    private MarsRoverApi marsRoverController;
-    private SimulationRepository simulationRepository;
     private final UUID testUUID = UUID.randomUUID();
-
+    private MessagePresenter dummyPresenter;
+    private MarsRoverApi marsRoverControllerMock;
 
     @BeforeEach
     void setUp() {
         dummyPresenter = new DummyPresenter();
-        simulationRepository = new SimulationRepositoryImpl();
-        marsRoverController = new MarsRoverControllerImpl(simulationRepository);
-        Command simSetupCommand = new SimSetupCommand(10, marsRoverController);
-        simSetupCommand.execute(dummyPresenter);
+        marsRoverControllerMock = mock(MarsRoverApi.class);
     }
-
-    @ParameterizedTest
-    @ArgumentsSource(CoordinateProvider.class)
-    void landingWasSuccessful(Coordinate landLocation) {
-        //given
-        Command landCommand = new LandCommand(testUUID.toString(), landLocation, marsRoverController);
-
-        //then
-        landCommand.execute(dummyPresenter);
-
-        //when
-        assertEquals("R1", dummyPresenter.roverState.roverId().id());
-        assertNotNull(dummyPresenter.roverState);
-        assertTrue(dummyPresenter.hasRoverLanded());
-        assertFalse(dummyPresenter.hasRoverMissedSimulationBeenInvoked());
-        assertFalse(dummyPresenter.invalidLandingInstruction());
-        assertEquals(landLocation.xCoordinate(), dummyPresenter.roverState.coordinate().xCoordinate());
-        assertEquals(landLocation.yCoordinate(), dummyPresenter.roverState.coordinate().yCoordinate());
-    }
-
 
     @Test
-    void roverMissingSimulation() {
+    void landRoverInvokedOnApi() {
         //given
-        Command landCommand = new LandCommand(testUUID.toString(), new Coordinate(300, 700), marsRoverController);
+        Coordinate coordinate = new Coordinate(5, 10);
+        Command landCommand = new LandCommand(testUUID.toString(), coordinate, marsRoverControllerMock);
 
         //when
         landCommand.execute(dummyPresenter);
 
         //then
-        assertNull(dummyPresenter.roverState);
-        assertTrue(dummyPresenter.hasRoverMissedSimulationBeenInvoked());
-        assertFalse(dummyPresenter.hasRoverLanded());
-        assertFalse(dummyPresenter.invalidLandingInstruction());
-
+        verify(marsRoverControllerMock).landRover(eq(testUUID.toString()), eq(coordinate), any(LandingPresenter.class));
     }
 }

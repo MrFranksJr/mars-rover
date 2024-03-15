@@ -1,15 +1,15 @@
 package io.tripled.marsrover;
 
 import io.tripled.marsrover.cli.commands.CommandParser;
-import io.tripled.marsrover.cli.commands.SimulationRepositoryImpl;
 import io.tripled.marsrover.cli.input.InputHandler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class InputHandlerTest {
-    private InputHandler inputHandler = new InputHandler(new CommandParser(new MarsRoverControllerImpl(new SimulationRepositoryImpl())));
+    private InputHandler inputHandler = new InputHandler(new CommandParser(mock(MarsRoverApi.class)));
 
     @Test
     void handleWrongInput() {

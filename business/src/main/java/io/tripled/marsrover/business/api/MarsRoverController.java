@@ -1,9 +1,9 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.*;
-import io.tripled.marsrover.DTOs.SimulationSnapshot;
+import io.tripled.marsrover.simulation.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
-import io.tripled.marsrover.SimulationRepository;
+import io.tripled.marsrover.business.SimulationRepository;
 import io.tripled.marsrover.events.InvalidCoordinatesReceived;
 import io.tripled.marsrover.events.LandingOnTopEvent;
 import io.tripled.marsrover.events.LandingSuccessfulLandEvent;
@@ -60,7 +60,7 @@ public class MarsRoverController implements MarsRoverApi {
     @Override
     public void landRover(String simulationId, Coordinate coordinate, LandingPresenter landingPresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
-        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulationSnapshot(simId);
+        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);
         Simulation simulation = Simulation.of(simulationSnapshot.orElseThrow());
         final var eventPublisher = createEventPublisher(landingPresenter);
         simulation.landRover(coordinate, eventPublisher);
@@ -71,7 +71,7 @@ public class MarsRoverController implements MarsRoverApi {
     @Override
     public void executeMoveInstructions(String simulationId, InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
-        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulationSnapshot(simId);
+        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);
         Simulation simulation = Simulation.of(simulationSnapshot.orElseThrow());
 
         if (instructionBatch.batch().isEmpty())
@@ -100,7 +100,7 @@ public class MarsRoverController implements MarsRoverApi {
     @Override
     public void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
-        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulationSnapshot(simId);
+        Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);
         Simulation simulation = Simulation.of(simulationSnapshot.orElseThrow());
         simulationStatePresenter.simulationState(simulation.takeSnapshot());
     }
