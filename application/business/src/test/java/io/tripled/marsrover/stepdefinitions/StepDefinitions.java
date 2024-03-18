@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.tripled.marsrover.MarsRoverApi;
+import io.tripled.marsrover.api.simulation.SimulationStatePresenter;
 import io.tripled.marsrover.business.SimulationRepository;
 import io.tripled.marsrover.business.api.MarsRoverController;
 import io.tripled.marsrover.api.rover.RoverState;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class StepDefinitions {
@@ -126,5 +128,25 @@ public class StepDefinitions {
     private RoverState getRoverState(String roverId) {
         final SimulationSnapshot snapshot = simulationQuery.getSimulationInformation();
         return snapshot.getRover(roverId).orElseThrow();
+    }
+
+    @When("We create a simulation of size {int}")
+    public void weCreateASimulationOfSize(int simSize) {
+        marsRoverApi.initializeSimulation(simSize, LoggingSimulationCreationPresenter.INSTANCE);
+    }
+
+    @Then("Then our database should only contain {int} Simulation with size {int}")
+    public void thenOurDatabaseShouldOnlyContainSimulationWithSize(int nOSimulations, int simSize) {
+        Optional<List<SimulationSnapshot>> simulationSnapshots = simulationRepository.getSimulationSnapshots();
+
+        Assertions.assertEquals(nOSimulations, simulationSnapshots.orElseThrow().size());
+        Assertions.assertEquals(simSize, simulationSnapshots.orElseThrow().getFirst().simulationSize());
+    }
+
+    @And("This simulation has a total of {int} possible coordinates")
+    public void thisSimulationHasATotalOfPossibleCoordinates(int totalCoordinates) {
+        Optional<List<SimulationSnapshot>> simulationSnapshots = simulationRepository.getSimulationSnapshots();
+
+        Assertions.assertEquals(totalCoordinates, simulationSnapshots.orElseThrow().getFirst().totalCoordinates());
     }
 }
