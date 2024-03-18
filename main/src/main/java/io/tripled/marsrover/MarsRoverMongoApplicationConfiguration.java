@@ -2,6 +2,7 @@ package io.tripled.marsrover;
 
 import io.tripled.marsrover.business.SimulationRepository;
 import io.tripled.marsrover.business.api.MarsRoverController;
+import io.tripled.marsrover.dbmodel.InMemSimulationRepo;
 import io.tripled.marsrover.dbmodel.MongoDbSimulationRepository;
 import io.tripled.marsrover.dbmodel.SimulationDocumentDao;
 import org.springframework.context.annotation.Bean;

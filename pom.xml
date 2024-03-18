@@ -91,11 +91,10 @@
         </plugins>
     </build>
     <modules>
-        <module>business</module>
+        <module>application</module>
         <module>vocabulary</module>
         <module>main</module>
-        <module>applicationapi</module>
-        <module>front-end-adapters</module>
-        <module>database-adapters</module>
+        <module>frontend-adapters</module>
+        <module>backend-adapters</module>
     </modules>
 </project>
