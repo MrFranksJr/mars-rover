@@ -1,24 +1,22 @@
 package io.tripled.marsrover.business.api;
 
 import io.tripled.marsrover.*;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.simulation.*;
 import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.SimulationRepository;
-import io.tripled.marsrover.events.InvalidCoordinatesReceived;
-import io.tripled.marsrover.events.LandingOnTopEvent;
-import io.tripled.marsrover.events.LandingSuccessfulLandEvent;
-import io.tripled.marsrover.events.RoverAlreadyBrokenEvent;
-import io.tripled.marsrover.events.RoverBreaksDownEvent;
-import io.tripled.marsrover.events.RoverCollidedEvent;
-import io.tripled.marsrover.events.RoverMissesSimulationLandEvent;
-import io.tripled.marsrover.events.RoverMovedSuccessfulEvent;
-import io.tripled.marsrover.events.SimulationLandEvent;
-import io.tripled.marsrover.events.SimulationLandEventPublisher;
-import io.tripled.marsrover.events.SimulationMoveRoverEvent;
+import io.tripled.marsrover.api.rover.InvalidCoordinatesReceived;
+import io.tripled.marsrover.api.rover.LandingOnTopEvent;
+import io.tripled.marsrover.api.rover.LandingSuccessfulLandEvent;
+import io.tripled.marsrover.api.rover.RoverAlreadyBrokenEvent;
+import io.tripled.marsrover.api.rover.RoverBreaksDownEvent;
+import io.tripled.marsrover.api.rover.RoverCollidedEvent;
+import io.tripled.marsrover.api.rover.RoverMissesSimulationLandEvent;
+import io.tripled.marsrover.api.rover.RoverMovedSuccessfulEvent;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.SimulationId;
+import io.tripled.marsrover.api.rover.RoverMovePresenter;
 
 import java.util.Collections;
 import java.util.List;

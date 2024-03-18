@@ -1,7 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
-import io.tripled.marsrover.LandingPresenter;
+import io.tripled.marsrover.api.simulation.LandingPresenter;
 import io.tripled.marsrover.MarsRoverApi;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 import io.tripled.marsrover.vocabulary.Coordinate;

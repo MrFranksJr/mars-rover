@@ -2,7 +2,7 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.MarsRoverApi;
-import io.tripled.marsrover.SimulationCreationPresenter;
+import io.tripled.marsrover.api.simulation.SimulationCreationPresenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,8 @@
 package io.tripled.marsrover.presenters;
 
-import rover.RoverState;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
-import io.tripled.marsrover.SimulationStatePresenter;
+import io.tripled.marsrover.api.rover.RoverState;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.simulation.SimulationStatePresenter;
 import io.tripled.marsrover.dto.RoverViewDTO;
 import io.tripled.marsrover.dto.SimulationViewDTO;
 import io.tripled.marsrover.vocabulary.Heading;

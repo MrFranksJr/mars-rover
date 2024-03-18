@@ -1,9 +1,9 @@
-package io.tripled.marsrover.simulation;
+package io.tripled.marsrover.api.simulation;
 
 import com.google.common.collect.ImmutableList;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import rover.RoverState;
+import io.tripled.marsrover.api.rover.RoverState;
 
 import java.util.List;
 import java.util.Objects;

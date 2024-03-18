@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
 import org.junit.jupiter.api.Test;
 
 import static io.tripled.marsrover.business.ObjectMother.*;

@@ -1,7 +1,11 @@
 package io.tripled.marsrover;
 
+import io.tripled.marsrover.api.simulation.LandingPresenter;
+import io.tripled.marsrover.api.simulation.SimulationCreationPresenter;
+import io.tripled.marsrover.api.simulation.SimulationStatePresenter;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
+import io.tripled.marsrover.api.rover.RoverMovePresenter;
 
 public interface MarsRoverApi {
     void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter);

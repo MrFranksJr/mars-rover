@@ -2,7 +2,7 @@ package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.DummyPresenter;
 import io.tripled.marsrover.MarsRoverApi;
-import io.tripled.marsrover.RoverMovePresenter;
+import io.tripled.marsrover.api.rover.RoverMovePresenter;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.RoverMove;

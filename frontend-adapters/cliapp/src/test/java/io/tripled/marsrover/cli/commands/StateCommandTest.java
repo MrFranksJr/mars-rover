@@ -1,6 +1,7 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.*;
+import io.tripled.marsrover.api.simulation.SimulationStatePresenter;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

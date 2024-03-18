@@ -1,6 +1,6 @@
-package io.tripled.marsrover.events;
+package io.tripled.marsrover.api.rover;
 
-import rover.RoverState;
+import io.tripled.marsrover.api.simulation.SimulationMoveRoverEvent;
 import io.tripled.marsrover.vocabulary.SimulationId;
 
 public record RoverBreaksDownEvent(SimulationId id, RoverState roverState) implements SimulationMoveRoverEvent {

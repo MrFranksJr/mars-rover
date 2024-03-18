@@ -1,6 +1,6 @@
 package io.tripled.marsrover.business.domain.rover;
 
-import rover.RoverState;
+import io.tripled.marsrover.api.rover.RoverState;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.Location;
 import org.junit.jupiter.api.BeforeEach;

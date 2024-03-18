@@ -1,9 +1,9 @@
 package io.tripled.marsrover.presenters;
 
-import io.tripled.marsrover.LandingPresenter;
-import io.tripled.marsrover.events.LandingOnTopEvent;
-import io.tripled.marsrover.events.LandingSuccessfulLandEvent;
-import io.tripled.marsrover.events.RoverMissesSimulationLandEvent;
+import io.tripled.marsrover.api.simulation.LandingPresenter;
+import io.tripled.marsrover.api.rover.LandingOnTopEvent;
+import io.tripled.marsrover.api.rover.LandingSuccessfulLandEvent;
+import io.tripled.marsrover.api.rover.RoverMissesSimulationLandEvent;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;

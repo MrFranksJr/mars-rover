@@ -1,8 +1,8 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.MarsRoverApi;
-import io.tripled.marsrover.SimulationCreationPresenter;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.simulation.SimulationCreationPresenter;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
 
 public class SimSetupCommand implements Command {

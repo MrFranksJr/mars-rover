@@ -1,9 +1,13 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.*;
+import io.tripled.marsrover.api.simulation.LandingPresenter;
+import io.tripled.marsrover.api.simulation.SimulationCreationPresenter;
+import io.tripled.marsrover.api.simulation.SimulationStatePresenter;
 import io.tripled.marsrover.vocabulary.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import io.tripled.marsrover.api.rover.RoverMovePresenter;
 
 import java.util.List;
 import java.util.UUID;

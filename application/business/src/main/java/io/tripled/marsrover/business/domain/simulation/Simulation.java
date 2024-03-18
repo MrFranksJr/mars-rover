@@ -3,10 +3,12 @@ package io.tripled.marsrover.business.domain.simulation;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import rover.RoverState;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.rover.*;
+import io.tripled.marsrover.api.simulation.SimulationLandEventPublisher;
+import io.tripled.marsrover.api.simulation.SimulationMoveRoverEvent;
+import io.tripled.marsrover.api.simulation.SimulationRoverMovedEventPublisher;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
 import io.tripled.marsrover.business.domain.rover.Rover;
-import io.tripled.marsrover.events.*;
 import io.tripled.marsrover.vocabulary.*;
 
 import java.util.ArrayList;

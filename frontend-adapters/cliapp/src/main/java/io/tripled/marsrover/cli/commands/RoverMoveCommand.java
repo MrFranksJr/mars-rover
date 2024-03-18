@@ -1,12 +1,12 @@
 package io.tripled.marsrover.cli.commands;
 
 import io.tripled.marsrover.MarsRoverApi;
-import io.tripled.marsrover.RoverMovePresenter;
+import io.tripled.marsrover.api.rover.RoverMovePresenter;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
-import io.tripled.marsrover.events.RoverAlreadyBrokenEvent;
-import io.tripled.marsrover.events.RoverBreaksDownEvent;
-import io.tripled.marsrover.events.RoverCollidedEvent;
-import io.tripled.marsrover.events.RoverMovedSuccessfulEvent;
+import io.tripled.marsrover.api.rover.RoverAlreadyBrokenEvent;
+import io.tripled.marsrover.api.rover.RoverBreaksDownEvent;
+import io.tripled.marsrover.api.rover.RoverCollidedEvent;
+import io.tripled.marsrover.api.rover.RoverMovedSuccessfulEvent;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 
 import java.util.Objects;

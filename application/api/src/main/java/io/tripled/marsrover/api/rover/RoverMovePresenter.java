@@ -1,9 +1,4 @@
-package io.tripled.marsrover;
-
-import io.tripled.marsrover.events.RoverAlreadyBrokenEvent;
-import io.tripled.marsrover.events.RoverBreaksDownEvent;
-import io.tripled.marsrover.events.RoverCollidedEvent;
-import io.tripled.marsrover.events.RoverMovedSuccessfulEvent;
+package io.tripled.marsrover.api.rover;
 
 public interface RoverMovePresenter {
     void moveRoverSuccessful(RoverMovedSuccessfulEvent r);

@@ -1,7 +1,7 @@
 package io.tripled.marsrover.presenters;
 
-import io.tripled.marsrover.SimulationCreationPresenter;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.simulation.SimulationCreationPresenter;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
 
 public class SimulationCreationPresenterImpl implements SimulationCreationPresenter {
 

@@ -1,10 +1,10 @@
 package io.tripled.marsrover.presenters;
 
-import io.tripled.marsrover.RoverMovePresenter;
-import io.tripled.marsrover.events.RoverAlreadyBrokenEvent;
-import io.tripled.marsrover.events.RoverBreaksDownEvent;
-import io.tripled.marsrover.events.RoverCollidedEvent;
-import io.tripled.marsrover.events.RoverMovedSuccessfulEvent;
+import io.tripled.marsrover.api.rover.RoverMovePresenter;
+import io.tripled.marsrover.api.rover.RoverAlreadyBrokenEvent;
+import io.tripled.marsrover.api.rover.RoverBreaksDownEvent;
+import io.tripled.marsrover.api.rover.RoverCollidedEvent;
+import io.tripled.marsrover.api.rover.RoverMovedSuccessfulEvent;
 import io.tripled.marsrover.rest.RoverMoveResult;
 import io.tripled.marsrover.vocabulary.Pair;
 import io.tripled.marsrover.vocabulary.RoverId;

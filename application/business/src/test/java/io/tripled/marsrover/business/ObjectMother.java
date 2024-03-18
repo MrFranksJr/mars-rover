@@ -1,7 +1,7 @@
 package io.tripled.marsrover.business;
 
-import rover.RoverState;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.rover.RoverState;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.Heading;
 import io.tripled.marsrover.vocabulary.RoverId;

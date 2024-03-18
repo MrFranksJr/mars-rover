@@ -1,8 +1,10 @@
 package io.tripled.marsrover.business.domain.simulation;
 
 import com.google.common.collect.ImmutableList;
-import rover.RoverState;
-import io.tripled.marsrover.events.*;
+import io.tripled.marsrover.api.rover.*;
+import io.tripled.marsrover.api.simulation.SimulationLandEventPublisher;
+import io.tripled.marsrover.api.simulation.SimulationMoveRoverEvent;
+import io.tripled.marsrover.api.simulation.SimulationRoverMovedEventPublisher;
 import io.tripled.marsrover.vocabulary.*;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +17,11 @@ class SimulationTest {
     private final RoverId R1 = new RoverId(1);
     private final RoverId R2 = new RoverId(2);
     private final DummyEventPub dummyEventPub = new DummyEventPub();
+
+    private static void landRover(Coordinate landingCoordinate, Simulation simWorld) {
+        simWorld.landRover(landingCoordinate, event -> {
+        });
+    }
 
     @Test
     void returnsCorrectSimSize() {
@@ -302,30 +309,16 @@ class SimulationTest {
                 .addRoverMoves(R2, List.of(new RoverMove(Direction.FORWARD, 3)))
                 .build();
 
-        List<List<Pair<RoverId,RoverMove>>> actualInstructionList = simWorld.buildSingleStepInstructions(instructionBatch.batch());
+        List<List<Pair<RoverId, RoverMove>>> actualInstructionList = simWorld.buildSingleStepInstructions(instructionBatch.batch());
 
-        List<List<Pair<RoverId,RoverMove>>> expectedInstructionList = List.of(List.of(r2MovePair,r2MovePair,r2MovePair), List.of(r1MovePair,r1MovePair,r1MovePair));
+        List<List<Pair<RoverId, RoverMove>>> expectedInstructionList = List.of(List.of(r2MovePair, r2MovePair, r2MovePair), List.of(r1MovePair, r1MovePair, r1MovePair));
 
         assertEquals(expectedInstructionList, actualInstructionList);
     }
 
-    static class DummyEventPub implements SimulationRoverMovedEventPublisher {
-        @Override
-        public void publish(SimulationMoveRoverEvent event) {
-
-        }
-    }
-
     @Test
-    void sequentialHandlingOf2RoversWith1Instruction(){
+    void sequentialHandlingOf2RoversWith1Instruction() {
 
-    }
-
-
-
-    private static void landRover(Coordinate landingCoordinate, Simulation simWorld) {
-        simWorld.landRover(landingCoordinate, event -> {
-        });
     }
 
     private void moveRover(Simulation simulation, RoverId id, Direction direction) {
@@ -358,6 +351,13 @@ class SimulationTest {
         final Simulation simWorld = Simulation.create(simulationSize).orElseThrow();
         landRover(landingCoordinate, simWorld);
         return simWorld;
+    }
+
+    static class DummyEventPub implements SimulationRoverMovedEventPublisher {
+        @Override
+        public void publish(SimulationMoveRoverEvent event) {
+
+        }
     }
 
 

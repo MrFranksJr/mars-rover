@@ -1,10 +1,10 @@
 package io.tripled.marsrover;
 
-import rover.RoverState;
-import io.tripled.marsrover.simulation.SimulationSnapshot;
+import io.tripled.marsrover.api.rover.RoverState;
+import io.tripled.marsrover.api.simulation.SimulationSnapshot;
 import io.tripled.marsrover.cli.commands.LandingErrorTypes;
 import io.tripled.marsrover.cli.messages.MessagePresenter;
-import io.tripled.marsrover.events.LandingOnTopEvent;
+import io.tripled.marsrover.api.rover.LandingOnTopEvent;
 import io.tripled.marsrover.vocabulary.RoverId;
 import io.tripled.marsrover.vocabulary.SimulationId;
 

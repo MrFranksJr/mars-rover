@@ -1,4 +1,4 @@
-package rover;
+package io.tripled.marsrover.api.rover;
 
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.HealthState;
