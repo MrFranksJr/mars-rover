@@ -17,16 +17,14 @@ import io.tripled.marsrover.vocabulary.RoverMove;
 import io.tripled.marsrover.vocabulary.SimulationId;
 import org.junit.jupiter.api.Assertions;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class StepDefinitions {
     private final SimulationRepository simulationRepository;
     private final MarsRoverApi marsRoverApi;
     private final SimulationQuery simulationQuery;
     private SimulationId simulationId;
+    private final HashMap<Integer, SimulationId> simulationMap = new HashMap<>();
 
     public StepDefinitions() {
         simulationRepository = new DummySimulationRepository();
@@ -74,15 +72,12 @@ public class StepDefinitions {
     public void aSimulationOfSizeSimSize(int simulationSize) {
         marsRoverApi.initializeSimulation(simulationSize, LoggingSimulationCreationPresenter.INSTANCE);
         simulationId = simulationRepository.getSimulationSnapshots().orElseThrow().getFirst().id();
-        System.out.println(simulationId.toString());
     }
 
     @And("We land a rover on coordinates {int} {int}")
     public void weLandARoverOnCoordinatesXY(int x, int y) {
         final var coordinate = new Coordinate(x, y);
         marsRoverApi.landRover(simulationId.toString(), coordinate, LoggingLandingPresenter.INSTANCE);
-        System.out.println(simulationId.toString());
-
     }
 
     @When("We give the Rover {string} the Instruction {string} {int}")
@@ -90,8 +85,6 @@ public class StepDefinitions {
         final InstructionBatch roverMoves = parseSingleRoverInstruction(roverName, instruction, steps);
 
         marsRoverApi.executeMoveInstructions(simulationId.toString(), roverMoves, LogginRoverMovePresenter.INSTANCE);
-        System.out.println(simulationId.toString());
-
     }
 
     @When("We give the Rover {string} the Instructions")
@@ -100,8 +93,6 @@ public class StepDefinitions {
         final InstructionBatch instructionBatch = parseSingleRoverInstructionsDataTable(roverName, dataTable);
 
         marsRoverApi.executeMoveInstructions(simulationId.toString(), instructionBatch, LogginRoverMovePresenter.INSTANCE);
-        System.out.println(simulationId.toString());
-
     }
 
     @Then("The Rover {string} is at {int} {int} with orientation {string}")
@@ -132,7 +123,6 @@ public class StepDefinitions {
 
     private RoverState getRoverState(String roverId) {
         final SimulationSnapshot snapshot = simulationQuery.getSimulationInformation(simulationId);
-        System.out.println(snapshot);
         return snapshot.getRover(roverId).orElseThrow();
     }
 
@@ -143,24 +133,32 @@ public class StepDefinitions {
 
     @And("This simulation has a total of {int} possible coordinates")
     public void thisSimulationHasATotalOfPossibleCoordinates(int totalCoordinates) {
-        Optional<List<SimulationSnapshot>> simulationSnapshots = simulationRepository.getSimulationSnapshots();
+        List<SimulationSnapshot> simulationSnapshots = simulationRepository.getSimulationSnapshots().orElseThrow();
 
-        Assertions.assertEquals(totalCoordinates, simulationSnapshots.orElseThrow().getFirst().totalCoordinates());
+        Assertions.assertEquals(totalCoordinates, simulationSnapshots.getFirst().totalCoordinates());
     }
 
     @And("The first simulation has a size of {int} and {int} possible coordinates")
     public void theFirstSimulationHasASizeOfAndPossibleCoordinates(int simSize, int totalCoordinates) {
-        Optional<List<SimulationSnapshot>> simulationSnapshots = simulationRepository.getSimulationSnapshots();
-        Assertions.assertEquals(simSize, simulationSnapshots.orElseThrow().getFirst().simulationSize());
-        Assertions.assertEquals(totalCoordinates, simulationSnapshots.orElseThrow().getFirst().totalCoordinates());
+        List<SimulationSnapshot> allSnapshots = simulationRepository.getSimulationSnapshots().orElseThrow().stream().toList();
+        for (SimulationSnapshot snapshot : allSnapshots) {
+            simulationMap.put(snapshot.simulationSize(), snapshot.id());
+        }
+
+        SimulationId firstSimId = simulationMap.get(simSize);
+        SimulationSnapshot firstSimulationSnapshot = simulationQuery.getSimulationInformation(firstSimId);
+
+        Assertions.assertEquals(simSize, firstSimulationSnapshot.simulationSize());
+        Assertions.assertEquals(totalCoordinates, firstSimulationSnapshot.totalCoordinates());
     }
 
     @And("The second simulation has a size of {int} and {int} possible coordinates")
     public void theSecondSimulationHasASizeOfAndPossibleCoordinates(int simSize, int totalCoordinates) {
-        Optional<List<SimulationSnapshot>> simulationSnapshots = simulationRepository.getSimulationSnapshots();
+        SimulationId secondSimId = simulationMap.get(simSize);
+        SimulationSnapshot secondSimulationSnapshot = simulationQuery.getSimulationInformation(secondSimId);
 
-        Assertions.assertEquals(simSize, simulationSnapshots.orElseThrow().get(1).simulationSize());
-        Assertions.assertEquals(totalCoordinates, simulationSnapshots.orElseThrow().get(1).totalCoordinates());
+        Assertions.assertEquals(simSize, secondSimulationSnapshot.simulationSize());
+        Assertions.assertEquals(totalCoordinates, secondSimulationSnapshot.totalCoordinates());
     }
 
     @Then("the system contains {int} Simulation with size {int}")
