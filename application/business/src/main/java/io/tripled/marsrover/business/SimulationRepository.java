@@ -10,8 +10,9 @@ public interface SimulationRepository {
     void add(SimulationSnapshot snapshot);
 
     void save(SimulationSnapshot snapshot);
-
+    //TODO: to query
     Optional<List<SimulationSnapshot>> getSimulationSnapshots();
 
+    //TODO: simulation ipv snapshot
     Optional<SimulationSnapshot> getSimulation(SimulationId simulationId);
 }

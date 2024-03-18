@@ -56,7 +56,7 @@ public class MongoDbSimulationRepository implements SimulationRepository, Simula
     }
 
     @Override
-    public SimulationSnapshot getSimulationInformation() {
+    public SimulationSnapshot getSimulationInformation(SimulationId simulationId) {
         //TODO: fix this behavior
         return SimulationSnapshot.NONE;
     }
