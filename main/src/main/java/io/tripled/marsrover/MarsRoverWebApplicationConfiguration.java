@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories
-public class MarsRoverMongoApplicationConfiguration {
+@EnableMongoRepositories()
+public class MarsRoverWebApplicationConfiguration {
     @Bean
     MarsRoverController marsRoverController(SimulationRepository simulationRepository) {
         return new MarsRoverController(simulationRepository);
