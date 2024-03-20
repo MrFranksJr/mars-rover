@@ -1,5 +1,5 @@
 import { roversInSimulation } from "../commands/getSimulationState.js";
-import { roverInstructionFieldsDiv, moveRoverBtn } from "../ui/htmlElements.js"
+import { roverInstructionFieldsDiv, moveRoverBtn } from "./htmlElements.js"
 
 export { buildRoverInstructionControls }
 

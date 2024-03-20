@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @EnableMongoRepositories()
-public class MarsRoverWebApplicationConfiguration {
+public class MarsRoverApplicationConfiguration {
     @Bean
     MarsRoverController marsRoverController(SimulationRepository simulationRepository) {
         return new MarsRoverController(simulationRepository);
