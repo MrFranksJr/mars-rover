@@ -1,13 +1,7 @@
 import '../Styles/Footer.css'
-import {useEffect} from "react";
+import {Props, Simulation} from "../interfaces.ts";
 
-function Footer() {
-    useEffect(() => {
-        fetch('/api/simulationstates')
-            .then(response => response.text())
-            .then(data => console.log(data));
-    }, []);
-
+function Footer({ simulations }: Props) {
     return (
         <footer id="footer">
             <div id="infoBtn" className="infoBtn"><i className="fa-solid fa-circle-info fa-2xl"></i></div>
@@ -15,7 +9,9 @@ function Footer() {
             <div id="simulationId" className="simulationId">
                 <label htmlFor="simulations">Simulation ID</label>
                 <select id="simulations" name="simulationList">
-                    <option></option>
+                    <option key="newSim">Create New Simulation...</option>
+                    {simulations && simulations.map((simulation: Simulation) =>
+                        <option key={simulation.simulationId}>{simulation.simulationId}</option>)}
                 </select>
             </div>
         </footer>
