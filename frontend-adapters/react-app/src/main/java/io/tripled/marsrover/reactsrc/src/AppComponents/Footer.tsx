@@ -1,6 +1,12 @@
 import '../Styles/Footer.css'
+import {useEffect} from "react";
 
 function Footer() {
+    useEffect(() => {
+        fetch('/api/simulationstates')
+            .then(response => response.text())
+            .then(data => console.log(data));
+    }, []);
 
     return (
         <footer id="footer">
@@ -9,6 +15,7 @@ function Footer() {
             <div id="simulationId" className="simulationId">
                 <label htmlFor="simulations">Simulation ID</label>
                 <select id="simulations" name="simulationList">
+                    <option></option>
                 </select>
             </div>
         </footer>

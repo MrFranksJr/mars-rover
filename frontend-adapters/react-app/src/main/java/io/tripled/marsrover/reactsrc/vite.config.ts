@@ -8,4 +8,12 @@ export default defineConfig({
     outDir: '../../../../../resources/static-react',
     emptyOutDir: true,
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080/',
+        changeOrigin: true,
+      },
+    },
+  },
 })
