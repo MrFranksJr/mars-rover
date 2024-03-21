@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
           integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -9,21 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/images/icons/favicon.ico">
-    <link rel="stylesheet" href="/styles/style.css">
-    <title>Mars Rover Simulation</title>
-</head>
-<body>
-<div id="root">
-
-</div>
-<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script type="text/jsx">
-    const app = document.getElementById('root');
-    const root = ReactDOM.createRoot(app);
-    root.render(<h1>Develop. Preview. Ship.</h1>);
-</script>
-</body>
+    <link rel="icon" type="image/x-icon" href="./src/assets/icons/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mars Rover Simulator</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://kit.fontawesome.com/591f220789.js" crossorigin="anonymous"></script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

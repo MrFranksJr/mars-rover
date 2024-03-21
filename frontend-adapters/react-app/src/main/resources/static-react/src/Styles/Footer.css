@@ -1,0 +1,30 @@
+footer {
+    background-color: #FFF;
+    width: 100%;
+    display: flex;
+    transition: 0.6s ease-in-out;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    font-size: 0.8rem;
+    position: relative;
+}
+.copyright {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.infoBtn {
+    color: #98c7fc;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.simulationId {
+    font-family:'Courier New', Courier, monospace;
+    color: #999798;
+    margin-right: 20px;
+}
