@@ -1,6 +1,7 @@
 import '../Styles/Footer.css'
 
 function Footer() {
+
     return (
         <footer id="footer">
             <div id="infoBtn" className="infoBtn"><i className="fa-solid fa-circle-info fa-2xl"></i></div>
