@@ -1,5 +1,5 @@
 
 
 function Welcome() {
-    ret
+
 }
