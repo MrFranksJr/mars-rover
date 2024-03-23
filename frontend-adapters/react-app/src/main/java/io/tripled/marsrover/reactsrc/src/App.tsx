@@ -3,17 +3,12 @@ import Header from "./AppComponents/Header.tsx";
 import Footer from "./AppComponents/Footer.tsx";
 import RightPanel from "./AppComponents/RightPanel.tsx";
 import LeftPanel from "./AppComponents/LeftPanel.tsx";
-import {useEffect, useState} from "react";
-import { Simulation } from "./interfaces.ts";
+import {useLocation} from "react-router";
 
 function App() {
-    let [simulations, setSimulations] = useState<Array<Simulation>>([])
-
-    useEffect(() => {
-        fetch('/api/simulationstates')
-            .then(response => response.json())
-            .then(data => setSimulations(data));
-    }, []);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const simulationId = searchParams.get('simulationId');
 
     return (
         <>
@@ -22,9 +17,10 @@ function App() {
                 <LeftPanel/>
                 <RightPanel/>
             </div>
-            <Footer simulations={simulations}/>
+            <Footer simulationId={simulationId}/>
         </>
-    )
+    );
 }
+
 
 export default App

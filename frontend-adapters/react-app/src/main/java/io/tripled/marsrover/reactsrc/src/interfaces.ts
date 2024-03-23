@@ -1,3 +1,7 @@
+export interface SimulationId {
+    simulationId: string|null;
+}
+
 export interface Rover {
     roverName: string;
     roverHeading: string;
