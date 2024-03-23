@@ -1,8 +1,11 @@
 import {Props, Simulation} from "../../interfaces.ts";
 import {useNavigate} from "react-router";
+import {useContext} from "react";
+import {SimulationContext} from "../SimulationContext.tsx";
 
 function SimulationSelectionOptions({simulations}: Props) {
     const navigate = useNavigate();
+    const { setSimulationId } = useContext(SimulationContext);
     const handleCreateSimulation = async () => {
         try {
             const response = await fetch('/api/createsimulation/10', {
@@ -13,11 +16,10 @@ function SimulationSelectionOptions({simulations}: Props) {
                 throw new Error(`Failed to get simulation ID: ${response.statusText}`);
             }
             const data = await response.json();
-            const simulationId = data.simulationId;
-            navigate(`/app?simulationId=${simulationId}`);
+            setSimulationId(data.simulationId);
+            navigate('/app');
         } catch (error) {
             console.error("Error creating new simulation:", error);
-            // Handle error appropriately, e.g., display an error message to the user
         }
     };
 

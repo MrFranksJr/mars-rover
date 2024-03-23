@@ -1,7 +1,11 @@
 import '.././styles/Footer.css'
-import {SimulationId} from "../interfaces.ts";
+import {useContext} from "react";
+import {SimulationContext} from "./SimulationContext.tsx";
 
-function Footer({simulationId} : SimulationId) {
+function Footer() {
+    const {simulationId} = useContext(SimulationContext)
+    console.log(simulationId)
+
     return (
         <footer id="footer">
             <div id="infoBtn" className="infoBtn"><i className="fa-solid fa-circle-info fa-2xl"></i></div>
@@ -9,7 +13,7 @@ function Footer({simulationId} : SimulationId) {
             <div id="simulationId" className="simulationId">
                 <label htmlFor="simulations">Simulation ID</label>
                 <select id="simulations" name="simulationList">
-                    <option key={simulationId}>{simulationId}</option>
+                    {simulationId && [<option key={simulationId}>{simulationId}</option>]}
                 </select>
             </div>
         </footer>

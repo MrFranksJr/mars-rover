@@ -4,6 +4,7 @@ import App from './App.tsx'
 import '././styles/index.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import SimulationSelection from "./AppComponents/LandingScreen/SimulationSelection.tsx";
+import {SimulationProvider} from "./AppComponents/SimulationContext.tsx";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
-    </React.StrictMode>,
+        <SimulationProvider>
+            <RouterProvider router={router}/>
+        </SimulationProvider>
+    </React.StrictMode>
 )
