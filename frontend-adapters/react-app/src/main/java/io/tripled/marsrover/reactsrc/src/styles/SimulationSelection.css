@@ -1,0 +1,95 @@
+#root, .simulationSelection, .logoWrapper, .simulationOptions, .simulationSelectionForm, .newSimulation {
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    justify-content: center;
+    align-items: center;
+}
+
+.simulationSelection {
+    align-items: center;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    padding: 3rem 3rem;
+    margin: 0.5rem;
+    background-color: #79757561;
+    transform: translateY(-100px);
+    backdrop-filter: blur(20px);
+}
+
+.logoWrapper {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+h1 {
+    color: #98c7fc;
+}
+
+.applicationLogo {
+    width: 300px;
+    height: 300px;
+}
+
+.simulationOptions {
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+}
+
+.simulationSelectionForm {
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 1.5rem;
+}
+
+.newSimulation {
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+button, select {
+    width: fit-content;
+    padding: 1rem 4rem;
+    margin: 1px;
+    background-color: #FFFFFF20;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    color: #98c7fc;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+select {
+    padding: 1rem;
+}
+
+select:hover, button:hover {
+    cursor: pointer;
+    background-color: #FFFFFF70;
+    border-color: #98c7fc;
+}
+
+select:focus-visible,
+button:focus-visible {
+    outline: 3px solid #98c7fc;
+}
+
+select:active,
+button:active {
+    margin: 0;
+    border: 2px solid #f18b82;
+    transition: background-color 0s;
+}
+
+option {
+    width: fit-content;
+}

@@ -1,4 +1,4 @@
-import '../Styles/Footer.css'
+import '.././styles/Footer.css'
 import {Props, Simulation} from "../interfaces.ts";
 
 function Footer({ simulations }: Props) {

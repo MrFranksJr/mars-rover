@@ -1,4 +1,4 @@
-import './App.css'
+import '././styles/App.css'
 import Header from "./AppComponents/Header.tsx";
 import Footer from "./AppComponents/Footer.tsx";
 import RightPanel from "./AppComponents/RightPanel.tsx";

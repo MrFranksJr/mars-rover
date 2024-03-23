@@ -1,5 +1,5 @@
 import marsSimulatorLogo from "../assets/simulatorLogo.png";
-import '../Styles/Header.css'
+import '.././styles/Header.css'
 
 function Header() {
     return (
