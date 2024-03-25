@@ -5,8 +5,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../../../../../resources/static-react',
     emptyOutDir: true,
+    outDir: '../../../../../resources/static-react',
+    rollupOptions: {
+      external: ['react-html-parser'],
+    },
   },
   server: {
     proxy: {

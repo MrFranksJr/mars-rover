@@ -1,7 +1,6 @@
 import {Rover} from "../../../interfaces.ts";
 
 function RoverInfo(rover: Rover) {
-
     return (
         <>
             <div>

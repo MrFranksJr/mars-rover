@@ -1,5 +1,5 @@
 export interface SimulationId {
-    simulationId: string|null;
+    simulationId: string;
 }
 
 export interface Rover {

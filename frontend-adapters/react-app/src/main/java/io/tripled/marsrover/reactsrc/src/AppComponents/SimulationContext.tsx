@@ -2,18 +2,23 @@ import React, {createContext, useState} from "react";
 import {Simulation} from "../interfaces.ts";
 
 interface SimulationContextProps {
-    simulation?: Simulation;
+    simulation: Simulation;
     setSimulation: (simulation: Simulation) => void;
 }
 
 const SimulationContext = createContext<SimulationContextProps>({
-    simulation: undefined,
+    simulation: {} as Simulation,
     setSimulation: () => {
     },
 });
 
 const SimulationProvider = ({children}: { children: React.ReactNode }) => {
-    const [simulation, setSimulation] = useState<Simulation | undefined>(undefined);
+    const [simulation, setSimulation] = useState<Simulation>({
+        roverList: [],
+        simulationId: "",
+        simulationSize: 0,
+        totalCoordinates: 0
+    });
 
     const handleSetSimulation = (simulation: Simulation) => {
         setSimulation(simulation);

@@ -1,3 +1,5 @@
+import Map from "./Map.tsx";
+
 function LeftPanel() {
 
     return (
@@ -17,6 +19,7 @@ function LeftPanel() {
 
                 <div className="mapFlexWrapper">
                     <div id="simulationMap" className="simulationMap">
+                        <Map/>
                     </div>
                 </div>
             </div>
