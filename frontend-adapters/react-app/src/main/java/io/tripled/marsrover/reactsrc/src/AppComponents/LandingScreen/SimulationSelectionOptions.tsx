@@ -1,4 +1,4 @@
-import {Props, Rover, Simulation} from "../../interfaces.ts";
+import {Props, Simulation} from "../../interfaces.ts";
 import {useNavigate} from "react-router";
 import {ChangeEvent, useContext} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
@@ -6,36 +6,10 @@ import {SimulationContext} from "../SimulationContext.tsx";
 function SimulationSelectionOptions({simulations}: Props) {
     const navigate = useNavigate();
     let simulationId: string = "";
-    const { setSimulation } = useContext(SimulationContext);
+    const {setSimulation} = useContext(SimulationContext);
     const handleCreateSimulation = async () => {
         try {
             const response = await fetch('/api/createsimulation/10', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (!response.ok) {
-                throw new Error(`Failed to get simulation ID: ${response.statusText}`);
-            }
-            const data = await response.json();
-            simulationId = data.simulationId;
-            setSimulation(getSimulation(simulationId))
-            navigate('/app');
-        } catch (error) {
-            console.error("Error creating new simulation:", error);
-        }
-    };
-
-    const handleSimulationSelection = (e : ChangeEvent<HTMLSelectElement>) => {
-        simulationId = e.target.value;
-        setSimulation(getSimulation(simulationId))
-        navigate('/app');
-    };
-
-
-    const getSimulation = async () => {
-        try {
-            console.log(`/api/simulationstate/${simulationId}`)
-            const response = await fetch(`/api/simulationstate/${simulationId}`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
             });
@@ -43,14 +17,46 @@ function SimulationSelectionOptions({simulations}: Props) {
                 throw new Error(`Failed to get simulation ID: ${response.statusText}`);
             }
             const data = await response.json();
-            return new class implements Simulation {
-                roverList: Array<Rover> = data.RoverList;
-                simulationId: string = data.simulationId;
-                simulationSize: number = data.simulationSize;
-                totalCoordinates: number = data.totalCoordinates;
-            }
+            simulationId = data.simulationId;
+            const simulationData = await getSimulation()
+            setSimulation(simulationData)
+            navigate('/app');
         } catch (error) {
             console.error("Error creating new simulation:", error);
+        }
+    };
+
+    const handleSimulationSelection = async (e: ChangeEvent<HTMLSelectElement>) => {
+        try {
+            simulationId = e.target.value;
+            const simulationData = await getSimulation()
+            setSimulation(simulationData)
+            navigate('/app');
+        } catch (error) {
+            console.error()
+        }
+    };
+
+
+    const getSimulation = async (): Promise<Simulation> => {
+        try {
+            const response = await fetch(`/api/simulationstate/${simulationId}`, {
+                headers: {'Content-Type': 'application/json'}
+            });
+            if (!response.ok) {
+                console.error(`Error getting simulationstate for SimulationId ${simulationId}`)
+                throw new Error(`Failed to get simulation state: ${response.statusText}`);
+            }
+            const data = await response.json();
+            return {
+                simulationId: data.simulationId,
+                simulationSize: data.simulationSize,
+                totalCoordinates: data.totalCoordinates,
+                roverList: data.roverList
+            }
+        } catch (error) {
+            console.error("Error getting simulation state:", error);
+            throw error;
         }
     }
 
@@ -60,7 +66,8 @@ function SimulationSelectionOptions({simulations}: Props) {
                 <form className="simulationSelectionForm">
                     <label htmlFor="simulations">Select an existing Simulation</label>
                     <div className="customSelect">
-                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection}>
+                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..."
+                                onChange={handleSimulationSelection}>
                             <option disabled={true} key="default">Select Simulation ID...</option>
                             {simulations && simulations.map((simulation: Simulation) =>
                                 <option key={simulation.simulationId}>{simulation.simulationId}</option>)}

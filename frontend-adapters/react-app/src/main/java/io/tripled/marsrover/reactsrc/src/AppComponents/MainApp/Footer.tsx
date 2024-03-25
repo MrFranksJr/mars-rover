@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
 
 function Footer() {
-    const {simulationId} = useContext(SimulationContext)
+    const {simulation} = useContext(SimulationContext)
 
     return (
         <footer id="footer">
@@ -12,7 +12,7 @@ function Footer() {
             <div id="simulationId" className="simulationId">
                 <label htmlFor="simulations">Simulation ID</label>
                 <select id="simulations" name="simulationList">
-                    {simulationId && [<option key={simulationId}>{simulationId}</option>]}
+                    {simulation && [<option key={simulation.simulationId}>{simulation.simulationId}</option>]}
                 </select>
             </div>
         </footer>
