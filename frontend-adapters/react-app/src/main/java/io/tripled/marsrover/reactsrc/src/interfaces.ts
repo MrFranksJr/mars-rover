@@ -5,17 +5,17 @@ export interface SimulationId {
 export interface Rover {
     roverName: string;
     roverHeading: string;
-    xPosition: number;
-    yPosition: number;
+    roverXPosition: number;
+    roverYPosition: number;
     hitPoints: number;
-    status: string;
+    operationalStatus: string;
 }
 
 export interface Simulation {
     simulationId: string;
     simulationSize: number;
     totalCoordinates: number;
-    roverlist: Array<Rover>;
+    roverList: Array<Rover>;
 }
 
 export interface Props {

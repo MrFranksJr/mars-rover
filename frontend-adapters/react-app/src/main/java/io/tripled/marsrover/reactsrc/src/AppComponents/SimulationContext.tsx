@@ -1,28 +1,29 @@
-// CreateSimulationContext.tsx
-import React, { createContext, useState } from "react";
+import React, {createContext, useState} from "react";
+import {Simulation} from "../interfaces.ts";
 
 interface SimulationContextProps {
-    simulationId?: string;
-    setSimulationId: (id: string) => void;
+    simulation?: Simulation;
+    setSimulation: (simulation: Simulation) => void;
 }
 
 const SimulationContext = createContext<SimulationContextProps>({
-    simulationId: undefined,
-    setSimulationId: () => {},
+    simulation: undefined,
+    setSimulation: () => {
+    },
 });
 
-const SimulationProvider = ({ children }: { children: React.ReactNode }) => {
-    const [simulationId, setSimulationId] = useState<string | undefined>(undefined);
+const SimulationProvider = ({children}: { children: React.ReactNode }) => {
+    const [simulation, setSimulation] = useState<Simulation | undefined>(undefined);
 
-    const handleSetSimulationId = (id: string) => {
-        setSimulationId(id);
+    const handleSetSimulation = (simulation: Simulation) => {
+        setSimulation(simulation);
     };
 
     return (
-        <SimulationContext.Provider value={{ simulationId, setSimulationId: handleSetSimulationId }}>
+        <SimulationContext.Provider value={{simulation, setSimulation: handleSetSimulation}}>
             {children}
         </SimulationContext.Provider>
     );
 };
 
-export { SimulationContext, SimulationProvider };
+export {SimulationContext, SimulationProvider};

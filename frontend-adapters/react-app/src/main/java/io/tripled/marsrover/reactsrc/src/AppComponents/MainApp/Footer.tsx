@@ -1,10 +1,9 @@
-import '.././styles/Footer.css'
+import '../../styles/Footer.css'
 import {useContext} from "react";
-import {SimulationContext} from "./SimulationContext.tsx";
+import {SimulationContext} from "../SimulationContext.tsx";
 
 function Footer() {
     const {simulationId} = useContext(SimulationContext)
-    console.log(simulationId)
 
     return (
         <footer id="footer">

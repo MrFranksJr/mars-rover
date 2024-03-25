@@ -1,5 +1,5 @@
-import marsSimulatorLogo from "../assets/simulatorLogo.png";
-import '.././styles/Header.css'
+import marsSimulatorLogo from "../../assets/simulatorLogo.png";
+import '../../styles/Header.css'
 
 function Header() {
     return (
@@ -10,7 +10,6 @@ function Header() {
             </div>
         </header>
     )
-
 }
 
 export default Header;
