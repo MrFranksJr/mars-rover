@@ -1,5 +1,13 @@
+import SimulationStateTable from "./SimulationStateTable.tsx";
+
 function RightPanel() {
-    return ""
+    return (
+        <>
+            <div className="main-right">
+                <SimulationStateTable/>
+            </div>
+        </>
+    )
 }
 
 export default RightPanel;
