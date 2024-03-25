@@ -1,6 +1,6 @@
 import {Props, Simulation} from "../../interfaces.ts";
 import {useNavigate} from "react-router";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
 
 function SimulationSelectionOptions({simulations}: Props) {
@@ -23,14 +23,23 @@ function SimulationSelectionOptions({simulations}: Props) {
         }
     };
 
+
+    const [value, setValue] = useState('')
+    const handleSimulationSelection = (e) => {
+        console.log(e)
+        console.log("Hi, I changed state to: " + e.target.value)
+        setValue(e.target.value)
+    };
+
+
     return (
         <>
             <div className="simulationOptions">
                 <form className="simulationSelectionForm">
                     <label htmlFor="simulations">Select an existing Simulation</label>
                     <div className="customSelect">
-                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID...">
-                            <option disabled={true}>Select Simulation ID...</option>
+                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection}>
+                            <option disabled={true} key="default" value="default">Select Simulation ID...</option>
                             {simulations && simulations.map((simulation: Simulation) =>
                                 <option key={simulation.simulationId}>{simulation.simulationId}</option>)}
                         </select>
