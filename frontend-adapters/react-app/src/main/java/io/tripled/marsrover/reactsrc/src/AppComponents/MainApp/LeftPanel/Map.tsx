@@ -3,7 +3,7 @@ import {SimulationContext} from "../../SimulationContext.tsx";
 import {Rover} from "../../../interfaces.ts";
 import DOMPurify from "dompurify";
 import parse from 'html-react-parser'
-import '../../../styles/Map.module.css'
+import '../../../styles/Map.css'
 
 function Map(): JSX.Element {
     const {simulation} = useContext(SimulationContext);
@@ -50,15 +50,15 @@ function Map(): JSX.Element {
         const roverStatus = rover.operationalStatus
         const roverHitPoints = rover.hitPoints
         if (roverStatus === "BROKEN") {
-            return `<p class='roverSymbolWrapper'><span class='marsRover brokenRover'>\u2297${roverName}</span><span class="tooltip brokenTooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-bad'>${roverStatus}</span></span></p>`
+            return `<p class="roverSymbolWrapper"><span class='roverSymbolWrapper'>\u2297${roverName}</span><span class="tooltip brokenTooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusBad">${roverStatus}</span></span></p>`
         } else if (roverHeading === "NORTH") {
-            return `<p class='roverSymbolWrapper'><span class='marsRover'>\u2227${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
+            return `<p class="roverSymbolWrapper"><span class='roverSymbolWrapper'>\u2227${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
         } else if (roverHeading === "EAST") {
-            return `<p class='roverSymbolWrapper'><span class='marsRover'>${roverName}\u203A</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
+            return `<p class="roverSymbolWrapper"><span class='roverSymbolWrapper'>${roverName}\u203A</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
         } else if (roverHeading === "SOUTH") {
-            return `<p class='roverSymbolWrapper'><span class='marsRover'>${roverName}\u2228</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
+            return `<p class="roverSymbolWrapper"><span class='roverSymbolWrapper'>${roverName}\u2228</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
         } else if (roverHeading === "WEST") {
-            return `<p class='roverSymbolWrapper'><span class='marsRover'>\u2039${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class='status-good'>${roverStatus}</span></span></p>`
+            return `<p class="roverSymbolWrapper"><span class='roverSymbolWrapper'>\u2039${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
         }
         return "";
     }
@@ -69,7 +69,7 @@ function Map(): JSX.Element {
         <>
             <div className="mapFlexWrapper">
                 <div id="simulationMap" className="simulationMap">
-                    <div className='mapInnerDiv'>{parse(sanitizedData)}</div>
+                    <div className="mapInnerDiv">{parse(sanitizedData)}</div>
                 </div>
             </div>
         </>

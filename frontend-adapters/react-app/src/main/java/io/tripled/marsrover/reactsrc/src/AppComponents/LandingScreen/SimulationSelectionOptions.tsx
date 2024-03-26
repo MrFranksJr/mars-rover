@@ -4,7 +4,6 @@ import {ChangeEvent, useContext} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
 import styles from '../../styles/SimulationSelectionOptions.module.css'
 
-
 function SimulationSelectionOptions({simulations}: Props) {
     const navigate = useNavigate();
     let simulationId: string = "";
@@ -68,8 +67,7 @@ function SimulationSelectionOptions({simulations}: Props) {
                 <form className={styles.simulationSelectionForm}>
                     <label htmlFor="simulations">Select an existing Simulation</label>
                     <div className="customSelect">
-                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..."
-                                onChange={handleSimulationSelection}>
+                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection}>
                             <option disabled={true} key="default">Select Simulation ID...</option>
                             {simulations && simulations.map((simulation: Simulation) =>
                                 <option key={simulation.simulationId}>{simulation.simulationId}</option>)}

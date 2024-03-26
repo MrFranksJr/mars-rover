@@ -3,6 +3,17 @@
     flex-direction: column;
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    transition: 0.1s ease-in-out;
+}
+
 .simulationSelection {
     align-items: center;
     border: 1px solid #FFF;
@@ -10,8 +21,8 @@
     padding: 3rem 3rem;
     margin: 0.5rem;
     background-color: #79757561;
-    transform: translateY(-100px);
     backdrop-filter: blur(20px);
+    transform: translateY(-80px);
 }
 
 .logoWrapper {
@@ -19,7 +30,7 @@
     text-align: center;
 }
 
-h1 {
+.h1 {
     color: #98c7fc;
 }
 

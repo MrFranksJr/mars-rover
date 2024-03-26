@@ -1,0 +1,7 @@
+.mainLeft {
+    display: flex;
+    flex-direction: column;
+    flex: 60%;
+    align-items: center;
+    flex-grow: 1;
+}

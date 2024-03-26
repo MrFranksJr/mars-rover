@@ -56,11 +56,11 @@
     opacity: 1;
 }
 
-.status-good {
+.statusGood {
     color: #7ecc2d;
 }
 
-.status-bad {
+.statusBad {
     color: #f18b82;
 }
 

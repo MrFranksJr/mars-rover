@@ -1,0 +1,7 @@
+.mainRight {
+    display: flex;
+    flex-direction: column;
+    flex: 40%;
+    align-items: center;
+    row-gap: 30px;
+}
