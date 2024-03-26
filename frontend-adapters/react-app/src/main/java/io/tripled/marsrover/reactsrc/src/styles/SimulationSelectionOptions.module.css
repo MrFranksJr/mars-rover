@@ -1,11 +1,6 @@
-#root, .simulationSelection, .logoWrapper, .simulationOptions, .simulationSelectionForm, .newSimulation {
+.simulationSelection, .logoWrapper, .simulationOptions, .simulationSelectionForm, .newSimulation {
     display: flex;
     flex-direction: column;
-}
-
-#root {
-    justify-content: center;
-    align-items: center;
 }
 
 .simulationSelection {

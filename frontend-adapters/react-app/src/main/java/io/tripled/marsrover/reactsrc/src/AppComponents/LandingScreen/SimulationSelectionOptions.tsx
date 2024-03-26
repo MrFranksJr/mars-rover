@@ -2,6 +2,8 @@ import {Props, Simulation} from "../../interfaces.ts";
 import {useNavigate} from "react-router";
 import {ChangeEvent, useContext} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
+import styles from '../../styles/SimulationSelectionOptions.module.css'
+
 
 function SimulationSelectionOptions({simulations}: Props) {
     const navigate = useNavigate();
@@ -62,8 +64,8 @@ function SimulationSelectionOptions({simulations}: Props) {
 
     return (
         <>
-            <div className="simulationOptions">
-                <form className="simulationSelectionForm">
+            <div className={styles.simulationOptions}>
+                <form className={styles.simulationSelectionForm}>
                     <label htmlFor="simulations">Select an existing Simulation</label>
                     <div className="customSelect">
                         <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..."
@@ -74,7 +76,7 @@ function SimulationSelectionOptions({simulations}: Props) {
                         </select>
                     </div>
                 </form>
-                <div className="newSimulation">
+                <div className={styles.newSimulation}>
                     <label>Create a new Simulation</label>
                     <button onClick={handleCreateSimulation}>Create...</button>
                 </div>

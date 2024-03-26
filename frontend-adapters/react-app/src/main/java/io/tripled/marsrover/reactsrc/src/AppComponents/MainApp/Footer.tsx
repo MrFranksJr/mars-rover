@@ -1,4 +1,4 @@
-import '../../styles/Footer.css'
+import '../../styles/Footer.module.css'
 import {useContext} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
 

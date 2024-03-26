@@ -1,4 +1,4 @@
-import '././styles/App.css'
+import './styles/App.module.css'
 import Header from "./AppComponents/MainApp/Header.tsx";
 import Footer from "./AppComponents/MainApp/Footer.tsx";
 import RightPanel from "./AppComponents/MainApp/RightPanel/RightPanel.tsx";
@@ -9,8 +9,8 @@ function App() {
         <>
             <Header/>
             <div className="main-panels" id="main-panels">
-                <LeftPanel/>
-                <RightPanel/>
+                <LeftPanel />
+                <RightPanel />
             </div>
             <Footer/>
         </>

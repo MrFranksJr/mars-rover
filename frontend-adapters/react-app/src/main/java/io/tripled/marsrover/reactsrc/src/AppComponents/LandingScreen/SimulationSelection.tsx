@@ -1,9 +1,8 @@
 import {Simulation} from "../../interfaces.ts";
 import {useEffect, useState} from "react";
-import '../../styles/SimulationSelection.css'
+import styles from '../../styles/SimulationSelectionOptions.module.css'
 import { WelcomeLogo } from "../LandingScreen/WelcomeLogo.tsx";
 import {SimulationSelectionOptions} from "./SimulationSelectionOptions.tsx";
-
 
 export default function SimulationSelection() {
     let [simulations, setSimulations] = useState<Array<Simulation>>([])
@@ -15,7 +14,7 @@ export default function SimulationSelection() {
     }, []);
 
     return (
-            <div className="simulationSelection">
+            <div className={styles.simulationSelection}>
                 <WelcomeLogo />
                 <SimulationSelectionOptions simulations={simulations}/>
             </div>

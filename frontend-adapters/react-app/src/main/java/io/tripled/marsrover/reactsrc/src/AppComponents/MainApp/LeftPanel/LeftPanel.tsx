@@ -18,9 +18,7 @@ function LeftPanel() {
                 </form>
 
                 <div className="mapFlexWrapper">
-                    <div id="simulationMap" className="simulationMap">
                         <Map/>
-                    </div>
                 </div>
             </div>
         </>

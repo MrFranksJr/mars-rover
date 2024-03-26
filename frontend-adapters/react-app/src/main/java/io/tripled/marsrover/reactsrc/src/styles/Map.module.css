@@ -1,0 +1,75 @@
+.mapFlexWrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.simulationMap {
+    font-family:'Courier New', Courier, monospace;
+    font-size: 2rem;
+    line-height: 3rem;
+    padding: 20px 30px;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.roverSymbolWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.roverSymbolWrapper .tooltip {
+    font-family: "Montserrat", sans-serif;
+    visibility: hidden;
+    padding: 10px 10px 5px;
+    position: absolute;
+    width: 204px;
+    z-index: 1;
+    bottom: 100%;
+    left: -50%;
+    margin-left: -80%;
+    opacity: 0;
+    transition: opacity 0.4s;
+    color: #98c7fc;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #797575d7;
+    white-space: nowrap;
+    line-height: 1.5rem;
+}
+
+.roverSymbolWrapper .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #FFF transparent transparent transparent;
+}
+
+.roverSymbolWrapper:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.status-good {
+    color: #7ecc2d;
+}
+
+.status-bad {
+    color: #f18b82;
+}
+
+.marsRover {
+    cursor: pointer;
+    color: #98c7fc;
+    font-weight: bold;
+}
+
+.brokenRover{
+    color: #d82828;
+}
