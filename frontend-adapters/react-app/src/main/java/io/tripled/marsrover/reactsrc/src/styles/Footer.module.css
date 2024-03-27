@@ -9,6 +9,12 @@ footer {
     font-size: 0.8rem;
     position: relative;
 }
+
+.tripledLogo {
+    width: 80px;
+    margin: 0px 10px;
+}
+
 .copyright {
     position: absolute;
     left: 50%;

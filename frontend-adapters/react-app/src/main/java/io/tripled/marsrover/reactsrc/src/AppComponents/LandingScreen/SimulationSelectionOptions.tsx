@@ -65,18 +65,18 @@ function SimulationSelectionOptions({simulations}: Props) {
         <>
             <div className={styles.simulationOptions}>
                 <form className={styles.simulationSelectionForm}>
-                    <label htmlFor="simulations">Select an existing Simulation</label>
+                    <label htmlFor="simulations" className={styles.labelStyle}>Select an existing Simulation</label>
                     <div className="customSelect">
-                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection}>
-                            <option disabled={true} key="default">Select Simulation ID...</option>
+                        <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection} className={styles.simulationSelector}>
+                            <option disabled={true} key="default" className={styles.simSelectionOption}>Select Simulation ID...</option>
                             {simulations && simulations.map((simulation: Simulation) =>
-                                <option key={simulation.simulationId}>{simulation.simulationId}</option>)}
+                                <option key={simulation.simulationId} className={styles.simSelectionOption}>{simulation.simulationId}</option>)}
                         </select>
                     </div>
                 </form>
                 <div className={styles.newSimulation}>
-                    <label>Create a new Simulation</label>
-                    <button onClick={handleCreateSimulation}>Create...</button>
+                    <label className={styles.labelStyle}>Create a new Simulation</label>
+                    <button onClick={handleCreateSimulation} className={styles.createSimulationBtn}>Create...</button>
                 </div>
             </div>
         </>

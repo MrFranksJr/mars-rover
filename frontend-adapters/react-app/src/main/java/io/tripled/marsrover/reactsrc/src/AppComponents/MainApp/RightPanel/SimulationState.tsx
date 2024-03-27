@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import {SimulationContext} from "../../SimulationContext.tsx";
 import RoverInfo from "./RoverInfo.tsx";
+import styles from "../../../styles/SimulationState.module.css"
 
 function SimulationState() {
     const {simulation} = useContext(SimulationContext);
@@ -8,7 +9,7 @@ function SimulationState() {
 
     return (
         <>
-            <div id="simulationState" className="simulationState">
+            <div id="simulationState" className={styles.simulationState}>
                 <h2>Current Simulation state:</h2>
                 <p>The Simulation size is {simulation?.simulationSize}</p>
                 <p>The Simulation has {simulation?.totalCoordinates} total Coordinates</p>

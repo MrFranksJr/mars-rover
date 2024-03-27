@@ -11,7 +11,7 @@ header {
 .logoWrapper {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 10px;
 }
 
 h1 {

@@ -15,7 +15,7 @@ export default function SimulationSelection() {
 
     return (
         <div className={styles.main}>
-            <div className={styles.simulationSelection}>
+            <div className={styles.simulationSelectionWindow}>
                 <WelcomeLogo/>
                 <SimulationSelectionOptions simulations={simulations}/>
             </div>
