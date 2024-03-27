@@ -4,10 +4,10 @@ function landingControls() {
         <>
             <form id="landRoverControls" className={styles.landRoverControls}>
                 <div className={styles.coordinateInputFields}>
-                    <input id="roverXCoordinate" className="roverXCoordinate" placeholder="Enter X Coordinate"
+                    <input id="roverXCoordinate" className={styles.roverXCoordinate} placeholder="Enter X Coordinate"
                            type="number"
                            min="0" max="10"/>
-                    <input id="roverYCoordinate" className="roverYCoordinate" placeholder="Enter Y Coordinate"
+                    <input id="roverYCoordinate" className={styles.roverYCoordinate} placeholder="Enter Y Coordinate"
                            type="number"
                            min="0" max="10"/>
                 </div>

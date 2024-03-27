@@ -10,11 +10,44 @@
 .coordinateInputFields {
     display: flex;
     flex-direction: row;
-
     gap: 10px;
     width: 100%;
 }
 
+.roverXCoordinate,
+.roverYCoordinate {
+    height: 2rem;
+    text-align: center;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.roverXCoordinate:disabled,
+.roverYCoordinate:disabled{
+    cursor: not-allowed;
+}
+
+.roverXCoordinate[type=number]::-webkit-inner-spin-button,
+.roverXCoordinate[type=number]::-webkit-outer-spin-button,
+.roverYCoordinate[type=number]::-webkit-inner-spin-button,
+.roverYCoordinate[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
 .landRoverBtn {
     flex-basis: 100%;
+    height: 2.2rem;
+    background-color: transparent;
+    color: #98c7fc;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    align-self: center;
 }

@@ -6,7 +6,6 @@ function SimulationState() {
     const {simulation} = useContext(SimulationContext);
     const roversInSimulation = simulation?.roverList;
 
-
     return (
         <>
             <div id="simulationState" className="simulationState">

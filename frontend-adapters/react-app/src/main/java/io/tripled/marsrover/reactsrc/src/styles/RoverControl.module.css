@@ -1,0 +1,35 @@
+.singleRoverInstruction {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.roverInstructions {
+    height: 2rem;
+    text-align: center;
+    font-family:  "Montserrat", sans-serif;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    flex: 80%;
+}
+
+.roverInstructions:disabled {
+    cursor: not-allowed;
+}
+
+.singleRoverInstruction:disabled::placeholder {
+    color: #98c7fc89;
+}
+
+.singleRoverInstruction[type=number]::-webkit-inner-spin-button,
+.singleRoverInstruction[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.instructionLabel {
+    flex: 0 0 20%;
+    text-align: center;
+}

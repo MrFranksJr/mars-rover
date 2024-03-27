@@ -106,7 +106,6 @@ h1 {
 .coordinateInputFields {
     display: flex;
     flex-direction: row;
-
     gap: 10px;
     width: 100%;
 }
