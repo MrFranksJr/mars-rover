@@ -20,3 +20,41 @@
   transition: 0.6s ease-in-out;
   gap: 30px;
 }
+
+.landRoverBtn:enabled,
+.moveRoverBtn:enabled {
+  flex-basis: 100%;
+  min-height: 2.2rem;
+  background-color: transparent;
+  color: #98c7fc;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family:  "Montserrat", sans-serif;
+  border: 1px solid #FFF;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.landRoverBtn:hover:enabled,
+.moveRoverBtn:hover:enabled {
+  border: 1px solid #f18b82;
+  color: #f18b82;
+}
+
+.landRoverBtn:active:enabled,
+.moveRoverBtn:active:enabled {
+  border: 1px solid #f18b82;
+  color: #f18b82;
+  background-color: #98c7fc;
+}
+
+.landRoverBtn:disabled,
+.moveRoverBtn:disabled {
+  height: 2.2rem;
+  font-weight: bold;
+  font-family:  "Montserrat", sans-serif;
+  border: 1px solid #FFF;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #98c7fc89;
+}

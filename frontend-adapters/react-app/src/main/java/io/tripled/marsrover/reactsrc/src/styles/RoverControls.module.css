@@ -13,8 +13,3 @@
     grid-auto-rows: auto;
     grid-gap: 20px 10px;
 }
-
-.moveRoverBtn {
-    width: 100%;
-    align-self: center;
-}

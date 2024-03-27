@@ -1,7 +1,8 @@
-import styles from '../../../styles/RoverControls.module.css'
+import roverControlsStyles from '../../../styles/RoverControls.module.css'
 import {useContext} from "react";
 import {SimulationContext} from "../../SimulationContext.tsx";
 import RoverControl from "./RoverControl.tsx";
+import appStyles from "../../../styles/App.module.css"
 
 function RoverControls() {
     const {simulation} = useContext(SimulationContext);
@@ -9,8 +10,8 @@ function RoverControls() {
 
     return (
         <>
-            <form id="moveRoverControls" className={styles.moveRoverControls}>
-                <div id="roverInstructionFields" className={styles.roverInstructionFields}>
+            <form id="moveRoverControls" className={roverControlsStyles.moveRoverControls}>
+                <div id="roverInstructionFields" className={roverControlsStyles.roverInstructionFields}>
                     {roversInSimulation?.length === 0 ? (
                             `There are currently no active Rovers in the Simulation. Land some Rovers first!`)
                         :
@@ -27,7 +28,7 @@ function RoverControls() {
                             ))
                         )}
                 </div>
-                <button id="moveRoverBtn" className={styles.moveRoverBtn}>Execute Instructions!</button>
+                <button id="moveRoverBtn" className={appStyles.moveRoverBtn}>Execute Instructions!</button>
             </form>
         </>
     )
