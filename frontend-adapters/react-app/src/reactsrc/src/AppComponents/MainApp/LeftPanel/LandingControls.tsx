@@ -1,31 +1,79 @@
 import landingControlsStyles from "../../../styles/LandingControls.module.css"
 import appStyles from "../../../styles/App.module.css"
-import {useState} from "react";
+import {ChangeEvent, FormEvent, useContext, useState} from "react";
+import {SimulationContext} from "../../SimulationContext.tsx";
+
+interface CoordinateData {
+    roverXCoordinate: string;
+    roverYCoordinate: string;
+}
+
 function landingControls() {
-    const [formData, setFormData] = useState({
-        xCoordinate: "",
-        yCoordinate: "",
+    const {simulation, updateSimulation} = useContext(SimulationContext)
+
+    const [formData, setFormData] = useState<CoordinateData>({
+        roverXCoordinate: "",
+        roverYCoordinate: "",
     });
 
-    const handleChange = (event:any) => {
-        const { id, value } = event.target;
-        setFormData((prevState) => ({ ...prevState, [id]: value }));
+    const [errors, setErrors] = useState<{ roverXCoordinate?: string; roverYCoordinate?: string }>({});
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const {id, value} = event.target;
+        setFormData((prevState) => ({...prevState, [id]: value}));
+    };
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!formData.roverXCoordinate || !formData.roverYCoordinate) {
+            setErrors({
+                roverXCoordinate: !formData.roverXCoordinate ? "X Coordinate is required" : "",
+                roverYCoordinate: !formData.roverYCoordinate ? "Y Coordinate is required" : "",
+            });
+            return;
+        }
+
+        // Clear errors if coordinates are filled out
+        setErrors({});
+
+        try {
+            const result = await fetch(`/api/landrover/${simulation.simulationId}/${formData.roverXCoordinate}/${formData.roverYCoordinate}`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                // You can add more configurations here, like body for JSON payload, etc.
+            });
+
+            if (!result.ok) {
+                // Handle non-200 response
+                throw new Error('Failed to land rover. Please try again later.');
+            }
+
+            // Handle success response
+            // Your logic here
+            const responseData = await result.json();
+            await updateSimulation(simulation.simulationId);
+            console.log('Rover landed successfully!');
+            console.log(responseData);
+        } catch (error) {
+            console.error(error);
+            // Handle error
+            // You can set error state here if you want to display an error message to the user
+        }
     };
 
 
     return (
         <>
-            <form id="landRoverControls" className={landingControlsStyles.landRoverControls} onSubmit={e => {
-                e.preventDefault();
-                alert('Submitting!');
-            }}>
+            <form id="landRoverControls" className={landingControlsStyles.landRoverControls} onSubmit={handleSubmit}>
                 <div className={landingControlsStyles.coordinateInputFields}>
                     <input id="roverXCoordinate"
                            className={landingControlsStyles.roverXCoordinate}
                            placeholder="Enter X Coordinate"
                            type="number"
                            min="0" max="10"
-                           value={formData.xCoordinate}
+                           value={formData.roverXCoordinate}
                            onChange={handleChange}
                     />
                     <input id="roverYCoordinate"
@@ -33,12 +81,13 @@ function landingControls() {
                            placeholder="Enter Y Coordinate"
                            type="number"
                            min="0" max="10"
-                           value={formData.yCoordinate}
+                           value={formData.roverYCoordinate}
                            onChange={handleChange}
                     />
                 </div>
                 <button id="landRoverBtn" className={appStyles.landRoverBtn}>Land new Rover</button>
             </form>
+            {console.log(errors)}
         </>
     )
 }
