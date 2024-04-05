@@ -1,0 +1,38 @@
+.simulationState {
+    margin: 30px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #98c7fc;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #79757561;
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    max-width: 500px;
+}
+
+.simulationStateH2 {
+    margin-bottom: 0.5rem;
+}
+
+.simulationStateP {
+    margin: 5px;
+    overflow-y: auto;
+}
+
+.roverStates {
+    margin: 10px 5px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    grid-auto-rows: auto;
+    grid-gap: 25px 10px;
+}
+
+.simulationStateH4 {
+    color: #f18b82;
+    margin-bottom: 7px;
+    font-size: 1.3rem;
+}

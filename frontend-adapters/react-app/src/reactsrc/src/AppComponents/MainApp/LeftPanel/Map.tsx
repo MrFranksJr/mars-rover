@@ -33,7 +33,7 @@ function Map(): JSX.Element {
         }
         mapString += "<span class='mapBorder'>---|</span>" + "<span class='mapBorder'>-</span>".repeat((simulation.simulationSize + 1) * 3) + "<br/>"
         mapString += "\xa0\xa0\xa0<span class='mapBorder'>|</span>"
-        for (let i = 0; i <= simulation?.simulationSize; i++) {
+        for (let i = 0; i <= simulation.simulationSize; i++) {
             if (i < 10) {
                 mapString += "\xa0" + "<span class='mapNumber'>" + i + "</span>\xa0"
             } else {

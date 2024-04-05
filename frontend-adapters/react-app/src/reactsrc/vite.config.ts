@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     emptyOutDir: true,
-    outDir: '../../../../../resources/static-react',
+    outDir: '../resources/static-react',
     rollupOptions: {
       external: ['react-html-parser'],
     },
