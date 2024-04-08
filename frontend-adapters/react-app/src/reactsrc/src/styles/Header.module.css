@@ -2,10 +2,24 @@ header {
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     min-height: 100px;
     color: #FFF;
     margin-bottom: 50px;
+}
+
+.backButton {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 50px;
+    fill: #ffffff;
+    transition: 0.2s ease-in-out;
+}
+
+.backButton:hover {
+    fill: #98c7fc;
 }
 
 .logoWrapper {
