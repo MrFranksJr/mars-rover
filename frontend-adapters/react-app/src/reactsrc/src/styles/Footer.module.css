@@ -6,6 +6,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     height: 70px;
+    min-height: 70px;
     font-size: 0.8rem;
     position: relative;
 }

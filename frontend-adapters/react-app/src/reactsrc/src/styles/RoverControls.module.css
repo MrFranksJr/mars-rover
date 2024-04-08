@@ -12,4 +12,6 @@
     justify-content: space-between;
     grid-auto-rows: auto;
     grid-gap: 20px 10px;
+    max-height: 150px;
+    overflow-y: auto;
 }

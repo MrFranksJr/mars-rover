@@ -4,4 +4,5 @@
     flex: 40%;
     align-items: center;
     row-gap: 30px;
+    flex-grow: 1;
 }

@@ -3,7 +3,7 @@ header {
     flex-direction: row;
     width: 100%;
     justify-content: center;
-    height: 100px;
+    min-height: 100px;
     color: #FFF;
     margin-bottom: 50px;
 }
