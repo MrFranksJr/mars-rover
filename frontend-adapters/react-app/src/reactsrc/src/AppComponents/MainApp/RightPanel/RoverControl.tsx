@@ -1,28 +1,34 @@
+//RoverControl.tsx:
 import {Rover} from "../../../interfaces.ts";
 import styles from "../../../styles/RoverControl.module.css"
+import {ChangeEvent} from "react";
 
-function RoverControl(rover: Rover) {
-    if (rover.operationalStatus === "OPERATIONAL") {
-        return (
-            <>
-                <div className={styles.singleRoverInstruction}>
-                    <label className={styles.instructionLabel} htmlFor={rover.roverName}>{rover.roverName}</label>
-                    <input id={rover.roverName} name={rover.roverName} className={styles.roverInstructions}
-                           placeholder="Enter move instructions" type="text"/>
-                </div>
-            </>
-        )
-    } else {
-        return (
-            <>
-                <div className={styles.singleRoverInstruction}>
-                    <label className={styles.instructionLabel} htmlFor={rover.roverName}>{rover.roverName}</label>
-                    <input id={rover.roverName} name={rover.roverName} className={styles.roverInstructions}
-                           placeholder="Rover broken" disabled type="text"/>
-                </div>
-            </>
-        )
-    }
+interface RoverControlProps extends Rover {
+    onInstructionChange: (roverName: string, instruction: string) => void;
+}
+
+function RoverControl({ roverName, operationalStatus, onInstructionChange }: RoverControlProps) {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const instruction = event.target.value;
+        onInstructionChange(roverName, instruction);
+    };
+
+    return (
+        <>
+            <div className={styles.singleRoverInstruction}>
+                <label className={styles.instructionLabel} htmlFor={roverName}>{roverName}</label>
+                <input
+                    id={roverName}
+                    name={roverName}
+                    className={styles.roverInstructions}
+                    placeholder={operationalStatus === "OPERATIONAL" ? "Enter move instructions" : "Rover broken"}
+                    type="text"
+                    onChange={handleChange}
+                    disabled={operationalStatus !== "OPERATIONAL"}
+                />
+            </div>
+        </>
+    );
 }
 
 export default RoverControl

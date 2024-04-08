@@ -42,24 +42,21 @@ function landingControls() {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
-                // You can add more configurations here, like body for JSON payload, etc.
             });
 
             if (!result.ok) {
-                // Handle non-200 response
                 throw new Error('Failed to land rover. Please try again later.');
+            } else {
+                const responseData = await result.json();
+                await updateSimulation(simulation.simulationId);
+                console.log(`Rover ${responseData.roverId} landed successfully!`);
+                console.log(responseData);
             }
 
-            // Handle success response
-            // Your logic here
-            const responseData = await result.json();
-            await updateSimulation(simulation.simulationId);
-            console.log('Rover landed successfully!');
-            console.log(responseData);
         } catch (error) {
             console.error(error);
-            // Handle error
-            // You can set error state here if you want to display an error message to the user
+            console.log(errors);
+            // set error modal?
         }
     };
 
@@ -87,7 +84,6 @@ function landingControls() {
                 </div>
                 <button id="landRoverBtn" className={appStyles.landRoverBtn}>Land new Rover</button>
             </form>
-            {console.log(errors)}
         </>
     )
 }

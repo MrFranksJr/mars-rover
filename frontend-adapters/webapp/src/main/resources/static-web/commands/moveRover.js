@@ -22,6 +22,7 @@ async function moveRover(){
     }
 
     if (instructionString !== "") {
+        console.log(instructionString)
         const simulationSelectionField = document.getElementById('simulations')
         const simulationId = simulationSelectionField.value;
         const result = await fetch(`/api/moverover/${simulationId}/${instructionString}` , {
