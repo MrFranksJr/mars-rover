@@ -4,4 +4,6 @@
     flex: 60%;
     align-items: center;
     flex-grow: 1;
+    min-height: 100%;
+    gap: 10px;
 }

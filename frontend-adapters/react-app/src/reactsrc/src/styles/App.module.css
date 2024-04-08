@@ -3,9 +3,8 @@
   flex-direction: column;
   flex-grow: 1;
   align-items: center;
-  background: no-repeat center center fixed;
   background-size: cover;
-  background-image: url("../assets/mars-bg.png");
+  background: url("../assets/mars-bg.png") no-repeat fixed center center;
   width: 100%;
   transition: 0.1s ease-in-out;
 }
