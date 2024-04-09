@@ -25,9 +25,14 @@ footer {
 }
 
 .infoBtn {
-    color: #98c7fc;
+    color: #f18b82;
     margin-left: 20px;
     cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.infoBtn:hover {
+    color: #98c7fc;
 }
 
 .simulationId {

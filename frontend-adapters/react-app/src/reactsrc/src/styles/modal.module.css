@@ -1,0 +1,10 @@
+.infoCloseBtn {
+    fill: #f18b82;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.infoCloseBtn:hover {
+    fill: #d82828;
+}

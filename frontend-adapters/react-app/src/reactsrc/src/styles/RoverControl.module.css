@@ -16,6 +16,15 @@
     cursor: not-allowed;
 }
 
+.roverInstructions:disabled::placeholder {
+    color: #98c7fc;
+    opacity: 1; /* Firefox */
+}
+
+.roverInstructions:disabled::-ms-input-placeholder { /* Edge 12 -18 */
+    color: #98c7fc;
+}
+
 .singleRoverInstruction:disabled::placeholder {
     color: #98c7fc89;
 }
