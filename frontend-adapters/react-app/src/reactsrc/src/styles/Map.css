@@ -12,8 +12,8 @@
 .simulationMap {
     font-family:'Courier New', Courier, monospace;
     text-align: center;
-    font-size: 1.7vw;
-    line-height: 2.7vw;
+    font-size: 1.6vw;
+    line-height: 2.6vw;
     padding: 20px 30px;
     border: 1px solid #FFF;
     border-radius: 8px;
@@ -45,10 +45,10 @@
     color: #98c7fc;
     border: 1px solid #FFF;
     border-radius: 8px;
-    font-size: 0.8vw;
+    font-size: 0.7vw;
     background-color: #797575d7;
     white-space: nowrap;
-    line-height: 1vw;
+    line-height: 0.9vw;
 }
 
 .roverSymbolWrapper .tooltip::after {

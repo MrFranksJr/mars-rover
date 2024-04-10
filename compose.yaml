@@ -1,15 +1,20 @@
 networks:
   mongodb:
+    name: rover-net
 
 services:
   marsrover:
+    container_name: marsrover
     build: .
+    depends_on:
+      - mongodb
     ports:
       - "8080:8080"
     networks:
       - mongodb
-  db:
-    image: mongodb/mongodb-community-server:6.0-ubi8
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
     volumes:
       - ~/docker/marsrover/persistent-data:/data/db
     ports:

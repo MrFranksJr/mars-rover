@@ -81,5 +81,5 @@ docker network create mongodb
 ### Spinning up our MarsRover application and the MongoDB
 Data stored in the MongoDB will be persisted in the < userhome >/marsrover-dev/persisted-data folder on your system.
 ```bash
-docker run --name marsroversimulationdb --network mongodb -d -p 27017:27017 -v ~/marsrover-dev/persistant-data:/data/db mongodb/mongodb-community-server:6.0-ubi8
+docker run --name db --network mongodb -d -p 27017:27017 -v ~/marsrover-dev/persistant-data:/data/db mongodb/mongodb-community-server:6.0-ubi8
 ```
