@@ -1,0 +1,16 @@
+.h2 {
+    color: #98c7fc;
+    margin-bottom: 1.9rem;
+}
+
+.ul {
+    list-style-position: outside;
+    list-style-type: circle;
+    margin-inline-start: 20px;
+    padding-inline: 20px;
+    margin-bottom: 1.5rem;
+}
+
+.p {
+    margin-bottom: 1.1rem;
+}

@@ -1,9 +1,9 @@
 import {JSX, useContext} from "react";
-import {SimulationContext} from "../../SimulationContext.tsx";
-import {Rover} from "../../../interfaces.ts";
+import {SimulationContext} from "../../../SimulationContext.tsx";
+import {Rover} from "../../../../interfaces.ts";
 import DOMPurify from "dompurify";
 import parse from 'html-react-parser'
-import '../../../styles/Map.css'
+import '../../../../styles/Map.css'
 
 function Map(): JSX.Element {
     const {simulation} = useContext(SimulationContext);

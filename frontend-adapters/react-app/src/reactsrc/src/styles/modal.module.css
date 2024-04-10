@@ -1,8 +1,27 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    padding: 20px;
+    color: #f18b82;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    transition: all 0.4s ease;
+    max-width: 700px;
+    max-height: 500px;
+}
+
 .infoCloseBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
     fill: #f18b82;
     width: 20px;
     height: 20px;
     cursor: pointer;
+    margin: 10px;
 }
 
 .infoCloseBtn:hover {

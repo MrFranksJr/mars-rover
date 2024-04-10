@@ -1,4 +1,4 @@
-import Map from "./Map.tsx";
+import Map from "./Map/Map.tsx";
 import styles from "../../../styles/LeftPanel.module.css"
 import LandingControls from "./LandingControls.tsx";
 

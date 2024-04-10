@@ -33,20 +33,20 @@
     visibility: hidden;
     padding: 10px 10px 5px;
     position: absolute;
-    width: 204px;
+    width: fit-content;
+    left: -15%;
     z-index: 1;
     bottom: 100%;
-    left: -50%;
     margin-left: -80%;
     opacity: 0;
     transition: opacity 0.4s;
     color: #98c7fc;
     border: 1px solid #FFF;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.8vw;
     background-color: #797575d7;
     white-space: nowrap;
-    line-height: 1.5rem;
+    line-height: 1vw;
 }
 
 .roverSymbolWrapper .tooltip::after {

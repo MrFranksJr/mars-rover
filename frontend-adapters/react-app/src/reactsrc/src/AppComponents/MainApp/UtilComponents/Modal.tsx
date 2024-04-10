@@ -41,7 +41,7 @@ const Modal: FC<ModalProps> = ({ isOpen, hasCloseBtn, onClose, children }) => {
     };
 
     return (
-        <dialog ref={modalRef} className="modal" onKeyDown={handleKeyDown}>
+        <dialog ref={modalRef} className={styles.modal} onKeyDown={handleKeyDown}>
             {hasCloseBtn && (
                 <svg xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 512 512" className={styles.infoCloseBtn} onClick={handleCloseModal}>

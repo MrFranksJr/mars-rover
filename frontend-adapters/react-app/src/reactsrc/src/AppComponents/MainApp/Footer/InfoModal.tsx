@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '../UtilComponents/Modal';
+import styles from '../../../styles/infoModal.module.css'
 
 interface InfoModalProps {
     isOpen: boolean;
@@ -15,23 +16,23 @@ const InfoModal: React.FC<InfoModalProps> = ({
                hasCloseBtn={true}
                onClose={onClose}
         >
-            <h2>Using the Mars Rover Simulator</h2>
-            <p>The application has 4 main sections to take into account:
-                <ul>
+            <h2 className={styles.h2}>Using the Mars Rover Simulator</h2>
+            <p className={styles.p}>The application has 4 main sections to take into account:
+                <ul className={styles.ul}>
                     <li>The <strong>Landing Controls</strong> in the top-left</li>
                     <li>The <strong>Rover Instructions</strong> section in the top-right</li>
                     <li>An overview of the <strong>Simulation State</strong> at the bottom-right</li>
                     <li>The <strong>Simulation Map</strong> makes up the bottom-left section of the screen</li>
                 </ul>
             </p>
-            <p>
+            <p className={styles.p}>
                 In the <strong>Landing Controls</strong> section you have the ability to land new Rovers onto the
                 Simulation.
                 Simply enter a X and Y coordinate (within the Simulation limits) and press the Landing button or simply
                 hit
                 Return on your keyboard.
             </p>
-            <p>
+            <p className={styles.p}>
                 In the <strong>Rover Instructions controls</strong> you can give instructions to any of the Rovers
                 currently in
                 the field.
@@ -53,12 +54,12 @@ const InfoModal: React.FC<InfoModalProps> = ({
                     </li>
                 </ul>
             </p>
-            <p>
+            <p className={styles.p}>
                 The <strong>Simulation State</strong> section will give you all the available information with regards
                 to the
                 current Simulation.
             </p>
-            <p>
+            <p className={styles.p}>
                 The <strong>Simulation Map</strong> will give you a visual representation of the current state of the
                 Simulation. Rovers currently on the simulation will be represented by a symbol such as this
                 <strong>∧R1</strong>
@@ -75,7 +76,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
                     </li>
                 </ul>
             </p>
-            <p>
+            <p className={styles.p}>
                 <strong>Currently in beta:</strong> managing multiple Simulations<br/>We are constantly looking to
                 provide a better experience in this Mars Rover Simulator. You might notice in the footer at the bottom
                 right of the application, we introduced a new dropdown that contains the Simulation ID. This is the
