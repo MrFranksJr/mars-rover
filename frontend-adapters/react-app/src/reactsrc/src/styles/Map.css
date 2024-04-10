@@ -1,26 +1,28 @@
 .mapFlexWrapper {
     flex-grow: 1;
     display: flex;
-    align-items: flex-end;
-    width: 100%;
-    height: 100%;
+    align-items: center;
     justify-content: center;
-    max-height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    min-width: 100%;
     padding-bottom: 30px;
 }
 
 .simulationMap {
     font-family:'Courier New', Courier, monospace;
-    font-size: 2vw;
-    line-height: 3vw;
+    text-align: center;
+    font-size: 1.7vw;
+    line-height: 2.7vw;
     padding: 20px 30px;
     border: 1px solid #FFF;
     border-radius: 8px;
     backdrop-filter: blur(5px);
+    min-width: fit-content;
+    min-height: fit-content;
 }
 
 .mapInnerDiv {
-
 }
 
 .roverSymbolWrapper {
