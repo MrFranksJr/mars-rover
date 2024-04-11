@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @Profile("WEB")
-@PropertySource("classpath:webapp.properties")
+@PropertySource("classpath:webapp-dev.properties")
 public class MarsRoverWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(MarsRoverWebApplication.class, args);

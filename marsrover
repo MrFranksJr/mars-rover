@@ -1,1 +1,2 @@
-./mvnw -q clean install exec:java -pl ui -Dexec.mainClass="MarsRoverApplication"
+./mvnw -q clean install
+./mvnw -pl main exec:java -Dexec.mainClass="io.tripled.marsrover.MarsRoverReactApplication"

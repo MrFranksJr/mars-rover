@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @Profile("REACT")
-@PropertySource("classpath:react.properties")
+@PropertySource("classpath:react-dev.properties")
 public class MarsRoverReactApplication {
     public static void main(String[] args) {
         SpringApplication.run(MarsRoverReactApplication.class, args);
