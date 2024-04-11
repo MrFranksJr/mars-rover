@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>io.tripled</groupId>
-        <artifactId>marsrover</artifactId>
+        <artifactId>application</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
