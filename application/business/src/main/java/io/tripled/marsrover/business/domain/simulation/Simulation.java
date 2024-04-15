@@ -39,6 +39,14 @@ public class Simulation {
         nrOfRovers = builder.nrOfRovers;
     }
 
+    public Simulation(String simulationName, int size) {
+        if (size < 0) throw new RuntimeException("The value " + size + " should be positive");
+        this.id = SimulationId.create();
+        this.simulationName = simulationName;
+        this.simulationSize = size;
+        this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
+    }
+
     private Simulation(SimulationSnapshot simulationSnapshot) {
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
         this.id = simulationSnapshot.id();
@@ -52,12 +60,17 @@ public class Simulation {
         nrOfRovers = roverLocationMap.size();
     }
 
+
     public static Optional<Simulation> create(int size) {
         return size < 0 ? Optional.empty() : Optional.of(new Simulation(size));
     }
 
+    public static Optional<Simulation> create(String simulationName, int size) {
+        return size < 0 ? Optional.empty() : Optional.of(new Simulation(simulationName, size));
+    }
+
     public static Optional<Simulation> create(String simulationName) {
-        return Optional.of(new Simulation(10));
+        return Optional.of(new Simulation(simulationName, 10));
     }
 
     private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {

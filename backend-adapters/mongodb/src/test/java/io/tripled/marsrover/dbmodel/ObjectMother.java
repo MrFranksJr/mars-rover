@@ -52,6 +52,13 @@ public class ObjectMother {
                 ROVERSTATE_R2, ROVERSTATE_R1
         ));
     }
+
+    public static SimulationSnapshot buildSimpleSimulationWithSimulationName() {
+        return buildSimulationStateWithName(List.of(
+                ROVERSTATE_R2, ROVERSTATE_R1
+        ));
+    }
+
     public static SimulationSnapshot buildEmptySimulation() {
         return buildSimulationState(List.of());
     }
@@ -79,6 +86,16 @@ public class ObjectMother {
     public static SimulationSnapshot buildSimulationState(List<RoverState> roverList) {
         return SimulationSnapshot.newBuilder()
                 .withId(SimulationId.create())
+                .withSimSize(10)
+                .withTotalCoordinates(121)
+                .withRoverList(roverList)
+                .build();
+    }
+
+    public static SimulationSnapshot buildSimulationStateWithName(List<RoverState> roverList) {
+        return SimulationSnapshot.newBuilder()
+                .withId(SimulationId.create())
+                .withName("Simple Simulation")
                 .withSimSize(10)
                 .withTotalCoordinates(121)
                 .withRoverList(roverList)

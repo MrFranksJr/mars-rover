@@ -37,6 +37,20 @@ class MongoDbSimulationRepositoryTest {
     }
 
     @Test
+    void simpleSimulationCreationWithSimulationName() {
+        SimulationSnapshot snapshot = ObjectMother.buildSimpleSimulationWithSimulationName();
+        repository.add(snapshot);
+        SimulationId id = snapshot.id();
+        String simulationName = snapshot.simulationName();
+        System.out.println(id);
+        System.out.println(simulationName);
+        SimulationSnapshot returnedSimulationSnapshot = repository.getSimulation(id).orElseThrow();
+
+        assertEquals(snapshot, returnedSimulationSnapshot);
+        assertEquals(snapshot.simulationName(), simulationName);
+    }
+
+    @Test
     void persistSimulationWithRovers() {
         //given
         SimulationSnapshot simulationSnapshot = ObjectMother.buildComplexeSimulationState();

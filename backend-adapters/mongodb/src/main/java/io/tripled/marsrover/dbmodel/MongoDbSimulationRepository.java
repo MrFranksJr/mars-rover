@@ -18,6 +18,7 @@ public class MongoDbSimulationRepository implements SimulationRepository, Simula
     private static SimulationSnapshot map(SimulationDocument x) {
         return SimulationSnapshot.newBuilder()
                 .withId(x.getId())
+                .withName(x.getSimulationName())
                 .withSimSize(x.getSimulationSize())
                 .withTotalCoordinates((int) Math.pow(x.getSimulationSize() + 1, 2))
                 .withRoverList(x.getRoverList())
@@ -34,6 +35,7 @@ public class MongoDbSimulationRepository implements SimulationRepository, Simula
     @Override
     public void save(SimulationSnapshot snapshot) {
         SimulationDocument s = new SimulationDocument(snapshot);
+
         mongoDbDao.save(s);
     }
 

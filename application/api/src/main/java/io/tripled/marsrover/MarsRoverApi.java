@@ -16,5 +16,7 @@ public interface MarsRoverApi {
 
     void initializeSimulation(int simulationSize, SimulationCreationPresenter simulationCreationPresenter);
 
+    void initializeSimulation(String simulationName, SimulationCreationPresenter simulationCreationPresenter);
+
     void executeMoveInstructions(String simulationId, InstructionBatch instructionBatch, RoverMovePresenter roverMovePresenter);
 }

@@ -13,6 +13,7 @@ import java.util.UUID;
 public class SimulationDocument {
     @Id
     private String id;
+    private String simulationName;
     private int simulationSize;
     private List<RoverState> roverList;
     private int nrOfRovers;
@@ -20,6 +21,7 @@ public class SimulationDocument {
 
     public SimulationDocument(SimulationSnapshot snapshot) {
         this.id = snapshot.id().id().toString();
+        this.simulationName = snapshot.simulationName();
         this.simulationSize = snapshot.simulationSize();
         this.roverList = snapshot.roverList();
         this.nrOfRovers = roverList.size();
@@ -31,6 +33,8 @@ public class SimulationDocument {
     public SimulationId getId() {
         return new SimulationId(UUID.fromString(id));
     }
+
+    public String getSimulationName() { return simulationName; }
 
     public int getSimulationSize() {
         return simulationSize;
@@ -44,6 +48,7 @@ public class SimulationDocument {
     public String toString() {
         return "SimulationDocument{" +
                 "id='" + id + '\'' +
+                ", simulationName=" + simulationName +
                 ", simulationSize=" + simulationSize +
                 ", roverList=" + roverList +
                 ", nrOfRovers=" + nrOfRovers +

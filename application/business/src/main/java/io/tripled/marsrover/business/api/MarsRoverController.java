@@ -1,22 +1,14 @@
 package io.tripled.marsrover.business.api;
 
-import io.tripled.marsrover.*;
+import io.tripled.marsrover.MarsRoverApi;
+import io.tripled.marsrover.api.rover.*;
 import io.tripled.marsrover.api.simulation.*;
-import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.business.SimulationRepository;
-import io.tripled.marsrover.api.rover.InvalidCoordinatesReceived;
-import io.tripled.marsrover.api.rover.LandingOnTopEvent;
-import io.tripled.marsrover.api.rover.LandingSuccessfulLandEvent;
-import io.tripled.marsrover.api.rover.RoverAlreadyBrokenEvent;
-import io.tripled.marsrover.api.rover.RoverBreaksDownEvent;
-import io.tripled.marsrover.api.rover.RoverCollidedEvent;
-import io.tripled.marsrover.api.rover.RoverMissesSimulationLandEvent;
-import io.tripled.marsrover.api.rover.RoverMovedSuccessfulEvent;
+import io.tripled.marsrover.business.domain.simulation.Simulation;
 import io.tripled.marsrover.vocabulary.Coordinate;
 import io.tripled.marsrover.vocabulary.InstructionBatch;
 import io.tripled.marsrover.vocabulary.RoverInstructions;
 import io.tripled.marsrover.vocabulary.SimulationId;
-import io.tripled.marsrover.api.rover.RoverMovePresenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -93,6 +85,15 @@ public class MarsRoverController implements MarsRoverApi {
             simulationRepository.add(simWorld.takeSnapshot());
             simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
         }
+    }
+
+    @Override
+    public void initializeSimulation(String simulationName, SimulationCreationPresenter simulationCreationPresenter) {
+        final Optional<Simulation> simulation = Simulation.create(simulationName, 10);
+
+        final var simWorld = simulation.orElseThrow();
+        simulationRepository.add(simWorld.takeSnapshot());
+        simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
     }
 
     @Override

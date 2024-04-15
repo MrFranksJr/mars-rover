@@ -38,6 +38,14 @@ class SimulationTest {
     }
 
     @Test
+    void canCreateSimulationWithNameAndSize() {
+        Simulation simWorld = Simulation.create("NewSimulation", 20).orElseThrow();
+
+        assertEquals("NewSimulation", simWorld.takeSnapshot().simulationName());
+        assertEquals(20, simWorld.takeSnapshot().simulationSize());
+    }
+
+    @Test
     void returnsNrOfCoordinates() {
         Simulation simWorld = Simulation.create(5).orElseThrow();
 
