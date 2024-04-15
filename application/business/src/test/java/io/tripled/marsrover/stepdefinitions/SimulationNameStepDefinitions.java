@@ -18,13 +18,10 @@ import java.util.Optional;
 public class SimulationNameStepDefinitions {
     private final SimulationRepository simulationRepository;
     private final MarsRoverApi marsRoverApi;
-    private final SimulationQuery simulationQuery;
-    private final HashMap<Integer, SimulationId> simulationMap = new HashMap<>();
 
     public SimulationNameStepDefinitions() {
         simulationRepository = new DummySimulationRepository();
         marsRoverApi = new MarsRoverController(simulationRepository);
-        simulationQuery = (SimulationQuery) simulationRepository;
     }
 
     @When("We create a simulation with the name {string}")
