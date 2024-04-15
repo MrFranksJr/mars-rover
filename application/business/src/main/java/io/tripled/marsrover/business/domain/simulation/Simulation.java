@@ -21,16 +21,19 @@ public class Simulation {
     private final Multimap<Location, Rover> roverLocationMap;
     private final SimulationId id;
     private int nrOfRovers = 0;
+    private final String simulationName;
 
     public Simulation(int simulationSize) {
         if (simulationSize < 0) throw new RuntimeException("The value " + simulationSize + " should be positive");
         this.id = SimulationId.create();
+        this.simulationName = "NewSimulation";
         this.simulationSize = simulationSize;
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
     }
 
     private Simulation(Builder builder) {
         id = builder.id;
+        simulationName = builder.simulationName;
         simulationSize = builder.simulationSize;
         roverLocationMap = builder.roverLocationMap;
         nrOfRovers = builder.nrOfRovers;
@@ -39,6 +42,7 @@ public class Simulation {
     private Simulation(SimulationSnapshot simulationSnapshot) {
         this.roverLocationMap = MultimapBuilder.hashKeys().arrayListValues().build();
         this.id = simulationSnapshot.id();
+        this.simulationName = simulationSnapshot.simulationName();
         simulationSize = simulationSnapshot.simulationSize();
         for (RoverState roverState : simulationSnapshot.roverList()) {
             Rover r = new Rover(roverState.roverId(), roverState.heading(), roverState.hitpoints(), roverState.healthState());
@@ -50,6 +54,10 @@ public class Simulation {
 
     public static Optional<Simulation> create(int size) {
         return size < 0 ? Optional.empty() : Optional.of(new Simulation(size));
+    }
+
+    public static Optional<Simulation> create(String simulationName) {
+        return Optional.of(new Simulation(10));
     }
 
     private static boolean checkIfRoverIsBroken(Rover rover, Location oldLocation) {
@@ -72,6 +80,7 @@ public class Simulation {
         final var collect = roverLocationMap.entries().stream().map((Map.Entry<Location, Rover> x) -> x.getValue().getRoverState(x.getKey())).toList();
         return SimulationSnapshot.newBuilder()
                 .withId(id)
+                .withName(simulationName)
                 .withSimSize(simulationSize)
                 .withTotalCoordinates(calculateNrOfCoordinates())
                 .withRoverList(collect)
@@ -240,6 +249,7 @@ public class Simulation {
     public static final class Builder {
         private final Multimap<Location, Rover> roverLocationMap;
         public SimulationId id;
+        public String simulationName;
         private int simulationSize;
         private int nrOfRovers;
 

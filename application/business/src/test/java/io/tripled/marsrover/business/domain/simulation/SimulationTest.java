@@ -31,6 +31,13 @@ class SimulationTest {
     }
 
     @Test
+    void simulationCanHaveAName() {
+        Simulation simWorld = Simulation.create("NewSimulation").orElseThrow();
+
+        assertEquals("NewSimulation", simWorld.takeSnapshot().simulationName());
+    }
+
+    @Test
     void returnsNrOfCoordinates() {
         Simulation simWorld = Simulation.create(5).orElseThrow();
 

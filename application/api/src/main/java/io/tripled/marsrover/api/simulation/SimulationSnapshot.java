@@ -12,12 +12,12 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
-public record SimulationSnapshot(SimulationId id, int simulationSize, int totalCoordinates, List<RoverState> roverList) {
+public record SimulationSnapshot(SimulationId id, String simulationName, int simulationSize, int totalCoordinates, List<RoverState> roverList) {
 
-    public static SimulationSnapshot NONE = new SimulationSnapshot(null, -1, -1, emptyList());
+    public static SimulationSnapshot NONE = new SimulationSnapshot(null, "", -1, -1, emptyList());
 
     private SimulationSnapshot(Builder builder) {
-        this(builder.id, builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
+        this(builder.id, builder.simulationName, builder.simulationSize, builder.totalCoordinates, unmodifiableList(builder.roverList));
     }
 
     public static Builder newBuilder() {
@@ -34,6 +34,7 @@ public record SimulationSnapshot(SimulationId id, int simulationSize, int totalC
 
     public static final class Builder {
         public SimulationId id;
+        public String simulationName;
         private int simulationSize;
         private int totalCoordinates;
         private List<RoverState> roverList;
@@ -65,6 +66,11 @@ public record SimulationSnapshot(SimulationId id, int simulationSize, int totalC
         public SimulationSnapshot build() {
             Objects.requireNonNull(id);
             return new SimulationSnapshot(this);
+        }
+
+        public Builder withName(String value) {
+            simulationName = value;
+            return this;
         }
     }
 }
