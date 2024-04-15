@@ -57,6 +57,24 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.simulationName").value("SimpleName"));
     }
 
+    @Test
+    void createSimulationWithCustomNameAndCustomSize() throws Exception {
+        createSimulationWithNameAndSize("CustomName", 23);
+
+        final String simulationId = getSimulationId();
+
+        var result = getSimulationState(simulationId);
+
+        result.andExpect(jsonPath("$.simulationSize").value("23"));
+        result.andExpect(jsonPath("$.simulationName").value("CustomName"));
+    }
+
+    private void createSimulationWithNameAndSize(String simulationName, int simulationSize) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/" + simulationSize + "/" + simulationName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"));
+    }
+
     private void createSimulationWithName(String simulationName) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/10/" + simulationName)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +106,7 @@ public class MarsRoverRestControllerTest {
 
         landRoverOn55(simulationId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f"));
 
         var result = getSimulationState(simulationId);
 
@@ -96,6 +114,7 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("6"));
     }
+
     @Test
     void turnsAndMovesForward() throws Exception {
         createSimulationOf10();
@@ -103,7 +122,7 @@ public class MarsRoverRestControllerTest {
 
         landRoverOn55(simulationId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 r f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 r f1"));
 
         var result = getSimulationState(simulationId);
 
@@ -111,6 +130,7 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("6"));
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
     }
+
     @Test
     void roverCanTurnRight() throws Exception {
         createSimulationOf10();
@@ -118,7 +138,7 @@ public class MarsRoverRestControllerTest {
 
         landRoverOn55(simulationId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 r"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 r"));
 
         var result = getSimulationState(simulationId);
 
@@ -127,6 +147,7 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].roverHeading").value("EAST"));
     }
+
     @Test
     void roverCanTurnLeft() throws Exception {
         createSimulationOf10();
@@ -134,7 +155,7 @@ public class MarsRoverRestControllerTest {
 
         landRoverOn55(simulationId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 l"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 l"));
 
         var result = getSimulationState(simulationId);
 
@@ -162,14 +183,14 @@ public class MarsRoverRestControllerTest {
     }
 
     @Test
-    void roversR1AndR2Collide() throws Exception{
+    void roversR1AndR2Collide() throws Exception {
         createSimulationOf10();
         final String simulationId = getSimulationId();
 
-        landRover(simulationId, 5,5);
-        landRover(simulationId, 5,6);
+        landRover(simulationId, 5, 5);
+        landRover(simulationId, 5, 6);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
 
         var result = getSimulationState(simulationId);
 
@@ -178,19 +199,20 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.roverList[0].roverXPosition").value("5"));
         result.andExpect(jsonPath("$.roverList[0].roverYPosition").value("5"));
     }
+
     @Test
-    void roverDiesWhenHitpointsAreZero() throws Exception{
+    void roverDiesWhenHitpointsAreZero() throws Exception {
         createSimulationOf10();
         final String simulationId = getSimulationId();
 
-        landRover(simulationId, 5,5);
-        landRover(simulationId, 5,6);
+        landRover(simulationId, 5, 5);
+        landRover(simulationId, 5, 6);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
 
         var result = getSimulationState(simulationId);
         System.out.println("result is: " + result);
@@ -203,20 +225,20 @@ public class MarsRoverRestControllerTest {
     }
 
     @Test
-    void roverWasAlreadyBroken() throws Exception{
+    void roverWasAlreadyBroken() throws Exception {
         createSimulationOf10();
 
         final String simulationId = getSimulationId();
 
-        landRover(simulationId, 5,5);
-        landRover(simulationId, 5,6);
+        landRover(simulationId, 5, 5);
+        landRover(simulationId, 5, 6);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/"+ simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/moverover/" + simulationId + "/R1 f1"));
 
         var result = getSimulationState(simulationId);
 
@@ -249,7 +271,7 @@ public class MarsRoverRestControllerTest {
     }
 
     private void landRoverOn55(String simulationId) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/landrover/"+ simulationId +"/5/5")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/landrover/" + simulationId + "/5/5")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8"));
     }
@@ -259,6 +281,7 @@ public class MarsRoverRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8"));
     }
+
     private ResultActions getSimulationState(String simulationId) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders.get("/api/simulationstate/" + simulationId)
                 .contentType(MediaType.APPLICATION_JSON)
