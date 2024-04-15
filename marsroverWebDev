@@ -1,0 +1,2 @@
+./mvnw -q clean install -Pwebappdev
+./mvnw -pl main exec:java -Dexec.mainClass="io.tripled.marsrover.MarsRoverWebApplication"

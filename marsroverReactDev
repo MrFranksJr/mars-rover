@@ -1,2 +1,2 @@
-./mvnw -q clean install
+./mvnw -q clean install -Preactdev
 ./mvnw -pl main exec:java -Dexec.mainClass="io.tripled.marsrover.MarsRoverReactApplication"

@@ -92,31 +92,15 @@
     </build>
     <profiles>
         <profile>
-            <id>react-dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <activatedProperties>MONGO, REACT, GUIDO</activatedProperties>
-            </properties>
-        </profile>
-        <profile>
-            <id>react-docker</id>
+            <id>reactdev</id>
             <properties>
                 <activatedProperties>MONGO, REACT</activatedProperties>
             </properties>
         </profile>
         <profile>
-            <id>webapp-dev</id>
+            <id>webappdev</id>
             <properties>
-                <spring.boot.mainclass>io.tripled.marsrover.MarsRoverWebApplication</spring.boot.mainclass>
-                <activatedProperties>MONGO, WEB</activatedProperties>
-            </properties>
-        </profile>
-        <profile>
-            <id>webapp-docker</id>
-            <properties>
-                <activatedProperties>MONGO, WEB</activatedProperties>
+                <activatedProperties>WEB, MONGO</activatedProperties>
             </properties>
         </profile>
     </profiles>
