@@ -35,6 +35,14 @@ public class MarsRoverRestController {
         return RESULT_PARSER.simulationCreationResult(simulationCreationPresenter);
     }
 
+    @PostMapping("/api/createsimulation/{simulationSize}/{simulationName}")
+    SimulationCreationDTO createSimulation(@PathVariable int simulationSize, @PathVariable String simulationName) {
+        SimulationCreationPresenterImpl simulationCreationPresenter = new SimulationCreationPresenterImpl();
+        marsRoverApi.initializeSimulation(simulationSize, simulationName, simulationCreationPresenter);
+
+        return RESULT_PARSER.simulationCreationResult(simulationCreationPresenter);
+    }
+
     @GetMapping("/api/simulationstate/{simulationId}")
     SimulationViewDTO getSimulationState(@PathVariable String simulationId) {
         SimulationStateRestPresenter simulationStatePresenter = new SimulationStateRestPresenter();

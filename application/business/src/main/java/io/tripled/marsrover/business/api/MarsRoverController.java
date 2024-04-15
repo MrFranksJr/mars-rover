@@ -97,6 +97,18 @@ public class MarsRoverController implements MarsRoverApi {
     }
 
     @Override
+    public void initializeSimulation(int simulationSize, String simulationName, SimulationCreationPresenter simulationCreationPresenter) {
+        final Optional<Simulation> simulation = Simulation.create(simulationName ,simulationSize);
+        if (simulation.isEmpty())
+            simulationCreationPresenter.simulationCreationUnsuccessful(simulationSize);
+        else {
+            final var simWorld = simulation.orElseThrow();
+            simulationRepository.add(simWorld.takeSnapshot());
+            simulationCreationPresenter.simulationCreationSuccessful(simWorld.takeSnapshot());
+        }
+    }
+
+    @Override
     public void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter) {
         SimulationId simId = new SimulationId(UUID.fromString(simulationId));
         Optional<SimulationSnapshot> simulationSnapshot = simulationRepository.getSimulation(simId);

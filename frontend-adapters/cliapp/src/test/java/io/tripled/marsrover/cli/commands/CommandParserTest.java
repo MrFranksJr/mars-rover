@@ -41,6 +41,11 @@ class CommandParserTest {
             }
 
             @Override
+            public void initializeSimulation(int simulationSize, String simulationName, SimulationCreationPresenter simulationCreationPresenter) {
+
+            }
+
+            @Override
             public void lookUpSimulationState(String simulationId, SimulationStatePresenter simulationStatePresenter) {
 
             }

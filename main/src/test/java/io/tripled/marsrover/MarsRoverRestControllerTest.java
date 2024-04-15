@@ -45,6 +45,23 @@ public class MarsRoverRestControllerTest {
         result.andExpect(jsonPath("$.simulationSize").value("10"));
     }
 
+    @Test
+    void doesResponseReturnSimulationName() throws Exception {
+        createSimulationWithName("SimpleName");
+
+        final String simulationId = getSimulationId();
+
+        var result = getSimulationState(simulationId);
+
+        result.andExpect(jsonPath("$.simulationSize").value("10"));
+        result.andExpect(jsonPath("$.simulationName").value("SimpleName"));
+    }
+
+    private void createSimulationWithName(String simulationName) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/createsimulation/10/" + simulationName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"));
+    }
 
 
     @Test
@@ -261,5 +278,14 @@ public class MarsRoverRestControllerTest {
 
         String simulationId = objects[0].simulationId();
         return simulationId;
+    }
+
+    private String getSimulationName() throws Exception {
+        final String simulationState = getSimulationStates().andReturn().getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimulationViewDTO[] objects = objectMapper.readValue(simulationState, SimulationViewDTO[].class);
+
+        String simulationName = objects[0].simulationName();
+        return simulationName;
     }
 }
