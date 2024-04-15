@@ -8,7 +8,7 @@ For the simulation we will be using the cartesian coordinate system to keep thin
 
 For a quick demonstration of what the initial application is all about you can watch this demo:
 
-![asciicast](./examples/level-one.svg)
+![asciicast](../examples/level-one.svg)
 
 ## Levels
 

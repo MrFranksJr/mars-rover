@@ -1,8 +1,11 @@
-# Mars Rover Development Program
+<p align="center">
+<img alt="banner image" src="https://raw.githubusercontent.com/MrFranksJr/MrFranksJr/main/assets/mars-rover/banner.png">
+</p>
 
+# Mars Rover Simulator
 ## Description
 
-This exercise is an adaption off the well known [Mars Rover kata](https://kata-log.rocks/mars-rover-kata). The full functional requirements can be found [here](REQUIREMENTS.md)
+This application is an adaption off the well known [Mars Rover kata](https://kata-log.rocks/mars-rover-kata). The full functional requirements can be found [here](documentation/REQUIREMENTS.md)
 
 ## Mobbing Tips
 
