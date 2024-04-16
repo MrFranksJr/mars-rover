@@ -13,6 +13,7 @@ export interface Rover {
 
 export interface Simulation {
     simulationId: string;
+    simulationName: string;
     simulationSize: number;
     totalCoordinates: number;
     roverList: Array<Rover>;

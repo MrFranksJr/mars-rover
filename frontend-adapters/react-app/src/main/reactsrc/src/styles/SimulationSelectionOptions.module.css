@@ -53,13 +53,14 @@
 }
 
 .newSimulation {
+    width: 100%;
     gap: 0.5rem;
     align-items: flex-start;
 }
 
 .createSimulationBtn,
 .simulationSelector {
-    width: fit-content;
+    width: 100%;
     margin: 1px;
     background-color: #FFFFFF20;
     border: 1px solid #FFF;

@@ -7,6 +7,7 @@ import styles from '../../styles/SimulationSelectionOptions.module.css'
 function SimulationSelectionOptions({simulations}: Props) {
     const navigate = useNavigate();
     let simulationId: string = "";
+    let simulationName: string = "";
     const {setSimulation} = useContext(SimulationContext);
     const handleCreateSimulation = async () => {
         try {
@@ -29,7 +30,11 @@ function SimulationSelectionOptions({simulations}: Props) {
 
     const handleSimulationSelection = async (e: ChangeEvent<HTMLSelectElement>) => {
         try {
-            simulationId = e.target.value;
+            const selectedIndex = e.target.options.selectedIndex;
+            simulationId = e.target.options[selectedIndex].getAttribute("data-key") as string;
+            simulationName = e.target.options[selectedIndex].value;
+            console.log("Simulation ID: " + simulationId);
+            console.log("Simulation Name: " + simulationName);
             const simulationData = await getSimulation()
             setSimulation(simulationData)
             navigate('/app');
@@ -50,6 +55,7 @@ function SimulationSelectionOptions({simulations}: Props) {
             }
             const data = await response.json();
             return {
+                simulationName: data.simulationName,
                 simulationId: data.simulationId,
                 simulationSize: data.simulationSize,
                 totalCoordinates: data.totalCoordinates,
@@ -70,7 +76,7 @@ function SimulationSelectionOptions({simulations}: Props) {
                         <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection} className={styles.simulationSelector}>
                             <option disabled={true} key="default" className={styles.simSelectionOption}>Select Simulation ID...</option>
                             {simulations && simulations.map((simulation: Simulation) =>
-                                <option key={simulation.simulationId} className={styles.simSelectionOption}>{simulation.simulationId}</option>)}
+                                <option key={simulation.simulationId} data-key={simulation.simulationId} className={styles.simSelectionOption}>{simulation.simulationName}</option>)}
                         </select>
                     </div>
                 </form>

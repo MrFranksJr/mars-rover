@@ -15,6 +15,7 @@ const SimulationContext = createContext<SimulationContextProps>({
 
 const SimulationProvider = ({children}: { children: React.ReactNode }) => {
     const [simulation, setSimulation] = useState<Simulation>({
+        simulationName: "",
         roverList: [],
         simulationId: "",
         simulationSize: 0,
@@ -36,6 +37,7 @@ const SimulationProvider = ({children}: { children: React.ReactNode }) => {
             }
             const data = await response.json();
             setSimulation({
+                simulationName: data.simulationName,
                 simulationId: data.simulationId,
                 simulationSize: data.simulationSize,
                 totalCoordinates: data.totalCoordinates,
