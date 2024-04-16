@@ -1,7 +1,7 @@
 import {Simulation} from "../../interfaces.ts";
 import {useEffect, useState} from "react";
 import { WelcomeLogo } from "../LandingScreen/WelcomeLogo.tsx";
-import {SimulationSelectionOptions} from "./SimulationSelectionOptions.tsx";
+import { SimulationSelectionOptions } from "./SimulationSelectionOptions.tsx";
 import styles from '../../styles/SimulationSelectionOptions.module.css'
 
 export default function SimulationSelection() {

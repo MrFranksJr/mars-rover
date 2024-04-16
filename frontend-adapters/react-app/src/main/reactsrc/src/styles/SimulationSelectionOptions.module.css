@@ -15,6 +15,7 @@
 }
 
 .simulationSelectionWindow {
+    min-width: 440px;
     align-items: center;
     border: 1px solid #FFF;
     border-radius: 8px;
@@ -45,6 +46,7 @@
 }
 
 .simulationSelectionForm {
+    width: 100%;
     gap: 0.5rem;
 }
 
@@ -59,6 +61,7 @@
 }
 
 .createSimulationBtn,
+.cancelCreateSimulationButton,
 .simulationSelector {
     width: 100%;
     margin: 1px;
@@ -73,13 +76,15 @@
     padding: 1rem;
 }
 
-.createSimulationBtn {
+.createSimulationBtn,
+.cancelCreateSimulationButton {
     padding: 1rem 4rem;
     font-weight: bold;
     font-size: 1rem;
 }
 
 .createSimulationBtn:hover,
+.cancelCreateSimulationButton:hover,
 .simulationSelector:hover {
     cursor: pointer;
     background-color: #FFFFFF70;
@@ -87,15 +92,21 @@
 }
 
 .createSimulationBtn:focus-visible,
+.cancelCreateSimulationButton:focus-visible,
 .simulationSelector:focus-visible {
     outline: 3px solid #98c7fc;
 }
 
 .createSimulationBtn:active,
+.cancelCreateSimulationButton:active,
 .simulationSelector:active {
     margin: 0;
     border: 2px solid #f18b82;
     transition: background-color 0s;
+}
+
+.cancelCreateSimulationButton{
+    color: #f18b82;
 }
 
 .simSelectionOption {
