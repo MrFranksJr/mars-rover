@@ -95,7 +95,6 @@ export function SimulationSelectionOptions({simulations}: Props) {
                                          setFormState("INIT")
                                          }
                                      }}
-                                    simulations={simulations}
                 />
             </div>
         </>

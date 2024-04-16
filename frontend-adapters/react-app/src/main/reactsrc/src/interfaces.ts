@@ -1,7 +1,3 @@
-export interface SimulationId {
-    simulationId: string;
-}
-
 export interface Rover {
     roverName: string;
     roverHeading: string;
@@ -21,6 +17,9 @@ export interface Simulation {
 
 export interface Props {
     simulations: Array<Simulation>;
+}
+
+export interface FormStateProps {
     formState: string;
     formSwitch: () => void;
 }

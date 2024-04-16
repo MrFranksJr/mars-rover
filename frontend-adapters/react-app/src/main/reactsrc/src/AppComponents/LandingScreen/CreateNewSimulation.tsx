@@ -1,8 +1,8 @@
 import styles from "../../styles/SimulationSelectionOptions.module.css";
-import { Props } from "../../interfaces.ts";
+import {FormStateProps} from "../../interfaces.ts";
 import {FormEvent} from "react";
 
-function CreateNewSimulation({formState, formSwitch}: Props) {
+function CreateNewSimulation({formState, formSwitch}: FormStateProps) {
     const handleCreateNewSimulation = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log("CLICKED!")
