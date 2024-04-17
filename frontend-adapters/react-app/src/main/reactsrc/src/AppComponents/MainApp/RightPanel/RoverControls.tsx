@@ -5,22 +5,18 @@ import RoverControl from "./RoverControl.tsx";
 import appStyles from "../../../styles/App.module.css"
 import {FormEvent, useContext, useState} from "react";
 
-interface Instruction {
-    roverName: string;
-    instruction: string;
-}
-
 function RoverControls() {
     const {simulation, updateSimulation} = useContext(SimulationContext);
     const roversInSimulation = simulation.roverList;
 
-    const [instructions, setInstructions] = useState<Instruction[]>([]);
+    const [instructions, setInstructions] = useState<{ [key: string]: string }>({});
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        for (let instruction of instructions) {
+        for (let roverName of Object.keys(instructions)) {
+            const instruction = instructions[roverName]
             try {
-                const result = await fetch(`/api/moverover/${simulation.simulationId}/${instruction.roverName} ${instruction.instruction}`, {
+                const result = await fetch(`/api/moverover/${simulation.simulationId}/${roverName} ${instruction}`, {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
@@ -28,32 +24,25 @@ function RoverControls() {
                 });
 
                 if (!result.ok) {
-                    console.error(`Failed to move rover ${instruction.roverName}. Please try again later.`);
+                    console.error(`Failed to move rover ${roverName}. Please try again later.`);
                 } else {
                     const responseData = await result.json();
                     await updateSimulation(simulation.simulationId);
-                    console.log(`Rover ${instruction.roverName} moved successfully!`);
+                    console.log(`Rover ${roverName} moved successfully!`);
                     console.log(responseData);
                 }
-
             } catch (error) {
                 console.error(error);
-                // set error modal?
             }
         }
+        setInstructions({});
     };
 
     const handleInstructionChange = (roverName: string, instruction: string) => {
-        setInstructions(prevInstructions => {
-            const updatedInstructions = [...prevInstructions];
-            const index = updatedInstructions.findIndex(inst => inst.roverName === roverName);
-            if (index !== -1) {
-                updatedInstructions[index] = { roverName, instruction };
-            } else {
-                updatedInstructions.push({ roverName, instruction });
-            }
-            return updatedInstructions;
-        });
+        setInstructions(prevInstructions => ({
+            ...prevInstructions,
+            [roverName]: instruction
+        }));
     };
 
     return (
@@ -72,6 +61,7 @@ function RoverControls() {
                                     roverYPosition={rover.roverYPosition}
                                     hitPoints={rover.hitPoints}
                                     operationalStatus={rover.operationalStatus}
+                                    instruction={instructions[rover.roverName] || ""}
                                     onInstructionChange={handleInstructionChange}
                                 />
                             ))

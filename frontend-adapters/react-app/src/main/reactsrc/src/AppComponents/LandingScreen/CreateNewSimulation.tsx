@@ -1,16 +1,49 @@
 import styles from "../../styles/SimulationSelectionOptions.module.css";
 import {FormStateProps} from "../../interfaces.ts";
-import {FormEvent} from "react";
+import {ChangeEvent, FormEvent, useContext, useState} from "react";
+import {SimulationContext} from "../SimulationContext.tsx";
+import {useNavigate} from "react-router";
 
-function CreateNewSimulation({formState, formSwitch}: FormStateProps) {
-    const handleCreateNewSimulation = (event: FormEvent<HTMLFormElement>, buttonId: string) => {
+interface FormData {
+    simulationName: string;
+}
+
+function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStateProps & {
+    getSimulation: (simulationId: string) => Promise<any>
+}) {
+    const {setSimulation} = useContext(SimulationContext);
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState<FormData>({
+        simulationName: "",
+    });
+
+    const handleSimulationNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setFormData((prevState) => ({...prevState, [name]: value}));
+    }
+
+    const handleCreateNewSimulation = async (event: FormEvent<HTMLFormElement> | any, buttonId: string) => {
         event.preventDefault()
         if (buttonId === "cancelBtn") {
             formSwitch();
+            setFormData({ simulationName: "" });
         } else {
-
+            try {
+                const response = await fetch(`/api/createsimulation/10/${formData.simulationName}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const data = await response.json();
+                const simulationId = data.simulationId;
+                const simulationData = await getSimulation(simulationId)
+                setSimulation(simulationData)
+                navigate('/app');
+            } catch (error) {
+                console.error("Error creating new simulation:", error);
+            }
+            setFormData({ simulationName: "" });
         }
-        console.log("CLICKED!" + buttonId)
     }
 
     if (formState === "INIT") {
@@ -22,16 +55,22 @@ function CreateNewSimulation({formState, formSwitch}: FormStateProps) {
                 </div>
             </>
         )
-    }
-    else {
+    } else {
         return (
             <>
-                <form className={styles.simulationSelectionForm} onSubmit={(event) => handleCreateNewSimulation(event, '')}>
+                <form className={styles.simulationSelectionForm}
+                      onSubmit={(event) => handleCreateNewSimulation(event, '')}>
                     <label htmlFor="simulationNameInput" className={styles.labelStyle}>Create new Simulation</label>
-                    <input name="simulationNameInput" id="simulationNameInput" className={styles.simulationSelector} placeholder="enter Simulation name"/>
+                    <input name="simulationName" id="simulationNameInput" className={styles.simulationSelector}
+                           placeholder="enter Simulation name" value={formData.simulationName}
+                           onChange={handleSimulationNameChange}/>
 
-                    <button className={styles.createSimulationBtn} type="submit" onClick={(event) => handleCreateNewSimulation(event, 'createBtn')}>Create...</button>
-                    <button className={styles.cancelCreateSimulationButton} type="submit" onClick={(event) => handleCreateNewSimulation(event, 'cancelBtn')}>Cancel</button>
+                    <button className={styles.createSimulationBtn} type="submit"
+                            onClick={(event) => handleCreateNewSimulation(event, 'createBtn')}>Create...
+                    </button>
+                    <button className={styles.cancelCreateSimulationButton} type="submit"
+                            onClick={(event) => handleCreateNewSimulation(event, 'cancelBtn')}>Cancel
+                    </button>
                 </form>
             </>
         )

@@ -55,7 +55,7 @@ function landingControls() {
 
         } catch (error) {
             console.error(error);
-            console.log(errors);
+            console.error(errors);
             // set error modal?
         }
     };
@@ -72,6 +72,7 @@ function landingControls() {
                            min="0" max="10"
                            value={formData.roverXCoordinate}
                            onChange={handleChange}
+                           required
                     />
                     <input id="roverYCoordinate"
                            className={landingControlsStyles.roverYCoordinate}
@@ -80,6 +81,7 @@ function landingControls() {
                            min="0" max="10"
                            value={formData.roverYCoordinate}
                            onChange={handleChange}
+                           required
                     />
                 </div>
                 <button id="landRoverBtn" className={appStyles.landRoverBtn}>Land new Rover</button>

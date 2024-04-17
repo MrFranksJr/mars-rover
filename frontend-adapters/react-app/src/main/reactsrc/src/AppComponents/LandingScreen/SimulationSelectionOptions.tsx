@@ -5,7 +5,6 @@ import {SimulationContext} from "../SimulationContext.tsx";
 import styles from '../../styles/SimulationSelectionOptions.module.css'
 import CreateNewSimulation from "./CreateNewSimulation.tsx";
 
-
 export function SimulationSelectionOptions({simulations}: Props) {
     let simulationId: string = "";
     let simulationName: string = "";
@@ -21,7 +20,7 @@ export function SimulationSelectionOptions({simulations}: Props) {
             simulationName = e.target.options[selectedIndex].value;
             console.log("Simulation ID: " + simulationId);
             console.log("Simulation Name: " + simulationName);
-            const simulationData = await getSimulation()
+            const simulationData = await getSimulation(simulationId)
             setSimulation(simulationData)
             navigate('/app');
         } catch (error) {
@@ -30,7 +29,7 @@ export function SimulationSelectionOptions({simulations}: Props) {
     }
 
 
-    const getSimulation = async () => {
+    const getSimulation = async (simulationId: string) => {
         try {
             const response = await fetch(`/api/simulationstate/${simulationId}`, {
                 headers: {'Content-Type': 'application/json'}
@@ -52,23 +51,6 @@ export function SimulationSelectionOptions({simulations}: Props) {
             throw error;
         }
     }
-
-
-    /*const handleCreateSimulation = async () => {
-        try {
-            const response = await fetch('/api/createsimulation/10', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'}
-            });
-            const data = await response.json();
-            simulationId = data.simulationId;
-            const simulationData = await getSimulation()
-            setSimulation(simulationData)
-            navigate('/app');
-        } catch (error) {
-            console.error("Error creating new simulation:", error);
-        }
-    }*/
 
 
     return (
@@ -95,6 +77,7 @@ export function SimulationSelectionOptions({simulations}: Props) {
                                          setFormState("INIT")
                                          }
                                      }}
+                                     getSimulation={getSimulation}
                 />
             </div>
         </>
