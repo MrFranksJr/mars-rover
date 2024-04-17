@@ -11,6 +11,7 @@ interface FormData {
 function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStateProps & {
     getSimulation: (simulationId: string) => Promise<any>
 }) {
+
     const {setSimulation} = useContext(SimulationContext);
     const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStatePr
         event.preventDefault()
         if (buttonId === "cancelBtn") {
             formSwitch();
-            setFormData({ simulationName: "" });
+            setFormData({simulationName: ""});
         } else {
             if (formData.simulationName === "") {
                 console.error("You need to fill out a name for the simulation!")
@@ -41,11 +42,12 @@ function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStatePr
                     const simulationId = data.simulationId;
                     const simulationData = await getSimulation(simulationId)
                     setSimulation(simulationData)
+                    localStorage.setItem('simulationId', JSON.stringify(simulationId));
                     navigate('/app');
                 } catch (error) {
                     console.error("Error creating new simulation:", error);
                 }
-                setFormData({ simulationName: "" });
+                setFormData({simulationName: ""});
             }
         }
     }
