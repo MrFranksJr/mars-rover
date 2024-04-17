@@ -18,13 +18,13 @@ const InfoModal: React.FC<InfoModalProps> = ({
         >
             <h2 className={styles.h2}>Using the Mars Rover Simulator</h2>
             <p className={styles.p}>The application has 4 main sections to take into account:
+            </p>
                 <ul className={styles.ul}>
                     <li>The <strong>Landing Controls</strong> in the top-left</li>
                     <li>The <strong>Rover Instructions</strong> section in the top-right</li>
                     <li>An overview of the <strong>Simulation State</strong> at the bottom-right</li>
                     <li>The <strong>Simulation Map</strong> makes up the bottom-left section of the screen</li>
                 </ul>
-            </p>
             <p className={styles.p}>
                 In the <strong>Landing Controls</strong> section you have the ability to land new Rovers onto the
                 Simulation.
@@ -36,6 +36,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
                 In the <strong>Rover Instructions controls</strong> you can give instructions to any of the Rovers
                 currently in
                 the field.
+            </p>
                 <ul>
                     <li>You'll need to instruct the rovers with the characters <em>"F", "R", "B", "L"</em> to make the
                         Rovers move
@@ -53,7 +54,6 @@ const InfoModal: React.FC<InfoModalProps> = ({
                             F5"</em>.
                     </li>
                 </ul>
-            </p>
             <p className={styles.p}>
                 The <strong>Simulation State</strong> section will give you all the available information with regards
                 to the
@@ -63,6 +63,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
                 The <strong>Simulation Map</strong> will give you a visual representation of the current state of the
                 Simulation. Rovers currently on the simulation will be represented by a symbol such as this
                 <strong>∧R1</strong>
+            </p>
                 <ul>
                     <li>The symbol representing the Rover will show as its ID (eg. "R1"). The symbol also includes an
                         indicator of
@@ -75,7 +76,6 @@ const InfoModal: React.FC<InfoModalProps> = ({
                         symbol: <strong>⊗</strong>
                     </li>
                 </ul>
-            </p>
             <p className={styles.p}>
                 <strong>Currently in beta:</strong> managing multiple Simulations<br/>We are constantly looking to
                 provide a better experience in this Mars Rover Simulator. You might notice in the footer at the bottom

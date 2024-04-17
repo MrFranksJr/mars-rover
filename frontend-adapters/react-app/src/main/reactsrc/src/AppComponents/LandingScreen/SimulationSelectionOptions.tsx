@@ -18,8 +18,6 @@ export function SimulationSelectionOptions({simulations}: Props) {
             const selectedIndex = e.target.options.selectedIndex;
             simulationId = e.target.options[selectedIndex].getAttribute("data-key") as string;
             simulationName = e.target.options[selectedIndex].value;
-            console.log("Simulation ID: " + simulationId);
-            console.log("Simulation Name: " + simulationName);
             const simulationData = await getSimulation(simulationId)
             setSimulation(simulationData)
             navigate('/app');
