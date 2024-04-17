@@ -5,16 +5,20 @@ import LeftPanel from "./AppComponents/MainApp/LeftPanel/LeftPanel.tsx";
 import styles from "./styles/App.module.css"
 import {useContext, useEffect, useState} from "react";
 import {SimulationContext} from "./AppComponents/SimulationContext.tsx";
+import {useNavigate} from "react-router";
 
 function App() {
     const [isInfoModalOpen, setInfoModalOpen] = useState(false);
     const {updateSimulation} = useContext(SimulationContext);
+    const navigate = useNavigate();
 
     // Effect to load data from localStorage when the component mounts
     useEffect(() => {
         const savedSimulationId = localStorage.getItem('simulationId');
         if (savedSimulationId) {
             updateSimulation(JSON.parse(savedSimulationId));
+        } else {
+            navigate("/")
         }
     }, []);
 
