@@ -29,20 +29,24 @@ function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStatePr
             formSwitch();
             setFormData({ simulationName: "" });
         } else {
-            try {
-                const response = await fetch(`/api/createsimulation/10/${formData.simulationName}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'}
-                });
-                const data = await response.json();
-                const simulationId = data.simulationId;
-                const simulationData = await getSimulation(simulationId)
-                setSimulation(simulationData)
-                navigate('/app');
-            } catch (error) {
-                console.error("Error creating new simulation:", error);
+            if (formData.simulationName === "") {
+                console.error("You need to fill out a name for the simulation!")
+            } else {
+                try {
+                    const response = await fetch(`/api/createsimulation/10/${formData.simulationName}`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'}
+                    });
+                    const data = await response.json();
+                    const simulationId = data.simulationId;
+                    const simulationData = await getSimulation(simulationId)
+                    setSimulation(simulationData)
+                    navigate('/app');
+                } catch (error) {
+                    console.error("Error creating new simulation:", error);
+                }
+                setFormData({ simulationName: "" });
             }
-            setFormData({ simulationName: "" });
         }
     }
 
@@ -63,7 +67,7 @@ function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStatePr
                     <label htmlFor="simulationNameInput" className={styles.labelStyle}>Create new Simulation</label>
                     <input name="simulationName" id="simulationNameInput" className={styles.simulationSelector}
                            placeholder="enter Simulation name" value={formData.simulationName}
-                           onChange={handleSimulationNameChange}/>
+                           onChange={handleSimulationNameChange} required/>
 
                     <button className={styles.createSimulationBtn} type="submit"
                             onClick={(event) => handleCreateNewSimulation(event, 'createBtn')}>Create...

@@ -9,8 +9,8 @@
     border: 1px solid #FFF;
     border-radius: 8px;
     transition: all 0.4s ease;
-    max-width: 700px;
-    max-height: 500px;
+    max-width: 800px;
+    max-height: 600px;
 }
 
 .infoCloseBtn {
@@ -21,7 +21,7 @@
     width: 20px;
     height: 20px;
     cursor: pointer;
-    margin: 10px;
+    margin: 10px 20px;
 }
 
 .infoCloseBtn:hover {

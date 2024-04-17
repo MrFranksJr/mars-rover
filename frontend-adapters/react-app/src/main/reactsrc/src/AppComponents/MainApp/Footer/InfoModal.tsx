@@ -37,7 +37,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
                 currently in
                 the field.
             </p>
-                <ul>
+                <ul className={styles.ul}>
                     <li>You'll need to instruct the rovers with the characters <em>"F", "R", "B", "L"</em> to make the
                         Rovers move
                         Forward, Right, Backward or Left.
@@ -64,7 +64,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
                 Simulation. Rovers currently on the simulation will be represented by a symbol such as this
                 <strong>∧R1</strong>
             </p>
-                <ul>
+                <ul className={styles.ul}>
                     <li>The symbol representing the Rover will show as its ID (eg. "R1"). The symbol also includes an
                         indicator of
                         the the current heading of that rover: <strong>∧</strong> for North, <strong>›</strong> for
@@ -76,14 +76,6 @@ const InfoModal: React.FC<InfoModalProps> = ({
                         symbol: <strong>⊗</strong>
                     </li>
                 </ul>
-            <p className={styles.p}>
-                <strong>Currently in beta:</strong> managing multiple Simulations<br/>We are constantly looking to
-                provide a better experience in this Mars Rover Simulator. You might notice in the footer at the bottom
-                right of the application, we introduced a new dropdown that contains the Simulation ID. This is the
-                unique identifier of the Simulation you are currently exploring and controlling. This dropdown will
-                allow you to switch between different Simulations, as well as create new ones.<br/><br/>Try it out
-                today!
-            </p>
         </Modal>
     )
 }

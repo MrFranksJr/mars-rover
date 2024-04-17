@@ -32,8 +32,6 @@ function landingControls() {
             });
             return;
         }
-
-        // Clear errors if coordinates are filled out
         setErrors({});
 
         try {
@@ -47,10 +45,11 @@ function landingControls() {
             if (!result.ok) {
                 throw new Error('Failed to land rover. Please try again later.');
             } else {
-                const responseData = await result.json();
                 await updateSimulation(simulation.simulationId);
-                console.log(`Rover ${responseData.roverId} landed successfully!`);
-                console.log(responseData);
+                setFormData({
+                    roverXCoordinate: "",
+                    roverYCoordinate: "",
+                });
             }
 
         } catch (error) {

@@ -34,7 +34,6 @@ function RoverControl({ roverName, operationalStatus, instruction, onInstruction
                     value={inputValue}
                     onChange={handleChange}
                     disabled={operationalStatus !== "OPERATIONAL"}
-                    required
                 />
             </div>
         </>

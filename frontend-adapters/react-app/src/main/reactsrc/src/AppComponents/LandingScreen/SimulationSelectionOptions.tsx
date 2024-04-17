@@ -7,7 +7,6 @@ import CreateNewSimulation from "./CreateNewSimulation.tsx";
 
 export function SimulationSelectionOptions({simulations}: Props) {
     let simulationId: string = "";
-    let simulationName: string = "";
     const {setSimulation} = useContext(SimulationContext);
     const navigate = useNavigate();
 
@@ -17,7 +16,6 @@ export function SimulationSelectionOptions({simulations}: Props) {
         try {
             const selectedIndex = e.target.options.selectedIndex;
             simulationId = e.target.options[selectedIndex].getAttribute("data-key") as string;
-            simulationName = e.target.options[selectedIndex].value;
             const simulationData = await getSimulation(simulationId)
             setSimulation(simulationData)
             navigate('/app');
