@@ -54,7 +54,7 @@ function CreateNewSimulation({formState, formSwitch, getSimulation}: FormStatePr
         return (
             <>
                 <div className={styles.newSimulation}>
-                    <label className={styles.labelStyle}>Create a new Simulation</label>
+                    <label className={styles.labelStyle}>Create new Simulation</label>
                     <button onClick={formSwitch} className={styles.createSimulationBtn}>Create...</button>
                 </div>
             </>

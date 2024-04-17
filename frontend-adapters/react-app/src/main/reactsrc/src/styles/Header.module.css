@@ -7,6 +7,7 @@ header {
     min-height: 100px;
     color: #FFF;
     margin-bottom: 50px;
+    position: relative;
 }
 
 .backButton {
@@ -26,6 +27,9 @@ header {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 h1 {
@@ -39,4 +43,9 @@ h1 {
     display: block;
     align-self: center;
     transition: 0.6s ease-in-out;
+}
+
+.headerSimulationName {
+    padding-right: 2rem;
+    color: #999798;
 }

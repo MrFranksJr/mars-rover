@@ -54,7 +54,7 @@ export function SimulationSelectionOptions({simulations}: Props) {
             <div className={styles.simulationOptions}>
                 {formState === "INIT" && (
                     <form className={styles.simulationSelectionForm}>
-                        <label htmlFor="simulations" className={styles.labelStyle}>Select an existing Simulation</label>
+                        <label htmlFor="simulations" className={styles.labelStyle}>Select existing Simulation</label>
                         <div className="customSelect">
                             <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection} className={styles.simulationSelector}>
                                 <option disabled={true} key="default" className={styles.simSelectionOption}>Select Simulation ID...</option>
