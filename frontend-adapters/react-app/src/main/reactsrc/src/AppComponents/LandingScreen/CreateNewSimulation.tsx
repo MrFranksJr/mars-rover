@@ -3,9 +3,14 @@ import {FormStateProps} from "../../interfaces.ts";
 import {FormEvent} from "react";
 
 function CreateNewSimulation({formState, formSwitch}: FormStateProps) {
-    const handleCreateNewSimulation = (event: FormEvent<HTMLFormElement>) => {
+    const handleCreateNewSimulation = (event: FormEvent<HTMLFormElement>, buttonId: string) => {
         event.preventDefault()
-        console.log("CLICKED!")
+        if (buttonId === "cancelBtn") {
+            formSwitch();
+        } else {
+
+        }
+        console.log("CLICKED!" + buttonId)
     }
 
     if (formState === "INIT") {
@@ -21,12 +26,12 @@ function CreateNewSimulation({formState, formSwitch}: FormStateProps) {
     else {
         return (
             <>
-                <form className={styles.simulationSelectionForm} onSubmit={handleCreateNewSimulation}>
+                <form className={styles.simulationSelectionForm} onSubmit={(event) => handleCreateNewSimulation(event, '')}>
                     <label htmlFor="simulationNameInput" className={styles.labelStyle}>Create new Simulation</label>
                     <input name="simulationNameInput" id="simulationNameInput" className={styles.simulationSelector} placeholder="enter Simulation name"/>
 
-                    <button className={styles.createSimulationBtn} type="submit">Create...</button>
-                    <button onClick={formSwitch} className={styles.cancelCreateSimulationButton}>Cancel</button>
+                    <button className={styles.createSimulationBtn} type="submit" onClick={(event) => handleCreateNewSimulation(event, 'createBtn')}>Create...</button>
+                    <button className={styles.cancelCreateSimulationButton} type="submit" onClick={(event) => handleCreateNewSimulation(event, 'cancelBtn')}>Cancel</button>
                 </form>
             </>
         )
