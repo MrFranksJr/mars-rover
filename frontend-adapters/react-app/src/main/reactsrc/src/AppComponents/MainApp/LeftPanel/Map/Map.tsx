@@ -4,6 +4,7 @@ import {Rover} from "../../../../interfaces.ts";
 import DOMPurify from "dompurify";
 import parse from 'html-react-parser'
 import '../../../../styles/Map.css'
+import { MapInteractionCSS } from 'react-map-interaction';
 
 function Map(): JSX.Element {
     const {simulation} = useContext(SimulationContext);
@@ -67,11 +68,13 @@ function Map(): JSX.Element {
 
     return (
         <>
-            <div className="mapFlexWrapper">
-                <div id="simulationMap" className="simulationMap">
-                    <div className="mapInnerDiv">{parse(sanitizedData)}</div>
+            <MapInteractionCSS>
+                <div className="mapFlexWrapper">
+                    <div id="simulationMap" className="simulationMap">
+                        <div className="mapInnerDiv">{parse(sanitizedData)}</div>
+                    </div>
                 </div>
-            </div>
+            </MapInteractionCSS>
         </>
     )
 }
