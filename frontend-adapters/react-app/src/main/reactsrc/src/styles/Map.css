@@ -1,7 +1,5 @@
 .container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(10rem, 1fr));
     grid-gap: 1rem;
 }
 
@@ -12,6 +10,9 @@
     align-items: center;
     justify-content: center;
     background: url("../assets/map/marsMap2.jpeg");
+    padding: 20px 30px;
+    border: 1px solid #FFF;
+    border-radius: 16px;
 }
 
 .simulationMap {
