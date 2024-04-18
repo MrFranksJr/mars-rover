@@ -1,78 +1,40 @@
-import {JSX, useContext} from "react";
-import {SimulationContext} from "../../../SimulationContext.tsx";
-import {Rover} from "../../../../interfaces.ts";
-import DOMPurify from "dompurify";
-import parse from 'html-react-parser'
-import '../../../../styles/Map.css'
-import { MapInteractionCSS } from 'react-map-interaction';
+import {JSX} from "react";
+//import {SimulationContext} from "../../../SimulationContext.tsx";
+import marsMap1 from '../../../../assets/map/marsMap1.jpeg';
+import marsMap2 from '../../../../assets/map/marsMap2.jpeg';
+import marsMap3 from '../../../../assets/map/marsMap3.jpeg';
+import marsMap4 from '../../../../assets/map/marsMap4.jpeg';
+import marsMap5 from '../../../../assets/map/marsMap5.jpeg';
+import marsMap6 from '../../../../assets/map/marsMap6.jpeg';
+import marsMap7 from '../../../../assets/map/marsMap7.jpeg';
+import '../../../../styles/Map.css';
+import {MapInteractionCSS} from 'react-map-interaction';
 
 function Map(): JSX.Element {
-    const {simulation} = useContext(SimulationContext);
+    //const {simulation} = useContext(SimulationContext);
+    const backgrounds = [
+        marsMap1,
+        marsMap2,
+        marsMap3,
+        marsMap4,
+        marsMap5,
+        marsMap6,
+        marsMap7
+    ]
 
-    function generateMap(): string {
-        let mapString = ""
+    const generateRandomNumber = (): number => {
+        return Math.floor(Math.random() * 7) + 1; // Generates a random number between 1 and 7
+    };
 
-        for (let i = simulation.simulationSize; i >= 0; i--) {
-            if (i < 10) {
-                mapString += "\xa0"
-            }
-            mapString += "<span class='mapNumber'>" + i + "</span> <span class='mapBorder'>|</span>"
-            for (let j = 0; j <= simulation.simulationSize; j++) {
-                if (simulation.roverList.length !== 0) {
-                    let roverSymbol = ""
-                    for (let rover of simulation.roverList) {
-                        if (j === rover.roverXPosition && i === rover.roverYPosition) {
-                            roverSymbol = returnRoverSymbol(rover)
-                        }
-                    }
-                    mapString += roverSymbol.length > 0 ? roverSymbol : "\xa0\xB7\xa0"
-                } else {
-                    mapString += "\xa0\xB7\xa0"
-                }
-            }
-            mapString += "<br/>"
-        }
-        mapString += "<span class='mapBorder'>---|</span>" + "<span class='mapBorder'>-</span>".repeat((simulation.simulationSize + 1) * 3) + "<br/>"
-        mapString += "\xa0\xa0\xa0<span class='mapBorder'>|</span>"
-        for (let i = 0; i <= simulation.simulationSize; i++) {
-            if (i < 10) {
-                mapString += "\xa0" + "<span class='mapNumber'>" + i + "</span>\xa0"
-            } else {
-                mapString += "\xa0" + "<span class='mapNumber'>" + i + "</span>"
-            }
-        }
-
-        return mapString
+    const randomBackgroundPicker = () => {
+        return backgrounds[generateRandomNumber()]
     }
-
-    function returnRoverSymbol(rover: Rover):string {
-        const roverHeading = rover.roverHeading
-        const roverName = rover.roverName
-        const roverStatus = rover.operationalStatus
-        const roverHitPoints = rover.hitPoints
-        if (roverStatus === "BROKEN") {
-            return `<p class="roverSymbolWrapper"><span class='marsRover brokenRover'>\u2297${roverName}</span><span class="tooltip brokenTooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusBad">${roverStatus}</span></span></p>`
-        } else if (roverHeading === "NORTH") {
-            return `<p class="roverSymbolWrapper"><span class='marsRover'>\u2227${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
-        } else if (roverHeading === "EAST") {
-            return `<p class="roverSymbolWrapper"><span class='marsRover'>${roverName}\u203A</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
-        } else if (roverHeading === "SOUTH") {
-            return `<p class="roverSymbolWrapper"><span class='marsRover'>${roverName}\u2228</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
-        } else if (roverHeading === "WEST") {
-            return `<p class="roverSymbolWrapper"><span class='marsRover'>\u2039${roverName}</span><span class="tooltip"><strong>Rover ${roverName}</strong><br/><strong>Hitpoints:</strong> ${roverHitPoints}/5<br/><strong>Status:</strong> <span class="statusGood">${roverStatus}</span></span></p>`
-        }
-        return "";
-    }
-
-    const sanitizedData = DOMPurify.sanitize(generateMap())
 
     return (
         <>
             <MapInteractionCSS>
                 <div className="mapFlexWrapper">
-                    <div id="simulationMap" className="simulationMap">
-                        <div className="mapInnerDiv">{parse(sanitizedData)}</div>
-                    </div>
+                    <img src={randomBackgroundPicker()} alt="background for the map"/>
                 </div>
             </MapInteractionCSS>
         </>

@@ -1,8 +1,7 @@
 .mainLeft {
     display: flex;
     flex-direction: column;
-    flex: 60%;
     align-items: center;
-    flex-grow: 1;
     gap: 10px;
+    width: 70%;
 }

@@ -4,7 +4,7 @@
   flex-grow: 1;
   align-items: center;
   background-size: cover;
-  background: url("../assets/mars-bg.png") no-repeat fixed center center;
+  background: url("../assets/mars-bg.jpeg") no-repeat fixed center center;
   width: 100%;
   transition: 0.1s ease-in-out;
 }
@@ -12,7 +12,7 @@
 .mainPanels {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
   justify-content: space-evenly;
   flex-grow: 1;
   padding: 0 50px;
