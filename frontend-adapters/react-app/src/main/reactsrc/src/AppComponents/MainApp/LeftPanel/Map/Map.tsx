@@ -1,5 +1,4 @@
-import {JSX, useContext} from "react";
-import {SimulationContext} from "../../../SimulationContext.tsx";
+import {JSX} from "react";
 import '../../../../styles/Map.css';
 import {MapInteractionCSS} from 'react-map-interaction';
 import Grid from "./Grid.tsx";

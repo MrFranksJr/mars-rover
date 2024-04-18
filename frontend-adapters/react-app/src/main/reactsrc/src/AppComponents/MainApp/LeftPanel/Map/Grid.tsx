@@ -2,21 +2,14 @@ import React, {useContext} from 'react';
 import '../../../../styles/Map.css';
 import {SimulationContext} from "../../../SimulationContext.tsx";
 
-interface GridProps {
-    simulationSize: number;
-}
-
-const Grid: React.FC<GridProps> = () => {
+const Grid: React.FC = () => {
     const {simulation} = useContext(SimulationContext);
 
-    console.log(simulation.totalCoordinates)
     const array = new Array(simulation.totalCoordinates).fill(0).map((_, index) => index);
 
-    // Calculate the number of columns and rows based on the square root of the array length
     const numberOfCols = Math.ceil(Math.sqrt(simulation.totalCoordinates));
     const numberOfRows = Math.ceil(simulation.totalCoordinates / numberOfCols);
 
-    // Generate cells based on the calculated number of columns and rows
     const cells = array.map((index: number) => {
         const xCell = index % numberOfCols;
         const yCell = Math.floor(index / numberOfCols);
