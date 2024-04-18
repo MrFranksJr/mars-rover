@@ -1,6 +1,13 @@
 .container {
     display: grid;
     grid-gap: 1rem;
+    column-gap-color: red; /* Color of the column gap */
+    row-gap-color: blue; /* Color of the row gap */
+}
+
+.container > div {
+    background-color: #FFFFFF33;
+    padding: 40px;
 }
 
 
@@ -9,26 +16,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url("../assets/map/marsMap2.jpeg");
-    padding: 20px 30px;
+    background: url("../assets/map/marsMap6.jpeg");
+    padding: 30px 30px;
     border: 1px solid #FFF;
     border-radius: 16px;
-}
-
-.simulationMap {
-    font-family:'Courier New', Courier, monospace;
-    text-align: center;
-    font-size: 1.6vw;
-    line-height: 2.6vw;
-    padding: 20px 30px;
-    border: 1px solid #FFF;
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
-    min-width: fit-content;
-    min-height: fit-content;
-}
-
-.mapInnerDiv {
 }
 
 .roverSymbolWrapper {

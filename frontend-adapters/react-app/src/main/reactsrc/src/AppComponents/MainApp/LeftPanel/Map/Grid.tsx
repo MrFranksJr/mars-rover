@@ -16,14 +16,14 @@ const Grid: React.FC = () => {
         const roverAtCell = simulation.roverList.find(rover => rover.roverXPosition === xCell && rover.roverYPosition === yCell);
 
         return (
-            <div key={index} className="item" style={{backgroundColor: roverAtCell ? '#000000' : `#${Math.random().toString(16).substr(-6)}`, opacity:"20", display:"flex", justifyContent:"center", alignItems:"center"}}>
+            <div key={index} className="item" style={{display:"flex", justifyContent:"center", alignItems:"center", borderRadius:20}}>
                 {roverAtCell &&
-                    <div className="rover" style={{fontSize: 40, color:"white", textAlign:"center"}}>
+                    <div className="rover" style={{fontSize: 40, color:"black", textAlign:"center", fontWeight:"bold"}}>
                         {roverAtCell.roverName}
                     </div>
                 }
                 {!roverAtCell &&
-                    <div className="rover" style={{fontSize: 40, color:"white", textAlign:"center"}}>
+                    <div className="rover" style={{fontSize: 40, color:"gray", textAlign:"center"}}>
                         {index}
                     </div>
                 }
