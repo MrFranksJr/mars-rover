@@ -30,12 +30,10 @@
 .cell .tooltiptext {
     visibility: hidden;
     background-color: #99979855;
-    color: #fff;
     text-align: center;
     border-radius: 10px;
-    border: 2px solid #98c7fc;
+    border: 2px solid #FFF;
     padding: 20px 20px;
-    /* Position the tooltip */
     position: absolute;
     min-width: fit-content;
     bottom: 110%;
@@ -53,7 +51,7 @@
 .cell .tooltiptext::after {
     content: " ";
     position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
+    top: 100%;
     left: 50%;
     margin-left: -10px;
     border-width: 10px;
@@ -63,11 +61,38 @@
 
 .mapIcon {
     width: 30px;
-    color: #f18b82;
-    /*mars red filter*/
-    /*filter: invert(77%) sepia(25%) saturate(1717%) hue-rotate(305deg) brightness(100%) contrast(89%);*/
+    /*mars brown filter*/
+    /*filter: invert(17%) sepia(22%) saturate(888%) hue-rotate(316deg) brightness(103%) contrast(86%);*/
+    filter: invert(0%) sepia(5%) saturate(2%) hue-rotate(93deg) brightness(107%) contrast(101%);
+}
+
+.compassIcon {
+    width: 30px;
+    filter: invert(11%) sepia(9%) saturate(5673%) hue-rotate(174deg) brightness(100%) contrast(97%);
+}
+
+.healthIcon {
+    width: 30px;
+    /*regular red filter*/
+    filter: invert(14%) sepia(86%) saturate(5275%) hue-rotate(352deg) brightness(103%) contrast(86%);
+}
+
+.locationIcon {
+    width: 30px;
     /*blue filter*/
     filter: invert(75%) sepia(8%) saturate(2574%) hue-rotate(183deg) brightness(102%) contrast(98%);
+}
+
+.brokenIcon {
+    width: 30px;
+    /*MARS RED filter*/
+    filter: invert(79%) sepia(43%) saturate(6861%) hue-rotate(335deg) brightness(97%) contrast(89%);
+}
+
+.goodIcon {
+    width: 30px;
+    /*GREEN filter */
+    filter: invert(76%) sepia(9%) saturate(2613%) hue-rotate(44deg) brightness(95%) contrast(84%);
 }
 
 .roverStatusInfoBlock {
@@ -85,50 +110,13 @@
     background: url("../assets/map/marsMap6.jpeg");
     background-size: cover;
     padding: 30px 30px;
-    border: 1px solid #FFF;
+    border: 3px solid #FFF;
     border-radius: 16px;
 }
 
 .roverSymbolWrapper {
     position: relative;
     display: inline-block;
-}
-
-.roverSymbolWrapper .tooltip {
-    font-family: "Montserrat", sans-serif;
-    visibility: hidden;
-    padding: 10px 10px 5px;
-    position: absolute;
-    width: fit-content;
-    left: -15%;
-    z-index: 1;
-    bottom: 100%;
-    margin-left: -80%;
-    opacity: 0;
-    transition: opacity 0.4s;
-    color: #98c7fc;
-    border: 1px solid #FFF;
-    border-radius: 8px;
-    font-size: 0.7vw;
-    background-color: #797575d7;
-    white-space: nowrap;
-    line-height: 0.9vw;
-}
-
-.roverSymbolWrapper .tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #FFF transparent transparent transparent;
-}
-
-.roverSymbolWrapper:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
 }
 
 .statusGood {
