@@ -114,25 +114,19 @@
     border-radius: 16px;
 }
 
-.roverSymbolWrapper {
+.roverGraphicContainer {
     position: relative;
-    display: inline-block;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.statusGood {
-    color: #7ecc2d;
-}
-
-.statusBad {
-    color: #f18b82;
-}
-
-.marsRover {
-    cursor: pointer;
-    color: #98c7fc;
-    font-weight: bold;
-}
-
-.brokenRover{
-    color: #d82828;
+.roverGraphicsRoverName {
+    font-size: 0.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

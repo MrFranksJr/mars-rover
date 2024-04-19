@@ -5,6 +5,7 @@ import TooltipLocationInfo from "./TooltipLocationInfo.tsx";
 import TooltipRoverHeading from "./TooltipRoverHeading.tsx";
 import TooltipRoverHealth from "./TooltipRoverHealth.tsx";
 import TooltipRoverStatus from "./TooltipRoverStatus.tsx";
+import MarsRoverGraphic from "./MarsRoverGraphic.tsx";
 
 interface SingleRoverCellProps {
     rover: Rover;
@@ -15,7 +16,7 @@ interface SingleRoverCellProps {
 const SingleRoverCell: FC<SingleRoverCellProps> = ({rover, xCoordinate, yCoordinate}) => {
     return (
         <div className={styles.cell} style={{fontWeight: "bold"}}>
-            {rover.roverName}
+            <MarsRoverGraphic heading={rover.roverHeading} roverName={rover.roverName}/>
             <span className={styles.tooltiptext}>
                 <TooltipLocationInfo xCoordinate={xCoordinate} yCoordinate={yCoordinate}/>
                 <TooltipRoverHeading roverHeading={rover.roverHeading}/>
