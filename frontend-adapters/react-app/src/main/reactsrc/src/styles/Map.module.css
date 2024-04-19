@@ -1,0 +1,132 @@
+.container {
+    display: grid;
+    grid-gap: 1rem;
+}
+
+.container > div {
+
+}
+
+.cell {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color:lightgray;
+    font-size: 3rem;
+    transition: 0.2s ease-in-out;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+}
+
+.cell:hover {
+    background-color: #99979855;
+    border: 2px solid #FFF;
+
+}
+
+.cell .tooltiptext {
+    visibility: hidden;
+    background-color: #99979855;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid #FFF;
+    padding: 20px 20px;
+    position: absolute;
+    min-width: fit-content;
+    bottom: 110%;
+    left: 50%;
+    -webkit-transform: translate(0, -50%);
+    transform: translateX(-50%);
+    z-index: 1;
+    font-weight: normal;
+}
+
+.cell:hover .tooltiptext {
+    visibility: visible;
+}
+
+.cell .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #FFF transparent transparent transparent;
+}
+
+.mapIcon {
+    width: 30px;
+    /*mars brown filter*/
+    /*filter: invert(17%) sepia(22%) saturate(888%) hue-rotate(316deg) brightness(103%) contrast(86%);*/
+    filter: invert(0%) sepia(5%) saturate(2%) hue-rotate(93deg) brightness(107%) contrast(101%);
+}
+
+.compassIcon {
+    width: 30px;
+    filter: invert(11%) sepia(9%) saturate(5673%) hue-rotate(174deg) brightness(100%) contrast(97%);
+}
+
+.healthIcon {
+    width: 30px;
+    /*regular red filter*/
+    filter: invert(14%) sepia(86%) saturate(5275%) hue-rotate(352deg) brightness(103%) contrast(86%);
+}
+
+.locationIcon {
+    width: 30px;
+    /*blue filter*/
+    filter: invert(75%) sepia(8%) saturate(2574%) hue-rotate(183deg) brightness(102%) contrast(98%);
+}
+
+.brokenIcon {
+    width: 30px;
+    /*MARS RED filter*/
+    filter: invert(79%) sepia(43%) saturate(6861%) hue-rotate(335deg) brightness(97%) contrast(89%);
+}
+
+.goodIcon {
+    width: 30px;
+    /*GREEN filter */
+    filter: invert(76%) sepia(9%) saturate(2613%) hue-rotate(44deg) brightness(95%) contrast(84%);
+}
+
+.roverStatusInfoBlock {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.mapFlexWrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("../assets/map/marsMap6.jpeg");
+    background-size: cover;
+    padding: 30px 30px;
+    border: 3px solid #FFF;
+    border-radius: 16px;
+}
+
+.roverGraphicContainer {
+    position: relative;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roverGraphicsRoverName {
+    font-size: 0.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

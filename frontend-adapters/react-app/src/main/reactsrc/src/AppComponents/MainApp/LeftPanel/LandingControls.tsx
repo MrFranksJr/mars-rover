@@ -68,7 +68,7 @@ function landingControls() {
                            className={landingControlsStyles.roverXCoordinate}
                            placeholder="Enter X Coordinate"
                            type="number"
-                           min="0" max="10"
+                           min="0" max={simulation.simulationSize}
                            value={formData.roverXCoordinate}
                            onChange={handleChange}
                            required
@@ -77,7 +77,7 @@ function landingControls() {
                            className={landingControlsStyles.roverYCoordinate}
                            placeholder="Enter Y Coordinate"
                            type="number"
-                           min="0" max="10"
+                           min="0" max={simulation.simulationSize}
                            value={formData.roverYCoordinate}
                            onChange={handleChange}
                            required
