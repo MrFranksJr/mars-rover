@@ -7,11 +7,13 @@ function Map(): JSX.Element {
 
     return (
         <>
-            <MapInteractionCSS>
-                <div className={styles.mapFlexWrapper}>
-                    <Grid />
-                </div>
-            </MapInteractionCSS>
+            <div className={styles.interactiveMapWrapper}>
+                <MapInteractionCSS>
+                    <div className={styles.mapFlexWrapper}>
+                        <Grid />
+                    </div>
+                </MapInteractionCSS>
+            </div>
         </>
     )
 }

@@ -1,14 +1,13 @@
-footer {
+.footer {
     background-color: #FFF;
     width: 100%;
     display: flex;
-    transition: 0.6s ease-in-out;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
-    min-height: 70px;
+    height: 60px;
+    min-height: 60px;
+    transition: 0.6s ease-in-out;
     font-size: 0.8rem;
-    position: relative;
 }
 
 .tripledLogo {

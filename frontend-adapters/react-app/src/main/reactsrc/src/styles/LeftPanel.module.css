@@ -4,4 +4,6 @@
     align-items: center;
     gap: 10px;
     width: 60%;
+    height: 100%;
+    flex: 1;
 }

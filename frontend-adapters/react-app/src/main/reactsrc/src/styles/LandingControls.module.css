@@ -1,10 +1,11 @@
 .landRoverControls {
     display: flex;
     flex-wrap: wrap;
-    width: 40%;
+    width: 50%;
     justify-content: space-between;
     gap: 10px 20px;
     min-width: 310px;
+    min-height: 78px;
 }
 
 .coordinateInputFields {

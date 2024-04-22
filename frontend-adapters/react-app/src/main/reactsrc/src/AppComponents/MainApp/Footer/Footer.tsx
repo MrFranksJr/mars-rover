@@ -13,7 +13,7 @@ const Footer: React.FC<FooterProps> = ( { isOpen, toggleModal } ) => {
     const {simulation} = useContext(SimulationContext)
 
     return (
-        <footer id="footer">
+        <div className={styles.footer} id="footer">
             <div id="infoBtn" className={styles.infoBtn} onClick={toggleModal}><i
                 className="fa-solid fa-circle-info fa-2xl"></i></div>
             <div id="copyright" className={styles.copyright}>
@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = ( { isOpen, toggleModal } ) => {
                 isOpen={isOpen}
                 onClose={toggleModal}
             />
-        </footer>
+        </div>
     )
 }
 

@@ -1,20 +1,19 @@
-header {
+.header {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    min-height: 100px;
+    min-height: 80px;
     color: #FFF;
-    margin-bottom: 50px;
-    position: relative;
+    margin-bottom: 25px;
 }
 
 .backButton {
     width: 30px;
     height: 30px;
     cursor: pointer;
-    margin-left: 50px;
+    margin-left: 30px;
     fill: #ffffff;
     transition: 0.2s ease-in-out;
 }
@@ -28,6 +27,7 @@ header {
     flex-direction: row;
     gap: 10px;
     position: absolute;
+    top: 5px;
     left: 50%;
     transform: translateX(-50%);
 }
