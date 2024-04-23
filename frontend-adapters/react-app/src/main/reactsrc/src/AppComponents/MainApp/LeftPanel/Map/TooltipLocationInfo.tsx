@@ -11,7 +11,7 @@ const TooltipLocationInfo: FC<LocationProps> = ({xCoordinate, yCoordinate}) => {
     return (
         <>
             <div className={styles.roverStatusInfoBlock}><img src={locationArrowIcon} className={styles.locationIcon} alt="location icon"/>
-                <div style={{textWrap: "nowrap"}}>{xCoordinate} – {yCoordinate}</div>
+                <div style={{textWrap: "nowrap"}}>{xCoordinate} : {yCoordinate}</div>
             </div>
         </>
     )

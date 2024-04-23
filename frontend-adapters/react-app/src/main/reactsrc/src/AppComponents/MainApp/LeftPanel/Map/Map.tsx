@@ -6,51 +6,64 @@ import {SimulationContext} from "../../../SimulationContext.tsx";
 
 function Map(): JSX.Element {
     const {simulation} = useContext(SimulationContext);
-    const trueMapSize = (160 * (simulation.simulationSize + 1)) + (16 * simulation.simulationSize) + 60
-    const [scalingFactor, setScalingFactor] = useState(1);
     const interactiveMapWrapperRef = useRef<HTMLDivElement>(null);
+    const trueMapSize = (160 * (simulation.simulationSize + 1)) + (16 * simulation.simulationSize) + 60;
+    const [minScalingFactor, setMinScalingFactor] = useState(1);
+    const [mapState, setMapState] = useState({
+        scale: 1,
+        translation: {x: 0, y: 0}
+    })
 
     useEffect(() => {
-        const calculateScalingFactor = () => {
-            if (!interactiveMapWrapperRef.current) return 1;
-            const {clientWidth, clientHeight} = interactiveMapWrapperRef.current;
-            const minDimension = Math.min(clientWidth, clientHeight);
-            return minDimension / trueMapSize;
+        const updateDivDimensions = () => {
+            if (interactiveMapWrapperRef.current) {
+                const rect = interactiveMapWrapperRef.current.getBoundingClientRect();
+                const width = rect.width;
+                const height = rect.height;
+                const minDimension = Math.min(width, height);
+                const scaleToSet = minDimension / trueMapSize
+                const xPosToSet = (width - trueMapSize * scaleToSet) / 2
+                setMinScalingFactor(scaleToSet)
+                setMapState({scale: scaleToSet, translation: {x: xPosToSet, y: 0}})
+            } else {
+                console.warn("Div ref is null.");
+            }
         };
 
-        const updateScalingFactor = () => {
-            setScalingFactor(calculateScalingFactor());
+        updateDivDimensions()
+
+        // Call the function when everything on the page is loaded
+        window.onload = () => {
+            updateDivDimensions();
         };
 
-        updateScalingFactor();
+        // Add event listener to handle resizing (optional)
+        window.addEventListener('resize', updateDivDimensions);
 
-        const handleResize = () => {
-            updateScalingFactor();
-        };
-        window.addEventListener('resize', handleResize);
-
+        // Cleanup function to remove event listener
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', updateDivDimensions);
         };
-    }, [simulation, trueMapSize]);
-
+    }, [simulation]); // Empty dependency array ensures this effect runs only once after initial render
 
     return (
-        <>
-            <div ref={interactiveMapWrapperRef} className={styles.interactiveMapWrapper}>
-                <MapInteractionCSS
-                    showControls
-                    minScale={scalingFactor}
-                    maxScale={1}
-                    onChange={()=>{}}
-                >
-                    <div className={styles.mapFlexWrapper}>
-                        <Grid/>
-                    </div>
-                </MapInteractionCSS>
-            </div>
-        </>
-    )
+        <div ref={interactiveMapWrapperRef} className={styles.interactiveMapWrapper}>
+            <MapInteractionCSS
+                showControls={true}
+                btnClass={styles.mapBtns}
+                maxScale={3}
+                minScale={minScalingFactor}
+                onChange={(value) => {
+                    setMapState(value)
+                }}
+                value={mapState}
+            >
+                <div className={styles.mapFlexWrapper}>
+                    <Grid/>
+                </div>
+            </MapInteractionCSS>
+        </div>
+    );
 }
 
-export default Map
+export default Map;

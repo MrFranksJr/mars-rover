@@ -106,6 +106,35 @@
     backdrop-filter: blur(5px);
 }
 
+.mapBtns {
+    background-color: transparent;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #98c7fc;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.mapBtns:enabled:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: #f18b82;
+    color: #f18b82;
+}
+
+.mapBtns:enabled:active {
+    background-color: #FFFFFF;
+}
+
+.mapBtns:disabled {
+    color: #999798;
+    border-color: #999798;
+    cursor: not-allowed;
+}
+
 .mapFlexWrapper {
     display: flex;
     align-items: center;
