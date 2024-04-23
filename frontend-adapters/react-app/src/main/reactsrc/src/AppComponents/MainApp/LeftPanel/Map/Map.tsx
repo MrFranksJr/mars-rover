@@ -6,60 +6,43 @@ import {SimulationContext} from "../../../SimulationContext.tsx";
 
 function Map(): JSX.Element {
     const {simulation} = useContext(SimulationContext);
-    const [height, setHeight] = useState(0)
-    const [width, setWidth] = useState(0)
-    const ref = useRef<HTMLDivElement>(null)
+    const trueMapSize = (160 * (simulation.simulationSize + 1)) + (16 * simulation.simulationSize) + 60
+    const [scalingFactor, setScalingFactor] = useState(1);
+    const interactiveMapWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (ref.current) {
-            setHeight(ref.current.clientHeight);
-            setWidth(ref.current.clientWidth)
-        }
-    }, []);
+        const calculateScalingFactor = () => {
+            if (!interactiveMapWrapperRef.current) return 1;
+            const {clientWidth, clientHeight} = interactiveMapWrapperRef.current;
+            const minDimension = Math.min(clientWidth, clientHeight);
+            return minDimension / trueMapSize;
+        };
 
-    useEffect(() => {
-        // Ensure height and width are non-zero before calculating scale
-        if (height > 0 && width > 0) {
-            setMapState({
-                scale: (height / (205*simulation.simulationSize)),
-                translation: { x: width * 0.2, y: height * 0.02 }
-            });
-        }
-    }, [height, width, simulation]);
+        const updateScalingFactor = () => {
+            setScalingFactor(calculateScalingFactor());
+        };
 
-    const [mapState, setMapState] = useState({
-        scale: 1,
-        translation: {x: 0, y: 0 }
-    });
+        updateScalingFactor();
 
-    const [translationBoundState, setTranslationBoundState] = useState({
-        xMin: 0 - (mapState.scale *400),
-        xMax: (mapState.scale * 400),
-        yMin: 0 - (mapState.scale *400),
-        yMax: (mapState.scale * 35)
-    })
+        const handleResize = () => {
+            updateScalingFactor();
+        };
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [simulation, trueMapSize]);
+
 
     return (
         <>
-            {console.log(height)}
-            {console.log(width)}
-            {console.log(translationBoundState.yMax)}
-            <div ref={ref} className={styles.interactiveMapWrapper}>
+            <div ref={interactiveMapWrapperRef} className={styles.interactiveMapWrapper}>
                 <MapInteractionCSS
                     showControls
-                    value={mapState}
-                    minScale={height / (205*simulation.simulationSize)}
-                    translationBounds={translationBoundState}
-                    onChange={(value) => {
-                        setMapState(value)
-                        setTranslationBoundState({
-                            xMin: 0 - (mapState.scale *3000),
-                            xMax: (mapState.scale * 400),
-                            yMin: 0 - (mapState.scale *400),
-                            yMax: (mapState.scale * 2000)
-                        })
-                    }}
-
+                    minScale={scalingFactor}
+                    maxScale={1}
+                    onChange={()=>{}}
                 >
                     <div className={styles.mapFlexWrapper}>
                         <Grid/>
