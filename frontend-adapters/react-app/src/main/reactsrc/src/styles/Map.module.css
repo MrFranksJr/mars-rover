@@ -99,8 +99,11 @@
 }
 
 .interactiveMapWrapper {
+    border: 1px solid #FFFFFF;
+    border-radius: 8px;
     width: 100%;
-    height: calc(100% - 90px);
+    height: calc(100% - 100px);
+    backdrop-filter: blur(5px);
 }
 
 .mapFlexWrapper {
@@ -110,7 +113,6 @@
     background: url("../assets/map/marsMap6.jpeg");
     background-size: cover;
     padding: 30px 30px;
-    border: 3px solid #FFF;
     border-radius: 16px;
 }
 
