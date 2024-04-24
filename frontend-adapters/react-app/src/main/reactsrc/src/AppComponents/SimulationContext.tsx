@@ -1,3 +1,4 @@
+//simulationcontext.tsx
 import React, {createContext, useState} from "react";
 import {Simulation} from "../interfaces.ts";
 

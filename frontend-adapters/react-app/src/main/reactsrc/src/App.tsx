@@ -1,3 +1,4 @@
+//app.tsx
 import Header from "./AppComponents/MainApp/Header.tsx";
 import Footer from "./AppComponents/MainApp/Footer/Footer.tsx";
 import RightPanel from "./AppComponents/MainApp/RightPanel/RightPanel.tsx";
@@ -12,15 +13,21 @@ function App() {
     const {updateSimulation} = useContext(SimulationContext);
     const navigate = useNavigate();
 
-    // Effect to load data from localStorage when the component mounts
     useEffect(() => {
         const savedSimulationId = localStorage.getItem('simulationId');
-        if (savedSimulationId) {
-            updateSimulation(JSON.parse(savedSimulationId));
-        } else {
-            navigate("/")
+        const currentPath = window.location.pathname; // Get the current URL path
+        if (currentPath === '/app') {
+            if (savedSimulationId) {
+                // If there's a saved simulation ID, update the simulation
+                updateSimulation(JSON.parse(savedSimulationId));
+            } else {
+                navigate("/")
+            }
+        } else if (currentPath !== '/app') {
+            // If the current path is not '/app', navigate to '/app'
+            navigate("/");
         }
-    }, []);
+    }, [navigate]);
 
     const handleToggleModal = () => {
         setInfoModalOpen(prevState => !prevState);
