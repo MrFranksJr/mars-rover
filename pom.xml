@@ -103,6 +103,12 @@
                 <activatedProperties>WEB, MONGO</activatedProperties>
             </properties>
         </profile>
+        <profile>
+            <id>cliappdev</id>
+            <properties>
+                <activatedProperties>WEB, INMEM</activatedProperties>
+            </properties>
+        </profile>
     </profiles>
     <modules>
         <module>application</module>

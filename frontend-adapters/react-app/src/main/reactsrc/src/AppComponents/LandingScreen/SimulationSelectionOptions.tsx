@@ -1,16 +1,14 @@
 import {Props, Simulation} from "../../interfaces.ts";
 import {useNavigate} from "react-router";
-import {ChangeEvent, useContext, useState} from "react";
+import {ChangeEvent, useContext} from "react";
 import {SimulationContext} from "../SimulationContext.tsx";
 import styles from '../../styles/SimulationSelectionOptions.module.css'
 import CreateNewSimulation from "./CreateNewSimulation.tsx";
 
-export function SimulationSelectionOptions({simulations}: Props) {
+export function SimulationSelectionOptions({simulations, formState, formSwitch}: Props) {
     let simulationId: string = "";
     const {setSimulation} = useContext(SimulationContext);
     const navigate = useNavigate();
-
-    const [formState, setFormState] = useState("INIT")
 
     const handleSimulationSelection = async (e: ChangeEvent<HTMLSelectElement>) => {
         try {
@@ -58,23 +56,20 @@ export function SimulationSelectionOptions({simulations}: Props) {
                     <form className={styles.simulationSelectionForm}>
                         <label htmlFor="simulations" className={styles.labelStyle}>Select existing Simulation</label>
                         <div className="customSelect">
-                            <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..." onChange={handleSimulationSelection} className={styles.simulationSelector}>
-                                <option disabled={true} key="default" className={styles.simSelectionOption}>Select Simulation ID...</option>
+                            <select id="simulations" name="simulationList" defaultValue="Select Simulation ID..."
+                                    onChange={handleSimulationSelection} className={styles.simulationSelector}>
+                                <option disabled={true} key="default" className={styles.simSelectionOption}>Select
+                                    Simulation ID...
+                                </option>
                                 {simulations && simulations.map((simulation: Simulation) =>
-                                    <option key={simulation.simulationId} data-key={simulation.simulationId} className={styles.simSelectionOption}>{simulation.simulationName}</option>)}
+                                    <option key={simulation.simulationId} data-key={simulation.simulationId}
+                                            className={styles.simSelectionOption}>{simulation.simulationName}</option>)}
                             </select>
                         </div>
                     </form>
                 )}
                 <CreateNewSimulation formState={formState}
-                                     formSwitch={() => {
-                                         if (formState === "INIT") {
-                                         setFormState("CREATE")
-                                         }
-                                         if (formState === "CREATE") {
-                                         setFormState("INIT")
-                                         }
-                                     }}
+                                     formSwitch={formSwitch}
                                      getSimulation={getSimulation}
                 />
             </div>

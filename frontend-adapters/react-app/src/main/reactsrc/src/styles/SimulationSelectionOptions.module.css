@@ -26,6 +26,7 @@
 }
 
 .logoWrapper {
+    align-items: center;
     margin-bottom: 2rem;
     text-align: center;
 }
@@ -75,6 +76,17 @@
 
 .simulationSelector {
     padding: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.simulationSelector[type=number]::-webkit-inner-spin-button,
+.simulationSelector[type=number]::-webkit-outer-spin-button,
+.simulationSelector[type=number]::-webkit-inner-spin-button,
+.simulationSelector[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 .createSimulationBtn,
@@ -101,8 +113,7 @@
 .createSimulationBtn:active,
 .cancelCreateSimulationButton:active,
 .simulationSelector:active {
-    margin: 0;
-    border: 2px solid #f18b82;
+    border: 1px solid #f18b82;
     transition: background-color 0s;
 }
 

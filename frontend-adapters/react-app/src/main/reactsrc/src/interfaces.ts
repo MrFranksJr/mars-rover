@@ -16,7 +16,9 @@ export interface Simulation {
 }
 
 export interface Props {
-    simulations: Array<Simulation>;
+    simulations: Array<Simulation>,
+    formState: string,
+    formSwitch: () => void
 }
 
 export interface FormStateProps {
